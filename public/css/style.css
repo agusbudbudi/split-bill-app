@@ -1,0 +1,213 @@
+/* Dark Mode */
+:root {
+  --bg-color: #161618;
+  --text-color: #ffffff;
+  --container-bg: #1f1f21;
+  --input-bg: #29282b;
+  --btn-bg: #7056ec;
+  --btn-hover-bg: #5844bb;
+  --btn-delete-bg: #e15555;
+  --btn-delete-hover-bg: #c33c3c;
+  --table-header-bg: #232325;
+  --table-body-bg: #1d1d1f;
+  --table-border-color: #262528;
+}
+
+/* Global Styles */
+body {
+  background-color: var(--bg-color);
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  width: 60%;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+/* .logo-app {
+  width: 60px;
+} */
+/* Form Elements */
+label {
+  display: block;
+  text-align: left;
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+input {
+  /* display: block; */
+  margin: 10px 0;
+  padding: 12px 18px;
+  width: 40%;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: white;
+  font-size: 1rem;
+}
+
+#input-section {
+  margin-bottom: 10px;
+}
+
+/* For better browser support */
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+input:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Button Styling - Aligning button to the right */
+button {
+  background-color: var(--btn-bg);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: auto; /* Remove full width to fit button content */
+  min-width: 18%;
+  display: inline-block; /* Align button next to the input field */
+  padding: 12px 20px;
+  margin-left: auto; /* Align button to the right */
+  margin-right: 0; /* Remove any right margin to make it stick to the right */
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin: 10px 0;
+  color: var(--text-color);
+}
+
+button:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+.delete-btn {
+  background-color: var(--btn-delete-bg);
+  font-size: 12px;
+  color: #ffffff;
+  /* padding: 8px 10px; */
+  margin: 3px;
+}
+
+.delete-btn:hover {
+  background-color: var(--btn-delete-hover-bg);
+}
+
+.table-container {
+  /* border: 1px solid #0e1117; */
+  /* border: 1px solid #14181d; */
+  border-radius: 15px;
+  padding: 30px;
+  align-items: center;
+  margin-top: 20px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  width: 100%; /* Ensure it fits inside the parent */
+  white-space: nowrap; /* Prevent text from wrapping */
+  background-color: var(--container-bg);
+  /* box-shadow: 0 0 5px rgba(29, 20, 50, 0.5); */
+  border: 1px solid var(--table-border-color);
+}
+
+#expense-table {
+  width: 100%; /* Ensure the table takes full width */
+  border-collapse: collapse;
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left;
+  border-radius: 10px;
+}
+
+th,
+td {
+  text-align: left;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  border: 1px solid var(--table-border-color);
+}
+
+th {
+  background-color: var(--table-header-bg);
+  text-align: center;
+}
+
+td {
+  background-color: var(--table-body-bg);
+}
+/* MOBILE WEB VIEW */
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    width: 90%;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  input,
+  button {
+    width: 90%;
+    padding: 10px;
+  }
+
+  table th,
+  table td {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  /* h2,
+  h3 {
+    font-size: 12px;
+  } */
+
+  /* input,
+  button {
+    width: 100%;
+    /* padding: 8px; 
+  } */
+
+  table th,
+  table td {
+    font-size: 0.8rem;
+  }
+}
