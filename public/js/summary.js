@@ -59,7 +59,6 @@ function displaySummary(
 ) {
   const summaryDiv = document.getElementById("summary");
   summaryDiv.innerHTML = `<h2>Summary Split Bill</h2>`;
-  summaryDiv.innerHTML += `<p><italic>This app made by: Agus Budiman</italic></p>`;
 
   // Total Expense (formatted in Rupiah)
   summaryDiv.innerHTML += `<p><strong>Total Expense:</strong> ${formatCurrency(
@@ -78,6 +77,7 @@ function displaySummary(
         </tr>
       </thead>
       <tbody>
+
   `;
 
   let totalPaid = Object.values(userPayments).reduce(
@@ -86,8 +86,8 @@ function displaySummary(
   );
   let expenseVerification =
     totalExpense === totalPaid
-      ? "Total Expense dan Total Paid SESUAI"
-      : "Total Expense dan Total Paid SALAH";
+      ? "Total Expense dan Total Paid ✅ SESUAI"
+      : "Total Expense dan Total Paid ❌ SALAH";
 
   let totalVariance = Object.values(variance).reduce(
     (sum, varValue) => sum + varValue,
@@ -117,6 +117,7 @@ function displaySummary(
             </tr>
           </thead>
           <tbody>
+
     `;
 
   items.forEach(({ item, amount, paidBy, who }) => {
@@ -228,8 +229,8 @@ function displaySummary(
     }
 
     table += `
-            <h3>Transfer Summary</h3>
       <tr>
+
         <td>${user}</td>
         <td>${formatCurrency(userExpense)}</td>
         <td>${formatCurrency(userPaid)}</td>

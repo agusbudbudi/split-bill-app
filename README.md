@@ -27,7 +27,7 @@ A simple web app to split expenses among friends. Users can add expenses, specif
 
 ## 🔗 Live Demo
 
-👉 [Visit the Live App](https://your-username.github.io/split-bill-calculator/) _(Replace with your actual GitHub Pages link)_
+👉 [Visit the Live App](https://agusbudbudi.github.io/split-bill-app//)
 
 ## 📝 License
 

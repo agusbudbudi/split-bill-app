@@ -16,7 +16,7 @@
       <!-- <img src="public/img/logo.png" alt="Logo" class="logo-app" /> -->
       <h1>💰 Split Bill App</h1>
       <div class="table-wrapper">
-        <div class="table-container">
+        <div class="card-container">
           <div id="input-section">
             <label for="item">Item</label>
             <input type="text" id="item" placeholder="Enter item name" />
@@ -31,34 +31,52 @@
             <label for="paidBy">Paid by</label>
             <input type="text" id="paidBy" placeholder="Who paid the item" />
           </div>
-          <button onclick="addExpense()">Add</button>
+          <button onclick="addExpense()">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
         </div>
       </div>
 
       <!-- table expense -->
       <div class="table-wrapper">
-        <div class="table-container">
-          <table id="expense-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Amount</th>
-                <th>Who Need to Pays</th>
-                <th>Paid By</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-          <button onclick="calculateSplit()">Calculate</button>
+        <div class="card-container">
+          <div class="table-container">
+            <table id="expense-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Amount</th>
+                  <th>Who Need to Pays</th>
+                  <th>Paid By</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <button
+            id="calculateBtn"
+            class="disabled-btn"
+            onclick="calculateSplit()"
+            disabled
+          >
+            <i class="fa-solid fa-calculator"></i> Calculate
+          </button>
         </div>
       </div>
 
       <!-- table summary -->
       <div class="table-wrapper">
-        <div class="table-container">
-          <div id="summary"></div>
-          <button onclick="exportToPDF()">Export to PDF</button>
+        <div class="card-container">
+          <div class="table-container">
+            <div id="summary"></div>
+          </div>
+          <button onclick="exportToPDF()">
+            <i class="fa-solid fa-file-export"></i> Export to PDF
+          </button>
+
+          <div class="table-container"></div>
+          <p>This app made by: Agus Budiman</p>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 let expenses = [];
+let itemCount = 0;
 
 function addExpense() {
   const item = document.getElementById("item").value;
@@ -16,12 +17,24 @@ function addExpense() {
 
   expenses.push({ item, amount, who, paidBy });
   updateTable();
+  updateCalculateButton();
 
   // Clear the input fields after adding the expense
   document.getElementById("item").value = "";
   document.getElementById("amount").value = "";
   document.getElementById("who").value = "";
   document.getElementById("paidBy").value = "";
+}
+
+function updateCalculateButton() {
+  const calculateBtn = document.getElementById("calculateBtn");
+  if (expenses.length > 0) {
+    calculateBtn.disabled = false;
+    calculateBtn.classList.remove("disabled-btn");
+  } else {
+    calculateBtn.disabled = true;
+    calculateBtn.classList.add("disabled-btn");
+  }
 }
 
 function updateTable() {
@@ -57,6 +70,7 @@ function updateTable() {
 function deleteExpense(index) {
   expenses.splice(index, 1); // Remove expense from the array
   updateTable(); // Refresh the table
+  updateCalculateButton();
 }
 
 function calculateSplit() {
