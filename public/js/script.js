@@ -4,10 +4,6 @@ let itemCount = 0;
 function addExpense() {
   const item = document.getElementById("item").value;
   const amount = parseFloat(document.getElementById("amount").value);
-  const who = document
-    .getElementById("who")
-    .value.split(",")
-    .map((name) => name.trim());
   const paidBy = document.getElementById("paidBy").value.trim();
 
   if (!item || !amount || who.length === 0 || !paidBy) {
@@ -19,11 +15,14 @@ function addExpense() {
   updateTable();
   updateCalculateButton();
 
-  // Clear the input fields after adding the expense
+  // Reset field input
   document.getElementById("item").value = "";
-  document.getElementById("amount").value = "";
-  document.getElementById("who").value = "";
+  document.getElementById("amountFormatted").value = "";
   document.getElementById("paidBy").value = "";
+
+  // Reset selected avatar (who)
+  who = [];
+  renderAvatars(); // refresh tampilan avatar
 }
 
 function updateCalculateButton() {
@@ -46,7 +45,7 @@ function updateTable() {
     const emptyRow = document.createElement("tr");
     emptyRow.innerHTML = `
       <td colspan="5" style="text-align: center; padding: 10px; color: #888;">
-        No expense records yet
+        Belum ada daftar transaksi pengeluaran
       </td>
     `;
     tbody.appendChild(emptyRow);
@@ -59,7 +58,7 @@ function updateTable() {
                         <td>${expense.who.join(", ")}</td>
                         <td>${expense.paidBy}</td>
                         <td>
-                        <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fas fa-trash"></i> Remove</button></td>
+                        <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i> Hapus</button></td>
                     </tr>`;
       tbody.innerHTML += row;
     });

@@ -1,0 +1,71 @@
+.payment-card {
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  position: relative;
+  width: 130px;
+  flex: 0 0 auto; /* Jangan menyusut, tampilkan secara horizontal */
+
+  border: 1px solid var(--table-border-color);
+  min-width: 180px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.payment-logo {
+  height: 20px;
+  width: auto;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.card-display-section {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  overflow-x: auto; /* Scroll horizontal */
+  white-space: nowrap; /* Biar item tetap sejajar */
+}
+
+#paymentCardsContainer {
+  display: flex;
+  gap: 16px; /* Jarak antar card */
+}
+
+.payment-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* select card metode pembayaran */
+.payment-card.selected {
+  border: 1px solid #7056ec;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(112, 86, 236, 0.1); /* soft highlight */
+}
+
+.selected-payment-summary {
+  border: 1px solid var(--btn-bg);
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.selected-payment-summary img {
+  height: 30px;
+}
+
+.scrollable-table-container {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}

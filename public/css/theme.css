@@ -1,0 +1,27 @@
+:root {
+  --bg-color: #f6fafb;
+  --text-color: #272a33;
+  --container-bg: #ffffff;
+  --input-bg: #f6fafb;
+  --btn-bg: #7056ec;
+  --btn-hover-bg: #5844bb;
+  --btn-delete-bg: #e15555;
+  --btn-delete-hover-bg: #c33c3c;
+  --table-header-bg: #7056ec;
+  --table-body-bg: #ffffff;
+  --table-border-color: #f7f7f7;
+}
+
+body.dark-mode {
+  --bg-color: #161618;
+  --text-color: #ffffff;
+  --container-bg: #1f1f21;
+  --input-bg: #29282b;
+  --btn-bg: #7056ec;
+  --btn-hover-bg: #5844bb;
+  --btn-delete-bg: #e15555;
+  --btn-delete-hover-bg: #c33c3c;
+  --table-header-bg: #232325;
+  --table-body-bg: #1d1d1f;
+  --table-border-color: #262528;
+}

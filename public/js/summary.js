@@ -17,6 +17,16 @@ function calculateSplit() {
   });
 
   let variance = calculateVariance(userExpenses, userPayments, totalExpense);
+
+  // ✅ Pastikan metode pembayaran sudah dipilih
+  if (selectedPaymentIndex === null || !paymentMethods[selectedPaymentIndex]) {
+    alert("Silakan pilih metode pembayaran terlebih dahulu.");
+    return;
+  }
+
+  // ✅ Panggil ulang agar info metode pembayaran muncul di summary
+  showSelectedPayment();
+
   displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
 }
 
@@ -58,10 +68,12 @@ function displaySummary(
   items
 ) {
   const summaryDiv = document.getElementById("summary");
-  summaryDiv.innerHTML = `<h2>Summary Split Bill</h2>`;
+  summaryDiv.innerHTML = `<h2>💰 Ringkasan Pembayaran</h2>`;
+
+  document.querySelector(".summary-container").style.display = "block";
 
   // Total Expense (formatted in Rupiah)
-  summaryDiv.innerHTML += `<p><strong>Total Expense:</strong> ${formatCurrency(
+  summaryDiv.innerHTML += `<p><strong>Total Pengeluaran:</strong> ${formatCurrency(
     totalExpense
   )}</p>`;
 
@@ -69,11 +81,11 @@ function displaySummary(
     <table id="summaryTable">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Total Expense</th>
-          <th>Total Paid</th>
-          <th>Variance</th>
-          <th>Transfer Summary</th>
+          <th>Nama</th>
+          <th>Total Pengeluaran</th>
+          <th>Total yang Dibayar</th>
+          <th>Selisih</th>
+          <th>Ringkasan Pembayaran</th>
         </tr>
       </thead>
       <tbody>
@@ -86,8 +98,8 @@ function displaySummary(
   );
   let expenseVerification =
     totalExpense === totalPaid
-      ? "Total Expense dan Total Paid ✅ SESUAI"
-      : "Total Expense dan Total Paid ❌ SALAH";
+      ? "✅ Total Pengeluaran dan Total yang Dibayar SESUAI"
+      : "❌ Total Pengeluaran dan Total yang Dibayar SALAH";
 
   let totalVariance = Object.values(variance).reduce(
     (sum, varValue) => sum + varValue,
@@ -95,29 +107,27 @@ function displaySummary(
   );
   let varianceVerification =
     totalVariance === 0
-      ? `Variance sama dengan ${formatCurrency(totalVariance)}`
-      : `Variance tidak seimbang: ${formatCurrency(totalVariance)}`;
+      ? `Selisih sama dengan ${formatCurrency(totalVariance)}`
+      : `Selisih tidak seimbang: ${formatCurrency(totalVariance)}`;
 
   summaryDiv.innerHTML += `
-        <p><strong>Total Paid:</strong> ${formatCurrency(totalPaid)}</p>
+        <p><strong>Total yang Dibayar:</strong> ${formatCurrency(totalPaid)}</p>
         <p>${expenseVerification}</p>
         <p>${varianceVerification}</p>
     `;
 
   // Generate item list table
   let itemTable = `
-        <h3>Item List</h3>
         <table id="itemTable">
           <thead>
             <tr>
-              <th>Item Name</th>
-              <th>Amount</th>
-              <th>Who Need to Pay</th>
-              <th>Paid By</th>
+              <th>Item</th>
+              <th>Jumlah</th>
+              <th>Yang Berhutang</th>
+              <th>Dibayar Oleh</th>
             </tr>
           </thead>
           <tbody>
-
     `;
 
   items.forEach(({ item, amount, paidBy, who }) => {
@@ -132,10 +142,15 @@ function displaySummary(
   });
 
   itemTable += `</tbody></table>`;
-  summaryDiv.innerHTML += itemTable;
 
-  let totalPaidMap = {}; // Menyimpan total yang dibayar oleh setiap orang
-  let totalExpenseMap = {}; // Menyimpan total pengeluaran yang seharusnya dibayar oleh setiap orang
+  // Pisahkan <h3> dari scrollable container
+  summaryDiv.innerHTML += `
+  <h3>List Barang</h3>
+  <div class="scrollable-table-container">
+    ${itemTable}
+  </div>
+`;
+
   let transactionMap = {}; // Menyimpan transaksi pembayaran antar orang
   let transferSummaryMap = {}; // Menyimpan ringkasan transfer antar orang
 
@@ -241,7 +256,17 @@ function displaySummary(
   }
 
   table += `</tbody></table>`;
-  summaryDiv.innerHTML += table;
+
+  // ⬇️ Bungkus tabel dalam container scrollable
+  summaryDiv.innerHTML += `
+  <div style="max-height: 300px; overflow-y: auto; margin-top: 1rem;">
+    ${table}
+  </div>
+`;
+
+  //tampilin metode pembayaran
+  summaryDiv.innerHTML += `<div id="selectedPaymentInfo"></div>`; // baru ditambahkan di akhir
+  showSelectedPayment(); // panggil setelahnya
 }
 
 function formatCurrency(amount) {

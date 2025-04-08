@@ -1,0 +1,140 @@
+/* testing */
+
+.theme-toggle {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  border-radius: 15px;
+}
+
+.theme-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  background-color: var(--bg-color);
+  border-radius: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px;
+  box-sizing: border-box;
+  border: 1px solid var(--table-border-color);
+}
+
+.slider .sun {
+  color: var(--btn-bg);
+  font-size: 16px;
+  z-index: 2;
+  transition: color 0.3s;
+}
+
+.slider .moon {
+  color: #d0d6dd;
+  font-size: 16px;
+  z-index: 2;
+  transition: color 0.3s;
+}
+
+.toggle-ball {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  background-color: var(--container-bg);
+  border-radius: 11px;
+  transition: all 0.3s ease;
+  z-index: 1;
+  border: 1px solid var(--table-border-color);
+}
+
+/* Saat switch aktif (checkbox dicentang) */
+.theme-toggle input:checked + .slider {
+  background-color: var(--bg-color);
+}
+
+.theme-toggle input:checked + .slider .sun {
+  color: #d0d6dd;
+}
+
+.theme-toggle input:checked + .slider .moon {
+  color: var(--btn-bg);
+}
+
+.theme-toggle input:checked + .slider .toggle-ball {
+  transform: translateX(30px);
+}
+
+/* toogle theme */
+
+.sticky-header {
+  position: fixed;
+  top: 0;
+  padding: 10px 20px 10px 20px;
+  background-color: var(--container-bg);
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Judul kiri, toggle kanan */
+  transition: background-color 0.3s ease;
+
+  box-sizing: border-box; /* ⬅️ Tambahkan ini */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-header h1 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--btn-bg);
+}
+
+.theme-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+#peopleTable {
+  display: none;
+}
+
+.banner {
+  width: 100%;
+}
+
+.banner-container {
+  border-radius: 15px;
+  align-items: center;
+  margin-top: 40px;
+  width: 112%; /* Ensure it fits inside the parent */
+
+  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); */
+}
+
+.summary-container {
+  display: none; /* Sembunyikan secara default */
+}
+
+/* text information */
+.card-container p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  font-size: 12px;
+}
+
+p {
+  font-size: 12px;
+}

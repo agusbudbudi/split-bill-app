@@ -1,0 +1,61 @@
+/* Button Styling - Aligning button to the right */
+button {
+  background-color: var(--btn-bg);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Remove full width to fit button content */
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.btn-add-person {
+  background-color: var(--btn-bg);
+  color: #ffffff;
+  margin-bottom: 15px;
+  padding: 10ox;
+  max-width: 60px;
+}
+
+button:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+.disabled-btn {
+  /* background-color: #ccc; */
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none; /* Prevent clicks when disabled */
+}
+
+.delete-btn {
+  background-color: var(--btn-delete-bg);
+  font-size: 12px;
+  color: #ffffff;
+  padding: 10px 12px;
+  margin: 3px;
+  max-width: 76px;
+}
+
+.delete-btn:hover {
+  background-color: var(--btn-delete-hover-bg);
+}
+
+.delete-top-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  max-width: 30px;
+}
+
+.delete-top-right:hover {
+  background: none;
+}
