@@ -1,5 +1,9 @@
 /* testing */
 
+.logo {
+  height: 30px;
+}
+
 .theme-toggle {
   position: relative;
   display: inline-block;
