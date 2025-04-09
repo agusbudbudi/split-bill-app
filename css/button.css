@@ -59,3 +59,16 @@ button:hover {
 .delete-top-right:hover {
   background: none;
 }
+
+.exportToPDF,
+.shareToWhatsApp {
+  width: 50%;
+}
+
+.shareToWhatsApp {
+  background-color: #0cc144;
+}
+
+.shareToWhatsApp:hover {
+  background-color: #0aa53b;
+}

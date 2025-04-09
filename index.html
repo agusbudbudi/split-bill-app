@@ -3,6 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
+    <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
+    <meta
+      name="description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="og:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="og:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="og:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="twitter:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="twitter:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
     <title>Split Bill</title>
     <!-- Favicon -->
     <link rel="icon" href="favicon.png" type="image/png" />
@@ -219,9 +266,15 @@
           <div class="table-container">
             <div id="summary"></div>
           </div>
-          <button onclick="exportToPDF()">
-            <i class="fa-solid fa-file-export"></i> Export to PDF
-          </button>
+          <div>
+            <button onclick="exportToPDF()" class="exportToPDF">
+              <i class="fa-solid fa-file-export"></i> Export to PDF
+            </button>
+            <button onclick="shareToWhatsApp()" class="shareToWhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+              Bagikan ke WhatsApp
+            </button>
+          </div>
         </div>
         <p>This app made by: Agus Budiman</p>
       </div>
@@ -231,6 +284,7 @@
     <script src="js/inputForm.js"></script>
     <script src="js/paymentMethod.js"></script>
     <script src="js/pdfExport.js"></script>
+    <script src="js/shareSummary.js"></script>
     <script src="js/ui.js"></script>
   </body>
 </html>
