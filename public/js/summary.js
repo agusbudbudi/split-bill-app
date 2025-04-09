@@ -259,7 +259,7 @@ function displaySummary(
 
   // ⬇️ Bungkus tabel dalam container scrollable
   summaryDiv.innerHTML += `
-  <div style="max-height: 300px; overflow-y: auto; margin-top: 1rem;">
+  <div style="overflow-y: auto; margin-top: 1rem;">
     ${table}
   </div>
 `;

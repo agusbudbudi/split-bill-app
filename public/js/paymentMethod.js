@@ -122,19 +122,19 @@ function getPaymentLogo(method) {
   const key = method.toLowerCase().replace(/\s/g, ""); // amanin dari spasi & kapital
   switch (key) {
     case "banktransfer":
-      return "/public/img/banktransfer.png";
+      return "img/banktransfer.png";
     case "ovo":
-      return "/public/img/ovo.png";
+      return "img/ovo.png";
     case "gopay":
-      return "/public/img/gopay.png";
+      return "img/gopay.png";
     case "dana":
-      return "/public/img/dana.png";
+      return "img/dana.png";
     case "shopeepay":
-      return "/public/img/shopeepay.png";
+      return "img/shopeepay.png";
     case "linkaja":
-      return "/public/img/linkaja.png";
+      return "img/linkaja.png";
     default:
-      return "/public/img/default.png";
+      return "img/default.png";
   }
 }
 
