@@ -3,10 +3,12 @@ let itemCount = 0;
 
 function addExpense() {
   const item = document.getElementById("item").value;
+  const amountValue = document.getElementById("amount").value; // handle negative amount
   const amount = parseFloat(document.getElementById("amount").value);
   const paidBy = document.getElementById("paidBy").value.trim();
 
-  if (!item || !amount || who.length === 0 || !paidBy) {
+  //add isNaN buat handle negative amount
+  if (!item || isNaN(!amount) || who.length === 0 || !paidBy) {
     alert("Please fill all fields correctly");
     return;
   }
@@ -54,7 +56,15 @@ function updateTable() {
     expenses.forEach((expense, index) => {
       const row = `<tr>
                         <td>${expense.item}</td>
-                        <td>${formatCurrency(expense.amount)}</td>
+                        
+                        <td>
+                          ${formatCurrency(expense.amount)}
+                          ${
+                            expense.amount < 0
+                              ? '<span class="discount-label">Diskon</span>'
+                              : ""
+                          }
+                        </td>
                         <td>${expense.who.join(", ")}</td>
                         <td>${expense.paidBy}</td>
                         <td>

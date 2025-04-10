@@ -1,5 +1,10 @@
 /* testing */
 
+.logo {
+  max-width: 100px;
+  height: auto;
+}
+
 .theme-toggle {
   position: relative;
   display: inline-block;

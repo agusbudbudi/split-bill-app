@@ -32,11 +32,22 @@ function shareToWhatsApp() {
     const imgSrc = selectedCard.querySelector("img")?.getAttribute("src") || "";
     const methodMatch = imgSrc.match(/\/?([^\/]+)\.png$/); // ambil nama file tanpa .png
     const method = methodMatch ? methodMatch[1] : "Tidak diketahui";
+    const methodFormatted = method.charAt(0).toUpperCase() + method.slice(1); // Kapitalisasi
+
     const name =
       selectedCard.querySelector("p:nth-of-type(1)")?.innerText || "";
-    const phone =
+    const secondLine =
       selectedCard.querySelector("p:nth-of-type(2)")?.innerText || "";
-    paymentText = `- ${name} (${method}): ${phone}`;
+    const thirdLine =
+      selectedCard.querySelector("p:nth-of-type(3)")?.innerText || "";
+
+    if (method === "banktransfer") {
+      const accountNumber = secondLine.replace("Rek: ", "");
+      const bankName = thirdLine.replace("Bank: ", "");
+      paymentText = `- ${name} (${methodFormatted} - ${bankName}, No Rek: *${accountNumber}*)`;
+    } else {
+      paymentText = `- ${name} (${methodFormatted}, *${secondLine}*)`;
+    }
   }
 
   const message = `*Split Bill - Simplified*

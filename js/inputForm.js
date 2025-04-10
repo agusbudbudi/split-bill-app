@@ -144,24 +144,42 @@ function getColorForName(name) {
 const amountFormattedInput = document.getElementById("amountFormatted");
 const amountHiddenInput = document.getElementById("amount");
 
+// new fixing 10 April 2025 handle negative value for input amount (handle case discount)
 amountFormattedInput.addEventListener("input", () => {
-  // Ambil angka dari input
-  let rawValue = amountFormattedInput.value.replace(/[^0-9]/g, "");
+  let inputValue = amountFormattedInput.value;
 
-  // Simpan angka murni di input tersembunyi
-  amountHiddenInput.value = rawValue;
+  // Jika hanya "-" saja, jangan proses format
+  if (inputValue === "-") {
+    amountHiddenInput.value = "";
+    return;
+  }
+  // Cek apakah nilai diawali dengan minus
+  const isNegative = inputValue.trim().startsWith("-");
+  // Ambil hanya digit
+  let numericOnly = inputValue.replace(/[^0-9]/g, "");
+  if (numericOnly === "") {
+    amountHiddenInput.value = "";
+    amountFormattedInput.value = isNegative ? "-" : "";
+    return;
+  }
+  // Tambahkan minus jika ada
+  if (isNegative) numericOnly = "-" + numericOnly;
 
-  // Format ke IDR
-  amountFormattedInput.value = formatToIDR(rawValue);
+  amountHiddenInput.value = numericOnly;
+  amountFormattedInput.value = formatToIDR(numericOnly);
 });
 
 function formatToIDR(number) {
   if (!number) return "";
-  return new Intl.NumberFormat("id-ID", {
+  const isNegative = parseFloat(number) < 0;
+  const absolute = Math.abs(parseFloat(number));
+  const formatted = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
-  }).format(number);
+  }).format(absolute);
+
+  return isNegative ? `- ${formatted}` : formatted;
 }
 
 // handle payment method change

@@ -134,7 +134,14 @@ function displaySummary(
     itemTable += `
             <tr>
               <td>${item}</td>
-              <td>${formatCurrency(amount)}</td>
+                 <td>
+                    ${formatCurrency(amount)}
+                    ${
+                      amount < 0
+                        ? '<span class="discount-label">Diskon</span>'
+                        : ""
+                    }
+                  </td>
               <td>${who.join(", ")}</td>
               <td>${paidBy}</td>
             </tr>
@@ -145,7 +152,7 @@ function displaySummary(
 
   // Pisahkan <h3> dari scrollable container
   summaryDiv.innerHTML += `
-  <h3>List Barang</h3>
+  <h3>List Item</h3>
   <div class="scrollable-table-container">
     ${itemTable}
   </div>
