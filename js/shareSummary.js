@@ -19,9 +19,13 @@ function shareToWhatsApp() {
   const summaryRows = document.querySelectorAll("#summaryTable tbody tr");
   let transferSummary = "";
   summaryRows.forEach((row) => {
-    const name = row.children[0].innerText;
-    const ringkasan = row.children[4].innerText;
-    transferSummary += `- ${name}: ${ringkasan}\n`;
+    const name = row.children[0].innerText.trim();
+    const ringkasan = row.children[4].innerText.trim();
+
+    // Hanya tambahkan jika ringkasan tidak kosong dan bukan default
+    if (ringkasan && ringkasan !== "Kamu tidak punya hutang") {
+      transferSummary += `- *${name}*: ${ringkasan}\n`;
+    }
   });
 
   // Ambil selected payment method
@@ -50,20 +54,20 @@ function shareToWhatsApp() {
     }
   }
 
-  const message = `*Split Bill - Simplified*
-Hi guys ini bill untuk *${activityName}*
-Tanggal: *${date}*
+  const message = `*🧾 Split Bill - Simplified*
 
-*Daftar Barang:*
+Hai guys! Ini bill untuk *${activityName}*
+📅 Tanggal: *${date}*
+
+🛍️ *Daftar Item:*
 ${itemList}
-*Ringkasan Pembayaran:*
+📊 *Ringkasan Pembayaran:*
 ${transferSummary}
-Kamu bisa bayar kesini ya:
-*Metode Pembayaran:*
+📥 *Metode Pembayaran:*
 ${paymentText}
 
-https://agusbudbudi.github.io/split-bill-app/
-_Dibuat dengan Split Bill App - Agus Budiman_`;
+🔗 https://agusbudbudi.github.io/split-bill-app/
+_Dibuat dengan Split Bill App`;
 
   const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
     message
