@@ -10,6 +10,9 @@
   --table-header-bg: #7056ec;
   --table-body-bg: #ffffff;
   --table-border-color: #f7f7f7;
+  --infobox-bg: #fff9db;
+  --infobox-border-color: #f1c40f;
+  --infobox-icon-color: #f1c40f;
 }
 
 body.dark-mode {
@@ -24,4 +27,7 @@ body.dark-mode {
   --table-header-bg: #232325;
   --table-body-bg: #1d1d1f;
   --table-border-color: #262528;
+  --infobox-bg: #2c2a15;
+  --infobox-border-color: #f1c40f;
+  --infobox-icon-color: #f1c40f;
 }
