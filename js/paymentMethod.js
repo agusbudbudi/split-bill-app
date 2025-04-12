@@ -93,7 +93,7 @@ function renderPaymentCards() {
     }
 
     card.innerHTML = `
-        <button onclick="removePayment(${index})" class="delete-top-right"><i class="fa-regular fa-circle-xmark"></i></button>
+        <button onclick="removePayment(${index})" class="delete-top-right"><i class="fa-solid fa-xmark"></i></button>
         <img src="${logo}" alt="${data.method}" class="payment-logo"/>
         <p>${data.name}</p>
         ${

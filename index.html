@@ -58,11 +58,12 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/ui.css" />
     <link rel="stylesheet" href="css/table.css" />
     <link rel="stylesheet" href="css/button.css" />
     <link rel="stylesheet" href="css/paymentMethod.css" />
+    <link rel="stylesheet" href="css/menu.css" />
+    <link rel="stylesheet" href="css/infobox.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -72,6 +73,10 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
   <body>
@@ -93,6 +98,41 @@
         <img src="img/banner.png" alt="banner" class="banner-container" />
       </div>
 
+      <!-- NEW FEATURE -->
+
+      <h3 class="heading title">Satu Aplikasi untuk Bagi Tagihan</h3>
+      <p class="heading subtitle">
+        Bagi tagihan otomatis, dan praktis dengan Split Bill App.
+      </p>
+
+      <div class="menu-circle-container">
+        <a href="/" class="menu-circle">
+          <div class="badge">Populer</div>
+          <div class="menu-icon">
+            <img src="img/split-bill-icon.png" alt="Split Bill" />
+          </div>
+          <span>Split Bill</span>
+        </a>
+
+        <a href="/" class="menu-circle">
+          <div class="badge">Soon</div>
+          <div class="menu-icon">
+            <img src="img/collect-money-icon.png" alt="Collect Money" />
+          </div>
+          <span>Collect Money</span>
+        </a>
+
+        <a href="/" class="menu-circle">
+          <div class="badge">Soon</div>
+          <div class="menu-icon">
+            <img src="img/daily-expense-icon.png" alt="Daily Expense" />
+          </div>
+          <span>Daily Expense</span>
+        </a>
+      </div>
+
+      <!-- NEW FEATURE COMMING SOON -->
+
       <div class="table-wrapper">
         <div class="card-container">
           <div id="input-section">
@@ -107,7 +147,11 @@
             <!-- Section Add People -->
             <label for="personName">Tambah Teman</label>
             <div style="display: flex; gap: 8px">
-              <input type="text" id="personName" placeholder="Contoh: Agus" />
+              <input
+                type="text"
+                id="personName"
+                placeholder="Contoh: Agus, Budi, Caca"
+              />
               <button class="btn-add-person" onclick="addPerson()">
                 <i class="fa-solid fa-user-plus"></i>
               </button>
@@ -117,9 +161,9 @@
             <table id="peopleTable" class="people-table">
               <thead>
                 <tr>
-                  <th>No</th>
+                  <th class="no-clumn">No</th>
                   <th>Nama</th>
-                  <th>Aksi</th>
+                  <th class="action-column">Aksi</th>
                 </tr>
               </thead>
               <tbody id="peopleTableBody"></tbody>
@@ -161,8 +205,8 @@
       <!-- table expense -->
       <div class="table-wrapper">
         <div class="card-container">
+          <label><strong>Tabel Pengeluaran</strong></label>
           <div class="table-container">
-            <label><strong>Tabel Pengeluaran</strong></label>
             <table id="expense-table">
               <thead>
                 <tr>
@@ -245,10 +289,24 @@
 
       <div class="table-wrapper">
         <div class="card-container">
-          <p>
+          <!-- <p>
             *Pastikan Item dan Pembayaran sudah benar, dan kamu sudah memilih
             Metode Pembayaran.
-          </p>
+          </p> -->
+
+          <!-- infobox -->
+          <div class="info-box warning">
+            <div class="icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="content">
+              <p>
+                Pastikan Item dan Pembayaran sudah benar, dan kamu sudah memilih
+                Metode Pembayaran
+              </p>
+            </div>
+          </div>
+
           <button
             id="calculateBtn"
             class="disabled-btn"
@@ -266,7 +324,7 @@
           <div class="table-container">
             <div id="summary"></div>
           </div>
-          <div>
+          <div class="share-button-container">
             <button onclick="exportToPDF()" class="exportToPDF">
               <i class="fa-solid fa-file-export"></i> Export to PDF
             </button>

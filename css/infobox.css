@@ -1,0 +1,31 @@
+.info-box {
+  display: flex;
+  border: 1.5px solid #f1c40f;
+  background-color: #fff9db;
+  border-radius: 10px;
+  padding: 0 10px;
+  max-width: 500px;
+  color: #333;
+  font-family: sans-serif;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.info-box .icon {
+  font-size: 20px;
+  color: #f1c40f;
+  align-content: center;
+}
+
+.info-box .content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.info-box .content p {
+  margin: 10px 0;
+}
+
+.warning .icon {
+  color: #f1c40f;
+}

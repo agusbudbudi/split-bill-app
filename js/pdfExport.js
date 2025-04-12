@@ -90,7 +90,7 @@ function exportToPDF() {
   ths.forEach((th) => {
     th.style.backgroundColor = "#141048";
     th.style.color = "#ffffff";
-    th.style.padding = "12px";
+    th.style.padding = "8px";
     th.style.border = "1px solid #141048";
     th.style.textAlign = "center";
   });
@@ -100,7 +100,7 @@ function exportToPDF() {
   tds.forEach((td) => {
     td.style.backgroundColor = "#f9f9f9";
     td.style.color = "#000000";
-    td.style.padding = "10px";
+    td.style.padding = "5px";
     td.style.border = "1px solid #F3F2F3";
     td.style.textAlign = "center";
   });

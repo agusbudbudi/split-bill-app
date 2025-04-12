@@ -56,3 +56,16 @@ td {
   border-radius: 6px;
   margin-left: 4px;
 }
+
+.scrollable-table-container {
+  overflow-y: auto;
+}
+
+/* user table */
+.action-column {
+  width: 20%;
+}
+
+.no-clumn {
+  width: 10%;
+}

@@ -1,17 +1,41 @@
 let people = [];
 let who = [];
 
+// function addPerson() {
+//   const nameInput = document.getElementById("personName");
+//   const name = nameInput.value.trim();
+
+//   if (name && !people.includes(name)) {
+//     people.push(name);
+//     nameInput.value = "";
+//     renderPeople();
+//     updateDropdowns();
+//     renderAvatars();
+//   }
+// }
+
 function addPerson() {
   const nameInput = document.getElementById("personName");
-  const name = nameInput.value.trim();
+  const names = nameInput.value
+    .split(",")
+    .map((n) => n.trim())
+    .filter((n) => n !== "");
 
-  if (name && !people.includes(name)) {
-    people.push(name);
-    nameInput.value = "";
-    renderPeople();
-    updateDropdowns();
-    renderAvatars();
+  if (names.length === 0) {
+    alert("Masukkan minimal satu nama.");
+    return;
   }
+
+  names.forEach((name) => {
+    if (name && !people.includes(name)) {
+      people.push(name);
+    }
+  });
+
+  nameInput.value = "";
+  renderPeople();
+  updateDropdowns();
+  renderAvatars();
 }
 
 function renderPeople() {
@@ -78,12 +102,11 @@ function renderAvatars() {
   const container = document.getElementById("avatarContainer");
   container.innerHTML = "";
 
-  console.log("people.length:", people.length);
   // ✅ Tambahkan pengecekan jika belum ada orang
   if (people.length === 0) {
     const emptyText = document.createElement("div");
     emptyText.className = "empty-text";
-    emptyText.textContent = "Tambahkan orang terlebih dahulu";
+    emptyText.textContent = "Tambahkan teman terlebih dahulu";
     container.appendChild(emptyText);
     return; // Stop di sini, gak perlu lanjut render avatar
   }

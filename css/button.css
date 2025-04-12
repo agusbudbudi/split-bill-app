@@ -7,8 +7,9 @@ button {
   padding: 12px 20px;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 14px;
   color: #ffffff;
+  font-family: poppins;
 }
 
 .btn-add-person {
@@ -50,7 +51,7 @@ button:hover {
   background: transparent;
   border: none;
   color: red;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
   padding: 5px;
   max-width: 30px;
@@ -71,4 +72,11 @@ button:hover {
 
 .shareToWhatsApp:hover {
   background-color: #0aa53b;
+}
+
+.share-button-container {
+  display: flex;
+  gap: 10px; /* atur jarak antar tombol */
+  /* flex-wrap: wrap; biar responsif kalau layar sempit */
+  margin-top: 20px; /* opsional: tambahkan jarak dari elemen atasnya */
 }

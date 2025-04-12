@@ -63,9 +63,3 @@
 .selected-payment-summary img {
   height: 30px;
 }
-
-.scrollable-table-container {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 0.5rem;
-}

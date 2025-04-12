@@ -67,7 +67,7 @@ ${transferSummary}
 ${paymentText}
 
 🔗 https://agusbudbudi.github.io/split-bill-app/
-_Dibuat dengan Split Bill App`;
+_Dibuat dengan Split Bill App_`;
 
   const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
     message
