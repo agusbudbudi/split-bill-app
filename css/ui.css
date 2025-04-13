@@ -410,6 +410,26 @@ p {
   h1 {
     font-size: 18px;
   }
+
+  .sticky-footer {
+    position: fixed;
+    bottom: 0;
+    /* left: 0; */
+    /* width: 100%; */
+    padding: 12px;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    box-sizing: border-box;
+    border-radius: 13px 13px 0 0;
+  }
+
+  .sticky-footer .info-box {
+    margin-bottom: 10px;
+  }
+
+  #section-split {
+    margin-bottom: 130px;
+  }
 }
 
 @media (max-width: 480px) {

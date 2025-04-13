@@ -27,14 +27,46 @@ function addExpense() {
   renderAvatars(); // refresh tampilan avatar
 }
 
+// function updateCalculateButton() {
+//   const calculateBtn = document.getElementById("calculateBtn");
+//   if (expenses.length > 0) {
+//     calculateBtn.disabled = false;
+//     calculateBtn.classList.remove("disabled-btn");
+//   } else {
+//     calculateBtn.disabled = true;
+//     calculateBtn.classList.add("disabled-btn");
+//   }
+// }
+
+// function updateCalculateButton() {
+//   const calculateBtn = document.getElementById("calculateBtn");
+//   const hasSelectedPayment =
+//     document.querySelector(".payment-card.selected") !== null;
+
+//   // Enable hanya jika ada expense dan sudah pilih metode pembayaran
+//   if (expenses.length > 0 && hasSelectedPayment) {
+//     calculateBtn.disabled = false;
+//     calculateBtn.classList.remove("disabled-btn");
+//   } else {
+//     calculateBtn.disabled = true;
+//     calculateBtn.classList.add("disabled-btn");
+//   }
+// }
+
 function updateCalculateButton() {
   const calculateBtn = document.getElementById("calculateBtn");
-  if (expenses.length > 0) {
+  const infoBox = document.querySelector(".info-box.warning");
+  const hasSelectedPayment =
+    document.querySelector(".payment-card.selected") !== null;
+
+  if (expenses.length > 0 && hasSelectedPayment) {
     calculateBtn.disabled = false;
     calculateBtn.classList.remove("disabled-btn");
+    if (infoBox) infoBox.style.display = "none";
   } else {
     calculateBtn.disabled = true;
     calculateBtn.classList.add("disabled-btn");
+    if (infoBox) infoBox.style.display = "flex"; // atau "block" tergantung desain kamu
   }
 }
 

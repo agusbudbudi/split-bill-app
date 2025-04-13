@@ -110,6 +110,7 @@ function renderPaymentCards() {
         updateCardSelection();
         updateCardSelection();
         showSelectedPayment();
+        updateCalculateButton(); // ← tambahkan ini
       }
     });
 
