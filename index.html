@@ -64,6 +64,7 @@
     <link rel="stylesheet" href="css/paymentMethod.css" />
     <link rel="stylesheet" href="css/menu.css" />
     <link rel="stylesheet" href="css/infobox.css" />
+    <link rel="stylesheet" href="css/underConstruction.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -106,7 +107,7 @@
       </p>
 
       <div class="menu-circle-container">
-        <a class="menu-circle">
+        <a class="menu-circle" onclick="showSection('split', this)">
           <div class="badge">Populer</div>
           <div class="menu-icon">
             <img src="img/split-bill-icon.png" alt="Split Bill" />
@@ -114,7 +115,7 @@
           <span>Split Bill</span>
         </a>
 
-        <a class="menu-circle">
+        <a class="menu-circle" onclick="showSection('collect', this)">
           <div class="badge">Soon</div>
           <div class="menu-icon">
             <img src="img/collect-money-icon.png" alt="Collect Money" />
@@ -122,7 +123,7 @@
           <span>Collect Money</span>
         </a>
 
-        <a class="menu-circle">
+        <a class="menu-circle" onclick="showSection('daily', this)">
           <div class="badge">Soon</div>
           <div class="menu-icon">
             <img src="img/daily-expense-icon.png" alt="Daily Expense" />
@@ -131,218 +132,250 @@
         </a>
       </div>
 
-      <!-- NEW FEATURE COMMING SOON -->
+      <!-- END NEW FEATURE COMMING SOON -->
 
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div id="input-section">
-            <!-- Field Nama Aktivitas -->
-            <label for="activityName">Nama Aktivitas</label>
-            <input
-              type="text"
-              id="activityName"
-              placeholder="Masukkan nama aktivitas (opsional)"
-            />
-
-            <!-- Section Add People -->
-            <label for="personName">Tambah Teman</label>
-            <div style="display: flex; gap: 8px">
+      <div id="section-split" class="section-content">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div id="input-section">
+              <!-- Field Nama Aktivitas -->
+              <label for="activityName">Nama Aktivitas</label>
               <input
                 type="text"
-                id="personName"
-                placeholder="Contoh: Agus, Budi, Caca"
-              />
-              <button class="btn-add-person" onclick="addPerson()">
-                <i class="fa-solid fa-user-plus"></i>
-              </button>
-            </div>
-
-            <!-- List of Added People with Remove -->
-            <table id="peopleTable" class="people-table">
-              <thead>
-                <tr>
-                  <th class="no-clumn">No</th>
-                  <th>Nama</th>
-                  <th class="action-column">Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="peopleTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div id="input-section">
-            <!-- Item & Amount -->
-            <label for="item">Nama Item</label>
-            <input
-              type="text"
-              id="item"
-              placeholder="Contoh: Makan malam, Tiket bioskop"
-            />
-            <label for="amount">Jumlah (dalam Rupiah)</label>
-
-            <input
-              type="text"
-              id="amountFormatted"
-              placeholder="Contoh: 50.000"
-            />
-            <input type="hidden" id="amount" />
-
-            <label>Siapa yang Berhutang</label>
-            <div id="avatarContainer" class="avatar-container"></div>
-
-            <label for="paidBy">Dibayar oleh</label>
-            <select id="paidBy"></select>
-          </div>
-          <button onclick="addExpense()">
-            <i class="fa-solid fa-plus"></i> Tambah Transaksi
-          </button>
-        </div>
-      </div>
-
-      <!-- table expense -->
-      <div class="table-wrapper">
-        <div class="card-container">
-          <label><strong>Tabel Pengeluaran</strong></label>
-          <div class="table-container">
-            <table id="expense-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Jumlah</th>
-                  <th>Yang Berhutang</th>
-                  <th>Dibayar Oleh</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div id="input-section">
-            <label><strong>Metode Pembayaran</strong></label>
-            <select id="paymentMethod" onchange="handlePaymentMethodChange()">
-              <option value="">Pilih Metode</option>
-              <option value="BankTransfer">Bank Transfer</option>
-              <option value="OVO">OVO</option>
-              <option value="GoPay">GoPay</option>
-              <option value="DANA">DANA</option>
-              <option value="ShopeePay">Shopee Pay</option>
-              <option value="LinkAja">LinkAja</option>
-            </select>
-            <div id="paymentDetailsForm"></div>
-          </div>
-
-          <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
-          <div id="paymentDetails" style="display: none">
-            <!-- Bagian Bank Transfer -->
-            <div id="bankForm" style="display: none">
-              <label for="bankName">Nama Bank</label>
-              <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
-
-              <label for="bankName">Nama</label>
-              <input
-                type="text"
-                id="bankAccountName"
-                placeholder="Nama Pemilik Rekening"
+                id="activityName"
+                placeholder="Masukkan nama aktivitas (opsional)"
               />
 
-              <label for="bankAccountNumber">Nomor Rekening</label>
-              <input
-                type="text"
-                id="bankAccountNumber"
-                placeholder="Contoh: 1234567890"
-              />
-            </div>
+              <!-- Section Add People -->
+              <label for="personName">Tambah Teman</label>
+              <div style="display: flex; gap: 8px">
+                <input
+                  type="text"
+                  id="personName"
+                  placeholder="Contoh: Agus, Budi, Caca"
+                />
+                <button class="btn-add-person" onclick="addPerson()">
+                  <i class="fa-solid fa-user-plus"></i>
+                </button>
+              </div>
 
-            <!-- Bagian e-Wallet -->
-            <div id="ewalletForm" style="display: none">
-              <label for="ewalletName">Nama</label>
-              <input
-                type="text"
-                id="ewalletName"
-                placeholder="Nama Akun e-Wallet"
-              />
-
-              <label for="ewalletPhone">Nomor Telepon</label>
-              <input
-                type="text"
-                id="ewalletPhone"
-                placeholder="Contoh: 081234567890"
-              />
+              <!-- List of Added People with Remove -->
+              <table id="peopleTable" class="people-table">
+                <thead>
+                  <tr>
+                    <th class="no-clumn">No</th>
+                    <th>Nama</th>
+                    <th class="action-column">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="peopleTableBody"></tbody>
+              </table>
             </div>
           </div>
+        </div>
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div id="input-section">
+              <!-- Item & Amount -->
+              <label for="item">Nama Item</label>
+              <input
+                type="text"
+                id="item"
+                placeholder="Contoh: Makan malam, Tiket bioskop"
+              />
+              <label for="amount">Jumlah (dalam Rupiah)</label>
 
-          <button onclick="addPaymentMethod()">
-            <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
-          </button>
+              <input
+                type="text"
+                id="amountFormatted"
+                placeholder="Contoh: 50.000"
+              />
+              <input type="hidden" id="amount" />
+
+              <label>Siapa yang Berhutang</label>
+              <div id="avatarContainer" class="avatar-container"></div>
+
+              <label for="paidBy">Dibayar oleh</label>
+              <select id="paidBy"></select>
+            </div>
+            <button onclick="addExpense()">
+              <i class="fa-solid fa-plus"></i> Tambah Transaksi
+            </button>
+          </div>
         </div>
 
-        <div id="paymentCardsContainer" class="card-display-section"></div>
-      </div>
+        <!-- table expense -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label><strong>Tabel Pengeluaran</strong></label>
+            <div class="table-container">
+              <table id="expense-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Jumlah</th>
+                    <th>Yang Berhutang</th>
+                    <th>Dibayar Oleh</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-      <div class="table-wrapper">
-        <div class="card-container">
-          <!-- <p>
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div id="input-section">
+              <label><strong>Metode Pembayaran</strong></label>
+              <select id="paymentMethod" onchange="handlePaymentMethodChange()">
+                <option value="">Pilih Metode</option>
+                <option value="BankTransfer">Bank Transfer</option>
+                <option value="OVO">OVO</option>
+                <option value="GoPay">GoPay</option>
+                <option value="DANA">DANA</option>
+                <option value="ShopeePay">Shopee Pay</option>
+                <option value="LinkAja">LinkAja</option>
+              </select>
+              <div id="paymentDetailsForm"></div>
+            </div>
+
+            <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+            <div id="paymentDetails" style="display: none">
+              <!-- Bagian Bank Transfer -->
+              <div id="bankForm" style="display: none">
+                <label for="bankName">Nama Bank</label>
+                <input
+                  type="text"
+                  id="bankName"
+                  placeholder="Contoh: BCA, BRI"
+                />
+
+                <label for="bankName">Nama</label>
+                <input
+                  type="text"
+                  id="bankAccountName"
+                  placeholder="Nama Pemilik Rekening"
+                />
+
+                <label for="bankAccountNumber">Nomor Rekening</label>
+                <input
+                  type="text"
+                  id="bankAccountNumber"
+                  placeholder="Contoh: 1234567890"
+                />
+              </div>
+
+              <!-- Bagian e-Wallet -->
+              <div id="ewalletForm" style="display: none">
+                <label for="ewalletName">Nama</label>
+                <input
+                  type="text"
+                  id="ewalletName"
+                  placeholder="Nama Akun e-Wallet"
+                />
+
+                <label for="ewalletPhone">Nomor Telepon</label>
+                <input
+                  type="text"
+                  id="ewalletPhone"
+                  placeholder="Contoh: 081234567890"
+                />
+              </div>
+            </div>
+
+            <button onclick="addPaymentMethod()">
+              <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+            </button>
+          </div>
+
+          <div id="paymentCardsContainer" class="card-display-section"></div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="card-container">
+            <!-- <p>
             *Pastikan Item dan Pembayaran sudah benar, dan kamu sudah memilih
             Metode Pembayaran.
           </p> -->
 
-          <!-- infobox -->
-          <div class="info-box warning">
-            <div class="icon">
-              <i class="fa-solid fa-triangle-exclamation"></i>
+            <!-- infobox -->
+            <div class="info-box warning">
+              <div class="icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <div class="content">
+                <p>
+                  Pastikan Item dan Pembayaran sudah benar, dan kamu sudah
+                  memilih Metode Pembayaran
+                </p>
+              </div>
             </div>
-            <div class="content">
-              <p>
-                Pastikan Item dan Pembayaran sudah benar, dan kamu sudah memilih
-                Metode Pembayaran
-              </p>
-            </div>
-          </div>
 
-          <button
-            id="calculateBtn"
-            class="disabled-btn"
-            onclick="calculateSplit()"
-            disabled
-          >
-            <i class="fa-solid fa-calculator"></i> Hitung Pembayaran
-          </button>
-        </div>
-      </div>
-
-      <!-- table summary -->
-      <div class="table-wrapper">
-        <div class="card-container summary-container">
-          <div class="table-container">
-            <div id="summary"></div>
-          </div>
-          <div class="share-button-container">
-            <button onclick="exportToPDF()" class="exportToPDF">
-              <i class="fa-solid fa-file-export"></i> Export to PDF
-            </button>
-            <button onclick="shareToWhatsApp()" class="shareToWhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
-              Share ke WA
+            <button
+              id="calculateBtn"
+              class="disabled-btn"
+              onclick="calculateSplit()"
+              disabled
+            >
+              <i class="fa-solid fa-calculator"></i> Hitung Pembayaran
             </button>
           </div>
         </div>
-        <p>This app made by: Agus Budiman</p>
+
+        <!-- table summary -->
+        <div class="table-wrapper">
+          <div class="card-container summary-container">
+            <div class="table-container">
+              <div id="summary"></div>
+            </div>
+            <div class="share-button-container">
+              <button onclick="exportToPDF()" class="exportToPDF">
+                <i class="fa-solid fa-file-export"></i> Export to PDF
+              </button>
+              <button onclick="shareToWhatsApp()" class="shareToWhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+                Share ke WA
+              </button>
+            </div>
+          </div>
+          <p>This app made by: Agus Budiman</p>
+        </div>
       </div>
     </div>
+
+    <!-- Collect Money -->
+    <div id="section-collect" class="section-content" style="display: none">
+      <img
+        src="img/under-construction.png"
+        alt="Under Construction"
+        class="under-construction"
+      />
+      <p class="coming-soon">
+        🚧 Halaman Collect Money masih dalam pengembangan. Coming Soon!
+      </p>
+    </div>
+
+    <!-- Daily Expense -->
+    <div id="section-daily" class="section-content" style="display: none">
+      <img
+        src="img/under-construction.png"
+        alt="Under Construction"
+        class="under-construction"
+      />
+      <p class="coming-soon">
+        📅 Halaman Daily Expense masih dalam pengembangan. Coming Soon!
+      </p>
+    </div>
+
     <script src="js/script.js"></script>
     <script src="js/summary.js"></script>
     <script src="js/inputForm.js"></script>
     <script src="js/paymentMethod.js"></script>
     <script src="js/pdfExport.js"></script>
     <script src="js/shareSummary.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="js/ui.js"></script>
   </body>
 </html>

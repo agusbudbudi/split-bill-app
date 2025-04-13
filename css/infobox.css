@@ -28,6 +28,7 @@
 .info-box .content p {
   margin: 10px 0;
   color: var(--text-color);
+  text-align: left;
 }
 
 .warning .icon {

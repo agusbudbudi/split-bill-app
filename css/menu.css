@@ -24,6 +24,7 @@
   color: #000;
   position: relative;
   min-width: 100px;
+  cursor: pointer;
 }
 
 .menu-icon {

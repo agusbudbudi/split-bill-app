@@ -1,0 +1,13 @@
+.under-construction {
+  width: 250px;
+  height: auto;
+}
+
+#section-daily,
+#section-collect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

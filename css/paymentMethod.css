@@ -63,3 +63,9 @@
 .selected-payment-summary img {
   height: 30px;
 }
+
+select,
+input {
+  font-size: 14px;
+  font-family: poppins;
+}
