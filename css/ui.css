@@ -85,17 +85,19 @@
 .sticky-header {
   position: fixed;
   top: 0;
-  padding: 10px 20px 10px 20px;
-  background-color: var(--container-bg);
+  padding: 8px 20px 8px 20px;
+  /* background-color: var(--btn-bg); */
+  background: linear-gradient(to right, #8b5cf6, #7c3aed);
   z-index: 1000;
-  width: 100%;
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: space-between; /* Judul kiri, toggle kanan */
   transition: background-color 0.3s ease;
 
   box-sizing: border-box; /* ⬅️ Tambahkan ini */
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); */
+  border-radius: 0 0 20px 20px;
 }
 
 .sticky-header h1 {
@@ -121,10 +123,8 @@
 .banner-container {
   border-radius: 15px;
   align-items: center;
-  margin-top: 20px;
-  width: 112%; /* Ensure it fits inside the parent */
-
-  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); */
+  margin-top: -80px;
+  width: 100%;
 }
 
 .summary-container {
@@ -196,10 +196,10 @@ h3 {
 
 .container {
   width: 50%;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   box-sizing: border-box;
   align-items: center;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 /* Form Elements */
@@ -361,12 +361,21 @@ p {
   color: var(--text-color);
 }
 
+.header-section {
+  /* background-color: var(--btn-bg); */
+  background: linear-gradient(to right, #8b5cf6, #7c3aed);
+  height: 110px;
+  width: 100%;
+  top: 0;
+  border-radius: 0 0 20px 20px;
+  padding: 20px;
+}
+
 /* MOBILE WEB VIEW */
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
-    /* padding: 15px; */
-    width: 90%;
+    width: 100%;
   }
 
   h2 {
@@ -404,7 +413,7 @@ p {
   }
 
   .banner-container {
-    margin-top: 40px;
+    margin-top: -70px;
   }
 
   h1 {
@@ -414,8 +423,6 @@ p {
   .sticky-footer {
     position: fixed;
     bottom: 0;
-    /* left: 0; */
-    /* width: 100%; */
     padding: 12px;
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -430,13 +437,15 @@ p {
   #section-split {
     margin-bottom: 130px;
   }
+
+  .section-content {
+    padding: 10px;
+  }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 10px;
-    margin-top: 30px;
-    /* margin: 20px; */
+    width: 100%;
   }
 
   h2,
@@ -472,6 +481,14 @@ p {
   }
 
   .banner-container {
-    margin-top: 40px;
+    margin-top: -70px;
+  }
+
+  .section-content {
+    padding: 10px;
+  }
+
+  .header-section {
+    height: 90px;
   }
 }

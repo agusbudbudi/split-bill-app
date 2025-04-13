@@ -12,7 +12,6 @@
   position: relative;
   width: 130px;
   flex: 0 0 auto; /* Jangan menyusut, tampilkan secara horizontal */
-
   border: 1px solid var(--table-border-color);
   min-width: 180px;
   flex-shrink: 0;
@@ -28,6 +27,7 @@
 
 .card-display-section {
   padding: 10px;
+  padding-bottom: 5px;
   width: 100%;
   display: flex;
   overflow-x: auto; /* Scroll horizontal */

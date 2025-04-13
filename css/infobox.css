@@ -1,20 +1,16 @@
 .info-box {
   display: flex;
-  /* border: 1.5px solid #f1c40f; */
-  /* background-color: #fff9db; */
   border: 1px solid var(--infobox-border-color);
   background-color: var(--infobox-bg);
-
   border-radius: 10px;
   padding: 0 10px;
   color: #333;
-  /* font-family: sans; */
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 10px;
 }
 
 .info-box .icon {
-  font-size: 20px;
+  font-size: 16px;
   /* color: #f1c40f; */
   color: var(--infobox-icon-color);
   align-content: center;
@@ -29,6 +25,8 @@
   margin: 10px 0;
   color: var(--text-color);
   text-align: left;
+  font-size: 9px;
+  margin: 5px;
 }
 
 .warning .icon {
