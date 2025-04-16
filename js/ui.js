@@ -1,5 +1,14 @@
 const toggle = document.getElementById("themeSwitch");
 
+//show popup informasi
+function openInfoPopup() {
+  document.getElementById("infoPopup").style.display = "flex";
+}
+
+function closeInfoPopup() {
+  document.getElementById("infoPopup").style.display = "none";
+}
+
 function setTheme(isDark) {
   document.body.classList.toggle("dark-mode", isDark);
   toggle.checked = isDark;

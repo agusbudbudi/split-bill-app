@@ -12,7 +12,8 @@
   --table-border-color: #f7f7f7;
   --infobox-bg: #fff9db;
   --infobox-border-color: #f1c40f;
-  --infobox-icon-color: #f1c40f;
+  --infobox-info-bg: #eef6fc;
+  --infobox-info-border-color: #3b82f6;
 }
 
 body.dark-mode {
@@ -29,5 +30,6 @@ body.dark-mode {
   --table-border-color: #262528;
   --infobox-bg: #2c2a15;
   --infobox-border-color: #f1c40f;
-  --infobox-icon-color: #f1c40f;
+  --infobox-info-bg: #1e2a36;
+  --infobox-info-border-color: #60a5fa;
 }

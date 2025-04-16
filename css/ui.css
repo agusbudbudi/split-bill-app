@@ -8,9 +8,9 @@
 .theme-toggle {
   position: relative;
   display: inline-block;
-  width: 70px;
-  height: 40px;
-  border-radius: 15px;
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
 }
 
 .theme-toggle input {
@@ -21,7 +21,7 @@
 
 .slider {
   background-color: var(--bg-color);
-  border-radius: 15px;
+  border-radius: 12px;
   position: absolute;
   top: 0;
   left: 0;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 11px;
+  padding: 0 7px;
   box-sizing: border-box;
   border: 1px solid var(--table-border-color);
 }
@@ -52,12 +52,12 @@
 
 .toggle-ball {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 28px;
-  height: 28px;
+  top: 2px;
+  left: 1px;
+  width: 26px;
+  height: 22px;
   background-color: var(--container-bg);
-  border-radius: 11px;
+  border-radius: 10px;
   transition: all 0.3s ease;
   z-index: 1;
   border: 1px solid var(--table-border-color);
@@ -77,7 +77,7 @@
 }
 
 .theme-toggle input:checked + .slider .toggle-ball {
-  transform: translateX(30px);
+  transform: translateX(27px);
 }
 
 /* toogle theme */
@@ -97,7 +97,7 @@
 
   box-sizing: border-box; /* ⬅️ Tambahkan ini */
   /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); */
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 10px 10px;
 }
 
 .sticky-header h1 {
@@ -109,6 +109,7 @@
 .theme-toggle {
   cursor: pointer;
   display: flex;
+  align-items: center;
   align-items: center;
 }
 
@@ -367,7 +368,7 @@ p {
   height: 110px;
   width: 100%;
   top: 0;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 30px 30px;
   padding: 20px;
 }
 
@@ -406,7 +407,7 @@ p {
   }
 
   .slider {
-    border-radius: 15px;
+    border-radius: 12px;
   }
   .theme-toggle {
     border-radius: 15px;
@@ -435,7 +436,7 @@ p {
   }
 
   #section-split {
-    margin-bottom: 130px;
+    margin-bottom: 100px;
   }
 
   .section-content {
@@ -473,7 +474,7 @@ p {
   }
 
   .slider {
-    border-radius: 15px;
+    border-radius: 12px;
   }
 
   .theme-toggle {

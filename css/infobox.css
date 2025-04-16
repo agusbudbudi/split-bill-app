@@ -1,8 +1,6 @@
 .info-box {
   display: flex;
-  border: 1px solid var(--infobox-border-color);
-  background-color: var(--infobox-bg);
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 0 10px;
   color: #333;
   gap: 5px;
@@ -11,8 +9,6 @@
 
 .info-box .icon {
   font-size: 16px;
-  /* color: #f1c40f; */
-  color: var(--infobox-icon-color);
   align-content: center;
 }
 
@@ -29,7 +25,22 @@
   margin: 5px;
 }
 
-.warning .icon {
-  /* color: #f1c40f; */
-  color: var(--infobox-icon-color);
+.information {
+  border: 1px solid var(--infobox-info-border-color);
+  background-color: var(--infobox-info-bg);
 }
+
+.information .icon {
+  /* color: #f1c40f; */
+  color: var(--infobox-info-border-color);
+}
+
+/* .warning {
+  border: 1px solid var(--infobox-border-color);
+  background-color: var(--infobox-bg);
+}
+
+.warning .icon {
+  color: #f1c40f;
+  color: var(--infobox-icon-color);
+} */
