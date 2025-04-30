@@ -3,7 +3,6 @@ let itemCount = 0;
 
 function addExpense() {
   const item = document.getElementById("item").value;
-  const amountValue = document.getElementById("amount").value; // handle negative amount
   const amount = parseFloat(document.getElementById("amount").value);
   const paidBy = document.getElementById("paidBy").value.trim();
 
@@ -20,7 +19,6 @@ function addExpense() {
   // Reset field input
   document.getElementById("item").value = "";
   document.getElementById("amountFormatted").value = "";
-  document.getElementById("paidBy").value = "";
 
   // Reset selected avatar (who)
   who = [];
@@ -30,10 +28,8 @@ function addExpense() {
 function updateCalculateButton() {
   const calculateBtn = document.getElementById("calculateBtn");
   const infoBox = document.querySelector(".info-box");
-  const hasSelectedPayment =
-    document.querySelector(".payment-card.selected") !== null;
 
-  if (expenses.length > 0 && hasSelectedPayment) {
+  if (expenses.length > 0) {
     calculateBtn.disabled = false;
     calculateBtn.classList.remove("disabled-btn");
     if (infoBox) infoBox.style.display = "none";

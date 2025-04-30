@@ -88,8 +88,9 @@ function renderPaymentCards() {
 
     const card = document.createElement("div");
     card.className = "payment-card";
-    if (index === selectedPaymentIndex) {
-      card.classList.add("selected"); // <--- tambahkan class selected jika index terpilih
+
+    if (selectedPaymentIndexes.includes(index)) {
+      card.classList.add("selected");
     }
 
     card.innerHTML = `
@@ -106,11 +107,19 @@ function renderPaymentCards() {
     // Card selection
     card.addEventListener("click", (e) => {
       if (!e.target.closest("button")) {
-        selectedPaymentIndex = index;
+        if (selectedPaymentIndexes.includes(index)) {
+          // Unselect
+          selectedPaymentIndexes = selectedPaymentIndexes.filter(
+            (i) => i !== index
+          );
+        } else {
+          // Select
+          selectedPaymentIndexes.push(index);
+        }
         updateCardSelection();
         updateCardSelection();
         showSelectedPayment();
-        updateCalculateButton(); // ← tambahkan ini
+        updateCalculateButton();
       }
     });
 
@@ -147,10 +156,7 @@ function removePayment(index) {
   }
 }
 
-//new
-//======================================================================
-
-let selectedPaymentIndex = null;
+let selectedPaymentIndexes = [];
 
 function initCardSelection() {
   const cards = document.querySelectorAll(
@@ -174,7 +180,7 @@ function updateCardSelection() {
     "#paymentCardsContainer .payment-card"
   );
   cards.forEach((card, index) => {
-    if (index === selectedPaymentIndex) {
+    if (selectedPaymentIndexes.includes(index)) {
       card.classList.add("selected");
     } else {
       card.classList.remove("selected");
@@ -184,25 +190,32 @@ function updateCardSelection() {
 
 function showSelectedPayment() {
   const selectedDiv = document.getElementById("selectedPaymentInfo");
-  const selected = paymentMethods[selectedPaymentIndex];
+  if (!selectedDiv) return;
 
-  if (!selected || !selectedDiv) return;
+  if (selectedPaymentIndexes.length === 0) {
+    selectedDiv.innerHTML = "";
+    return;
+  }
 
-  const logo = getPaymentLogo(selected.method);
-  const name = selected.name;
-  const details =
-    selected.method === "banktransfer"
-      ? `Rek: ${selected.accountNumber}<br>Bank: ${selected.bankName}`
-      : `No HP: ${selected.phoneNumber}`;
+  selectedDiv.innerHTML = `<h3>Metode Pembayaran</h3>`;
 
-  selectedDiv.innerHTML = `
-    <h3>Metode Pembayaran</h3>
-    <div class="selected-payment-summary">
-      <img src="${logo}" alt="${selected.method}" class="payment-logo"/>
-      <p><strong>${name}</strong></p>
-      <p>${details}</p>
-    </div>
-  `;
+  selectedPaymentIndexes.forEach((index) => {
+    const selected = paymentMethods[index];
+    const logo = getPaymentLogo(selected.method);
+    const name = selected.name;
+    const details =
+      selected.method === "banktransfer"
+        ? `Rek: ${selected.accountNumber}<br>Bank: ${selected.bankName}`
+        : `No HP: ${selected.phoneNumber}`;
+
+    selectedDiv.innerHTML += `
+      <div class="selected-payment-summary">
+        <img src="${logo}" alt="${selected.method}" class="payment-logo"/>
+        <p><strong>${name}</strong></p>
+        <p>${details}</p>
+      </div>
+    `;
+  });
 }
 
 // Load cards saat halaman dibuka

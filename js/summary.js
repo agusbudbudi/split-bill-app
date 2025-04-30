@@ -18,14 +18,13 @@ function calculateSplit() {
 
   let variance = calculateVariance(userExpenses, userPayments, totalExpense);
 
-  // ✅ Pastikan metode pembayaran sudah dipilih
-  if (selectedPaymentIndex === null || !paymentMethods[selectedPaymentIndex]) {
-    alert("Silakan pilih metode pembayaran terlebih dahulu.");
-    return;
+  // ✅ Tampilkan info metode pembayaran jika ada
+  if (
+    typeof selectedPaymentIndex === "number" &&
+    paymentMethods[selectedPaymentIndex]
+  ) {
+    showSelectedPayment();
   }
-
-  // ✅ Panggil ulang agar info metode pembayaran muncul di summary
-  showSelectedPayment();
 
   displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
 }
@@ -153,7 +152,7 @@ function displaySummary(
   // Pisahkan <h3> dari scrollable container
   summaryDiv.innerHTML += `
   <h3>List Item</h3>
-  <div class="scrollable-table-container">
+  <div class="table-container">
     ${itemTable}
   </div>
 `;
@@ -266,7 +265,7 @@ function displaySummary(
 
   // ⬇️ Bungkus tabel dalam container scrollable
   summaryDiv.innerHTML += `
-  <div style="overflow-y: auto; margin-top: 1rem;">
+  <div style="overflow-y: auto; margin-top: 1rem;" class="table-container">
     ${table}
   </div>
 `;

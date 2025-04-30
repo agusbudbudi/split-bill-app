@@ -28,30 +28,36 @@ function shareToWhatsApp() {
     }
   });
 
-  // Ambil selected payment method
-  const selectedCard = document.querySelector(".payment-card.selected");
+  // Ambil semua kartu yang dipilih
+  const selectedCards = document.querySelectorAll(".payment-card.selected");
   let paymentText = "Tidak ada";
 
-  if (selectedCard) {
-    const imgSrc = selectedCard.querySelector("img")?.getAttribute("src") || "";
-    const methodMatch = imgSrc.match(/\/?([^\/]+)\.png$/); // ambil nama file tanpa .png
-    const method = methodMatch ? methodMatch[1] : "Tidak diketahui";
-    const methodFormatted = method.charAt(0).toUpperCase() + method.slice(1); // Kapitalisasi
+  if (selectedCards.length > 0) {
+    const texts = [];
 
-    const name =
-      selectedCard.querySelector("p:nth-of-type(1)")?.innerText || "";
-    const secondLine =
-      selectedCard.querySelector("p:nth-of-type(2)")?.innerText || "";
-    const thirdLine =
-      selectedCard.querySelector("p:nth-of-type(3)")?.innerText || "";
+    selectedCards.forEach((card) => {
+      const imgSrc = card.querySelector("img")?.getAttribute("src") || "";
+      const methodMatch = imgSrc.match(/\/?([^\/]+)\.png$/); // nama file dari logo
+      const method = methodMatch ? methodMatch[1] : "Tidak diketahui";
+      const methodFormatted = method.charAt(0).toUpperCase() + method.slice(1);
 
-    if (method === "banktransfer") {
-      const accountNumber = secondLine.replace("Rek: ", "");
-      const bankName = thirdLine.replace("Bank: ", "");
-      paymentText = `- ${name} (${methodFormatted} - ${bankName}, No Rek: *${accountNumber}*)`;
-    } else {
-      paymentText = `- ${name} (${methodFormatted}, *${secondLine}*)`;
-    }
+      const name = card.querySelector("p:nth-of-type(1)")?.innerText || "";
+      const secondLine =
+        card.querySelector("p:nth-of-type(2)")?.innerText || "";
+      const thirdLine = card.querySelector("p:nth-of-type(3)")?.innerText || "";
+
+      if (method === "banktransfer") {
+        const accountNumber = secondLine.replace("Rek: ", "");
+        const bankName = thirdLine.replace("Bank: ", "");
+        texts.push(
+          `- ${name} (${methodFormatted} - ${bankName}, No Rek: *${accountNumber}*)`
+        );
+      } else {
+        texts.push(`- ${name} (${methodFormatted}, *${secondLine}*)`);
+      }
+    });
+
+    paymentText = texts.join("\n");
   }
 
   const message = `*🧾 Split Bill - Simplified*

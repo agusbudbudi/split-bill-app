@@ -4,12 +4,16 @@
   width: 100%;
   white-space: nowrap; /* Prevent text from wrapping */
   background-color: var(--container-bg);
-  margin-bottom: 20px;
+  border-radius: 12px; /* Agar tetap membulat meski scroll */
+  padding: 0; /* Hindari padding yang bisa mengganggu scroll */
+  margin-top: 10px;
 }
 
 #expense-table {
   width: 100%; /* Ensure the table takes full width */
   border-collapse: collapse;
+  overflow: hidden; /* Ini penting untuk buat radius kelihatan */
+  border-radius: 12px;
 }
 
 .table-wrapper {
@@ -21,10 +25,14 @@
 
 table {
   width: 100%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   border-collapse: collapse;
   overflow: hidden;
   text-align: left;
+  border-radius: 12px;
+}
+
+thead {
   border-radius: 12px;
 }
 
@@ -59,6 +67,7 @@ td {
 
 .scrollable-table-container {
   overflow-y: auto;
+  border-radius: 12px;
 }
 
 /* user table */
