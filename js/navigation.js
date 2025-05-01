@@ -1,5 +1,5 @@
 function showSection(section, element) {
-  const sections = ["split", "collect", "daily"];
+  const sections = ["split", "collect", "daily", "invoice"];
 
   // Tampilkan section sesuai menu
   sections.forEach((sec) => {

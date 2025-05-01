@@ -64,6 +64,7 @@
     <link rel="stylesheet" href="css/paymentMethod.css" />
     <link rel="stylesheet" href="css/menu.css" />
     <link rel="stylesheet" href="css/infobox.css" />
+    <link rel="stylesheet" href="css/collectMoney.css" />
     <link rel="stylesheet" href="css/underConstruction.css" />
     <link rel="stylesheet" href="css/ui.css" />
     <link rel="stylesheet" href="css/theme.css" />
@@ -80,6 +81,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header class="sticky-header">
@@ -119,7 +121,7 @@
         </a>
 
         <a class="menu-circle" onclick="showSection('collect', this)">
-          <div class="badge">Soon</div>
+          <div class="badge">New</div>
           <div class="menu-icon">
             <img src="img/collect-money-icon.png" alt="Collect Money" />
           </div>
@@ -132,6 +134,14 @@
             <img src="img/daily-expense-icon.png" alt="Daily Expense" />
           </div>
           <span>Daily Expense</span>
+        </a>
+
+        <a class="menu-circle" onclick="showSection('invoice', this)">
+          <div class="badge">Soon</div>
+          <div class="menu-icon">
+            <img src="img/invoice-icon.png" alt="Invoice" />
+          </div>
+          <span>Invoice</span>
         </a>
       </div>
 
@@ -215,10 +225,10 @@
 
               <input
                 type="text"
-                id="amountFormatted"
+                id="splitAmountFormatted"
                 placeholder="Contoh: 50.000"
               />
-              <input type="hidden" id="amount" />
+              <input type="hidden" id="splitAmount" />
 
               <label>Siapa yang Berhutang</label>
               <div id="avatarContainer" class="avatar-container"></div>
@@ -369,14 +379,115 @@
 
       <!-- Collect Money -->
       <div id="section-collect" class="section-content" style="display: none">
-        <img
+        <div class="table-wrapper">
+          <div class="card-container">
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <!-- <i class="fa-solid fa-circle-info"></i> -->
+                <p>🎉</p>
+              </div>
+              <div class="content">
+                <p>
+                  Catat uang patungan dengan mudah dan praktis, langsung bagikan
+                  laporan ke temanmu, semua transparan, gak ribet!
+                </p>
+              </div>
+            </div>
+            <div id="input-section">
+              <!-- Item & Amount -->
+              <label for="collectName">Nama </label>
+              <input type="text" id="collectName" placeholder="Contoh: Agus" />
+
+              <label for="amount">Jumlah (dalam Rupiah) </label>
+
+              <input
+                type="text"
+                id="collectAmountFormatted"
+                placeholder="Contoh: 50.000"
+              />
+              <input type="hidden" id="collectAmount" />
+
+              <label>Transfer ke</label>
+              <select
+                id="collectMethod"
+                onchange="handlePaymentMethodBankTransfer()"
+              >
+                <option value="">Pilih Metode</option>
+                <option value="BankTransfer">Bank Transfer</option>
+                <option value="OVO">OVO</option>
+                <option value="GoPay">GoPay</option>
+                <option value="DANA">DANA</option>
+                <option value="ShopeePay">Shopee Pay</option>
+                <option value="LinkAja">LinkAja</option>
+              </select>
+
+              <!-- kalo select Bank Transer  -->
+              <div id="BankTransferDetails" style="display: none">
+                <div id="collectBankForm" style="display: none">
+                  <label for="collectBankName">Nama Bank</label>
+                  <input
+                    type="text"
+                    id="collectBankName"
+                    placeholder="Contoh: BCA, BRI"
+                  />
+                </div>
+              </div>
+            </div>
+            <button onclick="addCollectMoney()">
+              <i class="fa-solid fa-plus"></i> Tambah Collect Money
+            </button>
+          </div>
+        </div>
+
+        <div id="collectMoneySection" style="display: none">
+          <div class="table-wrapper">
+            <div class="card-container">
+              <!-- Table collect Money -->
+              <label><strong>Tabel Collect Money</strong></label>
+              <div class="table-container">
+                <table id="collectMoneyTable">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nama</th>
+                      <th>Jumlah</th>
+                      <th>Metode Transaksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="collectSummarySection" style="display: none">
+          <div class="table-wrapper">
+            <div class="card-container">
+              <label><strong>Ringkasan Collect Money</strong></label>
+
+              <!-- grafik -->
+              <canvas
+                id="paymentChart"
+                style="width: 50%; max-width: 500px; margin: 20px auto"
+              ></canvas>
+
+              <div id="collectSummary">
+                <h3>Total Semua: Rp0</h3>
+                <div id="methodSummaryCards" class="method-summary-cards"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <img
           src="img/under-construction.png"
           alt="Under Construction"
           class="under-construction"
         />
         <p class="coming-soon">
           🚧 Halaman Collect Money masih dalam pengembangan. Coming Soon!
-        </p>
+        </p> -->
       </div>
 
       <!-- Daily Expense -->
@@ -390,6 +501,18 @@
           📅 Halaman Daily Expense masih dalam pengembangan. Coming Soon!
         </p>
       </div>
+
+      <!-- Invoice -->
+      <div id="section-invoice" class="section-content" style="display: none">
+        <img
+          src="img/under-construction.png"
+          alt="Under Construction"
+          class="under-construction"
+        />
+        <p class="coming-soon">
+          🧾 Tunggu sebentar ya fitur Invoice masih dibikin nih. Coming Soon!
+        </p>
+      </div>
     </div>
 
     <script src="js/script.js"></script>
@@ -399,6 +522,11 @@
     <script src="js/pdfExport.js"></script>
     <script src="js/shareSummary.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/collectMoney.js"></script>
     <script src="js/ui.js"></script>
+    <script>
+      setupCurrencyFormatter("splitAmountFormatted", "splitAmount");
+      setupCurrencyFormatter("collectAmountFormatted", "collectAmount");
+    </script>
   </body>
 </html>

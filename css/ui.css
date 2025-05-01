@@ -442,6 +442,15 @@ p {
   .section-content {
     padding: 10px;
   }
+
+  .menu-circle-container {
+    gap: 12px;
+    min-width: 80px;
+  }
+
+  .menu-circle {
+    min-width: 80px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -491,5 +500,14 @@ p {
 
   .header-section {
     height: 90px;
+  }
+
+  .menu-circle-container {
+    gap: 12px;
+    min-width: 80px;
+  }
+
+  .menu-circle {
+    min-width: 80px;
   }
 }

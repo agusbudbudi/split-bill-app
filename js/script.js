@@ -3,12 +3,12 @@ let itemCount = 0;
 
 function addExpense() {
   const item = document.getElementById("item").value;
-  const amount = parseFloat(document.getElementById("amount").value);
+  const amount = parseFloat(document.getElementById("splitAmount").value);
   const paidBy = document.getElementById("paidBy").value.trim();
 
   //add isNaN buat handle negative amount
   if (!item || isNaN(!amount) || who.length === 0 || !paidBy) {
-    alert("Please fill all fields correctly");
+    alert("Isi terlebih dahulu item transaksi");
     return;
   }
 
@@ -18,7 +18,7 @@ function addExpense() {
 
   // Reset field input
   document.getElementById("item").value = "";
-  document.getElementById("amountFormatted").value = "";
+  document.getElementById("splitAmountFormatted").value = "";
 
   // Reset selected avatar (who)
   who = [];

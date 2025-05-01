@@ -14,8 +14,17 @@
 .menu-circle-container {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
   margin-top: 40px;
+  /* overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth; */
+  /* padding: 1rem; beri padding langsung di menu */
+}
+
+.menu-circle-container::-webkit-scrollbar {
+  display: none; /* opsional: sembunyikan scrollbar */
 }
 
 .menu-circle {
@@ -25,6 +34,9 @@
   position: relative;
   min-width: 100px;
   cursor: pointer;
+
+  flex: 0 0 auto; /* ini penting agar tidak menyusut */
+  /* scroll-snap-align: start; */
 }
 
 .menu-icon {

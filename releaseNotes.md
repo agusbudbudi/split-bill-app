@@ -1,41 +1,55 @@
-# Release Notes v1.1.0
+# 📦 Release Notes – v1.2.0
 
-## 🚀 New Features
+## 🚀 **New Features**
 
-### Payment Method Management
+### 💰 Collect Money (🔥 New!)
 
-- Added support for multiple payment methods (Bank Transfer & E-wallets)
-- Implemented payment method selection with visual cards
-- Added persistent storage for payment methods using localStorage
-- Added payment logos for supported methods (Bank Transfer, OVO, GoPay, DANA, ShopeePay, LinkAja)
+- Fitur baru untuk mencatat dan mengumpulkan uang patungan secara otomatis.
+- Kirim permintaan pembayaran ke teman dengan sekali klik.
+- Bagikan laporan dan status pembayaran secara real-time.
+- Pantau siapa yang sudah bayar dan siapa yang belum — transparan & praktis!
 
-### Enhanced Summary View
+### 🧾 Invoice (🔜 Coming Soon!)
 
-- Added payment method display in expense summary
-- Improved transaction tracking between users
-- Added automatic debt settlement calculation
-- Enhanced summary table with scrollable view
+- Siap-siap! Fitur pembuatan invoice otomatis sedang dalam pengembangan.
+- Cocok untuk freelancer, penjual online, atau kebutuhan bisnis kecil.
+- Stay tuned untuk update berikutnya!
 
-## 🔧 Technical Improvements
+### 💳 Payment Method Management
 
-- Restructured project files for better organization
-- Added input validation for payment methods
-- Improved error handling for transaction calculations
-- Enhanced UI/UX with selection indicators
-- Added responsive design for payment cards
+- Tambahkan dan pilih berbagai metode pembayaran (Bank Transfer & E-wallets).
+- Visualisasi kartu pembayaran yang interaktif.
+- Data tersimpan otomatis dengan **localStorage**.
+- Logo tersedia untuk OVO, GoPay, DANA, ShopeePay, LinkAja, dan lainnya.
 
-## 💡 Code Changes Summary
+### 📊 Enhanced Summary View
+
+- Ringkasan transaksi kini tampil lebih lengkap dan mudah dibaca.
+- Metode pembayaran ditampilkan langsung di tabel ringkasan.
+- Perhitungan otomatis untuk pelunasan utang antar anggota.
+- Tabel scrollable untuk pengalaman pengguna yang lebih baik.
+
+---
+
+## 🔧 **Technical Improvements**
+
+- Struktur file proyek direorganisasi agar lebih rapi.
+- Validasi input ditambahkan untuk metode pembayaran.
+- Penanganan error ditingkatkan untuk transaksi & perhitungan.
+- UI/UX lebih interaktif dengan indikator pemilihan & layout responsif.
+
+---
+
+## 💡 **Code Changes Summary**
 
 ```javascript
-// Main changes in paymentMethod.js:
-- Added payment method management functions
-- Implemented card selection system
-- Added local storage integration
-- Added payment logo handling
+// paymentMethod.js
++ Fitur tambah, pilih, dan simpan metode pembayaran
++ Integrasi localStorage
++ Visualisasi kartu dan logo
 
-// Changes in summary.js:
-- Enhanced calculation logic
-- Added payment method display integration
-- Improved transaction mapping
-- Added scrollable containers for better UX
+// summary.js
++ Logika perhitungan pelunasan ditingkatkan
++ Tampilan ringkasan lebih informatif
++ Scroll horizontal ditambahkan untuk tabel
 ```
