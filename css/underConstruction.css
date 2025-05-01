@@ -4,7 +4,8 @@
 }
 
 #section-daily,
-#section-collect {
+#section-collect,
+#section-invoice {
   display: flex;
   flex-direction: column;
   align-items: center;

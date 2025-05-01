@@ -1,0 +1,49 @@
+#methodSummaryList li {
+  color: var(--text-color); /* warna biru */
+  text-align: left;
+}
+
+#collectSummary {
+  text-align: left;
+}
+
+.method-summary-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.method-card {
+  border: 1px solid var(--btn-bg);
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.method-card img {
+  width: 75px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.method-card .method-info {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+}
+
+.method-card .method-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.method-card .method-total {
+  font-size: 13px;
+}

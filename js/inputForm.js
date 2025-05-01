@@ -163,34 +163,63 @@ function getColorForName(name) {
   return color.slice(0, 7);
 }
 
-// FORMAT CURRENCY when user input
-const amountFormattedInput = document.getElementById("amountFormatted");
-const amountHiddenInput = document.getElementById("amount");
+// // FORMAT CURRENCY when user input
+// const amountFormattedInput = document.getElementById("amountFormatted");
+// const amountHiddenInput = document.getElementById("amount");
 
-// new fixing 10 April 2025 handle negative value for input amount (handle case discount)
-amountFormattedInput.addEventListener("input", () => {
-  let inputValue = amountFormattedInput.value;
+// // new fixing 10 April 2025 handle negative value for input amount (handle case discount)
+// amountFormattedInput.addEventListener("input", () => {
+//   let inputValue = amountFormattedInput.value;
 
-  // Jika hanya "-" saja, jangan proses format
-  if (inputValue === "-") {
-    amountHiddenInput.value = "";
-    return;
-  }
-  // Cek apakah nilai diawali dengan minus
-  const isNegative = inputValue.trim().startsWith("-");
-  // Ambil hanya digit
-  let numericOnly = inputValue.replace(/[^0-9]/g, "");
-  if (numericOnly === "") {
-    amountHiddenInput.value = "";
-    amountFormattedInput.value = isNegative ? "-" : "";
-    return;
-  }
-  // Tambahkan minus jika ada
-  if (isNegative) numericOnly = "-" + numericOnly;
+//   // Jika hanya "-" saja, jangan proses format
+//   if (inputValue === "-") {
+//     amountHiddenInput.value = "";
+//     return;
+//   }
+//   // Cek apakah nilai diawali dengan minus
+//   const isNegative = inputValue.trim().startsWith("-");
+//   // Ambil hanya digit
+//   let numericOnly = inputValue.replace(/[^0-9]/g, "");
+//   if (numericOnly === "") {
+//     amountHiddenInput.value = "";
+//     amountFormattedInput.value = isNegative ? "-" : "";
+//     return;
+//   }
+//   // Tambahkan minus jika ada
+//   if (isNegative) numericOnly = "-" + numericOnly;
 
-  amountHiddenInput.value = numericOnly;
-  amountFormattedInput.value = formatToIDR(numericOnly);
-});
+//   amountHiddenInput.value = numericOnly;
+//   amountFormattedInput.value = formatToIDR(numericOnly);
+// });
+
+function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
+  const formattedInput = document.getElementById(formattedInputId);
+  const hiddenInput = document.getElementById(hiddenInputId);
+
+  if (!formattedInput || !hiddenInput) return;
+
+  formattedInput.addEventListener("input", () => {
+    let inputValue = formattedInput.value;
+
+    if (inputValue === "-") {
+      hiddenInput.value = "";
+      return;
+    }
+
+    const isNegative = inputValue.trim().startsWith("-");
+    let numericOnly = inputValue.replace(/[^0-9]/g, "");
+    if (numericOnly === "") {
+      hiddenInput.value = "";
+      formattedInput.value = isNegative ? "-" : "";
+      return;
+    }
+
+    if (isNegative) numericOnly = "-" + numericOnly;
+
+    hiddenInput.value = numericOnly;
+    formattedInput.value = formatToIDR(numericOnly);
+  });
+}
 
 function formatToIDR(number) {
   if (!number) return "";

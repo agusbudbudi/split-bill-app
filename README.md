@@ -1,35 +1,54 @@
-# Split Bill Calculator
+# 🧾 Split Bill Calculator
 
-A simple web app to split expenses among friends. Users can add expenses, specify who needs to pay, and see a summary of how much each person owes or is owed.
+**Split bills. Track who paid what. Settle up easily.**  
+A modern, lightweight web app to manage shared expenses — perfect for group trips, hangouts, or daily use with friends and family.
 
-## Features
+![Screenshot](banner.png) <!-- Optional: add if you have a preview image -->
 
-- Add and remove expenses
-- Automatically calculate the amount each person should pay
-- Summary of expenses and payments
-- Dark mode for a better user experience
-- Export to PDF
-- Responsive design for mobile devices
+---
 
-## How to Use
+## ✨ Features
 
-1. Enter the item name, amount, who needs to pay, and who paid.
-2. Click **Add Expense** to save the record.
-3. Click **Calculate** to see a summary of how much each person owes or is owed.
-4. Click **Export** to download the summary as a PDF.
+✅ Add and remove shared expenses  
+✅ Specify who paid and who needs to pay  
+✅ Auto-calculate how much each person owes or is owed  
+✅ Export summary to **PDF**  
+✅ **Dark mode** support for better night-time use  
+✅ Fully responsive — works great on mobile and desktop
 
-## Technologies Used
+---
 
-- HTML
-- CSS (Dark Mode UI)
-- JavaScript
-- FontAwesome for Icons
-- HTML2Canvas for PDF Export
+## 🚀 How to Use
 
-## Live Demo
+1. 💡 **Add Expense**: Enter item name, amount, select who paid & who needs to pay.
+2. ➕ **Save** the record.
+3. 📊 **Calculate**: View the breakdown of who owes who and how much.
+4. 📥 **Export**: Download the result as a PDF to share with others.
 
-👉 [Visit the Live App](https://agusbudbudi.github.io/split-bill-app/)
+---
 
-## License
+## 🛠️ Built With
 
-This project is licensed under the MIT License.
+- **HTML5** – Semantic structure
+- **CSS3** – Modern dark mode UI
+- **JavaScript** – Core logic and interactivity
+- **FontAwesome** – Beautiful icons
+- **HTML2Canvas** – Capture and export to PDF
+
+---
+
+## 🌐 Live Demo
+
+👉 [**Try the App Now**](https://agusbudbudi.github.io/split-bill-app/)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 💡 Want to contribute?
+
+Ideas, suggestions, or pull requests are welcome! Let’s make expense sharing even easier — together. 🙌
