@@ -81,9 +81,15 @@ _Dibuat dengan Split Bill App_`;
   window.open(url, "_blank");
 }
 
-//Share to WhatsApp for Collect Money
+// share collect money to whatsApp
 function shareCollectMoneyToWhatsApp() {
   const date = new Date().toLocaleDateString("id-ID");
+
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
 
   // Ambil list item dan hitung total amount dari tabel collectMoneyTable
   const itemRows = document.querySelectorAll("#collectMoneyTable tbody tr");
@@ -96,11 +102,12 @@ function shareCollectMoneyToWhatsApp() {
     const amountText = cells[2].innerText;
     const method = cells[3].innerText;
 
-    // Mengambil nilai dari jumlah yang ada di sel kedua dan membersihkan simbol "Rp"
-    const amount = parseFloat(amountText.replace(/[^\d.-]/g, "")); // Menghapus simbol mata uang
+    const amount = parseFloat(amountText.replace(/[^\d]/g, "")); // Bersihkan 'Rp', titik, dll
+    totalAmount += amount;
 
-    itemList += `- ${itemName} (${amountText}) | Metode: ${method}\n`;
-    totalAmount += amount; // Menambahkan ke total amount
+    itemList += `- ${itemName} (${formatter.format(
+      amount
+    )}) | Metode: ${method}\n`;
   });
 
   // Ambil payment method summary
@@ -116,9 +123,11 @@ function shareCollectMoneyToWhatsApp() {
         card.querySelector(".method-name")?.innerText || "Tidak diketahui";
       const methodTotalText =
         card.querySelector(".method-total")?.innerText || "Rp 0";
-      const methodTotal = parseFloat(methodTotalText.replace(/[^\d.-]/g, "")); // Clean up the currency symbol
+      const methodTotal = parseFloat(methodTotalText.replace(/[^\d]/g, ""));
 
-      paymentMethods.push(`- ${methodName}: *Rp ${methodTotal.toFixed(2)}*`);
+      paymentMethods.push(
+        `- ${methodName}: *${formatter.format(methodTotal)}*`
+      );
     });
     paymentText = paymentMethods.join("\n");
   }
@@ -131,9 +140,8 @@ Hai guys! Ini laporan Collect Money
 
 💸 *Daftar Item:*
 ${itemList}
-
 💰 *Total Amount:*
-*Rp ${totalAmount.toFixed(2)}*
+*${formatter.format(totalAmount)}*
 
 📥 *Metode Pembayaran:*
 ${paymentText}
