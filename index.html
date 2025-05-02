@@ -128,20 +128,20 @@
           <span>Collect Money</span>
         </a>
 
-        <a class="menu-circle" onclick="showSection('daily', this)">
-          <div class="badge">Soon</div>
-          <div class="menu-icon">
-            <img src="img/daily-expense-icon.png" alt="Daily Expense" />
-          </div>
-          <span>Daily Expense</span>
-        </a>
-
         <a class="menu-circle" onclick="showSection('invoice', this)">
           <div class="badge">Soon</div>
           <div class="menu-icon">
             <img src="img/invoice-icon.png" alt="Invoice" />
           </div>
           <span>Invoice</span>
+        </a>
+
+        <a class="menu-circle" onclick="showSection('daily', this)">
+          <div class="badge">Soon</div>
+          <div class="menu-icon">
+            <img src="img/daily-expense-icon.png" alt="Daily Expense" />
+          </div>
+          <span>Daily Expense</span>
         </a>
       </div>
 
@@ -384,8 +384,7 @@
             <!-- infobox -->
             <div class="info-box information">
               <div class="icon">
-                <!-- <i class="fa-solid fa-circle-info"></i> -->
-                <p>🎉</p>
+                <span class="icon">🎉</span>
               </div>
               <div class="content">
                 <p>
@@ -439,47 +438,65 @@
             </button>
           </div>
         </div>
+        <div id="collectSectionToExport">
+          <div id="collectMoneySection" style="display: none">
+            <div class="table-wrapper">
+              <div class="card-container">
+                <!-- Table collect Money -->
+                <label><strong>Tabel Collect Money</strong></label>
+                <div class="table-container">
+                  <table id="collectMoneyTable">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Jumlah</th>
+                        <th>Metode Transaksi</th>
+                        <th class="exclude-pdf">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="collectSummarySection" style="display: none">
+            <div class="table-wrapper">
+              <div class="card-container">
+                <label><strong>💰 Ringkasan Collect Money</strong></label>
 
-        <div id="collectMoneySection" style="display: none">
-          <div class="table-wrapper">
-            <div class="card-container">
-              <!-- Table collect Money -->
-              <label><strong>Tabel Collect Money</strong></label>
-              <div class="table-container">
-                <table id="collectMoneyTable">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Nama</th>
-                      <th>Jumlah</th>
-                      <th>Metode Transaksi</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
+                <!-- grafik -->
+                <canvas id="paymentChart"></canvas>
+
+                <div id="collectSummary">
+                  <h3>Total Semua: Rp0</h3>
+                  <div
+                    id="methodSummaryCards"
+                    class="method-summary-cards"
+                  ></div>
+                </div>
+                <!-- Share collect monye summary -->
+                <div class="share-button-container">
+                  <button
+                    onclick="exportCollectMoneyToPDF()"
+                    class="exportToPDF exclude-pdf"
+                  >
+                    <i class="fa-solid fa-file-export"></i> Export to PDF
+                  </button>
+                  <button
+                    onclick="shareCollectMoneyToWhatsApp()"
+                    class="shareToWhatsApp exclude-pdf"
+                  >
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Share ke WA
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="collectSummarySection" style="display: none">
-          <div class="table-wrapper">
-            <div class="card-container">
-              <label><strong>Ringkasan Collect Money</strong></label>
-
-              <!-- grafik -->
-              <canvas
-                id="paymentChart"
-                style="width: 50%; max-width: 500px; margin: 20px auto"
-              ></canvas>
-
-              <div id="collectSummary">
-                <h3>Total Semua: Rp0</h3>
-                <div id="methodSummaryCards" class="method-summary-cards"></div>
-              </div>
-            </div>
-          </div>
-        </div>
         <!-- <img
           src="img/under-construction.png"
           alt="Under Construction"

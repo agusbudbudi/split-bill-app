@@ -80,3 +80,72 @@ _Dibuat dengan Split Bill App_`;
   )}`;
   window.open(url, "_blank");
 }
+
+//Share to WhatsApp for Collect Money
+function shareCollectMoneyToWhatsApp() {
+  const date = new Date().toLocaleDateString("id-ID");
+
+  // Ambil list item dan hitung total amount dari tabel collectMoneyTable
+  const itemRows = document.querySelectorAll("#collectMoneyTable tbody tr");
+  let itemList = "";
+  let totalAmount = 0;
+
+  itemRows.forEach((row) => {
+    const cells = row.querySelectorAll("td");
+    const itemName = cells[1].innerText;
+    const amountText = cells[2].innerText;
+    const method = cells[3].innerText;
+
+    // Mengambil nilai dari jumlah yang ada di sel kedua dan membersihkan simbol "Rp"
+    const amount = parseFloat(amountText.replace(/[^\d.-]/g, "")); // Menghapus simbol mata uang
+
+    itemList += `- ${itemName} (${amountText}) | Metode: ${method}\n`;
+    totalAmount += amount; // Menambahkan ke total amount
+  });
+
+  // Ambil payment method summary
+  let paymentText = "Tidak ada";
+  const methodCards = document.querySelectorAll(
+    "#methodSummaryCards .method-card"
+  );
+
+  if (methodCards.length > 0) {
+    const paymentMethods = [];
+    methodCards.forEach((card) => {
+      const methodName =
+        card.querySelector(".method-name")?.innerText || "Tidak diketahui";
+      const methodTotalText =
+        card.querySelector(".method-total")?.innerText || "Rp 0";
+      const methodTotal = parseFloat(methodTotalText.replace(/[^\d.-]/g, "")); // Clean up the currency symbol
+
+      paymentMethods.push(`- ${methodName}: *Rp ${methodTotal.toFixed(2)}*`);
+    });
+    paymentText = paymentMethods.join("\n");
+  }
+
+  // Format message untuk WhatsApp
+  const message = `*🧾 Split Bill - Simplified*
+
+Hai guys! Ini laporan Collect Money
+📅 Tanggal: *${date}*
+
+💸 *Daftar Item:*
+${itemList}
+
+💰 *Total Amount:*
+*Rp ${totalAmount.toFixed(2)}*
+
+📥 *Metode Pembayaran:*
+${paymentText}
+
+🔗 https://agusbudbudi.github.io/split-bill-app/
+_Dibuat dengan Split Bill App_`;
+
+  // WhatsApp URL format untuk share pesan
+  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+    message
+  )}`;
+
+  // Buka WhatsApp dengan pesan yang telah dipersiapkan
+  window.open(url, "_blank");
+}
