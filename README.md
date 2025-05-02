@@ -3,7 +3,7 @@
 **Split bills. Track who paid what. Settle up easily.**  
 A modern, lightweight web app to manage shared expenses — perfect for group trips, hangouts, or daily use with friends and family.
 
-![Screenshot](banner.png) <!-- Optional: add if you have a preview image -->
+![Preview Banner](img/banner.png)
 
 ---
 
@@ -45,7 +45,7 @@ A modern, lightweight web app to manage shared expenses — perfect for group tr
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT LICENSE
 
 ---
 
