@@ -45,7 +45,7 @@ A modern, lightweight web app to manage shared expenses — perfect for group tr
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT LICENSE
 
 ---
 
