@@ -1,3 +1,9 @@
+#paymentChart {
+  width: 100%;
+  max-width: 250px;
+  margin: 20px auto;
+}
+
 #methodSummaryList li {
   color: var(--text-color); /* warna biru */
   text-align: left;
@@ -46,4 +52,13 @@
 
 .method-card .method-total {
   font-size: 13px;
+}
+
+.exclude-pdf {
+  display: block;
+}
+
+/* hide some element when export */
+.exclude-pdf-temp-hide {
+  display: none !important;
 }

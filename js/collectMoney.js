@@ -59,6 +59,7 @@ function renderCollectMoneyTable() {
       <td>${item.name}</td>
       <td>${formatToIDR(item.amount)}</td>
       <td>${item.method}${item.bankName ? ` - ${item.bankName}` : ""}</td>
+      <td class="exclude-pdf"><button class="delete-btn" onclick="removeCollectMoney(${index})"><i class="fa-regular fa-trash-can"></i> Hapus</button></td>
     `;
     tableBody.appendChild(row);
   });
@@ -178,7 +179,7 @@ function renderPaymentChart(methodTotals) {
             font: {
               size: 10, // Ukuran font
             },
-            padding: 20, // Jarak antar legend item
+            padding: 10, // Jarak antar legend item
             boxWidth: 20, // Ukuran kotak warna
             usePointStyle: true, // Gunakan point style bulat/segitiga, dll
           },
@@ -198,3 +199,11 @@ const collectBankNameInput = document.getElementById("collectBankName");
 collectBankNameInput.addEventListener("input", () => {
   collectBankNameInput.value = collectBankNameInput.value.toUpperCase();
 });
+
+function removeCollectMoney(index) {
+  if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+    collectMoneyList.splice(index, 1);
+    renderCollectMoneyTable();
+    renderCollectSummary();
+  }
+}
