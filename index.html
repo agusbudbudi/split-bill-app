@@ -66,7 +66,11 @@
     <link rel="stylesheet" href="css/infobox.css" />
     <link rel="stylesheet" href="css/collectMoney.css" />
     <link rel="stylesheet" href="css/underConstruction.css" />
+    <link rel="stylesheet" href="css/uploadFile.css" />
     <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <link rel="stylesheet" href="css/avatar.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -82,6 +86,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
   </head>
   <body>
     <header class="sticky-header">
@@ -161,7 +166,7 @@
 
               <!-- Section Add People -->
               <label for="personName">Tambah Teman</label>
-              <div style="display: flex; gap: 8px">
+              <!-- <div style="display: flex; gap: 8px">
                 <input
                   type="text"
                   id="personName"
@@ -170,7 +175,7 @@
                 <button class="btn-add-person" onclick="addPerson()">
                   <i class="fa-solid fa-user-plus"></i>
                 </button>
-              </div>
+              </div> -->
 
               <!-- List of Added People with Remove -->
               <table id="peopleTable" class="people-table">
@@ -183,12 +188,84 @@
                 </thead>
                 <tbody id="peopleTableBody"></tbody>
               </table>
+
+              <!-- NEW PEOPLE -->
+              <div class="people-container">
+                <!-- Tombol Add New (static di kiri) -->
+                <div class="add-new-wrapper person-item">
+                  <div
+                    class="add-new"
+                    onclick="openBottomSheet('addPersonBottomSheet')"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="add-text">Tambah</span>
+                </div>
+                <!-- List avatar orang (dinamis) -->
+                <div id="peopleList" class="people-list">
+                  <!-- <div class="person-item">...</div> -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Add People Bottom Sheet -->
+        <div class="table-wrapper">
+          <div
+            class="card-container bottom-sheet hidden"
+            id="addPersonBottomSheet"
+          >
+            <div id="input-section">
+              <div class="popup-header">
+                <h3>Tambah Teman</h3>
+                <button
+                  onclick="closeBottomSheet('addPersonBottomSheet')"
+                  class="close-btn-bottom-sheet"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <label for="personName">Masukkan Nama Teman</label>
+              <input
+                type="text"
+                id="personName"
+                placeholder="Contoh: Agus, Budi, Caca"
+              />
+            </div>
+            <button onclick="addPerson()">
+              <i class="fa-solid fa-user-plus"></i> Tambah Teman
+            </button>
+          </div>
+        </div>
+
         <div class="table-wrapper">
           <div class="card-container">
             <div id="input-section">
+              <div class="upload-container hidden">
+                <label for="bill-image" class="drop-area">
+                  <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
+                  <p>Upload foto bill kamu disini ya</p>
+                  <input type="file" id="bill-image" accept="image/*" hidden />
+                </label>
+              </div>
+
+              <!-- Input foto splitt bill -->
+              <div class="share-button-container scan-section hidden">
+                <div class="file-info">
+                  <i class="fa-regular fa-image file-icon"></i>
+                  <span id="fileName">No selected File</span>
+                  <button id="removeBtn" class="delete-button">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <button onclick="processImage()" class="scan-bill-btn">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  Scan Bill
+                </button>
+              </div>
+
               <!-- Item & Amount -->
               <label for="item">Nama Item</label>
               <input
@@ -375,6 +452,54 @@
           </div>
           <p>This app made by: Agus Budiman</p>
         </div>
+
+        <!-- Edit Expense -->
+
+        <div class="table-wrapper">
+          <div class="card-container bottom-sheet hidden" id="editBottomSheet">
+            <div id="input-section">
+              <div class="popup-header">
+                <h3>Edit Expense</h3>
+                <button
+                  onclick="closeBottomSheet('editBottomSheet')"
+                  class="close-btn-bottom-sheet"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <!-- Item & Amount -->
+              <label for="item">Item Name</label>
+              <input type="text" id="editItemName" />
+
+              <label for="amount">Jumlah (dalam Rupiah)</label>
+              <input type="number" id="editAmount" />
+              <!-- <input
+                type="text"
+                id="splitAmountFormatted"
+                placeholder="Contoh: 50.000"
+              />
+              <input id="editAmount" /> -->
+
+              <label>Siapa yang berhutang</label>
+              <!-- <div id="avatarContainer" class="avatar-container"></div> -->
+              <input
+                type="text"
+                id="editWho"
+                placeholder="Pisahkan dengan koma"
+              />
+
+              <label>Dibayar oleh</label>
+              <input type="text" id="editPaidBy" />
+              <!-- <select id="paidBy"></select> -->
+            </div>
+            <button class="save-btn" onclick="saveEditedExpense()">
+              Simpan
+            </button>
+          </div>
+        </div>
+        <!-- overlay -->
+        <div id="overlay" class="overlay hidden"></div>
       </div>
 
       <!-- Collect Money -->
@@ -533,6 +658,7 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script src="js/editExpense.js"></script>
     <script src="js/summary.js"></script>
     <script src="js/inputForm.js"></script>
     <script src="js/paymentMethod.js"></script>
@@ -540,6 +666,8 @@
     <script src="js/shareSummary.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/collectMoney.js"></script>
+    <script src="js/scanBill.js"></script>
+    <script src="js/bottomsheet.js"></script>
     <script src="js/ui.js"></script>
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");

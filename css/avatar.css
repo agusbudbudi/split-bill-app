@@ -1,0 +1,101 @@
+.people-container {
+  margin-top: 10px;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.person-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.person-img {
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.person-name {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.remove-avatar-btn {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--btn-delete-bg);
+  color: white;
+  font-size: 10px;
+  border: none;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+}
+
+.remove-avatar-btn:hover {
+  background-color: var(--btn-delete-hover-bg);
+}
+
+.add-new {
+  width: 53px;
+  height: 53px;
+  background-color: var(--input-bg);
+  /* border: 2px dashed #6b46c1; */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--btn-bg);
+  font-size: 28px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-text {
+  margin-top: 6px;
+  color: var(--btn-bg);
+  font-size: 14px;
+}
+
+.people-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.add-new-wrapper {
+  flex: 0 0 auto; /* Jangan ikut grow */
+  text-align: center;
+  padding-top: 5px;
+}
+
+.people-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-top: 5px;
+  padding-right: 5px;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.people-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.person-item {
+  flex: 0 0 auto; /* Biar tidak pecah ke bawah */
+  text-align: center;
+}
