@@ -1,19 +1,6 @@
 let people = [];
 let who = [];
 
-// function addPerson() {
-//   const nameInput = document.getElementById("personName");
-//   const name = nameInput.value.trim();
-
-//   if (name && !people.includes(name)) {
-//     people.push(name);
-//     nameInput.value = "";
-//     renderPeople();
-//     updateDropdowns();
-//     renderAvatars();
-//   }
-// }
-
 function addPerson() {
   const nameInput = document.getElementById("personName");
   const names = nameInput.value
@@ -36,54 +23,91 @@ function addPerson() {
   renderPeople();
   updateDropdowns();
   renderAvatars();
+  closeBottomSheet("addPersonBottomSheet");
 }
 
+// function renderPeople() {
+//   const tbody = document.getElementById("peopleTableBody");
+//   const table = document.getElementById("peopleTable"); // ✅ Tambahkan ini untuk akses ke elemen tabel
+//   tbody.innerHTML = "";
+
+//   if (people.length === 0) {
+//     table.style.display = "none"; // ✅ Sembunyikan tabel kalau kosong
+//     return;
+//   }
+
+//   table.style.display = "table"; // ✅ Tampilkan tabel kalau ada isi
+
+//   people.forEach((name, index) => {
+//     const row = document.createElement("tr");
+
+//     const noCell = document.createElement("td");
+//     noCell.textContent = index + 1;
+
+//     const nameCell = document.createElement("td");
+//     nameCell.textContent = name;
+
+//     const actionCell = document.createElement("td");
+//     const removeBtn = document.createElement("button");
+
+//     removeBtn.innerHTML = `<i class="fa-regular fa-trash-can"></i> Hapus`;
+//     removeBtn.className = "delete-btn";
+
+//     removeBtn.onclick = () => {
+//       // Hapus berdasarkan index
+//       people.splice(index, 1);
+//       // Hapus dari list yang dipilih juga
+//       who = who.filter((n) => n !== name);
+
+//       renderPeople();
+//       updateDropdowns();
+//       renderAvatars();
+//     };
+
+//     actionCell.appendChild(removeBtn);
+
+//     row.appendChild(noCell);
+//     row.appendChild(nameCell);
+//     row.appendChild(actionCell);
+
+//     tbody.appendChild(row);
+//   });
+// }
+
 function renderPeople() {
-  const tbody = document.getElementById("peopleTableBody");
-  const table = document.getElementById("peopleTable"); // ✅ Tambahkan ini untuk akses ke elemen tabel
-  tbody.innerHTML = "";
+  const container = document.getElementById("peopleList");
+  const table = document.getElementById("peopleTable"); // table tetap bisa disembunyikan
+  table.style.display = "none"; // kita sembunyikan karena sekarang pakai div
+
+  container.innerHTML = "";
 
   if (people.length === 0) {
-    table.style.display = "none"; // ✅ Sembunyikan tabel kalau kosong
     return;
   }
 
-  table.style.display = "table"; // ✅ Tampilkan tabel kalau ada isi
-
   people.forEach((name, index) => {
-    const row = document.createElement("tr");
+    const personDiv = document.createElement("div");
+    personDiv.className = "person-item";
 
-    const noCell = document.createElement("td");
-    noCell.textContent = index + 1;
+    personDiv.innerHTML = `
+  <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${encodeURIComponent(
+    name
+  )}" class="person-img" />
+  <span class="person-name">${name}</span>
+  <button class="remove-avatar-btn" onclick="removePerson(${index}, '${name}')"><i class="fa-solid fa-minus"></i></button>
+`;
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = name;
-
-    const actionCell = document.createElement("td");
-    const removeBtn = document.createElement("button");
-
-    removeBtn.innerHTML = `<i class="fa-regular fa-trash-can"></i> Hapus`;
-    removeBtn.className = "delete-btn";
-
-    removeBtn.onclick = () => {
-      // Hapus berdasarkan index
-      people.splice(index, 1);
-      // Hapus dari list yang dipilih juga
-      who = who.filter((n) => n !== name);
-
-      renderPeople();
-      updateDropdowns();
-      renderAvatars();
-    };
-
-    actionCell.appendChild(removeBtn);
-
-    row.appendChild(noCell);
-    row.appendChild(nameCell);
-    row.appendChild(actionCell);
-
-    tbody.appendChild(row);
+    container.appendChild(personDiv);
   });
+}
+
+function removePerson(index, name) {
+  people.splice(index, 1);
+  who = who.filter((n) => n !== name);
+
+  renderPeople();
+  updateDropdowns();
+  renderAvatars();
 }
 
 function updateDropdowns() {
@@ -162,35 +186,6 @@ function getColorForName(name) {
     ((hash >> 8) & 0xff).toString(16).padStart(2, "0");
   return color.slice(0, 7);
 }
-
-// // FORMAT CURRENCY when user input
-// const amountFormattedInput = document.getElementById("amountFormatted");
-// const amountHiddenInput = document.getElementById("amount");
-
-// // new fixing 10 April 2025 handle negative value for input amount (handle case discount)
-// amountFormattedInput.addEventListener("input", () => {
-//   let inputValue = amountFormattedInput.value;
-
-//   // Jika hanya "-" saja, jangan proses format
-//   if (inputValue === "-") {
-//     amountHiddenInput.value = "";
-//     return;
-//   }
-//   // Cek apakah nilai diawali dengan minus
-//   const isNegative = inputValue.trim().startsWith("-");
-//   // Ambil hanya digit
-//   let numericOnly = inputValue.replace(/[^0-9]/g, "");
-//   if (numericOnly === "") {
-//     amountHiddenInput.value = "";
-//     amountFormattedInput.value = isNegative ? "-" : "";
-//     return;
-//   }
-//   // Tambahkan minus jika ada
-//   if (isNegative) numericOnly = "-" + numericOnly;
-
-//   amountHiddenInput.value = numericOnly;
-//   amountFormattedInput.value = formatToIDR(numericOnly);
-// });
 
 function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
   const formattedInput = document.getElementById(formattedInputId);

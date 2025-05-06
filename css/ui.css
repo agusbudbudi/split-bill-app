@@ -218,6 +218,7 @@ label {
   margin-bottom: 6px;
 }
 
+input,
 #input-section input,
 #input-section select,
 #input-section .avatar-container {
@@ -284,10 +285,18 @@ button:focus select:focus {
 /* Buat avatar-container tampil seperti field */
 .avatar-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   min-height: 48px;
   align-items: center;
+  overflow-x: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.avatar-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Tambahkan padding agar sejajar dengan input */
@@ -370,144 +379,4 @@ p {
   top: 0;
   border-radius: 0 0 30px 30px;
   padding: 20px;
-}
-
-/* MOBILE WEB VIEW */
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    width: 100%;
-  }
-
-  h2 {
-    font-size: 16px;
-  }
-
-  input {
-    width: 90%;
-    padding: 10px;
-  }
-
-  button {
-    width: 100%;
-    padding: 10px;
-  }
-
-  table th,
-  table td {
-    font-size: 0.9rem;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .sticky-header {
-    width: 100%;
-  }
-
-  .slider {
-    border-radius: 12px;
-  }
-  .theme-toggle {
-    border-radius: 15px;
-  }
-
-  .banner-container {
-    margin-top: -70px;
-  }
-
-  h1 {
-    font-size: 18px;
-  }
-
-  .sticky-footer {
-    position: fixed;
-    bottom: 0;
-    padding: 12px;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    box-sizing: border-box;
-    border-radius: 13px 13px 0 0;
-  }
-
-  .sticky-footer .info-box {
-    margin-bottom: 10px;
-  }
-
-  #section-split {
-    margin-bottom: 100px;
-  }
-
-  .section-content {
-    padding: 10px;
-  }
-
-  .menu-circle-container {
-    gap: 12px;
-    min-width: 80px;
-  }
-
-  .menu-circle {
-    min-width: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    width: 100%;
-  }
-
-  h2,
-  h3 {
-    /* font-size: 12px; */
-    color: var(--text-color);
-  }
-
-  input {
-    width: 90%;
-    padding: 8px;
-  }
-
-  table th,
-  table td {
-    font-size: 0.8rem;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .sticky-header {
-    width: 100%;
-  }
-
-  .slider {
-    border-radius: 12px;
-  }
-
-  .theme-toggle {
-    border-radius: 15px;
-  }
-
-  .banner-container {
-    margin-top: -70px;
-  }
-
-  .section-content {
-    padding: 10px;
-  }
-
-  .header-section {
-    height: 90px;
-  }
-
-  .menu-circle-container {
-    gap: 12px;
-    min-width: 80px;
-  }
-
-  .menu-circle {
-    min-width: 80px;
-  }
 }

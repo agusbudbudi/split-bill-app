@@ -70,7 +70,11 @@ function updateTable() {
                         <td>${expense.who.join(", ")}</td>
                         <td>${expense.paidBy}</td>
                         <td>
-                        <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i> Hapus</button></td>
+                          <div class="action-buttons">
+                            <button class="edit-btn" onclick="editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
+                          </div
+                        </td>
                     </tr>`;
       tbody.innerHTML += row;
     });
