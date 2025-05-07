@@ -102,3 +102,15 @@ button:hover {
   /* flex-wrap: wrap; biar responsif kalau layar sempit */
   margin-top: 20px; /* opsional: tambahkan jarak dari elemen atasnya */
 }
+
+.secondary-button {
+  background-color: var(--container-bg);
+  color: var(--btn-bg);
+  border: 1px solid var(--btn-bg);
+}
+
+.secondary-button:hover {
+  background-color: var(--table-border-color);
+  color: var(--btn-bg);
+  border: 1px solid var(--btn-bg);
+}

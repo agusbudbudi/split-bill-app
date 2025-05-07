@@ -10,10 +10,11 @@ function editExpense(index) {
   document.getElementById("editPaidBy").value = expense.paidBy;
   document.getElementById("overlay").classList.remove("hidden");
 
-  const sheet = document.getElementById("editBottomSheet");
+  // const sheet = document.getElementById("editBottomSheet");
 
-  sheet.classList.remove("hidden");
-  sheet.classList.add("show");
+  // sheet.classList.remove("hidden");
+  // sheet.classList.add("show");
+  openBottomSheet("editBottomSheet");
 }
 
 function closeBottomSheet() {
@@ -43,6 +44,8 @@ function saveEditedExpense() {
     };
 
     updateTable();
+    //new update card
+    updateExpenseCards();
     updateCalculateButton();
     closeBottomSheet("editBottomSheet");
   }

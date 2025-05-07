@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <!-- Favicon standar -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
     <!-- Untuk ditambahkan ke homescreen (Android) -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
 
     <!-- Untuk iOS (Apple) -->
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -80,6 +80,7 @@
     <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/avatar.css" />
+    <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -252,6 +253,7 @@
         <div class="table-wrapper">
           <div class="card-container">
             <div id="input-section">
+              <label><strong>Data Pengeluaran</strong></label>
               <div class="upload-container hidden">
                 <label for="bill-image" class="drop-area">
                   <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
@@ -276,6 +278,7 @@
               </div>
 
               <!-- Item & Amount -->
+
               <label for="item">Nama Item</label>
               <input
                 type="text"
@@ -328,7 +331,7 @@
               <label for="paidBy">Dibayar oleh</label>
               <select id="paidBy"></select>
             </div>
-            <button onclick="addExpense()">
+            <button onclick="addExpense()" class="secondary-button">
               <i class="fa-solid fa-plus"></i> Tambah Transaksi
             </button>
           </div>
@@ -337,8 +340,8 @@
         <!-- table expense -->
         <div class="table-wrapper">
           <div class="card-container">
-            <label><strong>Tabel Pengeluaran</strong></label>
-            <div class="table-container">
+            <label><strong>Transaksi Pengeluaran</strong></label>
+            <div class="table-container hidden">
               <table id="expense-table">
                 <thead>
                   <tr>
@@ -352,75 +355,115 @@
                 <tbody></tbody>
               </table>
             </div>
+            <!-- NEW TABEL PENGELUARAN -->
+            <div id="expense-list" class="expense-list"></div>
           </div>
         </div>
 
         <div class="table-wrapper">
           <div class="card-container">
-            <div id="input-section">
-              <label><strong>Metode Pembayaran</strong></label>
-              <select id="paymentMethod" onchange="handlePaymentMethodChange()">
-                <option value="">Pilih Metode</option>
-                <option value="BankTransfer">Bank Transfer</option>
-                <option value="OVO">OVO</option>
-                <option value="GoPay">GoPay</option>
-                <option value="DANA">DANA</option>
-                <option value="ShopeePay">Shopee Pay</option>
-                <option value="LinkAja">LinkAja</option>
-              </select>
-              <div id="paymentDetailsForm"></div>
+            <label><strong>Metode Pembayaran</strong></label>
+            <!-- NEW ADD PAYMENT METHOD -->
+            <div class="people-container">
+              <!-- Tombol Add New (static di kiri) -->
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addPaymentMethodBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Tambah</span>
+              </div>
+              <!-- List payment method (dinamis) -->
+              <div
+                id="paymentCardsContainer"
+                class="card-display-section"
+              ></div>
             </div>
 
-            <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
-            <div id="paymentDetails" style="display: none">
-              <!-- Bagian Bank Transfer -->
-              <div id="bankForm" style="display: none">
-                <label for="bankName">Nama Bank</label>
-                <input
-                  type="text"
-                  id="bankName"
-                  placeholder="Contoh: BCA, BRI"
-                />
+            <!-- PAYMENT METHOD BOTTOM SHEET -->
+            <div class="table-wrapper">
+              <div
+                class="card-container bottom-sheet hidden"
+                id="addPaymentMethodBottomSheet"
+              >
+                <div class="popup-header">
+                  <h3>Tambah Metode Pembayaran</h3>
+                  <button
+                    onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
+                    class="close-btn-bottom-sheet"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div id="input-section">
+                  <label for="paymentMethod">Metode Pembayaran</label>
+                  <select
+                    id="paymentMethod"
+                    onchange="handlePaymentMethodChange()"
+                  >
+                    <option value="">Pilih Metode</option>
+                    <option value="BankTransfer">Bank Transfer</option>
+                    <option value="OVO">OVO</option>
+                    <option value="GoPay">GoPay</option>
+                    <option value="DANA">DANA</option>
+                    <option value="ShopeePay">Shopee Pay</option>
+                    <option value="LinkAja">LinkAja</option>
+                  </select>
+                  <div id="paymentDetailsForm"></div>
+                </div>
 
-                <label for="bankName">Nama</label>
-                <input
-                  type="text"
-                  id="bankAccountName"
-                  placeholder="Nama Pemilik Rekening"
-                />
+                <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+                <div id="paymentDetails" style="display: none">
+                  <!-- Bagian Bank Transfer -->
+                  <div id="bankForm" style="display: none">
+                    <label for="bankName">Nama Bank</label>
+                    <input
+                      type="text"
+                      id="bankName"
+                      placeholder="Contoh: BCA, BRI"
+                    />
 
-                <label for="bankAccountNumber">Nomor Rekening</label>
-                <input
-                  type="text"
-                  id="bankAccountNumber"
-                  placeholder="Contoh: 1234567890"
-                />
-              </div>
+                    <label for="bankName">Nama</label>
+                    <input
+                      type="text"
+                      id="bankAccountName"
+                      placeholder="Nama Pemilik Rekening"
+                    />
 
-              <!-- Bagian e-Wallet -->
-              <div id="ewalletForm" style="display: none">
-                <label for="ewalletName">Nama</label>
-                <input
-                  type="text"
-                  id="ewalletName"
-                  placeholder="Nama Akun e-Wallet"
-                />
+                    <label for="bankAccountNumber">Nomor Rekening</label>
+                    <input
+                      type="text"
+                      id="bankAccountNumber"
+                      placeholder="Contoh: 1234567890"
+                    />
+                  </div>
 
-                <label for="ewalletPhone">Nomor Telepon</label>
-                <input
-                  type="text"
-                  id="ewalletPhone"
-                  placeholder="Contoh: 081234567890"
-                />
+                  <!-- Bagian e-Wallet -->
+                  <div id="ewalletForm" style="display: none">
+                    <label for="ewalletName">Nama</label>
+                    <input
+                      type="text"
+                      id="ewalletName"
+                      placeholder="Nama Akun e-Wallet"
+                    />
+
+                    <label for="ewalletPhone">Nomor Telepon</label>
+                    <input
+                      type="text"
+                      id="ewalletPhone"
+                      placeholder="Contoh: 081234567890"
+                    />
+                  </div>
+                </div>
+
+                <button onclick="addPaymentMethod()">
+                  <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+                </button>
               </div>
             </div>
-
-            <button onclick="addPaymentMethod()">
-              <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
-            </button>
           </div>
-
-          <div id="paymentCardsContainer" class="card-display-section"></div>
         </div>
 
         <div class="table-wrapper">

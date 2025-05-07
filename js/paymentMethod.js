@@ -76,6 +76,8 @@ function addPaymentMethod() {
   document.getElementById("bankAccountName").value = "";
   document.getElementById("ewalletName").value = "";
   document.getElementById("ewalletPhone").value = "";
+
+  closeBottomSheet("addPaymentMethodBottomSheet");
 }
 
 // tampilkan metode pembayaran yang sudah ditambahkan
