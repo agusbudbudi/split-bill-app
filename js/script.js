@@ -15,6 +15,8 @@ function addExpense() {
   expenses.push({ item, amount, who, paidBy });
   updateTable();
   updateCalculateButton();
+  //ADD NEW EXPENSE with list
+  updateExpenseCards();
 
   // Reset field input
   document.getElementById("item").value = "";
@@ -81,10 +83,79 @@ function updateTable() {
   }
 }
 
+//NEW ADD EXPENSE WITH LIST
+function updateExpenseCards() {
+  const container = document.getElementById("expense-list");
+  container.innerHTML = "";
+  console.log("Expenses:", expenses);
+  console.log("Is empty:", expenses.length === 0);
+
+  if (expenses.length === 0) {
+    container.innerHTML = `
+    <p style="text-align: center; color: #888;">Belum ada daftar transaksi pengeluaran</p>`;
+    return;
+  }
+
+  expenses.forEach((expense, index) => {
+    const card = document.createElement("div");
+    card.classList.add("expense-card");
+
+    const whoAvatars = expense.who
+      .map(
+        (name) => `
+  <div class="avatar-wrapper">
+    <div class="avatar-box">
+      <img src="https://api.dicebear.com/9.x/dylan/svg?seed=${name}" alt="${name}">
+    </div>
+    <div class="avatar-name">${name}</div>
+  </div>
+`
+      )
+      .join("");
+
+    const paidByAvatar = `
+  <div class="avatar-wrapper">
+    <div class="avatar-box">
+      <img src="https://api.dicebear.com/9.x/dylan/svg?seed=${expense.paidBy}" alt="${expense.paidBy}">
+    </div>
+    <div class="avatar-name">${expense.paidBy}</div>
+  </div>
+`;
+
+    card.innerHTML = `
+  <div class="expense-header">
+    <span>${expense.item}</span>
+    <span>${formatCurrency(expense.amount)}</span>
+  </div>
+
+  <div class="expense-meta">
+    <div class="label-columns">
+      <div class="label-row">
+        <div class="people-row">${whoAvatars}</div>
+      </div>
+
+      <div class="label-row">
+        <label>Dibayar oleh:</label>
+        <div class="people-row">${paidByAvatar}</div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="edit-btn" onclick="editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
+    </div
+  </div>
+`;
+
+    container.appendChild(card);
+  });
+}
+
 // Function to delete an expense
 function deleteExpense(index) {
   expenses.splice(index, 1); // Remove expense from the array
   updateTable(); // Refresh the table
+  updateExpenseCards();
   updateCalculateButton();
 }
 
@@ -128,4 +199,5 @@ function calculateVariance(userExpenses, userPayments, totalExpense) {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTable(); // Ensure the empty state is shown on page load
+  updateExpenseCards();
 });

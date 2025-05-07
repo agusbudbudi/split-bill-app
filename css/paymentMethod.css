@@ -1,8 +1,8 @@
 .payment-card {
-  background-color: var(--container-bg);
+  background-color: var(--input-bg);
   border-radius: 12px;
-  padding: 16px;
-  margin-top: 15px;
+  padding: 10px 15px;
+  /* margin-top: 15px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: var(--text-color);
   display: flex;
@@ -10,10 +10,10 @@
   align-items: flex-start;
   gap: 5px;
   position: relative;
-  width: 130px;
+  width: 120px;
   flex: 0 0 auto; /* Jangan menyusut, tampilkan secara horizontal */
   border: 1px solid var(--table-border-color);
-  min-width: 180px;
+  min-width: 100px;
   flex-shrink: 0;
   cursor: pointer;
 }
@@ -26,12 +26,26 @@
 }
 
 .card-display-section {
-  padding: 10px;
-  padding-bottom: 5px;
   width: 100%;
   display: flex;
   overflow-x: auto; /* Scroll horizontal */
   white-space: nowrap; /* Biar item tetap sejajar */
+
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-top: 5px;
+  padding-right: 5px;
+  /* padding: 10px; */
+  padding-bottom: 5px;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.card-display-section::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 #paymentCardsContainer {
