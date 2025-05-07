@@ -27,7 +27,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   /* margin-bottom: 10px; */
   /* border-bottom: 1px solid var(--table-border-color); */
 }
@@ -44,6 +44,11 @@
   overflow-wrap: break-word; /* modern equivalent, works better */
   white-space: normal; /* ensure text can wrap */
   align-items: center;
+}
+
+.popup-body ul {
+  margin: 0;
+  padding: 0 0 0 20px;
 }
 
 .info-icon {
@@ -108,7 +113,7 @@
 }
 
 .close-btn-bottom-sheet:hover {
-  background-color: #e3e8ec;
+  background-color: var(--table-border-color);
 }
 
 /* .sheet-body {
