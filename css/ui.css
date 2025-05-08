@@ -86,8 +86,8 @@
   position: fixed;
   top: 0;
   padding: 8px 20px 8px 20px;
-  /* background-color: var(--btn-bg); */
-  background: linear-gradient(to right, #8b5cf6, #7c3aed);
+  background-color: var(--btn-bg);
+  /* background: linear-gradient(to right, #8b5cf6, #7c3aed); */
   z-index: 1000;
   width: 50%;
   display: flex;
@@ -372,8 +372,8 @@ p {
 }
 
 .header-section {
-  /* background-color: var(--btn-bg); */
-  background: linear-gradient(to right, #8b5cf6, #7c3aed);
+  background-color: var(--btn-bg);
+  /* background: linear-gradient(to right, #8b5cf6, #7c3aed); */
   height: 110px;
   width: 100%;
   top: 0;
