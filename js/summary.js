@@ -1,4 +1,3 @@
-// calculate split function
 function calculateSplit() {
   let totalExpense = 0;
   let userExpenses = {};
@@ -29,35 +28,22 @@ function calculateSplit() {
   displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
 }
 
-//===============================================================================
-
-// calculate variance function
 function calculateVariance(userExpenses, userPayments, totalExpense) {
   let variance = {};
-
-  // Calculate even share for each person
-  let evenShare = totalExpense / Object.keys(userExpenses).length;
-
-  // Calculate variance: how much each person owes or is owed
   for (let user in userExpenses) {
     let paidAmount = userPayments[user] || 0;
     variance[user] = paidAmount - userExpenses[user];
   }
-
   return variance;
 }
 
-//===============================================================================
-
-function findPayer(user, variance, paidBy) {
-  // If the user owes money, return the one who paid (paidBy)
-  if (variance[user] < 0) {
-    return paidBy;
-  }
-  return null;
+function calculateTotalPaid(userPayments) {
+  return Object.values(userPayments).reduce((sum, pay) => sum + pay, 0);
 }
 
-//===============================================================================
+function calculateTotalVariance(variance) {
+  return Object.values(variance).reduce((sum, val) => sum + val, 0);
+}
 
 function displaySummary(
   totalExpense,
@@ -67,212 +53,277 @@ function displaySummary(
   items
 ) {
   const summaryDiv = document.getElementById("summary");
-  summaryDiv.innerHTML = `<h2>💰 Ringkasan Pembayaran</h2>`;
 
+  // Ambil nama aktivitas dan tanggal dari input form
+  const activityName = document.getElementById("activityName").value;
+
+  // Tanggal otomatis dari hari ini
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  // Struktur HTML-nya
+  summaryDiv.innerHTML = `
+  <div class="summary-header">
+    <h1 class="activity-name">${activityName || "Aktivitas Tanpa Nama"}</h1>
+    <p class="activity-date"> Tanggal: ${formattedDate}</p>
+  </div>
+`;
+
+  // summaryDiv.innerHTML = `<h2>💰 Ringkasan Pembayaran</h2>`;
   document.querySelector(".summary-container").style.display = "block";
 
-  // Total Expense (formatted in Rupiah)
-  summaryDiv.innerHTML += `<p><strong>Total Pengeluaran:</strong> ${formatCurrency(
-    totalExpense
-  )}</p>`;
+  const totalPaid = calculateTotalPaid(userPayments);
+  const totalVariance = calculateTotalVariance(variance);
 
-  let table = `
-    <table id="summaryTable">
+  summaryDiv.innerHTML += generateSummaryStats(
+    totalExpense,
+    totalPaid,
+    totalVariance
+  );
+  //TEMPORARY HIDDEN
+  summaryDiv.innerHTML += `<h3 class="hidden">List Item</h3><div class="table-container hidden">${generateItemTable(
+    items
+  )}</div>`;
+
+  // ⬇️ Tambahkan di sini
+  const { transactionMap, transferSummaryMap } = generateTransactionMap(items);
+  adjustForMutualPayments(transactionMap, transferSummaryMap);
+
+  summaryDiv.innerHTML += `<h3>Ringkasan per Orang</h3>`;
+  summaryDiv.innerHTML += `<div class="user-summary-cards">${generateUserCards(
+    userExpenses,
+    userPayments,
+    variance,
+    transactionMap
+  )}</div>`;
+
+  //show breakdown per person
+  const breakdown = calculateUserItemBreakdown(items);
+  renderItemBreakdownPerPerson(breakdown);
+
+  summaryDiv.innerHTML += `<div id="selectedPaymentInfo"></div>`;
+  showSelectedPayment();
+}
+
+function generateSummaryStats(totalExpense, totalPaid, totalVariance) {
+  const expenseMatch =
+    totalExpense === totalPaid
+      ? "✅ Total Pengeluaran dan Total Pembayaran SESUAI"
+      : "❌ Total Pengeluaran dan Total Pembayaran SALAH";
+  const varianceText =
+    totalVariance === 0
+      ? `✅ Selisih sama dengan ${formatCurrency(totalVariance)}`
+      : `❌ Selisih tidak seimbang: ${formatCurrency(totalVariance)}`;
+
+  return `
+  <div class="summary-validation">
+    <p>Total Pengeluaran: <strong>${formatCurrency(totalExpense)}</strong></p>
+    <p>Total Pembayaran: <strong>${formatCurrency(totalPaid)}</strong></p>
+    <p class="text-desc">${expenseMatch}</p>
+    <p class="text-desc">${varianceText}</p>
+  </div>
+  `;
+}
+
+// TEMPORARY HIDDEN
+function generateItemTable(items) {
+  return `
+    <table id="itemTable">
       <thead>
         <tr>
-          <th>Nama</th>
-          <th>Total Pengeluaran</th>
-          <th>Total yang Dibayar</th>
-          <th>Selisih</th>
-          <th>Ringkasan Pembayaran</th>
+          <th>Item</th>
+          <th>Jumlah</th>
+          <th>Yang Berhutang</th>
+          <th>Dibayar Oleh</th>
         </tr>
       </thead>
       <tbody>
-
+        ${items
+          .map(
+            ({ item, amount, who, paidBy }) => `
+          <tr>
+            <td>${item}</td>
+            <td>
+              ${formatCurrency(amount)}
+              ${amount < 0 ? '<span class="discount-label">Diskon</span>' : ""}
+            </td>
+            <td>${who.join(", ")}</td>
+            <td>${paidBy}</td>
+          </tr>
+        `
+          )
+          .join("")}
+      </tbody>
+    </table>
   `;
+}
 
-  let totalPaid = Object.values(userPayments).reduce(
-    (sum, pay) => sum + pay,
-    0
-  );
-  let expenseVerification =
-    totalExpense === totalPaid
-      ? "✅ Total Pengeluaran dan Total yang Dibayar SESUAI"
-      : "❌ Total Pengeluaran dan Total yang Dibayar SALAH";
+function generateTransactionMap(items) {
+  const transactionMap = {};
+  const transferSummaryMap = {};
 
-  let totalVariance = Object.values(variance).reduce(
-    (sum, varValue) => sum + varValue,
-    0
-  );
-  let varianceVerification =
-    totalVariance === 0
-      ? `Selisih sama dengan ${formatCurrency(totalVariance)}`
-      : `Selisih tidak seimbang: ${formatCurrency(totalVariance)}`;
+  items.forEach(({ amount, who, paidBy }) => {
+    if (!paidBy || !who || who.length === 0) return;
 
-  summaryDiv.innerHTML += `
-        <p><strong>Total yang Dibayar:</strong> ${formatCurrency(totalPaid)}</p>
-        <p>${expenseVerification}</p>
-        <p>${varianceVerification}</p>
-    `;
-
-  // Generate item list table
-  let itemTable = `
-        <table id="itemTable">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Jumlah</th>
-              <th>Yang Berhutang</th>
-              <th>Dibayar Oleh</th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
-
-  items.forEach(({ item, amount, paidBy, who }) => {
-    itemTable += `
-            <tr>
-              <td>${item}</td>
-                 <td>
-                    ${formatCurrency(amount)}
-                    ${
-                      amount < 0
-                        ? '<span class="discount-label">Diskon</span>'
-                        : ""
-                    }
-                  </td>
-              <td>${who.join(", ")}</td>
-              <td>${paidBy}</td>
-            </tr>
-        `;
-  });
-
-  itemTable += `</tbody></table>`;
-
-  // Pisahkan <h3> dari scrollable container
-  summaryDiv.innerHTML += `
-  <h3>List Item</h3>
-  <div class="table-container">
-    ${itemTable}
-  </div>
-`;
-
-  let transactionMap = {}; // Menyimpan transaksi pembayaran antar orang
-  let transferSummaryMap = {}; // Menyimpan ringkasan transfer antar orang
-
-  items.forEach(({ item, amount, who, paidBy }) => {
-    if (!paidBy || !who || who.length === 0) {
-      console.warn("Invalid transaction data:", { item, amount, who, paidBy });
-      return;
-    }
+    const share = amount / who.length;
 
     who.forEach((debtor) => {
-      if (debtor === paidBy) {
-        if (!transferSummaryMap[debtor]) {
-          transferSummaryMap[debtor] = [];
-        }
-        transferSummaryMap[debtor].push({
-          message: `${formatCurrency(amount / who.length)} dibayar sendiri`,
-        });
-        return;
-      }
+      if (debtor === paidBy) return; // paidBy tidak perlu bayar ke dirinya sendiri
 
-      let key = `${debtor}->${paidBy}`;
-      if (!transactionMap[key]) {
-        transactionMap[key] = 0;
-      }
-      transactionMap[key] += amount / who.length; // Jika beberapa orang berbagi hutang, dibagi rata
+      const key = `${debtor}->${paidBy}`;
+      if (!transactionMap[key]) transactionMap[key] = 0;
+      transactionMap[key] += share;
+
+      // Simpan juga untuk transfer summary
+      if (!transferSummaryMap[debtor]) transferSummaryMap[debtor] = {};
+      if (!transferSummaryMap[debtor][paidBy])
+        transferSummaryMap[debtor][paidBy] = 0;
+      transferSummaryMap[debtor][paidBy] += share;
     });
   });
 
-  // update: Cek dan hitung hutang yang telah dilunasi
-  for (let key in transactionMap) {
-    let [debtor, creditor] = key.split("->");
-    let reverseKey = `${creditor}->${debtor}`;
+  return { transactionMap, transferSummaryMap };
+}
+
+function adjustForMutualPayments(transactionMap, transferSummaryMap) {
+  for (const key in transactionMap) {
+    const [from, to] = key.split("->");
+    const reverseKey = `${to}->${from}`;
 
     if (transactionMap[reverseKey]) {
-      // Kurangi jumlah utang jika ada pembayaran balik
-      let minAmount = Math.min(transactionMap[key], transactionMap[reverseKey]);
-      transactionMap[key] -= minAmount;
-      transactionMap[reverseKey] -= minAmount;
+      const forward = transactionMap[key];
+      const reverse = transactionMap[reverseKey];
 
-      // Hapus transaksi jika jumlahnya sudah nol
-      if (transactionMap[key] === 0) delete transactionMap[key];
-      if (transactionMap[reverseKey] === 0) delete transactionMap[reverseKey];
-
-      // Cek apakah transaksi sudah lunas
-      if (transactionMap[key] === 0 && transactionMap[reverseKey] === 0) {
-        if (!transferSummaryMap[debtor]) transferSummaryMap[debtor] = [];
-        if (!transferSummaryMap[creditor]) transferSummaryMap[creditor] = [];
-
-        // Tambahkan pesan "Tidak perlu membayar karena lunas" jika transaksi sudah selesai
-        transferSummaryMap[debtor].push({
-          message: "Tidak perlu membayar karena lunas",
-        });
-        transferSummaryMap[creditor].push({
-          message: "Tidak perlu membayar karena lunas",
-        });
+      if (forward > reverse) {
+        transactionMap[key] = forward - reverse;
+        delete transactionMap[reverseKey];
+      } else if (reverse > forward) {
+        transactionMap[reverseKey] = reverse - forward;
+        delete transactionMap[key];
       } else {
-        // 🔥 Jika masih ada hutang, hapus pesan lunas jika ada
-        transferSummaryMap[debtor] =
-          transferSummaryMap[debtor]?.filter(
-            (entry) => entry.message !== "Tidak perlu membayar karena lunas"
-          ) || [];
-        transferSummaryMap[creditor] =
-          transferSummaryMap[creditor]?.filter(
-            (entry) => entry.message !== "Tidak perlu membayar karena lunas"
-          ) || [];
+        delete transactionMap[key];
+        delete transactionMap[reverseKey];
       }
     }
   }
+}
 
-  // Menyusun Transfer Summary berdasarkan hasil akhir
-  for (let user in userExpenses) {
-    const userExpense = userExpenses[user];
-    const userPaid = userPayments[user] || 0;
-    const userVariance = variance[user] || 0;
+// NEW FUNCTION Person breakdown
+function calculateUserItemBreakdown(items) {
+  const breakdown = {};
 
-    let transferSummary = "";
+  items.forEach(({ item, amount, who, paidBy }) => {
+    const share = amount / who.length;
 
-    // Show transfer summary regardless of variance
-    for (let key in transactionMap) {
-      let [debtor, creditor] = key.split("->");
-      if (debtor === user) {
-        transferSummary += `<p><strong>${debtor} hutang ${formatCurrency(
-          transactionMap[key]
-        )} ke ${creditor}</strong></p>`;
-      }
-    }
+    who.forEach((person) => {
+      if (!breakdown[person]) breakdown[person] = [];
 
-    // Only display "No transfer needed" for users who don't owe anything (variance positive)
-    if (userVariance >= 0 && transferSummary === "") {
-      transferSummary += "<p>Kamu tidak punya hutang</p>";
-    }
+      breakdown[person].push({
+        item,
+        amount: share,
+        paidBy,
+        originalAmount: amount,
+        splitWith: who.filter((p) => p !== person),
+      });
+    });
+  });
 
-    table += `
-      <tr>
+  return breakdown;
+}
 
-        <td>${user}</td>
-        <td>${formatCurrency(userExpense)}</td>
-        <td>${formatCurrency(userPaid)}</td>
-        <td>${formatCurrency(userVariance)}</td>
-        <td>${transferSummary || "No transfer needed"}</td>
-      </tr>
+//NEW Render person breakdown
+function renderItemBreakdownPerPerson(breakdown) {
+  Object.entries(breakdown).forEach(([person, items]) => {
+    const userCard = document.querySelector(
+      `.user-card[data-name="${person}"]`
+    );
+    if (!userCard) return;
+
+    const breakdownList = document.createElement("ul");
+    breakdownList.classList.add("item-breakdown");
+
+    items.forEach(({ item, amount }) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+      <div class="breakdown-row">
+        <span class="item-name">${item}   ${
+        amount < 0 ? '<span class="discount-label">Diskon</span>' : ""
+      }</span>
+        <span class="item-amount">${formatCurrency(amount)}
+      </span>
+      </div>
     `;
-  }
+      breakdownList.appendChild(li);
+    });
 
-  table += `</tbody></table>`;
+    const breakdownContainer = document.createElement("div");
+    breakdownContainer.classList.add("breakdown-section");
+    breakdownContainer.appendChild(breakdownList);
 
-  // ⬇️ Bungkus tabel dalam container scrollable
-  summaryDiv.innerHTML += `
-  <div style="overflow-y: auto; margin-top: 1rem;" class="table-container">
-    ${table}
-  </div>
-`;
+    // userCard.appendChild(breakdownContainer);
+    const transfersSection = userCard.querySelector(".user-transfers");
+    if (transfersSection) {
+      userCard.insertBefore(breakdownContainer, transfersSection);
+    } else {
+      userCard.appendChild(breakdownContainer);
+    }
+  });
+}
 
-  //tampilin metode pembayaran
-  summaryDiv.innerHTML += `<div id="selectedPaymentInfo"></div>`; // baru ditambahkan di akhir
-  showSelectedPayment(); // panggil setelahnya
+//WORK CODE
+function generateUserCards(
+  userExpenses,
+  userPayments,
+  variance,
+  transactionMap
+) {
+  return Object.keys(userExpenses)
+    .map((user) => {
+      const expense = userExpenses[user] || 0;
+      const paid = userPayments[user] || 0;
+      const diff = variance[user] || 0;
+
+      let transfers = Object.entries(transactionMap)
+        .filter(([key]) => key.startsWith(`${user}->`))
+        .map(([key, amount]) => {
+          const creditor = key.split("->")[1];
+          return `<p class="transfer-detail">💸 Hutang <strong>${formatCurrency(
+            amount
+          )}</strong> ke <strong>${creditor}</strong></p>`;
+        })
+        .join("");
+
+      if (!transfers && diff >= 0) {
+        transfers = `<p class="no-debt">✅ Kamu tidak punya hutang</p>`;
+      }
+
+      return `
+        <div class="user-card" data-name="${user}">
+          <div class="user-header">
+            <div class="avatar">
+              <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${user}" alt="${user}" class="summary-avatar"/>
+            </div>
+            <div class="user-details">
+              <h2>${user}</h2>
+              <p>Total Membayar: <strong>${formatCurrency(paid)}</strong></p>
+            </div>
+            <div class="user-expense">
+              <p>Total Pengeluaran</p>
+              <h3>${formatCurrency(expense)}</h3>
+            </div>
+          </div>
+          <hr class="separator"/>
+          <div class="user-transfers">
+            ${transfers}
+          </div>
+        </div>
+      `;
+    })
+    .join("");
 }
 
 function formatCurrency(amount) {

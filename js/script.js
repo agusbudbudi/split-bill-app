@@ -92,7 +92,9 @@ function updateExpenseCards() {
 
   if (expenses.length === 0) {
     container.innerHTML = `
-    <p style="text-align: center; color: #888;">Belum ada daftar transaksi pengeluaran</p>`;
+    <div class="empty-state">
+    <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+    <p>Belum ada daftar transaksi pengeluaran</p></div>`;
     return;
   }
 
@@ -105,7 +107,7 @@ function updateExpenseCards() {
         (name) => `
   <div class="avatar-wrapper">
     <div class="avatar-box">
-      <img src="https://api.dicebear.com/9.x/dylan/svg?seed=${name}" alt="${name}">
+      <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${name}" alt="${name}">
     </div>
     <div class="avatar-name">${name}</div>
   </div>
@@ -116,7 +118,7 @@ function updateExpenseCards() {
     const paidByAvatar = `
   <div class="avatar-wrapper">
     <div class="avatar-box">
-      <img src="https://api.dicebear.com/9.x/dylan/svg?seed=${expense.paidBy}" alt="${expense.paidBy}">
+      <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${expense.paidBy}" alt="${expense.paidBy}">
     </div>
     <div class="avatar-name">${expense.paidBy}</div>
   </div>

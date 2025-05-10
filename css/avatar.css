@@ -99,3 +99,16 @@
   flex: 0 0 auto; /* Biar tidak pecah ke bawah */
   text-align: center;
 }
+
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s ease;
+}
+
+.avatar-img.selected {
+  border-color: #4caf50;
+}

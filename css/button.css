@@ -75,7 +75,7 @@ button:hover {
   color: red;
   font-size: 16px;
   cursor: pointer;
-  padding: 5px;
+  padding: 0px;
   max-width: 30px;
 }
 
