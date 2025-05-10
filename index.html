@@ -61,7 +61,7 @@
 
     <title>Split Bill</title>
     <!-- Favicon -->
-    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="icon" href="SplitBill-icon.png" type="image/png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
       rel="stylesheet"
@@ -81,6 +81,7 @@
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/avatar.css" />
     <link rel="stylesheet" href="css/expenseList.css" />
+    <link rel="stylesheet" href="css/summary.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -252,8 +253,8 @@
 
         <div class="table-wrapper">
           <div class="card-container">
+            <div class="title-section">Data Pengeluaran</div>
             <div id="input-section">
-              <label><strong>Data Pengeluaran</strong></label>
               <div class="upload-container hidden">
                 <label for="bill-image" class="drop-area">
                   <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
@@ -340,7 +341,7 @@
         <!-- table expense -->
         <div class="table-wrapper">
           <div class="card-container">
-            <label><strong>Transaksi Pengeluaran</strong></label>
+            <div class="title-section">Transaksi Pengeluaran</div>
             <div class="table-container hidden">
               <table id="expense-table">
                 <thead>
@@ -362,7 +363,7 @@
 
         <div class="table-wrapper">
           <div class="card-container">
-            <label><strong>Metode Pembayaran</strong></label>
+            <div class="title-section">Metode Pembayaran</div>
             <!-- NEW ADD PAYMENT METHOD -->
             <div class="people-container">
               <!-- Tombol Add New (static di kiri) -->
@@ -487,7 +488,7 @@
               onclick="calculateSplit()"
               disabled
             >
-              <i class="fa-solid fa-calculator"></i> Hitung Pembayaran
+              <i class="fa-solid fa-calculator"></i> Hitung Split Bill
             </button>
           </div>
         </div>

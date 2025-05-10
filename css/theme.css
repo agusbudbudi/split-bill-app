@@ -1,6 +1,7 @@
 :root {
   --bg-color: #f6fafb;
   --text-color: #272a33;
+  --text-color-desc: #848486;
   --container-bg: #ffffff;
   --input-bg: #f6fafb;
   --btn-bg: #7056ec;
@@ -20,6 +21,7 @@
 body.dark-mode {
   --bg-color: #161618;
   --text-color: #ffffff;
+  --text-color-desc: #b4b4b6;
   --container-bg: #1f1f21;
   --input-bg: #29282b;
   --btn-bg: #7056ec;

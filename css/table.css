@@ -55,16 +55,6 @@ td {
   padding: 5px 20px 5px 20px;
 }
 
-.discount-label {
-  display: inline-block;
-  background-color: #ffe0e0;
-  color: #cc0000;
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin-left: 4px;
-}
-
 .scrollable-table-container {
   overflow-y: auto;
   border-radius: 12px;

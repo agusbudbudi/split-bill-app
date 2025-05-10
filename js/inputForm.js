@@ -122,6 +122,52 @@ function updateDropdowns() {
   });
 }
 
+// function renderAvatars() {
+//   const container = document.getElementById("avatarContainer");
+//   container.innerHTML = "";
+
+//   // ✅ Tambahkan pengecekan jika belum ada orang
+//   if (people.length === 0) {
+//     const emptyText = document.createElement("div");
+//     emptyText.className = "empty-text";
+//     emptyText.textContent = "Tambahkan teman terlebih dahulu";
+//     container.appendChild(emptyText);
+//     return; // Stop di sini, gak perlu lanjut render avatar
+//   }
+
+//   people.forEach((person) => {
+//     const avatarWrapper = document.createElement("div");
+//     avatarWrapper.className = "avatar-wrapper";
+
+//     const initials = getInitials(person);
+//     const bgColor = getColorForName(person);
+
+//     const avatar = document.createElement("div");
+//     avatar.className = `avatar ${who.includes(person) ? "selected" : ""}`;
+//     avatar.textContent = initials;
+//     avatar.style.backgroundColor = bgColor;
+//     avatar.style.fontSize = initials.length > 2 ? "14px" : "18px";
+
+//     const nameLabel = document.createElement("div");
+//     nameLabel.className = "avatar-name";
+//     nameLabel.textContent = person;
+
+//     avatar.onclick = () => {
+//       if (who.includes(person)) {
+//         who = who.filter((name) => name !== person);
+//       } else {
+//         who.push(person);
+//       }
+//       renderAvatars();
+//     };
+
+//     avatarWrapper.appendChild(avatar);
+//     avatarWrapper.appendChild(nameLabel);
+//     container.appendChild(avatarWrapper);
+//   });
+// }
+
+//NEW USED AVATAR IMAGE
 function renderAvatars() {
   const container = document.getElementById("avatarContainer");
   container.innerHTML = "";
@@ -132,21 +178,20 @@ function renderAvatars() {
     emptyText.className = "empty-text";
     emptyText.textContent = "Tambahkan teman terlebih dahulu";
     container.appendChild(emptyText);
-    return; // Stop di sini, gak perlu lanjut render avatar
+    return;
   }
 
   people.forEach((person) => {
     const avatarWrapper = document.createElement("div");
     avatarWrapper.className = "avatar-wrapper";
 
-    const initials = getInitials(person);
-    const bgColor = getColorForName(person);
-
-    const avatar = document.createElement("div");
-    avatar.className = `avatar ${who.includes(person) ? "selected" : ""}`;
-    avatar.textContent = initials;
-    avatar.style.backgroundColor = bgColor;
-    avatar.style.fontSize = initials.length > 2 ? "14px" : "18px";
+    // Ganti avatar teks dengan avatar gambar dari Dicebear Dylan
+    const avatar = document.createElement("img");
+    avatar.className = `avatar-img ${who.includes(person) ? "selected" : ""}`;
+    avatar.src = `https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${encodeURIComponent(
+      person
+    )}`;
+    avatar.alt = person;
 
     const nameLabel = document.createElement("div");
     nameLabel.className = "avatar-name";

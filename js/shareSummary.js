@@ -3,28 +3,37 @@ function shareToWhatsApp() {
     document.getElementById("activityName").value || "Tanpa Nama Aktivitas";
   const date = new Date().toLocaleDateString("id-ID");
 
-  // Ambil list item
+  // Ambil list item (lebih rapi)
   const itemRows = document.querySelectorAll("#itemTable tbody tr");
   let itemList = "";
+
   itemRows.forEach((row) => {
     const cells = row.querySelectorAll("td");
-    const item = cells[0].innerText;
-    const amount = cells[1].innerText;
-    const who = cells[2].innerText;
-    const paidBy = cells[3].innerText;
+
+    const item = cells[0]?.innerText.trim() || "";
+    const amount = cells[1]?.innerText.trim().replace(/\s+/g, " ") || "";
+    const who = cells[2]?.innerText.trim().replace(/\s+/g, " ") || "";
+    const paidBy = cells[3]?.innerText.trim().replace(/\s+/g, " ") || "";
+
     itemList += `- ${item} (${amount}) | Hutang: ${who} | Dibayar oleh: ${paidBy}\n`;
   });
 
-  // Ambil transfer summary
-  const summaryRows = document.querySelectorAll("#summaryTable tbody tr");
+  // Ambil transfer summary dari card versi baru
+  const userCards = document.querySelectorAll(".user-card");
   let transferSummary = "";
-  summaryRows.forEach((row) => {
-    const name = row.children[0].innerText.trim();
-    const ringkasan = row.children[4].innerText.trim();
 
-    // Hanya tambahkan jika ringkasan tidak kosong dan bukan default
-    if (ringkasan && ringkasan !== "Kamu tidak punya hutang") {
-      transferSummary += `- *${name}*: ${ringkasan}\n`;
+  userCards.forEach((card) => {
+    const name = card.querySelector("h2")?.innerText.trim() || "";
+    const transferInfo =
+      card.querySelector(".user-transfers p")?.innerText.trim() || "";
+
+    // Hanya tambahkan jika info bermakna dan bukan default
+    if (
+      transferInfo &&
+      !transferInfo.toLowerCase().includes("tidak punya hutang") &&
+      !transferInfo.toLowerCase().includes("seimbang")
+    ) {
+      transferSummary += `- *${name}*: ${transferInfo}\n`;
     }
   });
 

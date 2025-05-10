@@ -1,15 +1,18 @@
 .expense-card {
   /* border-bottom: 0.5px solid var(--table-border-color); */
-  padding: 16px 0px 0px 0px;
+  padding: 15px 0px 0px 0px;
 }
 
 .expense-header {
   display: flex;
   justify-content: space-between;
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size: 14px;
   color: var(--text-color);
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  /* background-color: var(--table-border-color); */
+  /* padding: 10px; */
+  border-radius: 12px;
 }
 
 .expense-meta label {
@@ -20,19 +23,19 @@
 }
 .people-row {
   display: flex;
-  gap: 0;
+  gap: 10px;
   align-items: flex-start;
   margin-bottom: 5px;
 }
 
 /* .avatar-wrapper {
   text-align: center;
-  width: 50px;
+  gap: 10px;
 } */
 
 .avatar-box {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
@@ -42,7 +45,7 @@
 .avatar-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
 
 .avatar-name {
@@ -79,15 +82,16 @@
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
-  background-color: var(--table-border-color);
-  padding: 10px;
-  border-radius: 12px;
+  /* background-color: var(--table-border-color); */
+  /* padding: 10px;
+  border-radius: 12px; */
 }
 
 .expense-meta {
   position: relative;
-  padding-bottom: 56px; /* agar tombol tidak menabrak konten */
-  margin-top: 10px;
+  padding-bottom: 46px; /* agar tombol tidak menabrak konten */
+  margin-top: 5px;
+  border-bottom: 1px solid var(--table-border-color);
 }
 
 .action-buttons {
@@ -99,11 +103,12 @@
 }
 
 .action-buttons button {
-  padding: 8px 12px;
+  padding: 6px 8px;
   font-size: 12px;
-  border: none;
+  border: 1px solid var(--table-border-color);
   border-radius: 10px;
-  background-color: var(--table-border-color);
+  /* background-color: var(--table-border-color); */
+  background-color: transparent;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -118,4 +123,144 @@
 
 .action-buttons .delete-btn {
   color: red;
+}
+
+/* SUMARY */
+.user-summary-cards {
+  padding: 5px;
+}
+.user-card {
+  /* background: #fff; */
+  /* border-radius: 16px; */
+  /* padding: 20px; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* border-bottom: 1px solid var(--table-border-color); */
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+  /* font-family: sans-serif; */
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-bottom: 1px solid var(--table-border-color); */
+}
+
+.avatar img {
+  border-radius: 50%;
+}
+
+.user-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.user-details h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-details p {
+  margin: 0;
+  font-size: 10px;
+  color: var(--text-color-desc);
+}
+
+.user-expense {
+  text-align: right;
+}
+
+.user-expense h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.user-expense p {
+  margin: 0;
+  color: var(--text-color-desc);
+}
+
+hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid var(--table-border-color);
+}
+
+.transfer-detail {
+  font-size: 18px;
+  padding: 0px;
+  margin: 0px;
+
+  margin: 3px 0;
+}
+
+.no-debt {
+  color: #4caf50;
+  font-weight: bold;
+  margin: 3px 0px;
+}
+
+.user-transfers {
+  background-color: var(--infobox-info-bg);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.user-transfers p {
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+  /* padding: 8px; */
+  border-radius: 6px;
+  padding: 0px;
+}
+
+/* data pengeluaran breakdown */
+.item-breakdown {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.item-breakdown li {
+  margin-bottom: 8px;
+  color: var(--text-color-desc);
+  font-size: 12px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  /* font-weight: 500; */
+}
+
+.item-name {
+  flex: 1;
+  text-align: left;
+}
+
+.item-amount {
+  flex-shrink: 0;
+  text-align: right;
+  margin-left: 10px;
+  /* font-family: monospace; */
+}
+
+.empty-state {
+  color: var(--text-color-desc);
+  font-size: 20px;
+  text-align: center;
+}
+.empty-state p {
+  color: var(--text-color-desc);
+  font-size: 10px;
+  text-align: center;
+  margin: 0;
+}
+
+.empty-state-image {
+  width: 80px;
+  margin: 10px 20px 0 20px;
 }
