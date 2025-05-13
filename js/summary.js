@@ -73,7 +73,7 @@ function displaySummary(
       <p class="activity-date"> Tanggal: ${formattedDate}</p>
     </div
     <div class="split-bill-icon">
-       <img src="img/splitBill-invoice.png" alt="logo" class="logo" />
+       <img src="img/logoSummary.png" alt="logo" class="logo" />
     </div>
   </div>
 `;
