@@ -1,0 +1,295 @@
+.section {
+  margin-bottom: 20px;
+}
+
+.invoice-preview {
+  padding-bottom: 30px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+.row input {
+  flex: 1;
+}
+.qty {
+  max-width: 20%;
+}
+.amount {
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.total-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* atau ukuran spesifik */
+  color: var(--text-color);
+}
+
+.total-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* atau ukuran spesifik */
+  color: var(--text-color);
+}
+
+.invoice-total {
+  text-align: right;
+  margin: 20px 0px 20px 0;
+  border-bottom: 1px solid var(--table-border-color);
+}
+
+#preview-total-words {
+  text-align: right;
+}
+
+.total-label {
+  text-align: left;
+  font-size: 16px;
+}
+
+.total-value {
+  text-align: right;
+  font-weight: bold;
+  font-size: 20px;
+  /* background-color: var(--infobox-info-bg); */
+  padding: 2px 8px;
+  /* border-radius: 5px; */
+  border-bottom: 1px solid var(--text-color);
+  border-top: 1px solid var(--text-color);
+}
+
+.total-words {
+  font-size: 12px;
+  color: var(--text-color-desc);
+  text-align: right;
+  white-space: normal; /* Izinkan teks wrap */
+  word-wrap: break-word; /* Pecah kata panjang jika perlu */
+  overflow-wrap: break-word;
+}
+
+.item-invoice {
+  border: 1px solid var(--table-border-color);
+  padding: 10px;
+  border-radius: 12px;
+}
+.action-buttons-invoice {
+  display: flex;
+  justify-content: flex-end; /* dorong tombol ke kanan */
+}
+.delete-btn {
+  color: red;
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid var(--table-border-color);
+  border-radius: 10px;
+  /* background-color: var(--table-border-color); */
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  max-width: 40px;
+}
+
+.action-buttons-invoice button:hover {
+  background-color: var(--table-border-color);
+}
+
+/* Billed Item */
+.billed-card {
+  background-color: var(--input-bg);
+  border-radius: 12px;
+  padding: 10px 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  position: relative;
+  flex: 0 0 auto; /* Jangan menyusut, tampilkan secara horizontal */
+  min-width: 150px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 1px solid var(--input-bg);
+}
+.billed-card p {
+  margin: 0;
+}
+.billed-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.billed-card.selected {
+  border: 1px solid #7056ec;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background-color: rgba(112, 86, 236, 0.1); /* soft highlight */
+}
+
+.invoice-tnc {
+  font-size: 12px;
+  color: var(--text-color);
+  text-align: left;
+  white-space: normal; /* Izinkan teks wrap */
+  word-wrap: break-word; /* Pecah kata panjang jika perlu */
+  overflow-wrap: break-word;
+  margin-bottom: 20px;
+}
+
+.invoice-tnc h3 {
+  margin-bottom: 0px;
+}
+
+.invoice-tnc ol {
+  padding-left: 20px;
+}
+
+.preview-footer {
+  font-size: 10px;
+  color: var(--text-color-desc);
+  text-align: center;
+  white-space: normal; /* Izinkan teks wrap */
+  word-wrap: break-word; /* Pecah kata panjang jika perlu */
+  overflow-wrap: break-word;
+}
+
+.invoice-table {
+  overflow-x: auto;
+}
+
+/* Invoice header */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.invoice-info {
+  text-align: left;
+}
+
+.invoice-info h1 {
+  color: var(--btn-bg); /* ungu */
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+.invoice-info p {
+  margin: 4px 0;
+  font-size: 12px;
+}
+
+.invoice-logo img {
+  max-height: 40px;
+}
+
+.invoice-addresses {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.address-box {
+  background-color: #f3e8ff; /* ungu muda */
+  padding: 16px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.address-box h3 {
+  color: #7c3aed;
+  margin: 0 0 4px;
+}
+
+.address-box p {
+  margin: 4px 0;
+  font-size: 15px;
+}
+
+.billed-preview {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.invoice-section img {
+  width: 30px;
+  height: 30px;
+  border-radius: 20%;
+  object-fit: cover;
+}
+
+.invoice-section {
+  background-color: var(--infobox-info-bg);
+  padding: 10px 12px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.invoice-section p {
+  margin: 5px 0px;
+}
+
+#tncField {
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+/* tale styleb */
+.item-desc {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 12px;
+  color: var(--text-color-desc);
+  max-width: 300px;
+  display: block;
+}
+
+.item-name {
+  word-wrap: break-word;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.select-payment-method-invoice {
+  text-align: left;
+}
+
+.tnc-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.preview-logo {
+  border: 1px solid var(--infobox-info-bg);
+  /* width: 100%; */
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 80px;
+  background-color: var(--infobox-info-bg);
+}
+
+/* Button upload logo */
+.custom-button {
+  display: inline-block;
+  background-color: var(--btn-bg);
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0px;
+}

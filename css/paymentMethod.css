@@ -12,7 +12,6 @@
   position: relative;
   width: 120px;
   flex: 0 0 auto; /* Jangan menyusut, tampilkan secara horizontal */
-  /* border: 1px solid var(--table-border-color); */
   min-width: 100px;
   flex-shrink: 0;
   cursor: pointer;
@@ -22,8 +21,7 @@
 .payment-logo {
   height: 20px;
   width: auto;
-  margin-bottom: 5px;
-  /* margin-top: 8px; */
+  margin-bottom: 0px;
 }
 
 .card-display-section {
@@ -38,7 +36,6 @@
   overflow-x: auto;
   padding-top: 5px;
   padding-right: 5px;
-  /* padding: 10px; */
   padding-bottom: 5px;
 
   scrollbar-width: none; /* Firefox */

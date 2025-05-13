@@ -68,8 +68,13 @@ function displaySummary(
   // Struktur HTML-nya
   summaryDiv.innerHTML = `
   <div class="summary-header">
-    <h1 class="activity-name">${activityName || "Aktivitas Tanpa Nama"}</h1>
-    <p class="activity-date"> Tanggal: ${formattedDate}</p>
+    <div class="header-title">
+      <h1 class="activity-name">${activityName || "Aktivitas Tanpa Nama"}</h1>
+      <p class="activity-date"> Tanggal: ${formattedDate}</p>
+    </div
+    <div class="split-bill-icon">
+       <img src="img/splitBill-invoice.png" alt="logo" class="logo" />
+    </div>
   </div>
 `;
 

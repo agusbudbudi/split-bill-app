@@ -12,8 +12,8 @@
 }
 
 .upload-icon {
-  width: 40px;
-  margin-bottom: 10px;
+  width: 60px;
+  margin-bottom: 5px;
 }
 
 .file-info {
@@ -32,13 +32,15 @@
   margin: 5px 10px;
 }
 
-#fileName {
+#fileName,
+#fileName-logo {
   flex: 1;
   font-size: 10px;
   color: var(--text-color);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
 }
 
 .delete-button {

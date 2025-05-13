@@ -1,17 +1,13 @@
 .expense-card {
-  /* border-bottom: 0.5px solid var(--table-border-color); */
   padding: 15px 0px 0px 0px;
 }
 
 .expense-header {
   display: flex;
   justify-content: space-between;
-  /* font-weight: bold; */
   font-size: 14px;
   color: var(--text-color);
-  /* margin-bottom: 10px; */
-  /* background-color: var(--table-border-color); */
-  /* padding: 10px; */
+
   border-radius: 12px;
 }
 
@@ -27,11 +23,6 @@
   align-items: flex-start;
   margin-bottom: 5px;
 }
-
-/* .avatar-wrapper {
-  text-align: center;
-  gap: 10px;
-} */
 
 .avatar-box {
   width: 30px;
@@ -57,9 +48,6 @@
 .label-row {
   display: flex;
   flex-wrap: wrap;
-  /* align-items: flex-start; */
-  /* background-color: var(--bg-color); */
-  /* align-items: flex-start; */
 
   /* margin-bottom: 10px; */
   align-items: center;
@@ -70,7 +58,7 @@
   /* width: 100px; */
   /* font-weight: 500; */
   font-size: 10px;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-bottom: 0;
   flex-wrap: wrap;
   white-space: normal; /* Ini memungkinkan teks dengan spasi untuk membungkus */
@@ -82,9 +70,6 @@
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
-  /* background-color: var(--table-border-color); */
-  /* padding: 10px;
-  border-radius: 12px; */
 }
 
 .expense-meta {
@@ -130,21 +115,14 @@
   padding: 5px;
 }
 .user-card {
-  /* background: #fff; */
-  /* border-radius: 16px; */
-  /* padding: 20px; */
   padding-top: 10px;
   padding-bottom: 10px;
-  /* border-bottom: 1px solid var(--table-border-color); */
-  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
-  /* font-family: sans-serif; */
 }
 
 .user-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* border-bottom: 1px solid var(--table-border-color); */
 }
 
 .avatar img {
@@ -263,4 +241,25 @@ hr {
 .empty-state-image {
   width: 80px;
   margin: 10px 20px 0 20px;
+}
+
+.edit-expense {
+  width: 30px;
+  height: 30px;
+  background-color: var(--input-bg);
+  /* border: 2px dashed #6b46c1; */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--btn-bg);
+  font-size: 28px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.edit-expense-text {
+  font-size: 10px;
+  color: var(--btn-bg);
+  margin-top: 2px;
 }
