@@ -527,3 +527,17 @@ window.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadTncAndFooter();
 });
+
+//LIBRARY SELECT DATE FLATPICKR
+flatpickr("#invoiceDate", {
+  dateFormat: "Y-m-d", // atau ganti format sesuai kebutuhan
+  defaultDate: "today",
+  // maxDate: "today", // opsional: membatasi hingga hari ini
+});
+
+//LIBRARY SELECT DATE FLATPICKR
+flatpickr("#dueDate", {
+  dateFormat: "Y-m-d", // atau ganti format sesuai kebutuhan
+  defaultDate: "today",
+  // maxDate: "today", // opsional: membatasi hingga hari ini
+});
