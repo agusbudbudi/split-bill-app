@@ -82,6 +82,7 @@
     <link rel="stylesheet" href="css/avatar.css" />
     <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/summary.css" />
+    <link rel="stylesheet" href="css/invoice.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link
       rel="stylesheet"
@@ -98,7 +99,15 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
+    <!-- Quill CSS -->
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
   </head>
+
   <body>
     <header class="sticky-header">
       <!-- <h1>Split Bill</h1> -->
@@ -145,7 +154,7 @@
         </a>
 
         <a class="menu-circle" onclick="showSection('invoice', this)">
-          <div class="badge">Soon</div>
+          <div class="badge">New</div>
           <div class="menu-icon">
             <img src="img/invoice-icon.png" alt="Invoice" />
           </div>
@@ -177,16 +186,6 @@
 
               <!-- Section Add People -->
               <label for="personName">Tambah Teman</label>
-              <!-- <div style="display: flex; gap: 8px">
-                <input
-                  type="text"
-                  id="personName"
-                  placeholder="Contoh: Agus, Budi, Caca"
-                />
-                <button class="btn-add-person" onclick="addPerson()">
-                  <i class="fa-solid fa-user-plus"></i>
-                </button>
-              </div> -->
 
               <!-- List of Added People with Remove -->
               <table id="peopleTable" class="people-table">
@@ -255,27 +254,39 @@
           <div class="card-container">
             <div class="title-section">Data Pengeluaran</div>
             <div id="input-section">
-              <div class="upload-container hidden">
-                <label for="bill-image" class="drop-area">
-                  <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
-                  <p>Upload foto bill kamu disini ya</p>
-                  <input type="file" id="bill-image" accept="image/*" hidden />
-                </label>
-              </div>
+              <div hidden>
+                <div class="upload-container">
+                  <label for="bill-image" class="drop-area">
+                    <!-- <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i> -->
+                    <img
+                      src="img/upload-image.png"
+                      alt="Upload Icon"
+                      class="upload-icon"
+                    />
+                    <p>Upload foto bill kamu disini ya</p>
+                    <input
+                      type="file"
+                      id="bill-image"
+                      accept="image/*"
+                      hidden
+                    />
+                  </label>
+                </div>
 
-              <!-- Input foto splitt bill -->
-              <div class="share-button-container scan-section hidden">
-                <div class="file-info">
-                  <i class="fa-regular fa-image file-icon"></i>
-                  <span id="fileName">No selected File</span>
-                  <button id="removeBtn" class="delete-button">
-                    <i class="fa-solid fa-xmark"></i>
+                <!-- Input foto splitt bill -->
+                <div class="share-button-container scan-section">
+                  <div class="file-info">
+                    <i class="fa-regular fa-image file-icon"></i>
+                    <span id="fileName">No selected File</span>
+                    <button id="removeBtn" class="delete-button">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <button onclick="processImage()" class="scan-bill-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Scan Bill
                   </button>
                 </div>
-                <button onclick="processImage()" class="scan-bill-btn">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i>
-                  Scan Bill
-                </button>
               </div>
 
               <!-- Item & Amount -->
@@ -377,92 +388,7 @@
                 <span class="add-text">Tambah</span>
               </div>
               <!-- List payment method (dinamis) -->
-              <div
-                id="paymentCardsContainer"
-                class="card-display-section"
-              ></div>
-            </div>
-
-            <!-- PAYMENT METHOD BOTTOM SHEET -->
-            <div class="table-wrapper">
-              <div
-                class="card-container bottom-sheet hidden"
-                id="addPaymentMethodBottomSheet"
-              >
-                <div class="popup-header">
-                  <h3>Tambah Metode Pembayaran</h3>
-                  <button
-                    onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
-                    class="close-btn-bottom-sheet"
-                  >
-                    <i class="fa-solid fa-xmark"></i>
-                  </button>
-                </div>
-                <div id="input-section">
-                  <label for="paymentMethod">Metode Pembayaran</label>
-                  <select
-                    id="paymentMethod"
-                    onchange="handlePaymentMethodChange()"
-                  >
-                    <option value="">Pilih Metode</option>
-                    <option value="BankTransfer">Bank Transfer</option>
-                    <option value="OVO">OVO</option>
-                    <option value="GoPay">GoPay</option>
-                    <option value="DANA">DANA</option>
-                    <option value="ShopeePay">Shopee Pay</option>
-                    <option value="LinkAja">LinkAja</option>
-                  </select>
-                  <div id="paymentDetailsForm"></div>
-                </div>
-
-                <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
-                <div id="paymentDetails" style="display: none">
-                  <!-- Bagian Bank Transfer -->
-                  <div id="bankForm" style="display: none">
-                    <label for="bankName">Nama Bank</label>
-                    <input
-                      type="text"
-                      id="bankName"
-                      placeholder="Contoh: BCA, BRI"
-                    />
-
-                    <label for="bankName">Nama</label>
-                    <input
-                      type="text"
-                      id="bankAccountName"
-                      placeholder="Nama Pemilik Rekening"
-                    />
-
-                    <label for="bankAccountNumber">Nomor Rekening</label>
-                    <input
-                      type="text"
-                      id="bankAccountNumber"
-                      placeholder="Contoh: 1234567890"
-                    />
-                  </div>
-
-                  <!-- Bagian e-Wallet -->
-                  <div id="ewalletForm" style="display: none">
-                    <label for="ewalletName">Nama</label>
-                    <input
-                      type="text"
-                      id="ewalletName"
-                      placeholder="Nama Akun e-Wallet"
-                    />
-
-                    <label for="ewalletPhone">Nomor Telepon</label>
-                    <input
-                      type="text"
-                      id="ewalletPhone"
-                      placeholder="Contoh: 081234567890"
-                    />
-                  </div>
-                </div>
-
-                <button onclick="addPaymentMethod()">
-                  <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
-                </button>
-              </div>
+              <div class="paymentCardsContainer card-display-section"></div>
             </div>
           </div>
         </div>
@@ -557,8 +483,6 @@
             </button>
           </div>
         </div>
-        <!-- overlay -->
-        <div id="overlay" class="overlay hidden"></div>
       </div>
 
       <!-- Collect Money -->
@@ -705,16 +629,464 @@
 
       <!-- Invoice -->
       <div id="section-invoice" class="section-content" style="display: none">
-        <img
+        <div class="table-wrapper">
+          <div class="card-container">
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <span class="icon">🎉</span>
+              </div>
+              <div class="content">
+                <p>
+                  Dari input data ke invoice siap kirim hanya dalam beberapa
+                  klik — hemat waktu, tanpa ribet, cocok untuk UMKM dan
+                  freelancer!
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <label>Invoice No</label>
+              <div class="row">
+                <input
+                  type="text"
+                  id="invoicePrefix"
+                  placeholder="Prefix (e.g. AGD-)"
+                  oninput="generateInvoiceNumber()"
+                />
+                <input type="text" id="invoiceNo" readonly />
+              </div>
+
+              <label for="invoiceDate" style="display: block"
+                >Invoice Date</label
+              >
+              <input type="date" id="invoiceDate" />
+
+              <label for="dueDate" style="display: block">Due Date</label>
+              <input type="date" id="dueDate" />
+
+              <label>Upload Logo</label>
+
+              <!-- Preview kecil setelah upload -->
+              <img
+                id="preview-logo-upload"
+                style="display: none"
+                class="preview-logo"
+              />
+              <!-- Input foto splitt bill -->
+              <div class="share-button-container scan-section">
+                <div class="file-info">
+                  <i class="fa-regular fa-image file-icon"></i>
+                  <span id="fileName-logo">No selected File</span>
+                  <button id="removeLogoBtn" class="delete-button">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <label for="logoPreview" class="custom-button">
+                  Upload Logo
+                </label>
+                <input
+                  type="file"
+                  id="logoPreview"
+                  accept="image/*"
+                  onchange="previewLogo(event)"
+                  style="display: none"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billed By -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label>Billed By</label>
+            <div class="people-container">
+              <!-- Tombol Add New (static di kiri) -->
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addBilledByBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Tambah</span>
+              </div>
+              <!-- List Billed By (dinamis) -->
+              <div id="billedByContainer" class="card-display-section"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Billed By Bottom Sheet -->
+        <div class="table-wrapper">
+          <div
+            class="card-container bottom-sheet hidden"
+            id="addBilledByBottomSheet"
+          >
+            <div id="input-section">
+              <div class="popup-header">
+                <h3>Tambah Billed By</h3>
+                <button
+                  onclick="closeBottomSheet('addBilledByBottomSheet')"
+                  class="close-btn-bottom-sheet"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <label for="nameBilledBy">Nama Billed By</label>
+              <input
+                type="text"
+                id="nameBilledBy"
+                placeholder="Contoh: AG Design Official"
+              />
+
+              <label for="addressBilledBy">Address</label>
+              <input
+                type="text"
+                id="addressBilledBy"
+                placeholder="Contoh: Jakarta Pusat"
+              />
+              <label for="emailBilledBy">Email</label>
+              <input
+                type="text"
+                id="emailBilledBy"
+                placeholder="Contoh: agdesign@gmailcom"
+              />
+              <label for="phoneNumberBilledBy">Phone Number</label>
+              <input
+                type="number"
+                id="phoneNumberBilledBy"
+                placeholder="Contoh: 08555555555"
+              />
+            </div>
+            <button onclick="saveBilled('By')">
+              <i class="fa-solid fa-user-plus"></i> Tambah Billed By
+            </button>
+          </div>
+        </div>
+
+        <!-- Billed To -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label>Billed To</label>
+            <div class="people-container">
+              <!-- Tombol Add New (static di kiri) -->
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addBilledToBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Tambah</span>
+              </div>
+              <!-- List payment method (dinamis) -->
+              <div id="billedToContainer" class="card-display-section"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Billed To Bottom Sheet -->
+        <div class="table-wrapper">
+          <div
+            class="card-container bottom-sheet hidden"
+            id="addBilledToBottomSheet"
+          >
+            <div id="input-section">
+              <div class="popup-header">
+                <h3>Tambah Billed To</h3>
+                <button
+                  onclick="closeBottomSheet('addBilledToBottomSheet')"
+                  class="close-btn-bottom-sheet"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <label for="nameBilledTo">Nama Billed To</label>
+              <input
+                type="text"
+                id="nameBilledTo"
+                placeholder="Contoh: My Indo Kitchen"
+              />
+              <label for="phoneNumberBilledTo">Phone Number</label>
+              <input
+                type="number"
+                id="phoneNumberBilledTo"
+                placeholder="Contoh: 08555555555"
+              />
+            </div>
+            <button onclick="saveBilled('To')">
+              <i class="fa-solid fa-user-plus"></i> Tambah Billed To
+            </button>
+          </div>
+        </div>
+
+        <!-- Item Invoice -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="section item-container" id="items">
+              <label>Items Invoice</label>
+            </div>
+            <button onclick="addNewItem()" class="secondary-button">
+              <i class="fa-solid fa-plus"></i>
+              Add New Item
+            </button>
+          </div>
+        </div>
+
+        <!-- Total Invoice -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="total-section">
+              <span class="total-label">Total (IDR):</span>
+              <span class="total-value" id="total">Rp 0</span>
+            </div>
+            <hr />
+            <div class="total-words" id="totalInWords"></div>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label>Payment Method</label>
+            <div class="people-container invoice-payment-section">
+              <!-- Tombol Add New -->
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addPaymentMethodBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Tambah</span>
+              </div>
+              <!-- List payment method (dinamis) -->
+              <div class="paymentCardsContainer card-display-section"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label>Add TnC</label>
+            <div class="tnc-container">
+              <!-- Quill Editor Container -->
+              <div id="tncField" style="height: 100px"></div>
+            </div>
+
+            <label>Add Footer</label>
+            <input
+              type="text"
+              placeholder="Footer"
+              class="footer"
+              id="footerField"
+            />
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="card-container">
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <i class="fa-solid fa-circle-info"></i>
+              </div>
+              <div class="content">
+                <p>
+                  Pastikan semua item dalam invoice telah diisi, agar invoice
+                  bisa dicetak
+                </p>
+              </div>
+            </div>
+
+            <button onclick="previewInvoice()">
+              <i class="fa-solid fa-file-invoice"></i>
+              Preview Invoice
+            </button>
+          </div>
+        </div>
+
+        <!-- PREVIEW INVOICE -->
+        <div class="table-wrapper">
+          <div
+            class="card-container"
+            style="display: none"
+            id="invoice-preview-section"
+          >
+            <section id="invoice" class="invoice-preview">
+              <div class="invoice-header">
+                <div class="invoice-info">
+                  <h1>Invoice</h1>
+                  <p>
+                    Invoice No:
+                    <strong
+                      ><span id="preview-invoice-number"
+                        >AGD-2025044</span
+                      ></strong
+                    >
+                  </p>
+                  <p>
+                    Invoice Date:
+                    <strong><span id="preview-invoice-date">-</span></strong>
+                  </p>
+                  <p>
+                    Due Date:
+                    <strong><span id="preview-due-date">-</span></strong>
+                  </p>
+                </div>
+                <div class="invoice-logo">
+                  <img
+                    id="invoice-logo-preview"
+                    alt="Company Logo"
+                    style="display: none"
+                  />
+                </div>
+              </div>
+              <div class="billed-preview">
+                <!-- Bagian Billed By -->
+                <div id="invoice-billed-by" class="invoice-section"></div>
+
+                <!-- Bagian Billed To -->
+                <div id="invoice-billed-to" class="invoice-section"></div>
+              </div>
+
+              <div class="table-container">
+                <table class="invoice-table">
+                  <thead>
+                    <tr>
+                      <th>Item Name</th>
+                      <th>Qty</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="preview-items">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="invoice-total">
+                <div class="total-preview">
+                  <span class="total-label">Total (IDR):</span>
+                  <!-- <span class="total-value" id="total">Rp 0</span> -->
+                  <span class="total-value" id="preview-total"></span>
+                </div>
+                <p><em id="preview-total-words"></em></p>
+              </div>
+
+              <!-- Selected Payment Metod -->
+              <div
+                id="selectedPaymentInfo"
+                class="select-payment-method-invoice"
+              ></div>
+
+              <!-- TnC dan footer -->
+              <div class="invoice-tnc">
+                <h3>Terms and Conditions</h3>
+                <div id="preview-tnc"></div>
+              </div>
+              <div id="preview-footer" class="preview-footer"></div>
+            </section>
+            <div class="share-button-container">
+              <button onclick="exportInvoiceToPDF()">
+                <i class="fa-solid fa-file-export"></i> Export to PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <img
           src="img/under-construction.png"
           alt="Under Construction"
           class="under-construction"
         />
         <p class="coming-soon">
           🧾 Tunggu sebentar ya fitur Invoice masih dibikin nih. Coming Soon!
-        </p>
+        </p> -->
       </div>
     </div>
+
+    <!-- PAYMENT METHOD BOTTOM SHEET -->
+    <div class="table-wrapper">
+      <div
+        class="card-container bottom-sheet hidden"
+        id="addPaymentMethodBottomSheet"
+      >
+        <div class="popup-header">
+          <h3>Tambah Metode Pembayaran</h3>
+          <button
+            onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
+            class="close-btn-bottom-sheet"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div id="input-section">
+          <label for="paymentMethod">Metode Pembayaran</label>
+          <select id="paymentMethod" onchange="handlePaymentMethodChange()">
+            <option value="">Pilih Metode</option>
+            <option value="BankTransfer">Bank Transfer</option>
+            <option value="OVO">OVO</option>
+            <option value="GoPay">GoPay</option>
+            <option value="DANA">DANA</option>
+            <option value="ShopeePay">Shopee Pay</option>
+            <option value="LinkAja">LinkAja</option>
+          </select>
+          <div id="paymentDetailsForm"></div>
+        </div>
+
+        <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+        <div id="paymentDetails" style="display: none">
+          <!-- Bagian Bank Transfer -->
+          <div id="bankForm" style="display: none">
+            <label for="bankName">Nama Bank</label>
+            <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
+
+            <label for="bankName">Nama</label>
+            <input
+              type="text"
+              id="bankAccountName"
+              placeholder="Nama Pemilik Rekening"
+            />
+
+            <label for="bankAccountNumber">Nomor Rekening</label>
+            <input
+              type="text"
+              id="bankAccountNumber"
+              placeholder="Contoh: 1234567890"
+            />
+          </div>
+
+          <!-- Bagian e-Wallet -->
+          <div id="ewalletForm" style="display: none">
+            <label for="ewalletName">Nama</label>
+            <input
+              type="text"
+              id="ewalletName"
+              placeholder="Nama Akun e-Wallet"
+            />
+
+            <label for="ewalletPhone">Nomor Telepon</label>
+            <input
+              type="text"
+              id="ewalletPhone"
+              placeholder="Contoh: 081234567890"
+            />
+          </div>
+        </div>
+
+        <button onclick="addPaymentMethod()">
+          <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+        </button>
+      </div>
+    </div>
+    <!-- overlay -->
+    <div id="overlay" class="overlay hidden"></div>
 
     <script src="js/script.js"></script>
     <script src="js/editExpense.js"></script>
@@ -727,6 +1099,7 @@
     <script src="js/collectMoney.js"></script>
     <script src="js/scanBill.js"></script>
     <script src="js/bottomsheet.js"></script>
+    <script src="js/invoice.js"></script>
     <script src="js/ui.js"></script>
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");

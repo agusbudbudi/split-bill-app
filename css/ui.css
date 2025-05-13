@@ -94,9 +94,8 @@
   align-items: center;
   justify-content: space-between; /* Judul kiri, toggle kanan */
   transition: background-color 0.3s ease;
-
   box-sizing: border-box; /* ⬅️ Tambahkan ini */
-  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); */
+
   border-radius: 0 0 10px 10px;
 }
 
@@ -186,7 +185,6 @@ h3 {
 }
 
 h2 {
-  /* border-bottom: 2px solid var(--table-border-color);  */
   padding-bottom: 8px;
   margin-bottom: 16px;
   font-size: 16px;
@@ -201,17 +199,16 @@ h3 {
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
   align-items: center;
-  /* margin-top: 50px; */
 }
 
 /* Form Elements */
 label {
   display: block;
   text-align: left;
-  /* margin-top: 10px; */
   font-size: 16px;
   color: var(--text-color);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 #input-section label {
@@ -221,6 +218,7 @@ label {
 }
 
 input,
+textarea,
 #input-section input,
 #input-section select,
 #input-section .avatar-container {
@@ -230,7 +228,7 @@ input,
   margin-bottom: 15px;
   border: 1px solid var(--table-border-color);
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-color);
   background-color: var(--input-bg);
 }
@@ -379,4 +377,8 @@ p {
   font-size: 16px;
   color: var(--text-color);
   margin-bottom: 10px;
+}
+
+textarea {
+  font-family: poppins;
 }

@@ -82,20 +82,20 @@ function addPaymentMethod() {
 
 // tampilkan metode pembayaran yang sudah ditambahkan
 function renderPaymentCards() {
-  const container = document.getElementById("paymentCardsContainer");
-  container.innerHTML = "";
+  const containers = document.querySelectorAll(".paymentCardsContainer");
+
+  // Kosongkan semua container
+  containers.forEach((container) => {
+    container.innerHTML = "";
+  });
 
   paymentMethods.forEach((data, index) => {
     const logo = getPaymentLogo(data.method);
 
-    const card = document.createElement("div");
-    card.className = "payment-card";
-
-    if (selectedPaymentIndexes.includes(index)) {
-      card.classList.add("selected");
-    }
-
-    card.innerHTML = `
+    const cardHTML = `
+      <div class="payment-card ${
+        selectedPaymentIndexes.includes(index) ? "selected" : ""
+      }" data-index="${index}">
         <button onclick="removePayment(${index})" class="delete-top-right"><i class="fa-solid fa-xmark"></i></button>
         <img src="${logo}" alt="${data.method}" class="payment-logo"/>
         <p>${data.name}</p>
@@ -104,30 +104,18 @@ function renderPaymentCards() {
             ? `<p>Rek: ${data.accountNumber}</p><p>Bank: ${data.bankName}</p>`
             : `<p>${data.phoneNumber}</p>`
         }
+      </div>
     `;
 
-    // Card selection
-    card.addEventListener("click", (e) => {
-      if (!e.target.closest("button")) {
-        if (selectedPaymentIndexes.includes(index)) {
-          // Unselect
-          selectedPaymentIndexes = selectedPaymentIndexes.filter(
-            (i) => i !== index
-          );
-        } else {
-          // Select
-          selectedPaymentIndexes.push(index);
-        }
-        updateCardSelection();
-        updateCardSelection();
-        showSelectedPayment();
-        updateCalculateButton();
-      }
+    // Tambahkan ke semua container
+    containers.forEach((container) => {
+      container.insertAdjacentHTML("beforeend", cardHTML);
     });
-
-    container.appendChild(card);
   });
-  updateCardSelection(); // <--- pastikan ini dipanggil setelah render
+
+  // Pasang ulang event listener ke semua kartu
+  initCardSelection();
+  updateCardSelection();
 }
 
 function getPaymentLogo(method) {
@@ -162,26 +150,38 @@ let selectedPaymentIndexes = [];
 
 function initCardSelection() {
   const cards = document.querySelectorAll(
-    "#paymentCardsContainer .payment-card"
+    ".paymentCardsContainer .payment-card"
   );
 
-  cards.forEach((card, index) => {
+  cards.forEach((card) => {
+    const index = parseInt(card.getAttribute("data-index"));
+
     card.addEventListener("click", (e) => {
-      // Hindari klik pada tombol delete (tombol X)
+      // Hindari klik tombol hapus
       if (e.target.closest("button")) return;
 
-      selectedPaymentIndex = index;
+      if (selectedPaymentIndexes.includes(index)) {
+        selectedPaymentIndexes = selectedPaymentIndexes.filter(
+          (i) => i !== index
+        );
+      } else {
+        selectedPaymentIndexes.push(index);
+      }
+
       updateCardSelection();
       showSelectedPayment();
+      updateCalculateButton();
     });
   });
 }
 
 function updateCardSelection() {
   const cards = document.querySelectorAll(
-    "#paymentCardsContainer .payment-card"
+    ".paymentCardsContainer .payment-card"
   );
-  cards.forEach((card, index) => {
+
+  cards.forEach((card) => {
+    const index = parseInt(card.getAttribute("data-index"));
     if (selectedPaymentIndexes.includes(index)) {
       card.classList.add("selected");
     } else {

@@ -14,200 +14,8 @@ async function processImage() {
   console.log("OCR Result:", text);
   const items = parseBillText(text);
   renderParsedItems(items);
+  updateCalculateButton();
 }
-
-// function parseBillText(text) {
-//   const lines = text
-//     .split("\n")
-//     .map((l) => l.trim())
-//     .filter((l) => l);
-//   const items = [];
-
-//   let currentItem = null;
-
-//   for (let i = 0; i < lines.length; i++) {
-//     const line = lines[i];
-
-//     // Jika baris mengandung "Rp", anggap ini baris detail harga
-//     if (line.includes("Rp")) {
-//       const rupiahMatches = [...line.matchAll(/Rp[\s.]?([\d.,]+)/g)];
-//       if (currentItem && rupiahMatches.length > 0) {
-//         // Ambil angka terakhir di baris (kolom paling kanan)
-//         const lastMatch = rupiahMatches[rupiahMatches.length - 1][1];
-//         const cleanAmount = parseFloat(
-//           lastMatch.replace(/\./g, "").replace(",", ".")
-//         );
-//         items.push({ name: currentItem, amount: cleanAmount });
-//         currentItem = null; // reset
-//       }
-//     } else if (line && !line.match(/^\d+\s*x/i)) {
-//       // Ini baris item name, simpan sementara
-//       currentItem = line;
-//     }
-//   }
-
-//   return items;
-// }
-
-// function parseBillText(text) {
-//   const lines = text
-//     .split("\n")
-//     .map((l) => l.trim())
-//     .filter((l) => l);
-
-//   const items = [];
-//   let currentItem = "";
-
-//   lines.forEach((line, i) => {
-//     const priceMatch = line.match(/Rp[\s.]?([\d.,]+)/g);
-//     const quantityMatch = line.match(/(\d+)\s*x/gi); // cari format "1 x" atau "2x"
-
-//     // Deteksi baris item + harga dalam satu baris
-//     if (priceMatch && !line.startsWith("Rp")) {
-//       const namePart = line.split("Rp")[0].trim();
-//       const pricePart = priceMatch[priceMatch.length - 1];
-//       const cleanPrice = parseFloat(
-//         pricePart.replace(/[^\d,]/g, "").replace(",", ".")
-//       );
-
-//       items.push({
-//         name: namePart,
-//         amount: cleanPrice,
-//       });
-//       currentItem = "";
-//     } else if (!priceMatch && !quantityMatch) {
-//       // Simpan item name sementara
-//       currentItem = line;
-//     } else if (priceMatch && currentItem) {
-//       // Deteksi harga di baris terpisah setelah item
-//       const cleanPrice = parseFloat(
-//         priceMatch[priceMatch.length - 1]
-//           .replace(/[^\d,]/g, "")
-//           .replace(",", ".")
-//       );
-//       items.push({
-//         name: currentItem,
-//         amount: cleanPrice,
-//       });
-//       currentItem = "";
-//     }
-//   });
-
-//   return items;
-// }
-
-// NEW BERFUNGSI DIBAWAH
-
-// function parseBillText(text) {
-//   const lines = text
-//     .split("\n")
-//     .map((l) => l.trim())
-//     .filter((l) => l);
-
-//   const items = [];
-//   let currentItem = "";
-
-//   for (let i = 0; i < lines.length; i++) {
-//     const line = lines[i];
-
-//     // ===== CASE 1: One-line: "Jagung Rebus Rp34.000,00" =====
-//     const oneLineMatch = line.match(/(.+?)\s+Rp[\s.]?([\d.,]+)/i);
-//     const isQtyLine = /\d+\s*x\s*Rp[\d.,]+.*Rp[\d.,]+/i.test(line);
-
-//     if (oneLineMatch && !isQtyLine) {
-//       const name = oneLineMatch[1].trim();
-//       const amount = parseFloat(
-//         oneLineMatch[2].replace(/\./g, "").replace(",", ".")
-//       );
-//       items.push({ name, amount });
-//       currentItem = "";
-//     }
-
-//     // ===== CASE 2: Detail line (e.g. "2x Rp34.000,00 Rp68.000,00") =====
-//     else if (isQtyLine && currentItem) {
-//       const priceMatches = [...line.matchAll(/Rp[\s.]?([\d.,]+)/g)];
-//       if (priceMatches.length > 0) {
-//         const lastPrice = priceMatches[priceMatches.length - 1][1];
-//         const cleanPrice = parseFloat(
-//           lastPrice.replace(/\./g, "").replace(",", ".")
-//         );
-//         items.push({
-//           name: currentItem,
-//           amount: cleanPrice,
-//         });
-//         currentItem = "";
-//       }
-//     }
-
-//     // ===== CASE 3: Baris kemungkinan nama item =====
-//     else if (!isQtyLine && !line.match(/^Rp/)) {
-//       currentItem = line;
-//     }
-//   }
-
-//   return items;
-// }
-
-// // NEW BERHASIL
-// function parseBillText(text) {
-//   const lines = text
-//     .split("\n")
-//     .map((l) => l.trim())
-//     .filter((l) => l);
-
-//   const items = [];
-//   let currentItem = "";
-
-//   for (let i = 0; i < lines.length; i++) {
-//     const line = lines[i].replace(/[^\w\sRp.,x]/g, "").trim(); // bersihkan noise: « ¥ ; etc
-
-//     // ===== CASE 1: One-line (item + price, possible quantity in middle) =====
-//     const oneLineMatch = line.match(/(.+?)\s+Rp[\s.]?([\d.,]+)/i);
-//     const isQtyLine = /\d+\s*x\s*Rp[\d.,]+.*Rp[\d.,]+/i.test(line);
-
-//     if (oneLineMatch && !isQtyLine) {
-//       let name = oneLineMatch[1].trim();
-//       let rawAmount = oneLineMatch[2];
-
-//       // Hapus angka trailing dari nama jika ada (e.g. "Melts Pizza 1" -> "Melts Pizza")
-//       name = name.replace(/\s+\d+$/, "").trim();
-
-//       const cleanAmount = parseFloat(
-//         rawAmount.replace(/\./g, "").replace(",", ".")
-//       );
-
-//       // Jika jumlahnya valid, tambahkan
-//       if (!isNaN(cleanAmount)) {
-//         items.push({ name, amount: cleanAmount });
-//       }
-
-//       currentItem = "";
-//     }
-
-//     // ===== CASE 2: Dua baris - item di atas, harga di bawah =====
-//     else if (isQtyLine && currentItem) {
-//       const priceMatches = [...line.matchAll(/Rp[\s.]?([\d.,]+)/g)];
-//       if (priceMatches.length > 0) {
-//         const lastPrice = priceMatches[priceMatches.length - 1][1];
-//         const cleanPrice = parseFloat(
-//           lastPrice.replace(/\./g, "").replace(",", ".")
-//         );
-//         items.push({
-//           name: currentItem,
-//           amount: cleanPrice,
-//         });
-//         currentItem = "";
-//       }
-//     }
-
-//     // ===== CASE 3: Nama item saja (asumsi baris berikutnya qty & harga) =====
-//     else if (!isQtyLine && !line.match(/^Rp/)) {
-//       currentItem = line.replace(/\s+\d+$/, "").trim(); // hapus trailing angka
-//     }
-//   }
-
-//   return items;
-// }
 
 function parseBillText(text) {
   const lines = text
@@ -232,31 +40,34 @@ function parseBillText(text) {
       // Hapus angka trailing dari nama jika ada (e.g. "Melts Pizza 1" -> "Melts Pizza")
       name = name.replace(/\s+\d+$/, "").trim();
 
-      // Perbaiki jumlah yang terpotong dengan memeriksa adanya angka terpisah
-      let cleanedAmount = rawAmount.replace(/\./g, "").replace(",", ".");
+      // Pisahkan berdasarkan koma
+      const commaParts = rawAmount.split(",");
 
-      // Jika terdapat koma sebelum angka ribuan, kita pastikan untuk memisahkannya dengan benar
-      if (cleanedAmount.includes(",")) {
-        const parts = cleanedAmount.split(",");
-        if (parts.length === 2 && parts[1].length < 3) {
-          cleanedAmount = parts[0] + "." + parts[1].padEnd(3, "0"); // Menjaga angka dengan format yang benar
+      let numericAmount = "";
+
+      if (commaParts.length === 2) {
+        const integerPart = commaParts[0].replace(/\./g, "");
+        const decimalPart = commaParts[1];
+
+        if (decimalPart.length === 2) {
+          // Jika 2 digit setelah koma, abaikan bagian koma
+          numericAmount = integerPart;
+        } else if (decimalPart.length > 2) {
+          // Jika lebih dari 2 digit setelah koma, gabungkan semua bagian
+          numericAmount = integerPart + decimalPart;
+        } else {
+          // Jika hanya 1 digit atau tidak sesuai, abaikan bagian koma
+          numericAmount = integerPart;
         }
+      } else {
+        // Jika tidak ada koma, buang semua pemisah
+        numericAmount = rawAmount.replace(/[.,]/g, "");
       }
 
-      // Pastikan bahwa angka yang dihasilkan sudah benar
-      const cleanAmount = parseFloat(cleanedAmount);
+      const cleanAmount = parseInt(numericAmount, 10);
 
-      // Jika jumlahnya valid, tambahkan
       if (!isNaN(cleanAmount)) {
-        // Ubah menjadi format yang sesuai
-        const formattedAmount = cleanAmount
-          .toLocaleString("id-ID", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-          .replace(",", "."); // Ganti koma dengan titik untuk format yang benar
-
-        items.push({ name, amount: formattedAmount });
+        items.push({ name, amount: cleanAmount });
       }
 
       currentItem = "";
@@ -267,22 +78,40 @@ function parseBillText(text) {
       const priceMatches = [...line.matchAll(/Rp[\s.]?([\d.,]+)/g)];
       if (priceMatches.length > 0) {
         const lastPrice = priceMatches[priceMatches.length - 1][1];
-        const cleanPrice = parseFloat(
-          lastPrice.replace(/\./g, "").replace(",", ".")
-        );
 
-        // Format harga sesuai dengan standar
-        const formattedPrice = cleanPrice
-          .toLocaleString("id-ID", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-          .replace(",", "."); // Ganti koma dengan titik untuk format yang benar
+        // Pisahkan berdasarkan koma
+        const commaParts = lastPrice.split(",");
 
-        items.push({
-          name: currentItem,
-          amount: formattedPrice,
-        });
+        let numericAmount = "";
+
+        if (commaParts.length === 2) {
+          const integerPart = commaParts[0].replace(/\./g, "");
+          const decimalPart = commaParts[1];
+
+          if (decimalPart.length === 2) {
+            // Jika 2 digit setelah koma, abaikan
+            numericAmount = integerPart;
+          } else if (decimalPart.length > 2) {
+            // Jika lebih dari 2 digit, gabungkan tanpa koma
+            numericAmount = integerPart + decimalPart;
+          } else {
+            // Jika hanya 1 digit atau tidak valid, abaikan bagian koma
+            numericAmount = integerPart;
+          }
+        } else {
+          // Jika tidak ada koma, hapus titik dan koma
+          numericAmount = lastPrice.replace(/[.,]/g, "");
+        }
+
+        const cleanAmount = parseInt(numericAmount, 10);
+
+        if (!isNaN(cleanAmount)) {
+          items.push({
+            name: currentItem,
+            amount: cleanAmount,
+          });
+        }
+
         currentItem = "";
       }
     }
@@ -301,12 +130,13 @@ function renderParsedItems(items) {
     expenses.push({
       item: item.name,
       amount: item.amount,
-      who: [], // kosong, bisa diisi manual dari UI kamu
-      paidBy: "", // kosong juga
+      who: [], // bisa diisi manual nanti
+      paidBy: "", // bisa diisi manual juga
     });
   });
 
-  updateTable(); // render ulang tabel dengan data baru
+  // Gantikan ini dengan pemanggilan fungsi render list card
+  updateExpenseCards(); // atau nama fungsi kamu yang menampilkan list card
 }
 
 const fileInput = document.getElementById("bill-image");

@@ -25,7 +25,6 @@ button:hover {
 }
 
 .disabled-btn {
-  /* background-color: #ccc; */
   cursor: not-allowed;
   opacity: 0.6;
   pointer-events: none; /* Prevent clicks when disabled */
@@ -63,7 +62,7 @@ button:hover {
 }
 
 .delete-btn:hover {
-  background-color: var(--btn-delete-hover-bg);
+  background-color: var(--table-border-color);
 }
 
 .delete-top-right {
@@ -98,9 +97,8 @@ button:hover {
 
 .share-button-container {
   display: flex;
-  gap: 10px; /* atur jarak antar tombol */
-  /* flex-wrap: wrap; biar responsif kalau layar sempit */
-  margin-top: 20px; /* opsional: tambahkan jarak dari elemen atasnya */
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .secondary-button {

@@ -1,17 +1,26 @@
 .summary-header {
-  text-align: center;
+  text-align: left;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--table-border-color);
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.summary-header .activity-name {
+.header-title {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+}
+
+.header-title .activity-name {
   font-size: 20px;
   font-weight: 600;
   margin: 0;
 }
 
-.summary-header .activity-date {
+.header-title .activity-date {
   font-size: 12px;
   color: var(--text-color-desc);
   margin: 0.25rem 0 0;

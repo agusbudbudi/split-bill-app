@@ -42,6 +42,7 @@ function updateCalculateButton() {
   }
 }
 
+//UNUSED CODE
 function updateTable() {
   const tbody = document.querySelector("#expense-table tbody");
   tbody.innerHTML = "";
@@ -102,27 +103,49 @@ function updateExpenseCards() {
     const card = document.createElement("div");
     card.classList.add("expense-card");
 
-    const whoAvatars = expense.who
-      .map(
-        (name) => `
-  <div class="avatar-wrapper">
-    <div class="avatar-box">
-      <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${name}" alt="${name}">
-    </div>
-    <div class="avatar-name">${name}</div>
-  </div>
-`
-      )
-      .join("");
+    const isWhoEmpty =
+      !expense.who.length || expense.who.every((name) => name.trim() === "");
+    const isPaidByEmpty = !expense.paidBy || expense.paidBy.trim() === "";
 
-    const paidByAvatar = `
+    const whoAvatars = isWhoEmpty
+      ? `<div class="add-new-wrapper person-item">
+                  <div
+                    class="edit-expense"
+                    onclick="editExpense(${index})"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="edit-expense-text">Edit</span>
+                </div>`
+      : expense.who
+          .map(
+            (name) => `
+        <div class="avatar-wrapper">
+          <div class="avatar-box">
+            <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${name}" alt="${name}">
+          </div>
+          <div class="avatar-name">${name}</div>
+        </div>`
+          )
+          .join("");
+
+    const paidByAvatar = isPaidByEmpty
+      ? `<div class="add-new-wrapper person-item">
+                  <div
+                    class="edit-expense"
+                    onclick="editExpense(${index})"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="edit-expense-text">Edit</span>
+                </div>`
+      : `
   <div class="avatar-wrapper">
     <div class="avatar-box">
       <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${expense.paidBy}" alt="${expense.paidBy}">
     </div>
     <div class="avatar-name">${expense.paidBy}</div>
-  </div>
-`;
+  </div>`;
 
     card.innerHTML = `
   <div class="expense-header">

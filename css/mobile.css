@@ -9,10 +9,10 @@
     font-size: 16px;
   }
 
-  input {
+  /* input {
     width: 90%;
     padding: 10px;
-  }
+  } */
 
   button {
     width: 100%;
@@ -94,10 +94,10 @@
     color: var(--text-color);
   }
 
-  input {
+  /* input {
     width: 90%;
     padding: 8px;
-  }
+  } */
 
   table th,
   table td {

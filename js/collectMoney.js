@@ -59,7 +59,7 @@ function renderCollectMoneyTable() {
       <td>${item.name}</td>
       <td>${formatToIDR(item.amount)}</td>
       <td>${item.method}${item.bankName ? ` - ${item.bankName}` : ""}</td>
-      <td class="exclude-pdf"><button class="delete-btn" onclick="removeCollectMoney(${index})"><i class="fa-regular fa-trash-can"></i> Hapus</button></td>
+      <td class="exclude-pdf"><button class="delete-btn" onclick="removeCollectMoney(${index})"><i class="fa-regular fa-trash-can"></i></button></td>
     `;
     tableBody.appendChild(row);
   });
