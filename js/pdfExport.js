@@ -337,6 +337,7 @@ function exportCollectMoneyToPDF() {
     .catch((err) => console.error("❌ Error:", err));
 }
 
+//EXPORT PDF INVOICE
 function exportInvoiceToPDF() {
   const invoiceDiv = document.getElementById("invoice");
 
@@ -408,6 +409,7 @@ function exportInvoiceToPDF() {
   const h1 = clonedInvoice.querySelectorAll("h1");
   h1.forEach((h1) => {
     h1.style.color = "#7056ec";
+    h1.style.fontSize = "22px";
   });
 
   // Styling logo avatar
@@ -432,6 +434,13 @@ function exportInvoiceToPDF() {
     p.style.margin = "1px 0";
     p.style.color = "#333";
     p.style.fontSize = "13px";
+  });
+
+  //styling footer
+  const footer = clonedInvoice.querySelectorAll(".preview-footer");
+  footer.forEach((footer) => {
+    footer.style.color = "#848486";
+    footer.style.marginTop = "40px";
   });
 
   const pdfContainer = document.createElement("div");

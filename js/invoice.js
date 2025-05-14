@@ -77,18 +77,63 @@ function calculateAmount(el) {
 
 function calculateTotal() {
   const amounts = document.querySelectorAll(".amount");
-  let total = 0;
+  let subtotal = 0;
+
+  // Hitung jumlah semua item
   amounts.forEach((a) => {
     const value =
       parseFloat(a.value.replace(/[^0-9,-]+/g, "").replace(",", ".")) || 0;
-    total += value;
+    subtotal += value;
   });
+
+  // Tampilkan Subtotal
+  document.getElementById("subtotal").innerText = `${subtotal.toLocaleString(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+    }
+  )}`;
+
+  // Ambil nilai diskon
+  const discountType = document.getElementById("discountType").value;
+  const discountValue =
+    parseFloat(document.getElementById("discountValue").value) || 0;
+  let discountAmount = 0;
+
+  if (discountType === "percent") {
+    if (discountValue >= 0 && discountValue <= 100) {
+      discountAmount = (discountValue / 100) * subtotal;
+    }
+  } else if (discountType === "amount") {
+    discountAmount = discountValue;
+  }
+
+  const total = Math.max(0, subtotal - discountAmount); // pastikan tidak negatif
+
+  // Tampilkan total dan info diskon
   document.getElementById("total").innerText = total.toLocaleString("id-ID", {
     style: "currency",
     currency: "IDR",
   });
+
   document.getElementById("totalInWords").innerText = numberToWords(total);
+
+  document.getElementById(
+    "discountInfo"
+  ).innerText = `- ${discountAmount.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  })}`;
 }
+
+//DISCOUNT
+document
+  .getElementById("discountType")
+  .addEventListener("change", calculateTotal);
+document
+  .getElementById("discountValue")
+  .addEventListener("input", calculateTotal);
 
 function numberToWords(n) {
   const satuan = [
@@ -103,18 +148,28 @@ function numberToWords(n) {
     "delapan",
     "sembilan",
   ];
+
   function toWords(num) {
     if (num < 10) return satuan[num];
-    if (num < 20) return satuan[num - 10] + " belas";
+    if (num === 10) return "sepuluh";
+    if (num === 11) return "sebelas";
+    if (num < 20) return satuan[num % 10] + " belas";
     if (num < 100)
       return satuan[Math.floor(num / 10)] + " puluh " + satuan[num % 10];
+    if (num < 200) return "seratus " + toWords(num - 100);
     if (num < 1000)
       return satuan[Math.floor(num / 100)] + " ratus " + toWords(num % 100);
+    if (num < 2000) return "seribu " + toWords(num - 1000);
     if (num < 1000000)
       return toWords(Math.floor(num / 1000)) + " ribu " + toWords(num % 1000);
+    if (num < 1000000000)
+      return (
+        toWords(Math.floor(num / 1000000)) + " juta " + toWords(num % 1000000)
+      );
     return "Jumlah terlalu besar";
   }
-  return toWords(Math.floor(n)).trim() + " rupiah";
+
+  return toWords(Math.floor(n)).replace(/\s+/g, " ").trim() + " rupiah";
 }
 
 function deleteItemInvoice(button) {
@@ -377,34 +432,52 @@ function previewInvoice() {
   // Item list
   const itemsTable = document.getElementById("preview-items");
   itemsTable.innerHTML = "";
+
   const items = document.querySelectorAll(".item-invoice");
-  items.forEach((item) => {
-    const name = item.querySelector(".itemName").value;
-    const desc = item.querySelector(".itemDesc").value;
-    const qty = item.querySelector(".qty").value;
-    const rate = item.querySelector(".rate").value;
-    const amount = item.querySelector(".amount").value;
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-    <td style="min-width: 60%;">
-      <div class="item-name">${name}</div>
-      <div class="item-desc">${desc}</div>
+  if (items.length === 0) {
+    // Tambahkan baris empty state
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML = `
+    <td colspan="4" style="text-align: center; padding: 1rem; color: #888;">
+      Belum ada item ditambahkan
     </td>
-    <td style="text-align: center;">${qty}</td>
-    <td style="text-align: right;">Rp${Number(rate).toLocaleString(
-      "id-ID"
-    )}</td>
-    <td style="text-align: right;">${amount}</td>
   `;
-    itemsTable.appendChild(row);
-  });
+    itemsTable.appendChild(emptyRow);
+  } else {
+    items.forEach((item) => {
+      const name = item.querySelector(".itemName").value;
+      const desc = item.querySelector(".itemDesc").value;
+      const qty = item.querySelector(".qty").value;
+      const rate = item.querySelector(".rate").value;
+      const amount = item.querySelector(".amount").value;
 
-  // Total
-  const total = document.getElementById("total").textContent;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+      <td style="min-width: 60%;">
+        <div class="item-name">${name}</div>
+        <div class="item-desc">${desc}</div>
+      </td>
+      <td style="text-align: center;">${qty}</td>
+      <td style="text-align: right;">Rp${Number(rate).toLocaleString(
+        "id-ID"
+      )}</td>
+      <td style="text-align: right;">${amount}</td>
+    `;
+      itemsTable.appendChild(row);
+    });
+  }
+
+  const subtotal = document.getElementById("subtotal")?.textContent || "Rp 0";
+  const discountInfo =
+    document.getElementById("discountInfo")?.textContent || "Diskon: Rp 0";
+  const total = document.getElementById("total")?.textContent || "Rp 0";
+  const totalWords = document.querySelector(".total-words")?.textContent || "";
+
+  document.getElementById("preview-subtotal").textContent = subtotal;
+  document.getElementById("preview-discountInfo").textContent = discountInfo;
   document.getElementById("preview-total").textContent = total;
-  document.getElementById("preview-total-words").textContent =
-    document.querySelector(".total-words").textContent;
+  document.getElementById("preview-total-words").textContent = totalWords;
 
   // TnC & Footer preview
   // Ambil data dari Quill
@@ -538,4 +611,24 @@ document.addEventListener("DOMContentLoaded", function () {
     dateFormat: "Y-m-d",
     defaultDate: "today",
   });
+});
+
+document.getElementById("discountType").addEventListener("change", function () {
+  document.getElementById("discountValue").value = "";
+  document.getElementById("discountInfo").textContent = "Diskon: Rp 0,00";
+  calculateTotal(); // refresh perhitungan total
+});
+
+const discountInput = document.getElementById("discountValue");
+
+discountInput.addEventListener("input", () => {
+  if (parseFloat(discountInput.value) < 0) {
+    discountInput.value = "";
+  }
+});
+
+discountInput.addEventListener("keydown", function (e) {
+  if (e.key === "-" || e.key === "Minus") {
+    e.preventDefault();
+  }
 });

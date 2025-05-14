@@ -642,7 +642,7 @@
               <div class="content">
                 <p>
                   Dari input data ke invoice siap kirim hanya dalam beberapa
-                  klik — hemat waktu, tanpa ribet, cocok untuk UMKM dan
+                  klik - hemat waktu, tanpa ribet, cocok untuk UMKM dan
                   freelancer!
                 </p>
               </div>
@@ -666,6 +666,7 @@
                 type="text"
                 id="invoiceDate"
                 placeholder="Select date"
+                class="flatpickr-input"
                 readonly
               />
 
@@ -674,6 +675,7 @@
                 type="text"
                 id="dueDate"
                 placeholder="Select date"
+                class="flatpickr-input"
                 readonly
               />
 
@@ -685,7 +687,6 @@
                 style="display: none"
                 class="preview-logo"
               />
-              <!-- Input foto splitt bill -->
               <div class="share-button-container scan-section">
                 <div class="file-info">
                   <i class="fa-regular fa-image file-icon"></i>
@@ -713,7 +714,7 @@
         <div class="table-wrapper">
           <div class="card-container">
             <label>Billed By</label>
-            <div class="people-container">
+            <div class="people-container payment-container">
               <!-- Tombol Add New (static di kiri) -->
               <div class="add-new-wrapper person-item">
                 <div
@@ -727,9 +728,10 @@
               <!-- List Billed By (dinamis) -->
               <div id="billedByContainer" class="card-display-section"></div>
             </div>
+            <hr />
 
             <label>Billed To</label>
-            <div class="people-container">
+            <div class="people-container payment-container">
               <!-- Tombol Add New (static di kiri) -->
               <div class="add-new-wrapper person-item">
                 <div
@@ -841,12 +843,42 @@
               <i class="fa-solid fa-plus"></i>
               Add New Item
             </button>
+            <div class="discount-section">
+              <label>Add Discount</label>
+              <div class="discount-input-group">
+                <!-- Select tipe diskon -->
+                <select
+                  id="discountType"
+                  class="discount-type"
+                  placeholder="select discount type"
+                >
+                  <option value="amount">Rp</option>
+                  <option value="percent">%</option>
+                </select>
 
-            <div class="total-section">
-              <span class="total-label">Total (IDR):</span>
-              <span class="total-value" id="total">Rp 0</span>
+                <!-- Input nilai diskon -->
+                <input
+                  type="number"
+                  id="discountValue"
+                  min="0"
+                  placeholder="input discount amount"
+                />
+              </div>
             </div>
             <hr />
+            <div class="total-section">
+              <span>Sub Total:</span>
+              <span id="subtotal">Rp&nbsp;0,00</span>
+            </div>
+            <div class="total-section">
+              <span>Discount:</span>
+              <span id="discountInfo">Rp&nbsp;0,00</span>
+            </div>
+            <div class="total-section">
+              <span class="total-label">Total (IDR):</span>
+              <span class="total-value" id="total">Rp&nbsp;0,00</span>
+            </div>
+
             <div class="total-words" id="totalInWords"></div>
           </div>
         </div>
@@ -890,7 +922,7 @@
               class="footer"
               id="footerField"
             />
-            <div>
+            <div class="button-preview-section">
               <!-- infobox -->
               <div class="info-box information">
                 <div class="icon">
@@ -974,8 +1006,16 @@
 
               <div class="invoice-total">
                 <div class="total-preview">
+                  <span>Sub Total:</span>
+                  <span id="preview-subtotal">Rp&nbsp;0,00</span>
+                </div>
+                <div class="total-preview">
+                  <span>Discount:</span>
+                  <span id="preview-discountInfo">Rp&nbsp;0,00</span>
+                </div>
+
+                <div class="total-preview">
                   <span class="total-label">Total (IDR):</span>
-                  <!-- <span class="total-value" id="total">Rp 0</span> -->
                   <span class="total-value" id="preview-total"></span>
                 </div>
                 <p><em id="preview-total-words"></em></p>
