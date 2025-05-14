@@ -283,7 +283,7 @@ function exportCollectMoneyToPDF() {
 
   // Styling global
   pdfContainer.style.padding = "30px";
-  pdfContainer.style.fontFamily = "Arial, sans-serif";
+  pdfContainer.style.fontFamily = "Poppins";
   pdfContainer.style.fontSize = "13px";
   pdfContainer.style.backgroundColor = "#ffffff";
   pdfContainer.style.color = "#000000";

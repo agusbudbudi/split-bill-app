@@ -46,7 +46,9 @@ function addNewItem() {
   div.className = "section item-invoice";
   div.innerHTML = `
         <input type="text" placeholder="Item Name" class="itemName" /><br>
-        <textarea placeholder="Item Description" class="itemDesc"></textarea>
+      <div class="item-desc-container">
+        <div class="itemDescQuill" style="height: 100px"></div>
+      </div>
         <div class="row">
           <input type="number" min="0" placeholder="Qty" class="qty" onchange="calculateAmount(this)" />
           <input type="number" min="0" placeholder="Rate" class="rate" onchange="calculateAmount(this)" />
@@ -60,6 +62,22 @@ function addNewItem() {
 
       `;
   itemContainer.appendChild(div);
+
+  const quill = new Quill(div.querySelector(".itemDescQuill"), {
+    theme: "snow",
+    placeholder: "Item Description",
+    modules: {
+      toolbar: [
+        // [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline"],
+        ["link", "blockquote"],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
+    },
+  });
+
+  // Simpan instance ke element, jika nanti kamu ingin akses valuenya
+  div.quillInstance = quill;
 }
 
 function calculateAmount(el) {
@@ -447,7 +465,7 @@ function previewInvoice() {
   } else {
     items.forEach((item) => {
       const name = item.querySelector(".itemName").value;
-      const desc = item.querySelector(".itemDesc").value;
+      const desc = item.quillInstance?.root.innerHTML || "";
       const qty = item.querySelector(".qty").value;
       const rate = item.querySelector(".rate").value;
       const amount = item.querySelector(".amount").value;
@@ -512,7 +530,7 @@ const quill = new Quill("#tncField", {
   placeholder: "Add Tnc",
   modules: {
     toolbar: [
-      [{ header: [1, 2, false] }],
+      // [{ header: [1, 2, false] }],
       ["bold", "italic", "underline"],
       ["link", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }],
