@@ -441,7 +441,7 @@ const quill = new Quill("#tncField", {
     toolbar: [
       [{ header: [1, 2, false] }],
       ["bold", "italic", "underline"],
-      ["link", "blockquote", "code-block"],
+      ["link", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }],
     ],
   },
@@ -505,19 +505,6 @@ function truncateFileName(fileName, maxLength = 20) {
   const truncatedName = nameOnly.slice(0, maxLength - ext.length - 3);
   return truncatedName + "..." + ext;
 }
-//LIBRARY SELECT DATE FLATPICKR
-flatpickr("#invoiceDate", {
-  dateFormat: "Y-m-d", // atau ganti format sesuai kebutuhan
-  defaultDate: "today",
-  // maxDate: "today", // opsional: membatasi hingga hari ini
-});
-
-//LIBRARY SELECT DATE FLATPICKR
-flatpickr("#dueDate", {
-  dateFormat: "Y-m-d", // atau ganti format sesuai kebutuhan
-  defaultDate: "today",
-  // maxDate: "today", // opsional: membatasi hingga hari ini
-});
 
 //===============================================
 
@@ -539,7 +526,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadTncAndFooter();
+});
 
+document.addEventListener("DOMContentLoaded", function () {
   flatpickr("#invoiceDate", {
     dateFormat: "Y-m-d",
     defaultDate: "today",

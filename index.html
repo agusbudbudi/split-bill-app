@@ -727,6 +727,22 @@
               <!-- List Billed By (dinamis) -->
               <div id="billedByContainer" class="card-display-section"></div>
             </div>
+
+            <label>Billed To</label>
+            <div class="people-container">
+              <!-- Tombol Add New (static di kiri) -->
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addBilledToBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Tambah</span>
+              </div>
+              <!-- List payment method (dinamis) -->
+              <div id="billedToContainer" class="card-display-section"></div>
+            </div>
           </div>
         </div>
 
@@ -779,27 +795,6 @@
           </div>
         </div>
 
-        <!-- Billed To -->
-        <div class="table-wrapper">
-          <div class="card-container">
-            <label>Billed To</label>
-            <div class="people-container">
-              <!-- Tombol Add New (static di kiri) -->
-              <div class="add-new-wrapper person-item">
-                <div
-                  class="add-new"
-                  onclick="openBottomSheet('addBilledToBottomSheet')"
-                >
-                  <i class="fa-solid fa-plus"></i>
-                </div>
-                <span class="add-text">Tambah</span>
-              </div>
-              <!-- List payment method (dinamis) -->
-              <div id="billedToContainer" class="card-display-section"></div>
-            </div>
-          </div>
-        </div>
-
         <!-- Add Billed To Bottom Sheet -->
         <div class="table-wrapper">
           <div
@@ -846,12 +841,7 @@
               <i class="fa-solid fa-plus"></i>
               Add New Item
             </button>
-          </div>
-        </div>
 
-        <!-- Total Invoice -->
-        <div class="table-wrapper">
-          <div class="card-container">
             <div class="total-section">
               <span class="total-label">Total (IDR):</span>
               <span class="total-value" id="total">Rp 0</span>
@@ -860,6 +850,9 @@
             <div class="total-words" id="totalInWords"></div>
           </div>
         </div>
+
+        <!-- Total Invoice -->
+        <div class="table-wrapper"></div>
 
         <!-- Payment Method -->
         <div class="table-wrapper">
@@ -897,28 +890,25 @@
               class="footer"
               id="footerField"
             />
-          </div>
-        </div>
+            <div>
+              <!-- infobox -->
+              <div class="info-box information">
+                <div class="icon">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="content">
+                  <p>
+                    Pastikan semua item dalam invoice telah diisi, agar invoice
+                    bisa dicetak
+                  </p>
+                </div>
+              </div>
 
-        <div class="table-wrapper">
-          <div class="card-container">
-            <!-- infobox -->
-            <div class="info-box information">
-              <div class="icon">
-                <i class="fa-solid fa-circle-info"></i>
-              </div>
-              <div class="content">
-                <p>
-                  Pastikan semua item dalam invoice telah diisi, agar invoice
-                  bisa dicetak
-                </p>
-              </div>
+              <button onclick="previewInvoice()">
+                <i class="fa-solid fa-file-invoice"></i>
+                Preview Invoice
+              </button>
             </div>
-
-            <button onclick="previewInvoice()">
-              <i class="fa-solid fa-file-invoice"></i>
-              Preview Invoice
-            </button>
           </div>
         </div>
 
