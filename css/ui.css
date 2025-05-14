@@ -218,6 +218,7 @@ label {
 }
 
 input,
+.discount-type,
 textarea,
 #input-section input,
 #input-section select,
@@ -246,7 +247,7 @@ textarea,
   background-color: var(--input-bg);
 }
 
-#input-section select {
+select {
   padding-right: 30px; /* Tambahkan ruang untuk icon panah */
   color: var(--text-color);
   appearance: none; /* Hilangkan default dropdown (opsional) */
