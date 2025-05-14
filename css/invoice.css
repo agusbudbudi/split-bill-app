@@ -14,7 +14,7 @@
   flex: 1;
 }
 .qty {
-  max-width: 20%;
+  max-width: 18%;
 }
 .amount {
   background: var(--input-bg);
@@ -153,8 +153,12 @@
   margin-bottom: 0px;
 }
 
-.invoice-tnc ol {
+.invoice-tnc ol,
+.invoice-tnc ul,
+.item-desc ol,
+.item-desc ul {
   padding-left: 20px;
+  margin: 0;
 }
 
 .preview-footer {
@@ -245,9 +249,11 @@
   margin: 5px 0px;
 }
 
-#tncField {
+#tncField,
+#itemDescQuill {
   color: var(--text-color);
   margin-bottom: 10px;
+  font-size: 16px;
 }
 
 /* tale styleb */
@@ -310,7 +316,6 @@
   width: 100%;
   padding: 10px;
   font-size: 14px;
-
   box-sizing: border-box;
   margin-bottom: 15px;
   border: 1px solid var(--table-border-color);
@@ -318,29 +323,30 @@
   font-size: 16px;
   color: var(--text-color);
   background-color: var(--input-bg);
-  align-items: left;
   text-align: left;
 }
 
 .ql-toolbar {
-  border: 1px solid var(--table-border-color);
   border-radius: 10px 10px 0px 0px;
-  background-color: var(--input-bg);
-  /* color: var(--text-color); */
+  /* background-color: var(--input-bg); */
+  color: var(--text-color);
   text-align: left;
   /* overflow-x: auto; */
   /* white-space: nowrap; */
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: px;
   gap: 0px;
 }
 
 .ql-editor {
+  color: var(--text-color);
   font-size: 16px;
 }
 
 .ql-container {
   border-radius: 0px 0px 10px 10px;
+  font-size: 16px;
+  border: 1px solid var(--table-border-color);
 }
 
 /* Style DIscount */
@@ -369,7 +375,7 @@
 .discount-type,
 #discountValue {
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
   border: 1px solid var(--table-border-color);
   border-radius: 10px;
   /* width: 100px; */
@@ -391,4 +397,9 @@
 
 hr {
   margin: 20px 0;
+}
+
+.item-desc-container {
+  margin-bottom: 10px;
+  font-size: 16px;
 }
