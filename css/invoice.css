@@ -312,20 +312,6 @@
   z-index: 11000 !important;
 }
 
-.flatpickr-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  box-sizing: border-box;
-  margin-bottom: 15px;
-  border: 1px solid var(--table-border-color);
-  border-radius: 10px;
-  font-size: 16px;
-  color: var(--text-color);
-  background-color: var(--input-bg);
-  text-align: left;
-}
-
 .ql-toolbar {
   border-radius: 10px 10px 0px 0px;
   /* background-color: var(--input-bg); */
@@ -402,4 +388,24 @@ hr {
 .item-desc-container {
   margin-bottom: 10px;
   font-size: 16px;
+}
+
+.date-input input {
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+}
+
+.date-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  border: 1px solid var(--table-border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  text-align: left;
 }
