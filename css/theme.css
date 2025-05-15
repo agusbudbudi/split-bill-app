@@ -17,6 +17,7 @@
   --infobox-info-bg: #eef6fc;
   --infobox-info-border-color: #3b82f6;
   --border-color: #cccccc;
+  --gradient-color: linear-gradient(135deg, #a390f8, #7056ec);
 }
 
 body.dark-mode {
@@ -37,4 +38,5 @@ body.dark-mode {
   --infobox-info-bg: #1e2a36;
   --infobox-info-border-color: #60a5fa;
   --border-color: #444444;
+  --gradient-color: linear-gradient(135deg, #5e4aa8, #3f2f91);
 }
