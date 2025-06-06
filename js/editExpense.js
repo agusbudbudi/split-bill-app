@@ -10,10 +10,6 @@ function editExpense(index) {
   document.getElementById("editPaidBy").value = expense.paidBy;
   document.getElementById("overlay").classList.remove("hidden");
 
-  // const sheet = document.getElementById("editBottomSheet");
-
-  // sheet.classList.remove("hidden");
-  // sheet.classList.add("show");
   openBottomSheet("editBottomSheet");
 }
 
@@ -49,4 +45,6 @@ function saveEditedExpense() {
     updateCalculateButton();
     closeBottomSheet("editBottomSheet");
   }
+
+  showToast("Expense berhasil diperbarui!", "success", 2000);
 }

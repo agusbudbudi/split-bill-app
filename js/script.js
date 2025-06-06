@@ -29,7 +29,7 @@ function addExpense() {
 
 function updateCalculateButton() {
   const calculateBtn = document.getElementById("calculateBtn");
-  const infoBox = document.querySelector(".info-box");
+  const infoBox = document.querySelector(".validasi-split-bill");
 
   if (expenses.length > 0) {
     calculateBtn.disabled = false;

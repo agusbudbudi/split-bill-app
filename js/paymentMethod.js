@@ -78,6 +78,8 @@ function addPaymentMethod() {
   document.getElementById("ewalletPhone").value = "";
 
   closeBottomSheet("addPaymentMethodBottomSheet");
+
+  showToast("Metode pembayaran berhasil ditambahkan", "success", 3000);
 }
 
 // tampilkan metode pembayaran yang sudah ditambahkan

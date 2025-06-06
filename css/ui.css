@@ -173,13 +173,12 @@ body {
 }
 
 h1 {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--text-color);
 }
 
 h2,
 h3 {
-  /* font-size: 12px; */
   color: var(--text-color);
   margin-bottom: 20px 0;
 }
@@ -222,7 +221,8 @@ input,
 textarea,
 #input-section input,
 #input-section select,
-#input-section .avatar-container {
+#input-section .avatar-container,
+#savingMethod {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
