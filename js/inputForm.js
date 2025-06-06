@@ -24,55 +24,9 @@ function addPerson() {
   updateDropdowns();
   renderAvatars();
   closeBottomSheet("addPersonBottomSheet");
+
+  showToast("Teman berhasil ditambahkan!", "success", 2000);
 }
-
-// function renderPeople() {
-//   const tbody = document.getElementById("peopleTableBody");
-//   const table = document.getElementById("peopleTable"); // ✅ Tambahkan ini untuk akses ke elemen tabel
-//   tbody.innerHTML = "";
-
-//   if (people.length === 0) {
-//     table.style.display = "none"; // ✅ Sembunyikan tabel kalau kosong
-//     return;
-//   }
-
-//   table.style.display = "table"; // ✅ Tampilkan tabel kalau ada isi
-
-//   people.forEach((name, index) => {
-//     const row = document.createElement("tr");
-
-//     const noCell = document.createElement("td");
-//     noCell.textContent = index + 1;
-
-//     const nameCell = document.createElement("td");
-//     nameCell.textContent = name;
-
-//     const actionCell = document.createElement("td");
-//     const removeBtn = document.createElement("button");
-
-//     removeBtn.innerHTML = `<i class="fa-regular fa-trash-can"></i> Hapus`;
-//     removeBtn.className = "delete-btn";
-
-//     removeBtn.onclick = () => {
-//       // Hapus berdasarkan index
-//       people.splice(index, 1);
-//       // Hapus dari list yang dipilih juga
-//       who = who.filter((n) => n !== name);
-
-//       renderPeople();
-//       updateDropdowns();
-//       renderAvatars();
-//     };
-
-//     actionCell.appendChild(removeBtn);
-
-//     row.appendChild(noCell);
-//     row.appendChild(nameCell);
-//     row.appendChild(actionCell);
-
-//     tbody.appendChild(row);
-//   });
-// }
 
 function renderPeople() {
   const container = document.getElementById("peopleList");
@@ -121,51 +75,6 @@ function updateDropdowns() {
     paidBySelect.appendChild(paidOption);
   });
 }
-
-// function renderAvatars() {
-//   const container = document.getElementById("avatarContainer");
-//   container.innerHTML = "";
-
-//   // ✅ Tambahkan pengecekan jika belum ada orang
-//   if (people.length === 0) {
-//     const emptyText = document.createElement("div");
-//     emptyText.className = "empty-text";
-//     emptyText.textContent = "Tambahkan teman terlebih dahulu";
-//     container.appendChild(emptyText);
-//     return; // Stop di sini, gak perlu lanjut render avatar
-//   }
-
-//   people.forEach((person) => {
-//     const avatarWrapper = document.createElement("div");
-//     avatarWrapper.className = "avatar-wrapper";
-
-//     const initials = getInitials(person);
-//     const bgColor = getColorForName(person);
-
-//     const avatar = document.createElement("div");
-//     avatar.className = `avatar ${who.includes(person) ? "selected" : ""}`;
-//     avatar.textContent = initials;
-//     avatar.style.backgroundColor = bgColor;
-//     avatar.style.fontSize = initials.length > 2 ? "14px" : "18px";
-
-//     const nameLabel = document.createElement("div");
-//     nameLabel.className = "avatar-name";
-//     nameLabel.textContent = person;
-
-//     avatar.onclick = () => {
-//       if (who.includes(person)) {
-//         who = who.filter((name) => name !== person);
-//       } else {
-//         who.push(person);
-//       }
-//       renderAvatars();
-//     };
-
-//     avatarWrapper.appendChild(avatar);
-//     avatarWrapper.appendChild(nameLabel);
-//     container.appendChild(avatarWrapper);
-//   });
-// }
 
 //NEW USED AVATAR IMAGE
 function renderAvatars() {

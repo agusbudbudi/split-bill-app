@@ -38,6 +38,8 @@ function previewLogo(event) {
 
     reader.readAsDataURL(file);
   }
+
+  showToast("Logo kamu berhasil diupload!", "success", 2000);
 }
 
 function addNewItem() {
@@ -240,6 +242,8 @@ function saveBilled(type) {
   saveBilledToLocalStorage(type);
   renderBilled(type);
   closeBottomSheet(`addBilled${type}BottomSheet`);
+
+  showToast(`Billed ${type} berhasil ditambahkan!`, "success", 2000);
 }
 
 // ==== RENDER FUNCTION (REUSABLE) ====
@@ -521,6 +525,8 @@ function previewInvoice() {
   loadTncAndFooter();
   // Otomatis update saat konten berubah
   quill.on("text-change", updatePreviewTnC);
+
+  showToast("Invoice preview berhasil diperbarui!", "success", 20000);
 }
 
 //RICH TEXT EDITOR
@@ -596,8 +602,6 @@ function truncateFileName(fileName, maxLength = 20) {
   const truncatedName = nameOnly.slice(0, maxLength - ext.length - 3);
   return truncatedName + "..." + ext;
 }
-
-//===============================================
 
 document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
 document

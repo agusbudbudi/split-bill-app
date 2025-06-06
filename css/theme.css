@@ -5,7 +5,6 @@
   --container-bg: #ffffff;
   --input-bg: #f6fafb;
   --btn-bg: #7056ec;
-  /* #39C1FE  7056ec*/
   --btn-hover-bg: #5844bb;
   --btn-delete-bg: #e15555;
   --btn-delete-hover-bg: #c33c3c;
@@ -18,6 +17,20 @@
   --infobox-info-border-color: #3b82f6;
   --border-color: #cccccc;
   --gradient-color: linear-gradient(135deg, #a390f8, #7056ec);
+  /* Achieved */
+  --achieved-bg: #e0f7e9;
+  --achieved-color: #2e7d32;
+  --achieved-border: #a5d6a7;
+
+  /* In Progress */
+  --progress-bg: #fff8e1;
+  --progress-color: #f57c00;
+  --progress-border: #ffe082;
+
+  /* Expired */
+  --expired-bg: #ffebee;
+  --expired-color: #c62828;
+  --expired-border: #ef9a9a;
 }
 
 body.dark-mode {
@@ -39,4 +52,19 @@ body.dark-mode {
   --infobox-info-border-color: #60a5fa;
   --border-color: #444444;
   --gradient-color: linear-gradient(135deg, #5e4aa8, #3f2f91);
+
+  /* Achieved - Soft Green */
+  --achieved-bg: #2e3b31;
+  --achieved-color: #b9e4c9;
+  --achieved-border: #5a7d65;
+
+  /* In Progress - Soft Amber */
+  --progress-bg: #3b3526;
+  --progress-color: #ffe8a3;
+  --progress-border: #b39656;
+
+  /* Expired - Soft Red */
+  --expired-bg: #3f2b2b;
+  --expired-color: #f5baba;
+  --expired-border: #a35d5d;
 }

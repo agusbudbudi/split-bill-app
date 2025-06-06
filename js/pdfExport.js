@@ -191,9 +191,9 @@ function exportToPDF() {
       .then(() => console.log("✅ PDF berhasil diexport"))
       .catch((error) => console.error("❌ Error export PDF:", error));
   });
-}
 
-//=============================================================
+  showToast("Berhasil download Split Bill!", "success", 20000);
+}
 
 // EXPORT PDF COLLECT MONEY
 function exportCollectMoneyToPDF() {
@@ -335,6 +335,8 @@ function exportCollectMoneyToPDF() {
       });
     })
     .catch((err) => console.error("❌ Error:", err));
+
+  showToast("Berhasil download Collect Money!", "success", 20000);
 }
 
 //EXPORT PDF INVOICE
@@ -502,4 +504,6 @@ function exportInvoiceToPDF() {
       .then(() => console.log("✅ Invoice PDF berhasil dibuat"))
       .catch((error) => console.error("❌ Error export PDF:", error));
   });
+
+  showToast("Berhasil download Invoice!", "success", 20000);
 }

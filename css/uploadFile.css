@@ -71,3 +71,15 @@
 .scan-section {
   margin-bottom: 20px;
 }
+
+.success-message {
+  background-color: #d1f7d6;
+  color: #226c2f;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

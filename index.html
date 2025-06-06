@@ -75,12 +75,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
+    <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
     <!-- Quill CSS -->
     <link
       href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
@@ -108,6 +104,8 @@
     <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/summary.css" />
     <link rel="stylesheet" href="css/invoice.css" />
+    <link rel="stylesheet" href="css/toastMessage.css" />
+    <link rel="stylesheet" href="css/saving.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -134,10 +132,9 @@
 
       <!-- NEW FEATURE -->
 
-      <h1 class="heading title">Satu Aplikasi untuk Semua Urusan Tagihan</h1>
+      <h1 class="heading title">Satu Aplikasi buat Semua Urusan Tagihan</h1>
       <p class="heading subtitle">
-        Kelola split bill, tagihan bersama, dan invoice dalam satu aplikasi
-        praktis.
+        Kelola split bill, tagihan, dan invoice dalam satu aplikasi.
       </p>
 
       <div class="menu-circle-container">
@@ -149,6 +146,14 @@
           <span>Split Bill</span>
         </a>
 
+        <a class="menu-circle" onclick="showSection('invoice', this)">
+          <div class="badge">New</div>
+          <div class="menu-icon">
+            <img src="img/invoice-icon.png" alt="Invoice" />
+          </div>
+          <span>Invoice</span>
+        </a>
+
         <a class="menu-circle" onclick="showSection('collect', this)">
           <div class="badge">New</div>
           <div class="menu-icon">
@@ -157,12 +162,12 @@
           <span>Collect Money</span>
         </a>
 
-        <a class="menu-circle" onclick="showSection('invoice', this)">
-          <div class="badge">New</div>
+        <a class="menu-circle" onclick="showSection('nabung', this)">
+          <div class="badge">Soon</div>
           <div class="menu-icon">
-            <img src="img/invoice-icon.png" alt="Invoice" />
+            <img src="img/nabung-icon.png" alt="Tabungan" />
           </div>
-          <span>Invoice</span>
+          <span>Tabungan</span>
         </a>
 
         <a class="menu-circle" onclick="showSection('daily', this)">
@@ -257,8 +262,29 @@
         <div class="table-wrapper">
           <div class="card-container">
             <div class="title-section">Data Pengeluaran</div>
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <i class="fa-solid fa-circle-info"></i>
+              </div>
+              <div class="content">
+                <p>
+                  Fitur ini masih dalam tahap pengembangan. Jika hasil scan
+                  belum sempurna, kamu bisa mengeditnya secara manual.
+                </p>
+              </div>
+            </div>
+            <!-- notif success scan -->
+            <div
+              id="scan-success-message"
+              class="success-message"
+              style="display: none"
+            >
+              <i class="fa-solid fa-circle-check"></i>
+              Scan bill berhasil, silakan cek data bill kamu di bawah.
+            </div>
             <div id="input-section">
-              <div hidden>
+              <div>
                 <div class="upload-container">
                   <label for="bill-image" class="drop-area">
                     <!-- <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i> -->
@@ -400,7 +426,7 @@
         <div class="table-wrapper">
           <div class="card-container sticky-footer">
             <!-- infobox -->
-            <div class="info-box information">
+            <div class="info-box information validasi-split-bill">
               <div class="icon">
                 <i class="fa-solid fa-circle-info"></i>
               </div>
@@ -608,27 +634,6 @@
             </div>
           </div>
         </div>
-
-        <!-- <img
-          src="img/under-construction.png"
-          alt="Under Construction"
-          class="under-construction"
-        />
-        <p class="coming-soon">
-          🚧 Halaman Collect Money masih dalam pengembangan. Coming Soon!
-        </p> -->
-      </div>
-
-      <!-- Daily Expense -->
-      <div id="section-daily" class="section-content" style="display: none">
-        <img
-          src="img/under-construction.png"
-          alt="Under Construction"
-          class="under-construction"
-        />
-        <p class="coming-soon">
-          📅 Halaman Daily Expense masih dalam pengembangan. Coming Soon!
-        </p>
       </div>
 
       <!-- Invoice -->
@@ -699,7 +704,7 @@
                   </button>
                 </div>
                 <label for="logoPreview" class="custom-button">
-                  Upload Logo
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i> Upload Logo
                 </label>
                 <input
                   type="file"
@@ -1055,6 +1060,217 @@
           🧾 Tunggu sebentar ya fitur Invoice masih dibikin nih. Coming Soon!
         </p> -->
       </div>
+
+      <div id="section-nabung" class="section-content" style="display: none">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="stats-section">
+              <div class="total-savings-card">
+                <div>
+                  <h2>Total Tabungan</h2>
+                  <div class="total-amount" id="totalAmount">
+                    Yuk Mulai Nabung
+                  </div>
+                  <!-- Button Add Tabungan -->
+                  <button
+                    class="btn-add-tabungan-top"
+                    onclick="openBottomSheet('addSavingsBottomSheet')"
+                  >
+                    <i class="fa-solid fa-plus"></i> Add Tabungan
+                  </button>
+                </div>
+                <img
+                  src="img/wallet-icon.png"
+                  alt="Nabung Icon"
+                  class="nabung-icon"
+                />
+              </div>
+
+              <!-- per category -->
+              <div class="title-section" id="title-section-category">
+                😎 Semangat nabungnya dikit lagi nih
+              </div>
+              <div id="categoryCardsContainer" class="category-cards"></div>
+
+              <div class="title-section" id="title-section-savings-method">
+                💸 Cek Tabunganmu disini
+              </div>
+              <div class="people-container">
+                <!-- List payment method (dinamis) -->
+
+                <div id="paymentMethodCards" class="card-display-section">
+                  <!-- Payment method cards will be displayed here -->
+                </div>
+              </div>
+
+              <div class="payment-method-stats"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div id="input-section">
+              <!-- Display existing savings -->
+              <div class="title-section">Daftar Tabungan</div>
+              <div id="savings-list" class="savings-list">
+                <!-- Savings will be displayed here -->
+              </div>
+
+              <!-- Tombol toggle -->
+              <button
+                id="toggle-transactions"
+                class="lihat-lainnya-button"
+                style="display: none"
+              >
+                Lihat Lainnya
+                <i class="fa-solid fa-chevron-down" id="chevron-icon"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button Add Tabungan -->
+        <div class="table-wrapper">
+          <div class="card-container sticky-footer">
+            <!-- infobox -->
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <span class="icon">🤩</span>
+              </div>
+              <div class="content">
+                <p>
+                  Kini pencatatan tabunganmu jadi lebih mudah dan praktis, gak
+                  perlu alasan buat gak nabung!
+                </p>
+              </div>
+            </div>
+
+            <button
+              class="btn-add-tabungan"
+              onclick="openBottomSheet('addSavingsBottomSheet')"
+            >
+              <i class="fa-solid fa-piggy-bank"></i> Add Tabungan
+            </button>
+          </div>
+        </div>
+      </p>
+      </div>
+    </div>
+
+    <!-- Bottom Sheet -->
+    <div id="addSavingsBottomSheet" class="bottom-sheet hidden">
+      <div class="bottom-sheet-header">
+        <h3 class="title-bottom-sheet">Tambah Tabungan</h3>
+        <button
+          onclick="closeBottomSheet('addSavingsBottomSheet')"
+          class="close-btn-bottom-sheet"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <!-- <button
+          class="close-btn"
+          onclick="closeBottomSheet('addSavingsBottomSheet')"
+        >
+          &times;
+        </button> -->
+      </div>
+
+      <div class="bottom-sheet-content">
+        <!-- Category Section -->
+
+        <div class="section">
+          <label>Category Tabungan</label>
+
+          <div class="people-container">
+            <!-- Tombol Add New (static di kiri) -->
+            <div class="add-new-wrapper person-item">
+              <div
+                class="add-new"
+                id="addCategoryBtn"
+                onclick="toggleCategoryForm()"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <span class="add-text">Tambah</span>
+            </div>
+            <div id="categoriesList" class="people-list">
+              <!-- Categories will be displayed here -->
+            </div>
+          </div>
+
+          <!-- Add Category Form (Hidden by default) -->
+          <div id="categoryForm" class="category-form hidden">
+            <div class="form-group">
+              <label for="categoryName">Category Name</label>
+              <input
+                type="text"
+                id="categoryName"
+                placeholder="Input Category Name"
+              />
+            </div>
+            <div class="form-group">
+              <label>Target Tabungan</label>
+              <input
+                type="number"
+                id="targetTabungan"
+                placeholder="Input target (contoh: 500000)"
+                min="0"
+              />
+            </div>
+            <div class="form-group">
+              <label for="targetCompleted">Target Completed</label>
+              <input type="date" id="targetCompleted" />
+            </div>
+            <button class="btn-save-category" onclick="saveCategory()">
+              Simpan Category
+            </button>
+          </div>
+        </div>
+
+        <!-- Input Tabungan Section -->
+        <div class="section">
+          <div class="form-group">
+            <label>Nominal Menabung</label>
+            <input
+              type="number"
+              id="nominalTabungan"
+              placeholder="Input nominal (contoh: 50000)"
+              min="0"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="savingMethod">Saving Method</label>
+            <select id="savingMethod">
+              <option value="">Select Saving method</option>
+              <option value="BankTransfer">Bank Transfer</option>
+              <option value="OVO">OVO</option>
+              <option value="GoPay">GoPay</option>
+              <option value="DANA">DANA</option>
+              <option value="ShopeePay">Shopee Pay</option>
+              <option value="LinkAja">LinkAja</option>
+            </select>
+          </div>
+
+          <button class="btn-save-tabungan" onclick="saveTabungan()">
+            Simpan Tabungan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Expense -->
+    <div id="section-daily" class="section-content" style="display: none">
+      <img
+        src="img/under-construction.png"
+        alt="Under Construction"
+        class="under-construction"
+      />
+      <p class="coming-soon">
+        📅 Halaman Daily Expense masih dalam pengembangan. Coming Soon!
+      </p>
     </div>
 
     <!-- PAYMENT METHOD BOTTOM SHEET -->
@@ -1131,6 +1347,9 @@
         </button>
       </div>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- overlay -->
     <div id="overlay" class="overlay hidden"></div>
     <!-- Quill JS -->
@@ -1149,7 +1368,9 @@
     <script src="js/scanBill.js"></script>
     <script src="js/bottomsheet.js"></script>
     <script src="js/invoice.js"></script>
+    <script src="js/saving.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/toastMessage.js"></script>
 
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");

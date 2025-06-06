@@ -112,6 +112,8 @@ function displaySummary(
 
   summaryDiv.innerHTML += `<div id="selectedPaymentInfo"></div>`;
   showSelectedPayment();
+
+  showToast("Berhasil! cek Split Bill kamu di bawah", "success", 20000);
 }
 
 function generateSummaryStats(totalExpense, totalPaid, totalVariance) {
