@@ -25,3 +25,13 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedMode = localStorage.getItem("darkMode") === "enabled";
   setTheme(savedMode);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedSection = localStorage.getItem("activeSection");
+  if (savedSection) {
+    showSection(savedSection); // aktifkan section yang disimpan
+    localStorage.removeItem("activeSection"); // hapus agar tidak terbuka terus
+  } else {
+    showSection("split"); // section default
+  }
+});

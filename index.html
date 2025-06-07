@@ -1086,18 +1086,25 @@
                 />
               </div>
 
+              <div class="title-section" id="title-section-savings-method">
+                Hari ini mau nabung apa? 🤔
+              </div>
+              <div class="people-container">
+                <div id="categoriesList" class="people-list">
+                  <!-- Categories will be displayed here -->
+                </div>
+              </div>
+
               <!-- per category -->
               <div class="title-section" id="title-section-category">
-                😎 Semangat nabungnya dikit lagi nih
+                Semangat nabungnya dikit lagi nih 😎
               </div>
               <div id="categoryCardsContainer" class="category-cards"></div>
 
               <div class="title-section" id="title-section-savings-method">
-                💸 Cek Tabunganmu disini
+                Cek Tabunganmu disini 💸
               </div>
               <div class="people-container">
-                <!-- List payment method (dinamis) -->
-
                 <div id="paymentMethodCards" class="card-display-section">
                   <!-- Payment method cards will be displayed here -->
                 </div>
@@ -1112,7 +1119,15 @@
           <div class="card-container">
             <div id="input-section">
               <!-- Display existing savings -->
-              <div class="title-section">Daftar Tabungan</div>
+              <div class="title-section">
+                Daftar Tabungan
+                <button
+                  onclick="window.location.href='transactions.html'"
+                  class="see-all-button"
+                >
+                  Lihat Semua
+                </button>
+              </div>
               <div id="savings-list" class="savings-list">
                 <!-- Savings will be displayed here -->
               </div>
@@ -1137,12 +1152,13 @@
             <!-- infobox -->
             <div class="info-box information">
               <div class="icon">
-                <span class="icon">🤩</span>
+                <span class="icon">💰</span>
               </div>
               <div class="content">
                 <p>
-                  Kini pencatatan tabunganmu jadi lebih mudah dan praktis, gak
-                  perlu alasan buat gak nabung!
+                  Tabungan anti ribet udah hadir! Sekarang nabung tinggal klik,
+                  gak ada alasan buat enggak mulai. Yuk jadi tim
+                  #FinancialGoals!
                 </p>
               </div>
             </div>
@@ -1155,7 +1171,6 @@
             </button>
           </div>
         </div>
-      </p>
       </div>
     </div>
 
@@ -1195,7 +1210,7 @@
               </div>
               <span class="add-text">Tambah</span>
             </div>
-            <div id="categoriesList" class="people-list">
+            <div id="categoriesListBottomSheet" class="people-list">
               <!-- Categories will be displayed here -->
             </div>
           </div>
@@ -1369,8 +1384,8 @@
     <script src="js/bottomsheet.js"></script>
     <script src="js/invoice.js"></script>
     <script src="js/saving.js"></script>
-    <script src="js/ui.js"></script>
     <script src="js/toastMessage.js"></script>
+    <script src="js/ui.js"></script>
 
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");
