@@ -1,14 +1,21 @@
-function showSection(section, element) {
-  const sections = ["split", "collect", "daily", "invoice", "nabung"];
-
-  // Tampilkan section sesuai menu
-  sections.forEach((sec) => {
-    document.getElementById(`section-${sec}`).style.display =
-      sec === section ? "block" : "none";
+function showSection(sectionName, element = null) {
+  // Sembunyikan semua section
+  document.querySelectorAll(".section-content").forEach((sec) => {
+    sec.style.display = "none";
   });
 
-  // Update menu aktif
-  const menuCircles = document.querySelectorAll(".menu-circle");
-  menuCircles.forEach((menu) => menu.classList.remove("active"));
-  element.classList.add("active");
+  // Tampilkan section yang dipilih
+  const target = document.getElementById("section-" + sectionName);
+  if (target) {
+    target.style.display = "block";
+    localStorage.setItem("activeSection", sectionName); // ← Tambah ini kalau mau simpan tiap klik menu
+  }
+
+  // Highlight menu aktif (opsional)
+  document.querySelectorAll(".menu-circle").forEach((el) => {
+    el.classList.remove("active");
+  });
+  if (element) {
+    element.classList.add("active");
+  }
 }

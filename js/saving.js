@@ -205,36 +205,65 @@ function saveCategory() {
 
 function displayCategories() {
   const categoriesList = document.getElementById("categoriesList");
+  const categoriesListBottomSheet = document.getElementById(
+    "categoriesListBottomSheet"
+  );
+
   categoriesList.innerHTML = "";
+  categoriesListBottomSheet.innerHTML = "";
 
-  categories.forEach((category) => {
-    const categoryElement = document.createElement("div");
-    categoryElement.className = "category-item";
-    categoryElement.onclick = () => selectCategory(category);
+  categories.forEach((category, index) => {
+    // Buat elemen bottom sheet dulu
+    const bottomSheetItem = document.createElement("div");
+    bottomSheetItem.className = "category-item";
+    bottomSheetItem.setAttribute("data-category-name", category.name);
+    bottomSheetItem.innerHTML = `
+      <img src="https://api.dicebear.com/9.x/icons/svg?scale=80&seed=${encodeURIComponent(
+        category.name
+      )}"
+        class="category-img person-img" alt="${category.name}">
+      <div class="category-name">${category.name}</div>
+    `;
+    bottomSheetItem.onclick = (event) => {
+      selectCategory(category, "bottomSheet", event);
+    };
 
-    categoryElement.innerHTML = `
-            <img src="https://api.dicebear.com/9.x/icons/svg?scale=80&seed=${encodeURIComponent(
-              category.name
-            )}" 
-                 class="category-img person-img" alt="${category.name}">
-            <div class="category-name">${category.name}</div>
-        `;
+    // Simpan dulu ke bottom sheet
+    categoriesListBottomSheet.appendChild(bottomSheetItem);
 
-    categoriesList.appendChild(categoryElement);
+    // Buat elemen untuk sidebar
+    const sidebarItem = bottomSheetItem.cloneNode(true);
+    sidebarItem.onclick = () => {
+      // Pilih yang ada di bottomSheet, bukan dari sidebar
+      const allBottomItems =
+        categoriesListBottomSheet.querySelectorAll(".category-item");
+      const targetItem = Array.from(allBottomItems).find(
+        (el) => el.getAttribute("data-category-name") === category.name
+      );
+      if (targetItem) {
+        selectCategory(category, "sidebar", { currentTarget: targetItem });
+      }
+
+      openBottomSheet("addSavingsBottomSheet");
+    };
+
+    categoriesList.appendChild(sidebarItem);
   });
 }
+function selectCategory(category, source = "default", event = null) {
+  console.log("Kategori diklik:", category.name, "dari:", source);
 
-function selectCategory(category) {
-  // Remove previous selection
+  selectedCategory = category;
+
+  // Remove semua selected
   document.querySelectorAll(".category-item").forEach((item) => {
     item.classList.remove("selected");
   });
 
-  // Add selection to clicked category
-  event.currentTarget.classList.add("selected");
-
-  // Set selected category
-  selectedCategory = category;
+  // Tambahkan class selected
+  if (event?.currentTarget) {
+    event.currentTarget.classList.add("selected");
+  }
 }
 
 // Savings Functions
@@ -312,7 +341,8 @@ function displaySavings() {
     savingsList.innerHTML = `
             <div class="no-data-message">
             <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
-                <p>Belum ada tabungan. Mulai menabung sekarang!<p>
+                <p class="title-empty-state">Belum ada tabungan<p>
+                <p class="desc-empty-state">Mulai menabung sekarang!<p>
             </div>
         `;
     return;
@@ -428,6 +458,14 @@ function displayCategoryCards() {
     const card = document.createElement("div");
     card.className = "category-card";
 
+    // Ambil nama kategori dari data atau DOM (misalnya dari variable atau dari elemen child)
+    const categoryName = category.name; // ganti ini sesuai datamu, bisa juga ambil dari objek, misalnya `item.name`
+
+    card.addEventListener("click", () => {
+      localStorage.setItem("filterCategory", categoryName); // simpan ke localStorage
+      window.location.href = "transactions.html"; // redirect
+    });
+
     // Hitung savings per hari
     const today = new Date();
     const targetDate = new Date(category.targetCompleted);
@@ -459,7 +497,7 @@ function displayCategoryCards() {
     }
 
     card.innerHTML = `
-  <div class="card-content">
+  <div class="card-content" ">
     <div class="category-header">
       <div class="category-info">
         <img src="https://api.dicebear.com/9.x/icons/svg?scale=80&seed=${encodeURIComponent(
@@ -563,6 +601,7 @@ function toggleSavingsUI(savings) {
   const elementsToToggle = [
     document.getElementById("title-section-category"),
     document.getElementById("title-section-savings-method"),
+    document.getElementById("paymentMethodCards"),
   ];
 
   const shouldHide = savings.length === 0;

@@ -1,10 +1,8 @@
 /* styles.css */
-/* Statistics Section Styles */
-
 .total-savings-card {
   background: var(--gradient-color);
   border-radius: 15px;
-  padding: 20px 25px;
+  padding: 20px 25px 15px 25px;
   color: white;
   text-align: center;
 
@@ -42,7 +40,7 @@
 }
 
 .total-savings-card h2 {
-  font-size: 14px;
+  font-size: 12px;
   margin: 0px;
   padding: 0px;
   color: white;
@@ -165,6 +163,7 @@
   display: grid;
   gap: 10px;
   margin-top: 20px;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
 }
 
 .savings-item {
@@ -174,6 +173,11 @@
   border: 1px solid var(--table-border-color);
 }
 
+.category-meta {
+  display: flex;
+  align-items: center; /* align vertical */
+  gap: 8px; /* jarak antar elemen */
+}
 .category-emoji {
   width: 30px;
   height: 30px;
@@ -295,6 +299,10 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
+.stats-section .people-container {
+  margin-bottom: 20px;
+}
+
 .btn-add-category:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
@@ -326,7 +334,7 @@
 .category-img {
   width: 50px;
   height: 50px;
-  border-radius: 12px;
+  border-radius: 18px;
   margin-bottom: 8px;
 }
 
@@ -361,6 +369,14 @@
 
 .title-section {
   text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 10px;
 }
 
 /* Alert Styles */
@@ -386,15 +402,22 @@
 
 /* Category */
 
+.card-content {
+  padding: 10px 10px 15px 10px;
+  cursor: pointer;
+  color: var(--container-bg);
+}
+
 .category-card {
   border-radius: 12px;
-  padding: 0px;
   margin-bottom: 15px;
   box-shadow: 0 0 0 1px var(--table-border-color);
 }
 
-.card-content {
-  padding: 10px;
+.category-card:hover {
+  transform: translateY(-2px) scale(1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .category-cards {
@@ -418,6 +441,10 @@
   width: 30px;
   height: 30px;
   border-radius: 30%;
+}
+
+.category-details .category-name {
+  font-weight: 600;
 }
 
 .category-details {
@@ -454,9 +481,9 @@
 }
 
 .progress-bar-wrapper {
-  background: #e0f7fa;
+  background: var(--input-bg);
   border-radius: 999px;
-  height: 6px;
+  height: 8px;
   overflow: hidden;
 }
 
@@ -499,7 +526,6 @@
 
 /* DAILY SUGGESTION */
 .daily-suggestion {
-  margin-top: 8px;
   padding: 6px 12px;
   border-radius: 0px 0px 12px 12px;
   font-size: 10px;
@@ -542,4 +568,20 @@
 /* HIDE SOME ITEM WHEN EMPTY STATE */
 .hidden {
   display: none;
+}
+
+.see-all-button {
+  border: 1px solid var(--btn-bg);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  padding: 5px 8px;
+  max-width: 90px;
+}
+
+.see-all-button:hover {
+  background-color: var(--infobox-info-bg);
 }
