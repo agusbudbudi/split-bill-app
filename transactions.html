@@ -7,6 +7,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <link rel="manifest" href="/split-bill-app/manifest.json" />
 
     <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
     <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
@@ -139,11 +140,25 @@
               <div class="filter-row">
                 <div class="filter-group">
                   <label class="filter-label">Dari Tanggal</label>
-                  <input type="date" id="dateFrom" class="filter-input" />
+                  <div class="date-input">
+                    <input
+                      type="text"
+                      class="filter-input"
+                      id="dateFrom"
+                      placeholder="Select date"
+                    />
+                  </div>
                 </div>
                 <div class="filter-group">
                   <label class="filter-label">Sampai Tanggal</label>
-                  <input type="date" id="dateTo" class="filter-input" />
+                  <div class="date-input">
+                    <input
+                      type="text"
+                      class="filter-input"
+                      id="dateTo"
+                      placeholder="Select date"
+                    />
+                  </div>
                 </div>
               </div>
 

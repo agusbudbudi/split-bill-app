@@ -293,6 +293,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  flatpickr("#dateFrom", {
+    dateFormat: "d-m-Y",
+  });
+
+  flatpickr("#dateTo", {
+    dateFormat: "d-m-Y",
+  });
+});
+
 // Auto-apply filters on input change
 document.getElementById("dateFrom").addEventListener("change", applyFilters);
 document.getElementById("dateTo").addEventListener("change", applyFilters);
