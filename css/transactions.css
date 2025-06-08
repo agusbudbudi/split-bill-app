@@ -3,7 +3,7 @@
 }
 
 .top-container {
-  margin-top: 70px;
+  margin-top: 65px;
   padding: 10px 20px;
 }
 
@@ -51,18 +51,12 @@
 .filter-input {
   width: 100%;
   padding: 12px;
-  border: 2px solid #e9ecef;
+  border: 1px solid #e9ecef;
   border-radius: 12px;
   font-size: 14px;
   transition: all 0.3s ease;
   background: #f8f9fa;
-}
-
-.filter-input:focus {
-  outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  cursor: pointer;
 }
 
 .filter-actions {
@@ -130,7 +124,6 @@
   border-radius: 12px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   padding: 16px;
-  min-width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

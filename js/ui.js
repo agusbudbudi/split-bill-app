@@ -35,3 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
     showSection("split"); // section default
   }
 });
+
+//Auto slider banner
+const slides = document.querySelectorAll(".banner-slide");
+let currentSlide = 0;
+const totalSlides = slides.length;
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle("active", i === index);
+  });
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % totalSlides;
+  showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 6000);
