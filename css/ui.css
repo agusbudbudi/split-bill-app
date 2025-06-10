@@ -1,4 +1,10 @@
 /* testing */
+.container {
+  width: 50%;
+  padding: 0 20px 20px 20px;
+  box-sizing: border-box;
+  align-items: center;
+}
 
 .logo {
   max-width: 100px;
@@ -184,13 +190,6 @@ h3 {
   font-size: 14px;
 }
 
-.container {
-  width: 50%;
-  padding: 0 20px 20px 20px;
-  box-sizing: border-box;
-  align-items: center;
-}
-
 /* Form Elements */
 label {
   display: block;
@@ -263,10 +262,10 @@ button:focus select:focus {
 
 .card-container {
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px;
   align-items: center;
   margin-top: 16px;
-  width: 100%; /* Ensure it fits inside the parent */
+  width: 100%;
   white-space: nowrap; /* Prevent text from wrapping */
   background-color: var(--container-bg);
   /* border: 1px solid var(--table-border-color); */
@@ -456,7 +455,7 @@ td {
 }
 
 .title-empty-state {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   margin-bottom: 5px;
 }
@@ -493,4 +492,8 @@ td {
   opacity: 1;
   z-index: 1;
   pointer-events: auto;
+}
+
+.section-input-bill {
+  margin-top: 20px;
 }

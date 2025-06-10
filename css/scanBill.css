@@ -1,0 +1,157 @@
+.header {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header p {
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.api-key-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.file-upload-area {
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  border: 1px dashed #3390ec;
+}
+
+.file-upload-area:hover {
+  background-color: #f8f9ff;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-text {
+  color: var(--text-color-desc);
+  font-size: 12px;
+}
+
+.file-info-scan {
+  margin-top: 10px;
+  padding: 20px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  display: none;
+  width: auto;
+  color: var(--text-color-desc);
+  font-size: 10px;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.scan-btn {
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.scan-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.results-title {
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.json-output {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4facfe;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 4px solid #c62828;
+  margin-top: 1rem;
+  display: none;
+  font-size: 12px;
+}
+
+.success {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 4px solid #2e7d32;
+  margin-top: 1rem;
+  display: none;
+  font-size: 12px;
+}
+
+.microcopy {
+  font-size: 10px;
+  color: var(--text-color-desc);
+  margin-bottom: 10px;
+}

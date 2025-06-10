@@ -53,3 +53,32 @@ function nextSlide() {
 }
 
 setInterval(nextSlide, 6000);
+
+function showTab(tabId) {
+  // Sembunyikan semua section
+  document.getElementById("ai-scan").style.display = "none";
+  document.getElementById("manual-input").style.display = "none";
+  document.getElementById("ocr-scan").style.display = "none";
+
+  // Tampilkan section yang dipilih
+  document.getElementById(tabId).style.display = "block";
+
+  // Update active tab button
+  const buttons = document.querySelectorAll(".tab-container .tab-button");
+  buttons.forEach((btn) => {
+    if (btn.dataset.tab === tabId) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+}
+
+// Default aktif (jika ingin aktif saat page load)
+window.onload = function () {
+  //set default show section in ai-scan in split bill page
+  showTab("ai-scan");
+
+  //set default invoice number when opened invoice menu
+  generateInvoiceNumber();
+};

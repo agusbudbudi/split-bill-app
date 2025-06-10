@@ -112,3 +112,45 @@ button:hover {
   color: var(--btn-bg);
   border: 1px solid var(--btn-bg);
 }
+
+.tab-container {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  margin: 20px 0px;
+  padding: 0px;
+  max-width: 500px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.tab-button {
+  border: 1px solid var(--table-border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: transparent;
+  color: var(--text-color-desc);
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  width: auto;
+}
+
+.tab-button:hover {
+  background-color: var(--infobox-info-bg);
+}
+
+.tab-button.active {
+  background-color: var(--infobox-info-bg); /* blue-600 */
+  color: var(--btn-bg);
+  border: 1px solid var(--infobox-info-border-color);
+}
+
+.tab-button i {
+  font-size: 16px;
+}

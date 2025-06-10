@@ -170,10 +170,34 @@ function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
   });
 }
 
+// function formatToIDR(number) {
+//   if (!number) return "";
+//   const isNegative = parseFloat(number) < 0;
+//   const absolute = Math.abs(parseFloat(number));
+//   const formatted = new Intl.NumberFormat("id-ID", {
+//     style: "currency",
+//     currency: "IDR",
+//     minimumFractionDigits: 0,
+//   }).format(absolute);
+
+//   return isNegative ? `- ${formatted}` : formatted;
+// }
+
 function formatToIDR(number) {
-  if (!number) return "";
+  // Ubah pengecekan ini
+  if (number === null || number === undefined || number === "") {
+    return "";
+  }
+
   const isNegative = parseFloat(number) < 0;
   const absolute = Math.abs(parseFloat(number));
+
+  // Pastikan 0 tetap diproses jika absolute menjadi NaN karena input non-angka
+  // Tambahkan pengecekan jika after parseFloat, number menjadi NaN, kembalikan Rp0
+  if (isNaN(absolute)) {
+    return "Rp0";
+  }
+
   const formatted = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",

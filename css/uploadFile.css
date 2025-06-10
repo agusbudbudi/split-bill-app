@@ -33,7 +33,8 @@
 }
 
 #fileName,
-#fileName-logo {
+#fileName-logo,
+#fileNameOcr {
   flex: 1;
   font-size: 10px;
   color: var(--text-color);
@@ -69,7 +70,7 @@
 }
 
 .scan-section {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .success-message {

@@ -7,6 +7,10 @@
   margin-bottom: 10px;
 }
 
+.info-box .content {
+  padding: 4px 0;
+}
+
 .info-box .icon {
   font-size: 16px;
   align-content: center;
@@ -18,15 +22,15 @@
 }
 
 .info-box .content p {
-  margin: 10px 0;
+  margin: 4px 0;
   color: var(--text-color);
   text-align: left;
   font-size: 9px;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .information {
-  border: 1px solid var(--infobox-info-border-color);
+  /* border: 1px solid var(--infobox-info-border-color); */
   background-color: var(--infobox-info-bg);
 }
 

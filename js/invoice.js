@@ -608,11 +608,6 @@ document
   .getElementById("footerField")
   .addEventListener("input", saveTncAndFooter);
 
-window.onload = () => {
-  generateInvoiceNumber();
-  addNewItem();
-};
-
 window.addEventListener("DOMContentLoaded", () => {
   loadBilledFromLocalStorage("By");
   loadBilledFromLocalStorage("To");

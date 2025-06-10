@@ -61,9 +61,9 @@
     margin-bottom: 100px;
   }
 
-  .section-content {
-    padding: 10px;
-  }
+  /* .section-content {
+    padding: 5px;
+  } */
 
   .menu-circle-container {
     gap: 10px;
@@ -115,9 +115,9 @@
     margin-top: -70px;
   }
 
-  .section-content {
-    padding: 10px;
-  }
+  /* .section-content {
+    padding: 5px;
+  } */
 
   .header-section {
     height: 90px;

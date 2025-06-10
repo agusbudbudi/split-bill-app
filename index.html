@@ -79,9 +79,10 @@
     <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
     <!-- Quill CSS -->
     <link
-      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
       rel="stylesheet"
     />
+
     <!-- Flatpickr CSS -->
     <link
       rel="stylesheet"
@@ -106,6 +107,7 @@
     <link rel="stylesheet" href="css/invoice.css" />
     <link rel="stylesheet" href="css/toastMessage.css" />
     <link rel="stylesheet" href="css/saving.css" />
+    <link rel="stylesheet" href="css/scanBill.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -128,11 +130,20 @@
         <div class="header-section"></div>
         <div class="banner-container">
           <img
+            src="img/banner-splitbill.png"
+            alt="banner splitbill"
+            class="banner-slide"
+          />
+          <img
             src="img/banner-tabungan.png"
-            alt="banner 1"
+            alt="banner tabungan"
             class="banner-slide active"
           />
-          <img src="img/preview.png" alt="banner 2" class="banner-slide" />
+          <img
+            src="img/banner-invoice.png"
+            alt="banner invoice"
+            class="banner-slide"
+          />
         </div>
       </div>
 
@@ -153,7 +164,7 @@
         </a>
 
         <a class="menu-circle" onclick="showSection('invoice', this)">
-          <div class="badge">New</div>
+          <!-- <div class="badge">New</div> -->
           <div class="menu-icon">
             <img src="img/invoice-icon.png" alt="Invoice" />
           </div>
@@ -161,7 +172,7 @@
         </a>
 
         <a class="menu-circle" onclick="showSection('collect', this)">
-          <div class="badge">New</div>
+          <!-- <div class="badge">New</div> -->
           <div class="menu-icon">
             <img src="img/collect-money-icon.png" alt="Collect Money" />
           </div>
@@ -169,7 +180,7 @@
         </a>
 
         <a class="menu-circle" onclick="showSection('nabung', this)">
-          <div class="badge">New</div>
+          <!-- <div class="badge">New</div> -->
           <div class="menu-icon">
             <img src="img/nabung-icon.png" alt="Tabungan" />
           </div>
@@ -188,62 +199,12 @@
       <!-- END NEW FEATURE COMMING SOON -->
 
       <div id="section-split" class="section-content">
-        <div class="table-wrapper">
-          <div class="card-container">
-            <div id="input-section">
-              <!-- Field Nama Aktivitas -->
-              <label for="activityName">Nama Aktivitas</label>
-              <input
-                type="text"
-                id="activityName"
-                placeholder="Masukkan nama aktivitas (opsional)"
-              />
-
-              <!-- Section Add People -->
-              <label for="personName">Tambah Teman</label>
-
-              <!-- List of Added People with Remove -->
-              <table id="peopleTable" class="people-table">
-                <thead>
-                  <tr>
-                    <th class="no-clumn">No</th>
-                    <th>Nama</th>
-                    <th class="action-column">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="peopleTableBody"></tbody>
-              </table>
-
-              <!-- NEW PEOPLE -->
-              <div class="people-container">
-                <!-- Tombol Add New (static di kiri) -->
-                <div class="add-new-wrapper person-item">
-                  <div
-                    class="add-new"
-                    onclick="openBottomSheet('addPersonBottomSheet')"
-                  >
-                    <i class="fa-solid fa-plus"></i>
-                  </div>
-                  <span class="add-text">Tambah</span>
-                </div>
-                <!-- List avatar orang (dinamis) -->
-                <div id="peopleList" class="people-list">
-                  <!-- <div class="person-item">...</div> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Add People Bottom Sheet -->
         <div class="table-wrapper">
-          <div
-            class="card-container bottom-sheet hidden"
-            id="addPersonBottomSheet"
-          >
+          <div class="bottom-sheet hidden" id="addPersonBottomSheet">
             <div id="input-section">
-              <div class="popup-header">
-                <h3>Tambah Teman</h3>
+              <div class="bottom-sheet-header">
+                <h3 class="title-bottom-sheet">Tambah Teman</h3>
                 <button
                   onclick="closeBottomSheet('addPersonBottomSheet')"
                   class="close-btn-bottom-sheet"
@@ -252,54 +213,279 @@
                 </button>
               </div>
 
-              <label for="personName">Masukkan Nama Teman</label>
-              <input
-                type="text"
-                id="personName"
-                placeholder="Contoh: Agus, Budi, Caca"
-              />
+              <div class="bottom-sheet-content">
+                <label for="personName">Masukkan Nama Teman</label>
+                <input
+                  type="text"
+                  id="personName"
+                  placeholder="Contoh: Agus, Budi, Caca"
+                />
+
+                <button onclick="addPerson()">
+                  <i class="fa-solid fa-user-plus"></i> Tambah Teman
+                </button>
+              </div>
             </div>
-            <button onclick="addPerson()">
-              <i class="fa-solid fa-user-plus"></i> Tambah Teman
-            </button>
           </div>
         </div>
 
         <div class="table-wrapper">
           <div class="card-container">
-            <div class="title-section">Data Pengeluaran</div>
             <!-- infobox -->
-            <div class="info-box information">
-              <div class="icon">
-                <i class="fa-solid fa-circle-info"></i>
-              </div>
+            <div class="info-box information validasi-split-bill">
+              <div class="icon">😎</div>
               <div class="content">
                 <p>
-                  Fitur ini masih dalam tahap pengembangan. Jika hasil scan
-                  belum sempurna, kamu bisa mengeditnya secara manual.
+                  Stop pusing soal split bill! Cukup scan bill, pilih bestie,
+                  auto-itung, tinggal share-ez pz no cap!
                 </p>
               </div>
             </div>
-            <!-- notif success scan -->
+
+            <div class="tab-container">
+              <button
+                onclick="showTab('ai-scan')"
+                class="tab-button"
+                data-tab="ai-scan"
+              >
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                Scan with AI
+              </button>
+              <button
+                onclick="showTab('manual-input')"
+                class="tab-button"
+                data-tab="manual-input"
+              >
+                <i class="fa-solid fa-list-check"></i>
+                Input Manual
+              </button>
+
+              <!-- PENDING FEATURE SCAN BILL WITH OCR -->
+              <button
+                onclick="showTab('ocr-scan')"
+                class="tab-button"
+                data-tab="ocr-scan"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+                OCR Scan
+              </button>
+            </div>
+
             <div
-              id="scan-success-message"
-              class="success-message"
+              id="manual-input"
+              class="section-input-bill"
               style="display: none"
             >
-              <i class="fa-solid fa-circle-check"></i>
-              Scan bill berhasil, silakan cek data bill kamu di bawah.
+              <div id="input-section">
+                <!-- Section Add People -->
+                <label for="personName">Tambah Teman</label>
+
+                <!-- List of Added People with Remove -->
+                <table id="peopleTable" class="people-table">
+                  <thead>
+                    <tr>
+                      <th class="no-clumn">No</th>
+                      <th>Nama</th>
+                      <th class="action-column">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="peopleTableBody"></tbody>
+                </table>
+
+                <!-- NEW PEOPLE -->
+                <div class="people-container">
+                  <!-- Tombol Add New (static di kiri) -->
+                  <div class="add-new-wrapper person-item">
+                    <div
+                      class="add-new"
+                      onclick="openBottomSheet('addPersonBottomSheet')"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <span class="add-text">Tambah</span>
+                  </div>
+                  <!-- List avatar orang (dinamis) -->
+                  <div id="peopleList" class="people-list">
+                    <!-- <div class="person-item">...</div> -->
+                  </div>
+                </div>
+
+                <!-- Item & Amount -->
+
+                <label for="item">Nama Item</label>
+                <input
+                  type="text"
+                  id="item"
+                  placeholder="Contoh: Makan malam, Tiket bioskop"
+                />
+                <label for="amount"
+                  >Jumlah (dalam Rupiah)
+                  <i
+                    class="fa-solid fa-circle-info info-icon"
+                    onclick="openInfoPopup()"
+                  ></i>
+                </label>
+
+                <!-- Popup -->
+                <div id="infoPopup" class="popup-overlay">
+                  <div class="popup-content">
+                    <div class="popup-header">
+                      <h3>ℹ️ Informasi Jumlah</h3>
+                      <button
+                        onclick="closeInfoPopup()"
+                        class="delete-top-right"
+                      >
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </div>
+                    <div class="popup-body">
+                      <ul>
+                        <li>
+                          Isi jumlah pengeluaran seperti:
+                          <b>Rp 50.000</b>
+                        </li>
+                        <li>
+                          Untuk diskon atau pengurangan, awali dengan tanda
+                          minus, contoh:
+                          <b>-Rp 10.000</b>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <input
+                  type="text"
+                  id="splitAmountFormatted"
+                  placeholder="Contoh: 50.000"
+                />
+                <input type="hidden" id="splitAmount" />
+
+                <label>Siapa yang Berhutang</label>
+                <div id="avatarContainer" class="avatar-container"></div>
+
+                <label for="paidBy">Dibayar oleh</label>
+                <select id="paidBy"></select>
+              </div>
+              <button onclick="addExpense()" class="secondary-button">
+                <i class="fa-solid fa-plus"></i> Tambah Transaksi
+              </button>
             </div>
-            <div id="input-section">
-              <div>
-                <div class="upload-container">
-                  <label for="bill-image" class="drop-area">
-                    <!-- <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i> -->
+
+            <!-- SCAN WITH AI -->
+            <div id="ai-scan" class="section-input-bill" style="display: none">
+              <div class="main-content">
+                <div class="upload-section">
+                  <div class="api-key-section">
+                    <label for="apiKey">API Key Gemini ✨</label>
+                    <p class="microcopy">
+                      *Untuk menggunakan fitur ini, Anda perlu memiliki API Key
+                      Gemini.
+                    </p>
+                    <input
+                      type="password"
+                      id="apiKey"
+                      class="api-key-input"
+                      placeholder="Masukkan API Key Gemini Anda"
+                    />
+                  </div>
+
+                  <div
+                    class="file-upload-area"
+                    onclick="document.getElementById('fileInput').click()"
+                  >
+                    <!-- <div class="upload-icon"> -->
                     <img
                       src="img/upload-image.png"
                       alt="Upload Icon"
                       class="upload-icon"
                     />
-                    <p>Upload foto bill kamu disini ya</p>
+                    <!-- </div> -->
+                    <div class="upload-text">
+                      Click untuk upload gambar bill
+                    </div>
+                    <div class="upload-text">format: JPG, PNG, GIF, WebP</div>
+                  </div>
+
+                  <input
+                    type="file"
+                    id="fileInput"
+                    class="file-input"
+                    accept="image/*"
+                  />
+
+                  <div id="fileInfo" class="file-info-scan">
+                    <div id="fileName"></div>
+                    <img
+                      id="previewImage"
+                      class="preview-image"
+                      style="display: none"
+                    />
+                  </div>
+
+                  <button id="scanBtn" class="scan-btn" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Scan Bill dengan AI
+                  </button>
+                  <!-- Loading when scanning bill with AI -->
+                  <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Sedang memproses gambar dengan AI...</p>
+                  </div>
+
+                  <div id="errorMessage" class="error"></div>
+                  <div id="successMessage" class="success"></div>
+                </div>
+              </div>
+              <!-- Result SCAN JSON -->
+              <div class="results-section hidden">
+                <h2 class="results-title">📊 Hasil Scan</h2>
+
+                <!-- <div id="loading" class="loading">
+                  <div class="spinner"></div>
+                  <p>Sedang memproses gambar dengan AI Gemini...</p>
+                </div> -->
+
+                <div id="jsonOutput" class="json-output">
+                  { "status": "waiting", "message": "Upload gambar dan tekan
+                  tombol scan untuk memulai" }
+                </div>
+              </div>
+            </div>
+
+            <div id="ocr-scan" class="section-input-bill" style="display: none">
+              <div class="info-box information">
+                <div class="icon">
+                  <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="content">
+                  <p>
+                    Fitur ini masih dalam tahap pengembangan. Jika hasil scan
+                    belum sempurna, kamu bisa mengeditnya secara manual.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                id="scan-success-message"
+                class="success-message"
+                style="display: none"
+              >
+                <i class="fa-solid fa-circle-check"></i>
+                Scan bill berhasil, silakan cek data bill kamu di bawah.
+              </div>
+              <div>
+                <div class="upload-container">
+                  <label for="bill-image" class="drop-area">
+                    <img
+                      src="img/upload-image.png"
+                      alt="Upload Icon"
+                      class="upload-icon"
+                    />
+                    <div class="upload-text">
+                      Click untuk upload gambar bill
+                    </div>
+                    <div class="upload-text">format: JPG, PNG, GIF, WebP</div>
                     <input
                       type="file"
                       id="bill-image"
@@ -309,86 +495,32 @@
                   </label>
                 </div>
 
-                <!-- Input foto splitt bill -->
                 <div class="share-button-container scan-section">
-                  <div class="file-info">
+                  <div class="file-info" id="fileInfoOcr">
                     <i class="fa-regular fa-image file-icon"></i>
-                    <span id="fileName">No selected File</span>
+                    <span id="fileNameOcr">No selected File</span>
                     <button id="removeBtn" class="delete-button">
                       <i class="fa-solid fa-xmark"></i>
                     </button>
                   </div>
-                  <button onclick="processImage()" class="scan-bill-btn">
+                  <button
+                    onclick="processImage()"
+                    class="scan-bill-btn"
+                    id="processBtn"
+                  >
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     Scan Bill
                   </button>
                 </div>
               </div>
-
-              <!-- Item & Amount -->
-
-              <label for="item">Nama Item</label>
-              <input
-                type="text"
-                id="item"
-                placeholder="Contoh: Makan malam, Tiket bioskop"
-              />
-              <label for="amount"
-                >Jumlah (dalam Rupiah)
-                <i
-                  class="fa-solid fa-circle-info info-icon"
-                  onclick="openInfoPopup()"
-                ></i>
-              </label>
-
-              <!-- Popup -->
-              <div id="infoPopup" class="popup-overlay">
-                <div class="popup-content">
-                  <div class="popup-header">
-                    <h3>ℹ️ Informasi Jumlah</h3>
-                    <button onclick="closeInfoPopup()" class="delete-top-right">
-                      <i class="fa-solid fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="popup-body">
-                    <ul>
-                      <li>
-                        Isi jumlah pengeluaran seperti:
-                        <b>Rp 50.000</b>
-                      </li>
-                      <li>
-                        Untuk diskon atau pengurangan, awali dengan tanda minus,
-                        contoh:
-                        <b>-Rp 10.000</b>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <input
-                type="text"
-                id="splitAmountFormatted"
-                placeholder="Contoh: 50.000"
-              />
-              <input type="hidden" id="splitAmount" />
-
-              <label>Siapa yang Berhutang</label>
-              <div id="avatarContainer" class="avatar-container"></div>
-
-              <label for="paidBy">Dibayar oleh</label>
-              <select id="paidBy"></select>
             </div>
-            <button onclick="addExpense()" class="secondary-button">
-              <i class="fa-solid fa-plus"></i> Tambah Transaksi
-            </button>
           </div>
         </div>
 
         <!-- table expense -->
         <div class="table-wrapper">
           <div class="card-container">
-            <div class="title-section">Transaksi Pengeluaran</div>
+            <div class="title-section">Transaksi Pengeluaran 📊</div>
             <div class="table-container hidden">
               <table id="expense-table">
                 <thead>
@@ -404,13 +536,30 @@
               </table>
             </div>
             <!-- NEW TABEL PENGELUARAN -->
+
             <div id="expense-list" class="expense-list"></div>
           </div>
         </div>
 
         <div class="table-wrapper">
           <div class="card-container">
-            <div class="title-section">Metode Pembayaran</div>
+            <!-- Field Nama Aktivitas -->
+            <div for="activityName" class="title-section">
+              BTW habis jalan kemana nih? ✈️
+            </div>
+            <div id="input-section">
+              <input
+                type="text"
+                id="activityName"
+                placeholder="Masukkan nama aktivitas (opsional)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="title-section">Metode Pembayaran 📥</div>
             <!-- NEW ADD PAYMENT METHOD -->
             <div class="people-container">
               <!-- Tombol Add New (static di kiri) -->
@@ -477,10 +626,10 @@
         <!-- Edit Expense -->
 
         <div class="table-wrapper">
-          <div class="card-container bottom-sheet hidden" id="editBottomSheet">
+          <div class="bottom-sheet hidden" id="editBottomSheet">
             <div id="input-section">
-              <div class="popup-header">
-                <h3>Edit Expense</h3>
+              <div class="bottom-sheet-header">
+                <h3 class="title-bottom-sheet">Edit Expense</h3>
                 <button
                   onclick="closeBottomSheet('editBottomSheet')"
                   class="close-btn-bottom-sheet"
@@ -489,34 +638,31 @@
                 </button>
               </div>
 
-              <!-- Item & Amount -->
-              <label for="item">Item Name</label>
-              <input type="text" id="editItemName" />
+              <div class="bottom-sheet-content">
+                <!-- Item & Amount -->
+                <label for="item">Item Name</label>
+                <input type="text" id="editItemName" />
 
-              <label for="amount">Jumlah (dalam Rupiah)</label>
-              <input type="number" id="editAmount" />
-              <!-- <input
-                type="text"
-                id="splitAmountFormatted"
-                placeholder="Contoh: 50.000"
-              />
-              <input id="editAmount" /> -->
+                <label for="amount">Jumlah (dalam Rupiah)</label>
+                <input type="number" id="editAmount" />
 
-              <label>Siapa yang berhutang</label>
-              <!-- <div id="avatarContainer" class="avatar-container"></div> -->
-              <input
-                type="text"
-                id="editWho"
-                placeholder="Pisahkan dengan koma"
-              />
+                <label>Siapa yang berhutang</label>
+                <!-- <div id="avatarContainer" class="avatar-container"></div> -->
+                <input
+                  type="text"
+                  id="editWho"
+                  placeholder="Pisahkan dengan koma"
+                />
 
-              <label>Dibayar oleh</label>
-              <input type="text" id="editPaidBy" />
-              <!-- <select id="paidBy"></select> -->
+                <label>Dibayar oleh</label>
+                <input type="text" id="editPaidBy" />
+                <!-- <select id="paidBy"></select> -->
+
+                <button class="save-btn" onclick="saveEditedExpense()">
+                  Simpan
+                </button>
+              </div>
             </div>
-            <button class="save-btn" onclick="saveEditedExpense()">
-              Simpan
-            </button>
           </div>
         </div>
       </div>
@@ -764,13 +910,10 @@
 
         <!-- Add Billed By Bottom Sheet -->
         <div class="table-wrapper">
-          <div
-            class="card-container bottom-sheet hidden"
-            id="addBilledByBottomSheet"
-          >
+          <div class="bottom-sheet hidden" id="addBilledByBottomSheet">
             <div id="input-section">
-              <div class="popup-header">
-                <h3>Tambah Billed By</h3>
+              <div class="bottom-sheet-header">
+                <h3 class="title-bottom-sheet">Tambah Billed By</h3>
                 <button
                   onclick="closeBottomSheet('addBilledByBottomSheet')"
                   class="close-btn-bottom-sheet"
@@ -779,47 +922,47 @@
                 </button>
               </div>
 
-              <label for="nameBilledBy">Nama Billed By</label>
-              <input
-                type="text"
-                id="nameBilledBy"
-                placeholder="Contoh: AG Design Official"
-              />
+              <div class="bottom-sheet-content">
+                <label for="nameBilledBy">Nama Billed By</label>
+                <input
+                  type="text"
+                  id="nameBilledBy"
+                  placeholder="Contoh: AG Design Official"
+                />
 
-              <label for="addressBilledBy">Address</label>
-              <input
-                type="text"
-                id="addressBilledBy"
-                placeholder="Contoh: Jakarta Pusat"
-              />
-              <label for="emailBilledBy">Email</label>
-              <input
-                type="text"
-                id="emailBilledBy"
-                placeholder="Contoh: agdesign@gmailcom"
-              />
-              <label for="phoneNumberBilledBy">Phone Number</label>
-              <input
-                type="number"
-                id="phoneNumberBilledBy"
-                placeholder="Contoh: 08555555555"
-              />
+                <label for="addressBilledBy">Address</label>
+                <input
+                  type="text"
+                  id="addressBilledBy"
+                  placeholder="Contoh: Jakarta Pusat"
+                />
+                <label for="emailBilledBy">Email</label>
+                <input
+                  type="text"
+                  id="emailBilledBy"
+                  placeholder="Contoh: agdesign@gmailcom"
+                />
+                <label for="phoneNumberBilledBy">Phone Number</label>
+                <input
+                  type="number"
+                  id="phoneNumberBilledBy"
+                  placeholder="Contoh: 08555555555"
+                />
+
+                <button onclick="saveBilled('By')">
+                  <i class="fa-solid fa-user-plus"></i> Tambah Billed By
+                </button>
+              </div>
             </div>
-            <button onclick="saveBilled('By')">
-              <i class="fa-solid fa-user-plus"></i> Tambah Billed By
-            </button>
           </div>
         </div>
 
         <!-- Add Billed To Bottom Sheet -->
         <div class="table-wrapper">
-          <div
-            class="card-container bottom-sheet hidden"
-            id="addBilledToBottomSheet"
-          >
+          <div class="bottom-sheet hidden" id="addBilledToBottomSheet">
             <div id="input-section">
-              <div class="popup-header">
-                <h3>Tambah Billed To</h3>
+              <div class="bottom-sheet-header">
+                <h3 class="title-bottom-sheet">Tambah Billed To</h3>
                 <button
                   onclick="closeBottomSheet('addBilledToBottomSheet')"
                   class="close-btn-bottom-sheet"
@@ -828,22 +971,25 @@
                 </button>
               </div>
 
-              <label for="nameBilledTo">Nama Billed To</label>
-              <input
-                type="text"
-                id="nameBilledTo"
-                placeholder="Contoh: My Indo Kitchen"
-              />
-              <label for="phoneNumberBilledTo">Phone Number</label>
-              <input
-                type="number"
-                id="phoneNumberBilledTo"
-                placeholder="Contoh: 08555555555"
-              />
+              <div class="bottom-sheet-content">
+                <label for="nameBilledTo">Nama Billed To</label>
+                <input
+                  type="text"
+                  id="nameBilledTo"
+                  placeholder="Contoh: My Indo Kitchen"
+                />
+                <label for="phoneNumberBilledTo">Phone Number</label>
+                <input
+                  type="number"
+                  id="phoneNumberBilledTo"
+                  placeholder="Contoh: 08555555555"
+                />
+
+                <button onclick="saveBilled('To')">
+                  <i class="fa-solid fa-user-plus"></i> Tambah Billed To
+                </button>
+              </div>
             </div>
-            <button onclick="saveBilled('To')">
-              <i class="fa-solid fa-user-plus"></i> Tambah Billed To
-            </button>
           </div>
         </div>
 
@@ -1092,31 +1238,33 @@
                 />
               </div>
 
-              <div class="title-section" id="title-section-savings-method">
-                Hari ini mau nabung apa? 🤔
-              </div>
-              <div class="people-container">
-                <div id="categoriesList" class="people-list">
-                  <!-- Categories will be displayed here -->
+              <div id="savings-information">
+                <div class="title-section" id="title-section-category-choice">
+                  Hari ini mau nabung apa? 🤔
                 </div>
-              </div>
-
-              <!-- per category -->
-              <div class="title-section" id="title-section-category">
-                Semangat nabungnya dikit lagi nih 😎
-              </div>
-              <div id="categoryCardsContainer" class="category-cards"></div>
-
-              <div class="title-section" id="title-section-savings-method">
-                Cek Tabunganmu disini 💸
-              </div>
-              <div class="people-container">
-                <div id="paymentMethodCards" class="card-display-section">
-                  <!-- Payment method cards will be displayed here -->
+                <div class="people-container">
+                  <div id="categoriesList" class="people-list">
+                    <!-- Categories will be displayed here -->
+                  </div>
                 </div>
-              </div>
 
-              <div class="payment-method-stats"></div>
+                <!-- per category -->
+                <div class="title-section" id="title-section-category">
+                  Semangat nabungnya dikit lagi nih 😎
+                </div>
+                <div id="categoryCardsContainer" class="category-cards"></div>
+
+                <div class="title-section" id="title-section-savings-method">
+                  Cek Tabunganmu disini 💸
+                </div>
+                <div class="people-container">
+                  <div id="paymentMethodCards" class="card-display-section">
+                    <!-- Payment method cards will be displayed here -->
+                  </div>
+                </div>
+
+                <div class="payment-method-stats"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1155,7 +1303,6 @@
         <div class="table-wrapper">
           <div class="card-container sticky-footer">
             <!-- infobox -->
-            <!-- infobox -->
             <div class="info-box information">
               <div class="icon">
                 <span class="icon">💰</span>
@@ -1190,12 +1337,6 @@
         >
           <i class="fa-solid fa-xmark"></i>
         </button>
-        <!-- <button
-          class="close-btn"
-          onclick="closeBottomSheet('addSavingsBottomSheet')"
-        >
-          &times;
-        </button> -->
       </div>
 
       <div class="bottom-sheet-content">
@@ -1296,12 +1437,9 @@
 
     <!-- PAYMENT METHOD BOTTOM SHEET -->
     <div class="table-wrapper">
-      <div
-        class="card-container bottom-sheet hidden"
-        id="addPaymentMethodBottomSheet"
-      >
-        <div class="popup-header">
-          <h3>Tambah Metode Pembayaran</h3>
+      <div class="bottom-sheet hidden" id="addPaymentMethodBottomSheet">
+        <div class="bottom-sheet-header">
+          <h3 class="title-bottom-sheet">Tambah Metode Pembayaran</h3>
           <button
             onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
             class="close-btn-bottom-sheet"
@@ -1309,63 +1447,66 @@
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div id="input-section">
-          <label for="paymentMethod">Metode Pembayaran</label>
-          <select id="paymentMethod" onchange="handlePaymentMethodChange()">
-            <option value="">Pilih Metode</option>
-            <option value="BankTransfer">Bank Transfer</option>
-            <option value="OVO">OVO</option>
-            <option value="GoPay">GoPay</option>
-            <option value="DANA">DANA</option>
-            <option value="ShopeePay">Shopee Pay</option>
-            <option value="LinkAja">LinkAja</option>
-          </select>
-          <div id="paymentDetailsForm"></div>
-        </div>
 
-        <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
-        <div id="paymentDetails" style="display: none">
-          <!-- Bagian Bank Transfer -->
-          <div id="bankForm" style="display: none">
-            <label for="bankName">Nama Bank</label>
-            <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
-
-            <label for="bankName">Nama</label>
-            <input
-              type="text"
-              id="bankAccountName"
-              placeholder="Nama Pemilik Rekening"
-            />
-
-            <label for="bankAccountNumber">Nomor Rekening</label>
-            <input
-              type="text"
-              id="bankAccountNumber"
-              placeholder="Contoh: 1234567890"
-            />
+        <div class="bottom-sheet-content">
+          <div id="input-section">
+            <label for="paymentMethod">Metode Pembayaran</label>
+            <select id="paymentMethod" onchange="handlePaymentMethodChange()">
+              <option value="">Pilih Metode</option>
+              <option value="BankTransfer">Bank Transfer</option>
+              <option value="OVO">OVO</option>
+              <option value="GoPay">GoPay</option>
+              <option value="DANA">DANA</option>
+              <option value="ShopeePay">Shopee Pay</option>
+              <option value="LinkAja">LinkAja</option>
+            </select>
+            <div id="paymentDetailsForm"></div>
           </div>
 
-          <!-- Bagian e-Wallet -->
-          <div id="ewalletForm" style="display: none">
-            <label for="ewalletName">Nama</label>
-            <input
-              type="text"
-              id="ewalletName"
-              placeholder="Nama Akun e-Wallet"
-            />
+          <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+          <div id="paymentDetails" style="display: none">
+            <!-- Bagian Bank Transfer -->
+            <div id="bankForm" style="display: none">
+              <label for="bankName">Nama Bank</label>
+              <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
 
-            <label for="ewalletPhone">Nomor Telepon</label>
-            <input
-              type="text"
-              id="ewalletPhone"
-              placeholder="Contoh: 081234567890"
-            />
+              <label for="bankName">Nama</label>
+              <input
+                type="text"
+                id="bankAccountName"
+                placeholder="Nama Pemilik Rekening"
+              />
+
+              <label for="bankAccountNumber">Nomor Rekening</label>
+              <input
+                type="text"
+                id="bankAccountNumber"
+                placeholder="Contoh: 1234567890"
+              />
+            </div>
+
+            <!-- Bagian e-Wallet -->
+            <div id="ewalletForm" style="display: none">
+              <label for="ewalletName">Nama</label>
+              <input
+                type="text"
+                id="ewalletName"
+                placeholder="Nama Akun e-Wallet"
+              />
+
+              <label for="ewalletPhone">Nomor Telepon</label>
+              <input
+                type="text"
+                id="ewalletPhone"
+                placeholder="Contoh: 081234567890"
+              />
+            </div>
           </div>
-        </div>
 
-        <button onclick="addPaymentMethod()">
-          <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
-        </button>
+          <button onclick="addPaymentMethod()">
+            <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1374,10 +1515,14 @@
     <!-- overlay -->
     <div id="overlay" class="overlay hidden"></div>
     <!-- Quill JS -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="config.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/scanBill.js"></script>
+    <script src="js/scanBillAi.js"></script>
     <script src="js/editExpense.js"></script>
     <script src="js/summary.js"></script>
     <script src="js/inputForm.js"></script>
@@ -1386,7 +1531,6 @@
     <script src="js/shareSummary.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/collectMoney.js"></script>
-    <script src="js/scanBill.js"></script>
     <script src="js/bottomsheet.js"></script>
     <script src="js/invoice.js"></script>
     <script src="js/saving.js"></script>

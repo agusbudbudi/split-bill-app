@@ -123,13 +123,13 @@ function generateSummaryStats(totalExpense, totalPaid, totalVariance) {
       : "❌ Total Pengeluaran dan Total Pembayaran SALAH";
   const varianceText =
     totalVariance === 0
-      ? `✅ Selisih sama dengan ${formatCurrency(totalVariance)}`
-      : `❌ Selisih tidak seimbang: ${formatCurrency(totalVariance)}`;
+      ? `✅ Selisih sama dengan ${formatToIDR(totalVariance)}`
+      : `❌ Selisih tidak seimbang: ${formatToIDR(totalVariance)}`;
 
   return `
   <div class="summary-validation">
-    <p>Total Pengeluaran: <strong>${formatCurrency(totalExpense)}</strong></p>
-    <p>Total Pembayaran: <strong>${formatCurrency(totalPaid)}</strong></p>
+    <p>Total Pengeluaran: <strong>${formatToIDR(totalExpense)}</strong></p>
+    <p>Total Pembayaran: <strong>${formatToIDR(totalPaid)}</strong></p>
     <p class="text-desc">${expenseMatch}</p>
     <p class="text-desc">${varianceText}</p>
   </div>
@@ -155,7 +155,7 @@ function generateItemTable(items) {
           <tr>
             <td>${item}</td>
             <td>
-              ${formatCurrency(amount)}
+              ${formatToIDR(amount)}
               ${amount < 0 ? '<span class="discount-label">Diskon</span>' : ""}
             </td>
             <td>${who.join(", ")}</td>
@@ -260,7 +260,7 @@ function renderItemBreakdownPerPerson(breakdown) {
         <span class="item-name">${item}   ${
         amount < 0 ? '<span class="discount-label">Diskon</span>' : ""
       }</span>
-        <span class="item-amount">${formatCurrency(amount)}
+        <span class="item-amount">${formatToIDR(amount)}
       </span>
       </div>
     `;
@@ -298,7 +298,7 @@ function generateUserCards(
         .filter(([key]) => key.startsWith(`${user}->`))
         .map(([key, amount]) => {
           const creditor = key.split("->")[1];
-          return `<p class="transfer-detail">💸 Hutang <strong>${formatCurrency(
+          return `<p class="transfer-detail">💸 Hutang <strong>${formatToIDR(
             amount
           )}</strong> ke <strong>${creditor}</strong></p>`;
         })
@@ -316,11 +316,11 @@ function generateUserCards(
             </div>
             <div class="user-details">
               <h2>${user}</h2>
-              <p>Total Membayar: <strong>${formatCurrency(paid)}</strong></p>
+              <p>Total Membayar: <strong>${formatToIDR(paid)}</strong></p>
             </div>
             <div class="user-expense">
               <p>Total Pengeluaran</p>
-              <h3>${formatCurrency(expense)}</h3>
+              <h3>${formatToIDR(expense)}</h3>
             </div>
           </div>
           <hr class="separator"/>
@@ -333,9 +333,21 @@ function generateUserCards(
     .join("");
 }
 
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(amount);
-}
+// UNUSED CODE change to formatToIDR
+// function formatCurrency(amount) {
+//   return new Intl.NumberFormat("id-ID", {
+//     style: "currency",
+//     currency: "IDR",
+//   }).format(amount);
+// }
+
+// function formatCurrency(amount) {
+//   // Ensure amount is a number, default to 0 if not
+//   const numericAmount =
+//     typeof amount === "number" ? amount : parseFloat(amount) || 0;
+
+//   return new Intl.NumberFormat("id-ID", {
+//     style: "currency",
+//     currency: "IDR",
+//   }).format(numericAmount);
+// }
