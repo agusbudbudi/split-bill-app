@@ -598,21 +598,20 @@ function setupTransactionToggle() {
 }
 
 function toggleSavingsUI(savings) {
-  const elementsToToggle = [
-    document.getElementById("title-section-category"),
-    document.getElementById("title-section-savings-method"),
-    document.getElementById("paymentMethodCards"),
-  ];
+  const elementsToToggle = [document.getElementById("savings-information")];
 
   const shouldHide = savings.length === 0;
 
   elementsToToggle.forEach((el) => {
     if (el) {
+      console.log("Toggling element:", el.id);
       if (shouldHide) {
         el.classList.add("hidden");
       } else {
         el.classList.remove("hidden");
       }
+    } else {
+      console.warn("Element not found");
     }
   });
 }
@@ -627,4 +626,5 @@ window.tabunganApp = {
   getTotalSavingsByCategory,
   getTotalSavingsByPaymentMethod,
   displayStatistics,
+  toggleSavingsUI,
 };

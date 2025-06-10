@@ -48,6 +48,10 @@
   margin-bottom: 20px;
 }
 
+.summary-validation p {
+  margin-bottom: 5px;
+}
+
 .summary-avatar {
   width: 40px;
   height: 40px;

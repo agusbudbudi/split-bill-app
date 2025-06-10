@@ -268,7 +268,7 @@
 }
 
 .section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .section h3 {
@@ -376,7 +376,7 @@
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 /* Alert Styles */

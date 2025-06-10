@@ -1,3 +1,4 @@
+// OCR Scanner Functions
 function preprocessImage(img) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -50,7 +51,9 @@ async function processImage() {
   const items = parseBillText(text); // pastikan fungsi ini sudah ada
   renderParsedItems(items); // tampilkan hasil
 
-  updateCalculateButton(); // update UI
+  if (typeof window.updateCalculateButton === "function") {
+    window.updateCalculateButton(); // update UI
+  }
 
   URL.revokeObjectURL(imageUrl);
 }
@@ -369,43 +372,43 @@ function parseBillText(text) {
   return items;
 }
 
-//==============================================================================
-
 function renderParsedItems(items) {
-  items.forEach((item) => {
-    expenses.push({
+  // Add parsed items to global expenses array
+  if (typeof window.expenses !== "undefined") {
+    items.forEach((item) => {
+      window.expenses.push({
+        item: item.item,
+        amount: item.amount,
+        who: [],
+        paidBy: "",
+      });
+    });
+  } else {
+    // Initialize expenses array if it doesn't exist
+    window.expenses = items.map((item) => ({
       item: item.item,
       amount: item.amount,
       who: [],
       paidBy: "",
-    });
-  });
+    }));
+  }
 
-  updateExpenseCards(); // atau nama fungsi kamu yang menampilkan list card
+  // Update display using shared function
+  if (typeof window.updateExpenseCards === "function") {
+    window.updateExpenseCards();
+  }
 
-  showToast(
-    "Bill kamu berhasil discan. Cek datanya di bawah, ya!",
-    "success",
-    20000
-  );
+  // Show success message
+  if (typeof window.showToast === "function") {
+    window.showToast(
+      "Bill kamu berhasil discan. Cek datanya di bawah, ya!",
+      "success",
+      5000
+    );
+  }
 }
 
-const fileInput = document.getElementById("bill-image");
-const fileName = document.getElementById("fileName");
-const removeBtn = document.getElementById("removeBtn");
-
-fileInput.addEventListener("change", function () {
-  if (this.files.length > 0) {
-    fileName.textContent = this.files[0].name;
-  }
-});
-
-removeBtn.addEventListener("click", function () {
-  fileInput.value = "";
-  fileName.textContent = "No selected File";
-});
-
-// Truncate Nama File uploaded
+// File handling for OCR scanner
 function truncateFileName(fileName, maxLength = 10) {
   if (fileName.length <= maxLength) return fileName;
 
@@ -417,19 +420,34 @@ function truncateFileName(fileName, maxLength = 10) {
   return truncatedName + "..." + ext;
 }
 
-document.getElementById("bill-image").addEventListener("change", function (e) {
-  const file = e.target.files[0];
-  const fileInfo = document.getElementById("fileInfo");
-  const fileNameSpan = document.getElementById("fileName");
+// Initialize OCR file handling
+document.addEventListener("DOMContentLoaded", () => {
+  const billImageInput = document.getElementById("bill-image");
+  const fileNameElement = document.getElementById("fileNameOcr");
+  const removeBtn = document.getElementById("removeBtn");
+  const fileInfo = document.getElementById("fileInfoOcr");
 
-  if (file) {
-    fileInfo.style.display = "flex";
-    fileNameSpan.textContent = truncateFileName(file.name);
+  if (billImageInput) {
+    billImageInput.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+
+      if (file && fileNameElement) {
+        fileNameElement.textContent = truncateFileName(file.name);
+        if (fileInfo) {
+          fileInfo.style.display = "flex";
+        }
+      }
+    });
   }
-});
 
-document.getElementById("removeBtn").addEventListener("click", function () {
-  const input = document.getElementById("bill-image");
-  input.value = ""; // Clear input
-  document.getElementById("fileInfo").style.display = "none";
+  if (removeBtn) {
+    removeBtn.addEventListener("click", function () {
+      if (billImageInput) {
+        billImageInput.value = ""; // Clear input
+      }
+      if (fileInfo) {
+        fileInfo.style.display = "none";
+      }
+    });
+  }
 });

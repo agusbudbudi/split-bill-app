@@ -1,4 +1,5 @@
-let expenses = [];
+// Remove local expenses array - use window.expenses from shared function
+// let expenses = []; // REMOVE THIS LINE
 let itemCount = 0;
 
 function addExpense() {
@@ -6,49 +7,79 @@ function addExpense() {
   const amount = parseFloat(document.getElementById("splitAmount").value);
   const paidBy = document.getElementById("paidBy").value.trim();
 
-  //add isNaN buat handle negative amount
-  if (!item || isNaN(!amount) || who.length === 0 || !paidBy) {
+  // Fix: Check if who variable exists, if not get from global scope or default to empty array
+  const whoArray = typeof who !== "undefined" ? who : [];
+
+  // Fix: Proper validation - check if amount is valid number and not negative
+  if (
+    !item ||
+    isNaN(amount) ||
+    amount <= 0 ||
+    whoArray.length === 0 ||
+    !paidBy
+  ) {
     alert("Isi terlebih dahulu item transaksi");
     return;
   }
 
-  expenses.push({ item, amount, who, paidBy });
-  updateTable();
+  // Use window.expenses instead of local expenses array
+  const newExpense = {
+    item,
+    amount,
+    who: [...whoArray], // Create copy of who array
+    paidBy,
+  };
+
+  window.expenses.push(newExpense);
+
+  // Use shared functions for updates
+  updateTable(); // Keep if exists for backward compatibility
   updateCalculateButton();
-  //ADD NEW EXPENSE with list
-  updateExpenseCards();
+
+  // Use shared function to update cards display
+  window.updateExpenseCards();
 
   // Reset field input
   document.getElementById("item").value = "";
   document.getElementById("splitAmountFormatted").value = "";
 
   // Reset selected avatar (who)
-  who = [];
-  renderAvatars(); // refresh tampilan avatar
+  if (typeof who !== "undefined") {
+    who.length = 0; // Clear the who array
+  }
+  if (typeof renderAvatars === "function") {
+    renderAvatars(); // refresh tampilan avatar
+  }
+
+  // Show success toast using shared function
+  window.showToast("Expense berhasil ditambahkan!", "success", 2000);
 }
 
 function updateCalculateButton() {
   const calculateBtn = document.getElementById("calculateBtn");
   const infoBox = document.querySelector(".validasi-split-bill");
 
-  if (expenses.length > 0) {
+  // Use window.expenses instead of local expenses
+  if (window.expenses.length > 0) {
     calculateBtn.disabled = false;
     calculateBtn.classList.remove("disabled-btn");
     if (infoBox) infoBox.style.display = "none";
   } else {
     calculateBtn.disabled = true;
     calculateBtn.classList.add("disabled-btn");
-    if (infoBox) infoBox.style.display = "flex"; // atau "block" tergantung desain kamu
+    if (infoBox) infoBox.style.display = "flex";
   }
 }
 
-//UNUSED CODE
+// UNUSED CODE - Keep for backward compatibility but use window.expenses
 function updateTable() {
   const tbody = document.querySelector("#expense-table tbody");
+  if (!tbody) return; // Guard clause if table doesn't exist
+
   tbody.innerHTML = "";
 
-  // If there are no expenses, display empty state message
-  if (expenses.length === 0) {
+  // Use window.expenses instead of local expenses
+  if (window.expenses.length === 0) {
     const emptyRow = document.createElement("tr");
     emptyRow.innerHTML = `
       <td colspan="5" style="text-align: center; padding: 10px; color: #888;">
@@ -57,13 +88,11 @@ function updateTable() {
     `;
     tbody.appendChild(emptyRow);
   } else {
-    // Otherwise, populate the table with expenses
-    expenses.forEach((expense, index) => {
+    window.expenses.forEach((expense, index) => {
       const row = `<tr>
                         <td>${expense.item}</td>
-                        
                         <td>
-                          ${formatCurrency(expense.amount)}
+                          ${window.formatCurrency(expense.amount)}
                           ${
                             expense.amount < 0
                               ? '<span class="discount-label">Diskon</span>'
@@ -74,9 +103,9 @@ function updateTable() {
                         <td>${expense.paidBy}</td>
                         <td>
                           <div class="action-buttons">
-                            <button class="edit-btn" onclick="editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
-                          </div
+                            <button class="edit-btn" onclick="window.editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="delete-btn" onclick="window.deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
+                          </div>
                         </td>
                     </tr>`;
       tbody.innerHTML += row;
@@ -84,112 +113,19 @@ function updateTable() {
   }
 }
 
-//NEW ADD EXPENSE WITH LIST
-function updateExpenseCards() {
-  const container = document.getElementById("expense-list");
-  container.innerHTML = "";
-  console.log("Expenses:", expenses);
-  console.log("Is empty:", expenses.length === 0);
+// REMOVE LOCAL updateExpenseCards - use shared function instead
+// Keep this comment as reference but remove the duplicate function
 
-  if (expenses.length === 0) {
-    container.innerHTML = `
-    <div class="empty-state">
-    <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
-    <p>Belum ada daftar transaksi pengeluaran</p></div>`;
-    return;
-  }
-
-  expenses.forEach((expense, index) => {
-    const card = document.createElement("div");
-    card.classList.add("expense-card");
-
-    const isWhoEmpty =
-      !expense.who.length || expense.who.every((name) => name.trim() === "");
-    const isPaidByEmpty = !expense.paidBy || expense.paidBy.trim() === "";
-
-    const whoAvatars = isWhoEmpty
-      ? `<div class="add-new-wrapper person-item">
-                  <div
-                    class="edit-expense"
-                    onclick="editExpense(${index})"
-                  >
-                    <i class="fa-solid fa-plus"></i>
-                  </div>
-                  <span class="edit-expense-text">Edit</span>
-                </div>`
-      : expense.who
-          .map(
-            (name) => `
-        <div class="avatar-wrapper">
-          <div class="avatar-box">
-            <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${name}" alt="${name}">
-          </div>
-          <div class="avatar-name">${name}</div>
-        </div>`
-          )
-          .join("");
-
-    const paidByAvatar = isPaidByEmpty
-      ? `<div class="add-new-wrapper person-item">
-                  <div
-                    class="edit-expense"
-                    onclick="editExpense(${index})"
-                  >
-                    <i class="fa-solid fa-plus"></i>
-                  </div>
-                  <span class="edit-expense-text">Edit</span>
-                </div>`
-      : `
-  <div class="avatar-wrapper">
-    <div class="avatar-box">
-      <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${expense.paidBy}" alt="${expense.paidBy}">
-    </div>
-    <div class="avatar-name">${expense.paidBy}</div>
-  </div>`;
-
-    card.innerHTML = `
-  <div class="expense-header">
-    <span>${expense.item}</span>
-    <span>${formatCurrency(expense.amount)}</span>
-  </div>
-
-  <div class="expense-meta">
-    <div class="label-columns">
-      <div class="label-row">
-        <div class="people-row">${whoAvatars}</div>
-      </div>
-
-      <div class="label-row">
-        <label>Dibayar oleh:</label>
-        <div class="people-row">${paidByAvatar}</div>
-      </div>
-    </div>
-
-    <div class="action-buttons">
-        <button class="edit-btn" onclick="editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
-    </div
-  </div>
-`;
-
-    container.appendChild(card);
-  });
-}
-
-// Function to delete an expense
-function deleteExpense(index) {
-  expenses.splice(index, 1); // Remove expense from the array
-  updateTable(); // Refresh the table
-  updateExpenseCards();
-  updateCalculateButton();
-}
+// REMOVE LOCAL deleteExpense - use shared function instead
+// Keep this comment as reference but remove the duplicate function
 
 function calculateSplit() {
   let totalExpense = 0;
   let userExpenses = {};
   let userPayments = {};
 
-  expenses.forEach(({ amount, who, paidBy }) => {
+  // Use window.expenses instead of local expenses
+  window.expenses.forEach(({ amount, who, paidBy }) => {
     totalExpense += amount;
 
     // Track expenses per user (based on 'who' needs to pay)
@@ -224,5 +160,11 @@ function calculateVariance(userExpenses, userPayments, totalExpense) {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTable(); // Ensure the empty state is shown on page load
-  updateExpenseCards();
+
+  // Use shared function for updating expense cards
+  if (window.updateExpenseCards) {
+    window.updateExpenseCards();
+  }
+
+  updateCalculateButton();
 });
