@@ -39,7 +39,7 @@
   justify-content: space-between;
   padding: 0 7px;
   box-sizing: border-box;
-  border: 1px solid var(--table-border-color);
+  border: 1px solid var(--bg-color);
 }
 
 .slider .sun {
@@ -66,7 +66,7 @@
   border-radius: 10px;
   transition: all 0.3s ease;
   z-index: 1;
-  border: 1px solid var(--table-border-color);
+  border: 1px solid var(--container-bg);
 }
 
 /* Saat switch aktif (checkbox dicentang) */
@@ -156,7 +156,10 @@ p {
 .empty-text {
   font-size: 14px;
 }
-
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
 /* Global Styles */
 body {
   background-color: var(--bg-color);
@@ -357,7 +360,7 @@ p {
 .header-section {
   background-color: var(--btn-bg);
   /* background: linear-gradient(to right, #8b5cf6, #7c3aed); */
-  height: 110px;
+  height: 100px;
   width: 100%;
   top: 0;
   border-radius: 0 0 30px 30px;
@@ -375,10 +378,11 @@ textarea {
 }
 
 .credit {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-color-desc);
   text-align: center;
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 /* FROM TABLE.CSS */

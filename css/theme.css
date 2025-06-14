@@ -32,6 +32,8 @@
   --expired-bg: #ffebee;
   --expired-color: #c62828;
   --expired-border: #ef9a9a;
+
+  --disable-btn: #ccc;
 }
 
 body.dark-mode {
@@ -68,4 +70,6 @@ body.dark-mode {
   --expired-bg: #3f2b2b;
   --expired-color: #f5baba;
   --expired-border: #a35d5d;
+
+  --disable-btn: #444;
 }

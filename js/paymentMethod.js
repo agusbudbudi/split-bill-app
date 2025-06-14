@@ -98,7 +98,11 @@ function renderPaymentCards() {
       <div class="payment-card ${
         selectedPaymentIndexes.includes(index) ? "selected" : ""
       }" data-index="${index}">
-        <button onclick="removePayment(${index})" class="delete-top-right"><i class="fa-solid fa-xmark"></i></button>
+
+          <div class="check-icon">
+            <i class="fa-solid fa-check-circle"></i>
+          </div>
+
         <img src="${logo}" alt="${data.method}" class="payment-logo"/>
         <p>${data.name}</p>
         ${
@@ -106,6 +110,8 @@ function renderPaymentCards() {
             ? `<p>Rek: ${data.accountNumber}</p><p>Bank: ${data.bankName}</p>`
             : `<p>${data.phoneNumber}</p>`
         }
+
+          <button onclick="removePayment(${index})" class="delete-top-right"><i class="uil uil-trash"></i></button>
       </div>
     `;
 

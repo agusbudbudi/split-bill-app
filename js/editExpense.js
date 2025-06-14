@@ -120,7 +120,7 @@ function updateExpenseCards() {
             (name) => `
           <div class="avatar-wrapper">
             <div class="avatar-box">
-              <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${name}" alt="${name}">
+              <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${name}" alt="${name}">
             </div>
             <div class="avatar-name">${name}</div>
           </div>`
@@ -136,7 +136,7 @@ function updateExpenseCards() {
         </div>`
       : `<div class="avatar-wrapper">
           <div class="avatar-box">
-            <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${expense.paidBy}" alt="${expense.paidBy}">
+            <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${expense.paidBy}" alt="${expense.paidBy}">
           </div>
           <div class="avatar-name">${expense.paidBy}</div>
         </div>`;

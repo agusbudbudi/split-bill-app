@@ -9,21 +9,45 @@ function closeInfoPopup() {
   document.getElementById("infoPopup").style.display = "none";
 }
 
-function setTheme(isDark) {
-  document.body.classList.toggle("dark-mode", isDark);
-  toggle.checked = isDark;
-  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-}
+// function setTheme(isDark) {
+//   document.body.classList.toggle("dark-mode", isDark);
+//   toggle.checked = isDark;
+//   localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+// }
 
-// Toggle event
-toggle.addEventListener("change", function () {
-  setTheme(this.checked);
-});
+// // Toggle event
+// toggle.addEventListener("change", function () {
+//   setTheme(this.checked);
+// });
 
-// Load saved preference on page load
-window.addEventListener("DOMContentLoaded", () => {
+// // Load saved preference on page load
+// window.addEventListener("DOMContentLoaded", () => {
+//   const savedMode = localStorage.getItem("darkMode") === "enabled";
+//   setTheme(savedMode);
+// });
+
+//Set Theme
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("themeSwitch");
   const savedMode = localStorage.getItem("darkMode") === "enabled";
+
+  // Terapkan theme di semua halaman
   setTheme(savedMode);
+
+  // Jika toggle ada (misalnya hanya di profile.html), aktifkan
+  if (toggle) {
+    toggle.checked = savedMode;
+
+    toggle.addEventListener("change", function () {
+      const isDark = this.checked;
+      setTheme(isDark);
+      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    });
+  }
+
+  function setTheme(isDark) {
+    document.body.classList.toggle("dark-mode", isDark);
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -74,11 +98,16 @@ function showTab(tabId) {
   });
 }
 
-// Default aktif (jika ingin aktif saat page load)
-window.onload = function () {
-  //set default show section in ai-scan in split bill page
-  showTab("ai-scan");
+// // Default aktif (jika ingin aktif saat page load)
+// window.onload = function () {
+//   //set default show section in ai-scan in split bill page
+//   showTab("ai-scan");
 
-  //set default invoice number when opened invoice menu
+//   //set default invoice number when opened invoice menu
+//   generateInvoiceNumber();
+// };
+
+window.addEventListener("load", function () {
+  showTab("ai-scan");
   generateInvoiceNumber();
-};
+});

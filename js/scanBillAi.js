@@ -1,8 +1,13 @@
 class BillScanner {
+  // constructor() {
+  //   this.selectedFile = null;
+  //   // this.apiKey = GEMINI_API_KEY;
+  //   this.apiKey = ""; // Remove the hardcoded API key for security
+  //   this.initializeEventListeners();
+  // }
   constructor() {
     this.selectedFile = null;
-    // this.apiKey = GEMINI_API_KEY;
-    this.apiKey = ""; // Remove the hardcoded API key for security
+    this.apiKey = localStorage.getItem("myApiKey") || "";
     this.initializeEventListeners();
   }
 
@@ -327,6 +332,21 @@ Please extract as much information as possible from the image. If some informati
     if (successDiv) successDiv.style.display = "none";
   }
 }
+
+function saveApiKey() {
+  const apiKeyInput = document.getElementById("apiKey");
+  const apiKey = apiKeyInput.value.trim();
+
+  if (apiKey) {
+    localStorage.setItem("myApiKey", apiKey);
+    alert("API Key berhasil disimpan ke localStorage!");
+    apiKeyInput.value = ""; // kosongkan input setelah simpan
+    closeBottomSheet("addApiKeyBottomSheet"); // tutup bottom sheet
+  } else {
+    alert("API Key tidak boleh kosong.");
+  }
+}
+
 // Initialize the AI scanner when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   new BillScanner();
