@@ -263,10 +263,13 @@ function renderBilled(type) {
     }
 
     card.innerHTML = `
+        <div class="check-icon">
+          <i class="fa-solid fa-check-circle"></i>
+         </div>
       <button onclick="removeBilled(${index}, '${type}')" class="delete-top-right">
-        <i class="fa-solid fa-xmark"></i>
+        <i class="uil uil-trash"></i>
       </button>
-      <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${encodeURIComponent(
+      <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&scale=100&seed=${encodeURIComponent(
         data.name
       )}" class="billed-logo"/>
       <p><strong>${data.name}</strong></p>

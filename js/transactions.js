@@ -252,20 +252,18 @@ function goBack() {
   window.history.back();
 }
 
-function toggleFilterSection() {
-  const section = document.querySelector(".filter-section");
-  const icon = document.getElementById("filterIcon");
+function toggleSection(sectionSelector, iconId) {
+  const section = document.querySelector(sectionSelector);
+  const icon = document.getElementById(iconId);
+
+  if (!section || !icon) return;
 
   section.classList.toggle("active");
 
-  // Ubah arah ikon panah
-  if (section.classList.contains("active")) {
-    icon.classList.remove("fa-chevron-down");
-    icon.classList.add("fa-chevron-up");
-  } else {
-    icon.classList.remove("fa-chevron-up");
-    icon.classList.add("fa-chevron-down");
-  }
+  // Toggle ikon
+  const isActive = section.classList.contains("active");
+  icon.classList.toggle("fa-chevron-down", !isActive);
+  icon.classList.toggle("fa-chevron-up", isActive);
 }
 
 /**
@@ -273,10 +271,10 @@ function toggleFilterSection() {
  * and redirects the browser to the index.html page.
  */
 
-function goBack() {
-  localStorage.setItem("activeSection", "nabung");
-  window.location.href = "index.html";
-}
+// function goBack() {
+//   localStorage.setItem("activeSection", "nabung");
+//   window.location.href = "index.html";
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const savedCategory = localStorage.getItem("filterCategory");

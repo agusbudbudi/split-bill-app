@@ -44,7 +44,7 @@ function renderPeople() {
     personDiv.className = "person-item";
 
     personDiv.innerHTML = `
-  <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${encodeURIComponent(
+  <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${encodeURIComponent(
     name
   )}" class="person-img" />
   <span class="person-name">${name}</span>
@@ -97,7 +97,7 @@ function renderAvatars() {
     // Ganti avatar teks dengan avatar gambar dari Dicebear Dylan
     const avatar = document.createElement("img");
     avatar.className = `avatar-img ${who.includes(person) ? "selected" : ""}`;
-    avatar.src = `https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${encodeURIComponent(
+    avatar.src = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${encodeURIComponent(
       person
     )}`;
     avatar.alt = person;

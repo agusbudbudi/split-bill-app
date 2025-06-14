@@ -312,7 +312,7 @@ function generateUserCards(
         <div class="user-card" data-name="${user}">
           <div class="user-header">
             <div class="avatar">
-              <img src="https://api.dicebear.com/9.x/dylan/svg?scale=80&seed=${user}" alt="${user}" class="summary-avatar"/>
+              <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&scale=100&seed=${user}" alt="${user}" class="summary-avatar"/>
             </div>
             <div class="user-details">
               <h2>${user}</h2>

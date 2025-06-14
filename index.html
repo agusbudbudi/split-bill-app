@@ -89,6 +89,11 @@
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
     <link rel="stylesheet" href="css/table.css" />
     <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/button.css" />
@@ -108,21 +113,20 @@
     <link rel="stylesheet" href="css/toastMessage.css" />
     <link rel="stylesheet" href="css/saving.css" />
     <link rel="stylesheet" href="css/scanBill.css" />
+    <link rel="stylesheet" href="css/profile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
   <body>
     <header class="sticky-header">
-      <!-- <h1>Split Bill</h1> -->
       <img src="img/logo.png" alt="logo" class="logo" />
-      <label class="theme-toggle">
-        <input type="checkbox" id="themeSwitch" />
-        <span class="slider">
-          <i class="fa-solid fa-sun icon sun"></i>
-          <i class="fa-solid fa-moon icon moon"></i>
-          <span class="toggle-ball"></span>
-        </span>
-      </label>
+
+      <div class="profile-menu" onclick="window.location.href='profile.html'">
+        <img
+          src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=Mackenzie"
+          class="avatar-profile"
+        />
+      </div>
     </header>
 
     <div class="container">
@@ -248,7 +252,7 @@
                 class="tab-button"
                 data-tab="ai-scan"
               >
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <i class="uil uil-robot"></i>
                 Scan with AI
               </button>
               <button
@@ -256,7 +260,7 @@
                 class="tab-button"
                 data-tab="manual-input"
               >
-                <i class="fa-solid fa-list-check"></i>
+                <i class="uil uil-clipboard-notes"></i>
                 Input Manual
               </button>
 
@@ -266,7 +270,7 @@
                 class="tab-button"
                 data-tab="ocr-scan"
               >
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="uil uil-image-search"></i>
                 OCR Scan
               </button>
             </div>
@@ -380,12 +384,12 @@
                     <label for="apiKey">API Key Gemini ✨</label>
                     <p class="microcopy">
                       *Untuk menggunakan fitur ini, Anda perlu memiliki API Key
-                      Gemini.
+                      Gemini. Input API Key di menu Profile.
                     </p>
                     <input
                       type="password"
                       id="apiKey"
-                      class="api-key-input"
+                      class="api-key-input hidden"
                       placeholder="Masukkan API Key Gemini Anda"
                     />
                   </div>
@@ -424,7 +428,7 @@
                   </div>
 
                   <button id="scanBtn" class="scan-btn" disabled>
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <i class="uil uil-robot"></i>
                     Scan Bill dengan AI
                   </button>
                   <!-- Loading when scanning bill with AI -->
@@ -440,12 +444,6 @@
               <!-- Result SCAN JSON -->
               <div class="results-section hidden">
                 <h2 class="results-title">📊 Hasil Scan</h2>
-
-                <!-- <div id="loading" class="loading">
-                  <div class="spinner"></div>
-                  <p>Sedang memproses gambar dengan AI Gemini...</p>
-                </div> -->
-
                 <div id="jsonOutput" class="json-output">
                   { "status": "waiting", "message": "Upload gambar dan tekan
                   tombol scan untuk memulai" }
@@ -508,7 +506,7 @@
                     class="scan-bill-btn"
                     id="processBtn"
                   >
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <i class="uil uil-image-search"></i>
                     Scan Bill
                   </button>
                 </div>

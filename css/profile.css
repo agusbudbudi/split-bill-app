@@ -1,0 +1,50 @@
+.menu-navigation-container {
+  border-bottom: 0.5px solid var(--table-border-color);
+  border-top: none;
+}
+.menu-navigation {
+  padding: 20px 10px;
+  color: var(--text-color);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: center;
+  font-size: 12px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu-text {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.profile-menu {
+  cursor: pointer;
+  font-size: 22px;
+  align-items: center;
+  display: flex;
+}
+
+.avatar-profile {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.saved-paymemt-method {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 1px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.saved-paymemt-method.active {
+  max-height: 500px;
+  opacity: 1;
+  padding-bottom: 10px;
+}

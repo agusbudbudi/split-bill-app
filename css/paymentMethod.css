@@ -81,3 +81,27 @@ input {
   font-size: 14px;
   font-family: poppins;
 }
+
+/* Checklist icon di pojok kiri atas */
+.check-icon {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  color: var(--btn-bg);
+  font-size: 20px;
+  display: none; /* Default disembunyikan */
+}
+
+/* Tampilkan icon hanya jika card selected */
+.payment-card.selected .check-icon {
+  display: block;
+}
+
+.billed-card.selected .check-icon {
+  display: block;
+}
+
+.fa-check-circle {
+  background-color: var(--container-bg);
+  border-radius: 100%;
+}

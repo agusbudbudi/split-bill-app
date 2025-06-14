@@ -20,7 +20,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
 }
 
 .file-upload-area {
@@ -33,7 +33,7 @@
 }
 
 .file-upload-area:hover {
-  background-color: #f8f9ff;
+  background-color: var(--infobox-info-bg);
 }
 
 .file-input {
@@ -74,7 +74,7 @@
 }
 
 .scan-btn:disabled {
-  background: #ccc;
+  background: var(--disable-btn);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;

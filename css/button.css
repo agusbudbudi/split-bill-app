@@ -67,8 +67,8 @@ button:hover {
 
 .delete-top-right {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  bottom: 3px;
+  right: 1px;
   background: transparent;
   border: none;
   color: red;
@@ -118,7 +118,7 @@ button:hover {
   justify-content: left;
   gap: 10px;
   margin: 20px 0px;
-  padding: 0px;
+  padding: 5px;
   max-width: 500px;
   overflow-x: auto;
   white-space: nowrap;
@@ -147,7 +147,7 @@ button:hover {
 
 .tab-button.active {
   background-color: var(--infobox-info-bg); /* blue-600 */
-  color: var(--btn-bg);
+  color: var(--text-color);
   border: 1px solid var(--infobox-info-border-color);
 }
 
