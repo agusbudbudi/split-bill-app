@@ -76,7 +76,7 @@
   position: relative;
   padding-bottom: 46px; /* agar tombol tidak menabrak konten */
   margin-top: 5px;
-  border-bottom: 1px solid var(--table-border-color);
+  border-bottom: 0.5px solid var(--table-border-color);
 }
 
 .action-buttons {
@@ -88,7 +88,7 @@
 }
 
 .action-buttons button {
-  padding: 6px 8px;
+  padding: 5px 8px;
   font-size: 12px;
   border: 1px solid var(--table-border-color);
   border-radius: 10px;

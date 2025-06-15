@@ -1,12 +1,18 @@
 const toggle = document.getElementById("themeSwitch");
 
 //show popup informasi
-function openInfoPopup() {
-  document.getElementById("infoPopup").style.display = "flex";
+function openPopup(popupId) {
+  const popup = document.getElementById(popupId);
+  if (popup) {
+    popup.style.display = "flex";
+  }
 }
 
-function closeInfoPopup() {
-  document.getElementById("infoPopup").style.display = "none";
+function closePopup(popupId) {
+  const popup = document.getElementById(popupId);
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
 
 // function setTheme(isDark) {

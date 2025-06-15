@@ -443,10 +443,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (removeBtn) {
     removeBtn.addEventListener("click", function () {
       if (billImageInput) {
-        billImageInput.value = ""; // Clear input
+        billImageInput.value = "";
       }
-      if (fileInfo) {
-        fileInfo.style.display = "none";
+      if (fileNameElement) {
+        fileNameElement.textContent = "No selected File";
       }
     });
   }

@@ -123,7 +123,7 @@
 
       <div class="profile-menu" onclick="window.location.href='profile.html'">
         <img
-          src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=Mackenzie"
+          src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=Random"
           class="avatar-profile"
         />
       </div>
@@ -333,7 +333,7 @@
                   >Jumlah (dalam Rupiah)
                   <i
                     class="fa-solid fa-circle-info info-icon"
-                    onclick="openInfoPopup()"
+                    onclick="openPopup('infoPopup')"
                   ></i>
                 </label>
 
@@ -343,8 +343,8 @@
                     <div class="popup-header">
                       <h3>ℹ️ Informasi Jumlah</h3>
                       <button
-                        onclick="closeInfoPopup()"
-                        class="delete-top-right"
+                        onclick="closePopup('infoPopup')"
+                        class="close-top-right"
                       >
                         <i class="fa-solid fa-xmark"></i>
                       </button>
@@ -388,11 +388,41 @@
               <div class="main-content">
                 <div class="upload-section">
                   <div class="api-key-section">
-                    <label for="apiKey">API Key Gemini ✨</label>
-                    <p class="microcopy">
-                      *Untuk menggunakan fitur ini, Anda perlu memiliki API Key
-                      Gemini. Input API Key di menu Profile.
-                    </p>
+                    <!-- <label for="apiKey">API Key Gemini ✨</label> -->
+                    <div class="title-section">
+                      Scan Bill Kamu
+                      <i
+                        class="fa-solid fa-circle-info info-icon"
+                        onclick="openPopup('infoPopupScanBill')"
+                      ></i>
+                    </div>
+
+                    <!-- Popup -->
+                    <div id="infoPopupScanBill" class="popup-overlay">
+                      <div class="popup-content">
+                        <div class="popup-header">
+                          <h3>ℹ️ Informasi Scan Bill</h3>
+                          <button
+                            onclick="closePopup('infoPopupScanBill')"
+                            class="close-top-right"
+                          >
+                            <i class="fa-solid fa-xmark"></i>
+                          </button>
+                        </div>
+                        <div class="popup-body">
+                          <ul>
+                            <li>
+                              Untuk menggunakan fitur ini, Anda perlu memiliki
+                              <b>API Key Gemini.</b>
+                            </li>
+                            <li>
+                              Input API Key di menu
+                              <b>Profile > API Key Gemini</b>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                     <input
                       type="password"
                       id="apiKey"
@@ -502,7 +532,7 @@
 
                 <div class="share-button-container scan-section">
                   <div class="file-info" id="fileInfoOcr">
-                    <i class="fa-regular fa-image file-icon"></i>
+                    <i class="uil uil-image file-icon"></i>
                     <span id="fileNameOcr">No selected File</span>
                     <button id="removeBtn" class="delete-button">
                       <i class="fa-solid fa-xmark"></i>
@@ -625,7 +655,6 @@
               </button>
             </div>
           </div>
-          <p class="credit">This app made by: Agus Budiman</p>
         </div>
 
         <!-- Edit Expense -->
@@ -1207,40 +1236,39 @@
             </div>
           </div>
         </div>
-
-        <!-- <img
-          src="img/under-construction.png"
-          alt="Under Construction"
-          class="under-construction"
-        />
-        <p class="coming-soon">
-          🧾 Tunggu sebentar ya fitur Invoice masih dibikin nih. Coming Soon!
-        </p> -->
       </div>
 
       <div id="section-nabung" class="section-content" style="display: none">
         <div class="table-wrapper">
           <div class="card-container">
             <div class="stats-section">
-              <div class="total-savings-card">
-                <div>
-                  <h2>Total Tabungan</h2>
-                  <div class="total-amount" id="totalAmount">
-                    Yuk Mulai Nabung
+              <div class="savings-card">
+                <div class="total-savings-card">
+                  <div>
+                    <h2>Total Tabungan</h2>
+                    <div class="total-amount" id="totalAmount">
+                      Yuk Mulai Nabung
+                    </div>
+                    <!-- Button Add Tabungan -->
+                    <button
+                      class="btn-add-tabungan-top"
+                      onclick="openBottomSheet('addSavingsBottomSheet')"
+                    >
+                      <i class="fa-solid fa-plus"></i> Add Tabungan
+                    </button>
                   </div>
-                  <!-- Button Add Tabungan -->
-                  <button
-                    class="btn-add-tabungan-top"
-                    onclick="openBottomSheet('addSavingsBottomSheet')"
-                  >
-                    <i class="fa-solid fa-plus"></i> Add Tabungan
-                  </button>
+                  <img
+                    src="img/wallet-icon.png"
+                    alt="Nabung Icon"
+                    class="nabung-icon"
+                  />
                 </div>
-                <img
-                  src="img/wallet-icon.png"
-                  alt="Nabung Icon"
-                  class="nabung-icon"
-                />
+                <div
+                  class="total-savings-card-footer"
+                  onclick="window.location.href='transactions.html'"
+                >
+                  Lihat Detail <i class="uil uil-angle-right-b"></i>
+                </div>
               </div>
 
               <div id="savings-information">
@@ -1526,8 +1554,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="config.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/scanBill.js"></script>
     <script src="js/scanBillAi.js"></script>
+    <script src="js/scanBill.js"></script>
     <script src="js/editExpense.js"></script>
     <script src="js/summary.js"></script>
     <script src="js/inputForm.js"></script>

@@ -164,8 +164,8 @@ function updateExpenseCards() {
           </div>
 
           <div class="action-buttons">
-            <button class="edit-btn" onclick="editExpense(${index})"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button class="delete-btn" onclick="deleteExpense(${index})"><i class="fa-regular fa-trash-can"></i></button>
+            <button class="edit-btn" onclick="editExpense(${index})"><i class="uil uil-edit"></i></i></button>
+            <button class="delete-btn" onclick="deleteExpense(${index})"><i class="uil uil-trash"></i></button>
           </div
         </div>
       </div>`;
