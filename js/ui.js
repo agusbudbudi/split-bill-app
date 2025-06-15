@@ -20,12 +20,6 @@ function closeInfoPopup() {
 //   setTheme(this.checked);
 // });
 
-// // Load saved preference on page load
-// window.addEventListener("DOMContentLoaded", () => {
-//   const savedMode = localStorage.getItem("darkMode") === "enabled";
-//   setTheme(savedMode);
-// });
-
 //Set Theme
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("themeSwitch");
@@ -44,6 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
     });
   }
+
+  // // Load saved preference on page load
+  // window.addEventListener("DOMContentLoaded", () => {
+  //   const savedMode = localStorage.getItem("darkMode") === "enabled";
+  //   setTheme(savedMode);
+  // });
 
   function setTheme(isDark) {
     document.body.classList.toggle("dark-mode", isDark);
@@ -110,4 +110,5 @@ function showTab(tabId) {
 window.addEventListener("load", function () {
   showTab("ai-scan");
   generateInvoiceNumber();
+  setTheme(savedMode);
 });
