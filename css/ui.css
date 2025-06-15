@@ -1,4 +1,19 @@
-/* testing */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+/* Global Styles */
+body {
+  background-color: var(--bg-color);
+  color: #ffffff;
+  font-family: "poppins", sans-serif;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
 .container {
   width: 50%;
   padding: 0 20px 20px 20px;
@@ -22,8 +37,8 @@
 .theme-toggle {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 30px;
+  width: 61px;
+  height: 35px;
   border-radius: 5px;
   margin-bottom: 0px;
 }
@@ -36,7 +51,7 @@
 
 .slider {
   background-color: var(--bg-color);
-  border-radius: 12px;
+  border-radius: 10px;
   position: absolute;
   top: 0;
   left: 0;
@@ -46,7 +61,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 7px;
+  padding: 0 8px;
   box-sizing: border-box;
   border: 1px solid var(--bg-color);
 }
@@ -68,14 +83,15 @@
 .toggle-ball {
   position: absolute;
   top: 2px;
-  left: 1px;
+  left: 2px;
   width: 26px;
-  height: 22px;
+  height: 26px;
   background-color: var(--container-bg);
-  border-radius: 10px;
+  border-radius: 8px;
   transition: all 0.3s ease;
   z-index: 1;
   border: 1px solid var(--container-bg);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* Saat switch aktif (checkbox dicentang) */
@@ -164,21 +180,6 @@ p {
 
 .empty-text {
   font-size: 14px;
-}
-* {
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
-}
-/* Global Styles */
-body {
-  background-color: var(--bg-color);
-  color: #ffffff;
-  font-family: "poppins", sans-serif;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
 }
 
 h1 {

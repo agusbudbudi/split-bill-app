@@ -29,7 +29,7 @@
 .avatar-profile {
   width: 26px;
   height: 26px;
-  border-radius: 50%;
+  border-radius: 40%;
   object-fit: cover;
   cursor: pointer;
 }
@@ -81,6 +81,11 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  font-weight: 600;
+}
+
+.text-logo {
+  font-weight: 600;
 }
 
 .footer-profile-text {
