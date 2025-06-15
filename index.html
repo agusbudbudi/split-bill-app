@@ -134,6 +134,11 @@
         <div class="header-section"></div>
         <div class="banner-container">
           <img
+            src="img/banner-profile.png"
+            alt="banner splitbill"
+            class="banner-slide"
+          />
+          <img
             src="img/banner-splitbill.png"
             alt="banner splitbill"
             class="banner-slide"
@@ -158,46 +163,48 @@
         Kelola split bill, tagihan, dan invoice dalam satu aplikasi.
       </p>
 
-      <div class="menu-circle-container">
-        <a class="menu-circle" onclick="showSection('split', this)">
-          <div class="badge">Populer</div>
-          <div class="menu-icon">
-            <img src="img/split-bill-icon.png" alt="Split Bill" />
-          </div>
-          <span>Split Bill</span>
-        </a>
+      <div class="table-wrapper">
+        <div class="menu-circle-container">
+          <a class="menu-circle" onclick="showSection('split', this)">
+            <div class="badge">Populer</div>
+            <div class="menu-icon">
+              <img src="img/split-bill-icon.png" alt="Split Bill" />
+            </div>
+            <span>Split Bill</span>
+          </a>
 
-        <a class="menu-circle" onclick="showSection('invoice', this)">
-          <!-- <div class="badge">New</div> -->
-          <div class="menu-icon">
-            <img src="img/invoice-icon.png" alt="Invoice" />
-          </div>
-          <span>Invoice</span>
-        </a>
+          <a class="menu-circle" onclick="showSection('invoice', this)">
+            <!-- <div class="badge">New</div> -->
+            <div class="menu-icon">
+              <img src="img/invoice-icon.png" alt="Invoice" />
+            </div>
+            <span>Invoice</span>
+          </a>
 
-        <a class="menu-circle" onclick="showSection('collect', this)">
-          <!-- <div class="badge">New</div> -->
-          <div class="menu-icon">
-            <img src="img/collect-money-icon.png" alt="Collect Money" />
-          </div>
-          <span>Collect Money</span>
-        </a>
+          <a class="menu-circle" onclick="showSection('collect', this)">
+            <!-- <div class="badge">New</div> -->
+            <div class="menu-icon">
+              <img src="img/collect-money-icon.png" alt="Collect Money" />
+            </div>
+            <span>Patungan</span>
+          </a>
 
-        <a class="menu-circle" onclick="showSection('nabung', this)">
-          <!-- <div class="badge">New</div> -->
-          <div class="menu-icon">
-            <img src="img/nabung-icon.png" alt="Tabungan" />
-          </div>
-          <span>Tabungan</span>
-        </a>
+          <a class="menu-circle" onclick="showSection('nabung', this)">
+            <!-- <div class="badge">New</div> -->
+            <div class="menu-icon">
+              <img src="img/nabung-icon.png" alt="Tabungan" />
+            </div>
+            <span>Tabungan</span>
+          </a>
 
-        <a class="menu-circle" onclick="showSection('daily', this)">
-          <div class="badge">Soon</div>
-          <div class="menu-icon">
-            <img src="img/daily-expense-icon.png" alt="Daily Expense" />
-          </div>
-          <span>Daily Expense</span>
-        </a>
+          <a class="menu-circle" onclick="showSection('daily', this)">
+            <div class="badge">Soon</div>
+            <div class="menu-icon">
+              <img src="img/daily-expense-icon.png" alt="Daily Expense" />
+            </div>
+            <span>Expense</span>
+          </a>
+        </div>
       </div>
 
       <!-- END NEW FEATURE COMMING SOON -->
@@ -597,7 +604,7 @@
               onclick="calculateSplit()"
               disabled
             >
-              <i class="fa-solid fa-calculator"></i> Hitung Split Bill
+              <i class="uil uil-bill"></i> Hitung Split Bill
             </button>
           </div>
         </div>

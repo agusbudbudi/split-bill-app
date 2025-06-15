@@ -151,6 +151,8 @@ function removePayment(index) {
     paymentMethods.splice(index, 1);
     localStorage.setItem("paymentMethods", JSON.stringify(paymentMethods));
     renderPaymentCards();
+
+    showToast("Metode pembayaran berhasil dihapus", "success", 5000);
   }
 }
 

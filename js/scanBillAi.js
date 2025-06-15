@@ -339,11 +339,13 @@ function saveApiKey() {
 
   if (apiKey) {
     localStorage.setItem("myApiKey", apiKey);
-    alert("API Key berhasil disimpan ke localStorage!");
+
+    showToast("API Key berhasil disimpan", "success", 5000);
+
     apiKeyInput.value = ""; // kosongkan input setelah simpan
     closeBottomSheet("addApiKeyBottomSheet"); // tutup bottom sheet
   } else {
-    alert("API Key tidak boleh kosong.");
+    showToast("API Key tidak boleh kosong.", "error", 5000);
   }
 }
 
