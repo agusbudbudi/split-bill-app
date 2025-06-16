@@ -128,7 +128,7 @@
 .billed-logo {
   width: 30px;
   height: 30px;
-  border-radius: 20%;
+  border-radius: 40%;
   object-fit: cover;
   margin-bottom: 5px;
 }
@@ -237,14 +237,14 @@
 .invoice-section img {
   width: 30px;
   height: 30px;
-  border-radius: 20%;
+  border-radius: 40%;
   object-fit: cover;
 }
 
 .invoice-section {
   background-color: var(--infobox-info-bg);
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 16px;
   width: 100%;
   text-align: left;
 }
@@ -398,7 +398,7 @@ hr {
   margin-bottom: 0;
   padding: 0;
   border: none;
-  width: 98%;
+  width: 95%;
 }
 
 .date-input {
