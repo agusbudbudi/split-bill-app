@@ -27,7 +27,7 @@
 .avatar-box {
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: 40%;
   overflow: hidden;
   margin: 0 auto;
   background-color: #eee;
