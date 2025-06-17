@@ -825,7 +825,7 @@
         <div class="table-wrapper">
           <div class="card-container">
             <!-- infobox -->
-            <div class="info-box information">
+            <!-- <div class="info-box information">
               <div class="icon">
                 <span class="icon">🤩</span>
               </div>
@@ -834,13 +834,31 @@
                   Bikin invoice cepat & praktis — sekarang kamu juga bisa cek
                   riwayatnya lewat tombol <b>Lihat Semua</b>!
                 </p>
+                <button
+                  onclick="window.location.href='transactions.html?tab=invoice'"
+                  class="see-all-button"
+                >
+                  Lihat Semua
+                </button>
               </div>
-              <button
-                onclick="window.location.href='transactions.html?tab=invoice'"
-                class="see-all-button"
-              >
-                Lihat Semua
-              </button>
+            </div> -->
+
+            <div class="info-box information">
+              <div class="info-left">
+                <span class="icon">🤩</span>
+                <p>
+                  Bikin invoice cepat & praktis — sekarang kamu juga bisa cek
+                  riwayatnya lewat tombol <b>Lihat Semua</b>!
+                </p>
+              </div>
+              <div class="info-right">
+                <button
+                  onclick="window.location.href='transactions.html?tab=invoice'"
+                  class="see-all-button"
+                >
+                  Lihat Semua
+                </button>
+              </div>
             </div>
 
             <div class="section">
@@ -856,24 +874,52 @@
               </div>
 
               <!-- NEW SELECT DATE USING Flatpickr -->
-              <label style="display: block">Invoice Date</label>
-              <div class="date-input">
-                <input
-                  type="text"
-                  id="invoiceDate"
-                  placeholder="Select date"
-                  readonly
-                />
-              </div>
+              <!-- <div class="invoice-date-section">
+                <label style="display: block">Invoice Date</label>
+                <div class="date-input">
+                  <input
+                    type="date"
+                    id="invoiceDate"
+                    placeholder="Select date"
+                    readonly
+                  />
+                </div>
 
-              <label style="display: block">Due Date</label>
-              <div class="date-input">
-                <input
-                  type="text"
-                  id="dueDate"
-                  placeholder="Select date"
-                  readonly
-                />
+                <label style="display: block">Due Date</label>
+                <div class="date-input">
+                  <input
+                    type="date"
+                    id="dueDate"
+                    placeholder="Select date"
+                    readonly
+                  />
+                </div>
+              </div> -->
+
+              <div class="invoice-date-section">
+                <div class="date-group">
+                  <label>Invoice Date</label>
+                  <div class="date-input">
+                    <input
+                      type="date"
+                      id="invoiceDate"
+                      placeholder="Select date"
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <div class="date-group">
+                  <label>Due Date</label>
+                  <div class="date-input">
+                    <input
+                      type="date"
+                      id="dueDate"
+                      placeholder="Select date"
+                      readonly
+                    />
+                  </div>
+                </div>
               </div>
 
               <label>Upload Logo</label>
@@ -1274,7 +1320,7 @@
                   class="total-savings-card-footer"
                   onclick="window.location.href='transactions.html'"
                 >
-                  Lihat Detail <i class="uil uil-angle-right-b"></i>
+                  Lihat Detail Tabungan <i class="uil uil-angle-right-b"></i>
                 </div>
               </div>
 

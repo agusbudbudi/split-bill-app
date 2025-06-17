@@ -439,10 +439,33 @@ function previewInvoice() {
   // Preview header info
   document.getElementById("preview-invoice-number").textContent =
     document.getElementById("invoiceNo").value;
+  // document.getElementById("preview-invoice-date").textContent =
+  //   document.getElementById("invoiceDate").value;
+  // document.getElementById("preview-due-date").textContent =
+  //   document.getElementById("dueDate").value;
+
+  //Date Format show to customer
+  const invoiceDateValue = document.getElementById("invoiceDate").value;
+  const dueDateValue = document.getElementById("dueDate").value;
+
+  const invoiceDate = new Date(invoiceDateValue);
+  const dueDate = new Date(dueDateValue);
+
+  // Format: 12 June 2025
+  const formattedInvoiceDate = invoiceDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+  const formattedDueDate = dueDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
   document.getElementById("preview-invoice-date").textContent =
-    document.getElementById("invoiceDate").value;
-  document.getElementById("preview-due-date").textContent =
-    document.getElementById("dueDate").value;
+    formattedInvoiceDate;
+  document.getElementById("preview-due-date").textContent = formattedDueDate;
 
   //Logo Preview
   const logoInput = document.getElementById("logoPreview");
@@ -622,17 +645,54 @@ function getSelectedBillingData(containerId) {
 }
 
 //GET SELECTED PAYMENT METOD
+// function getSelectedPaymentMethods() {
+//   const paymentElements = document.querySelectorAll(
+//     "#selectedPaymentInfo .selected-payment-summary"
+//   );
+
+//   return Array.from(paymentElements).map((el) => {
+//     return {
+//       logo: el.querySelector("img")?.src || "",
+//       name: el.querySelector("p strong")?.textContent || "",
+//       phone:
+//         el.querySelectorAll("p")[1]?.textContent?.replace("No HP: ", "") || "",
+//     };
+//   });
+// }
+
 function getSelectedPaymentMethods() {
   const paymentElements = document.querySelectorAll(
     "#selectedPaymentInfo .selected-payment-summary"
   );
 
   return Array.from(paymentElements).map((el) => {
+    const secondP = el.querySelectorAll("p")[1];
+    const infoText = secondP?.innerHTML || ""; // innerHTML untuk menangkap <br>
+
+    let phone = "";
+    let accountNumber = "";
+    let bankName = "";
+
+    if (infoText.includes("No HP:")) {
+      phone = secondP.textContent.replace("No HP: ", "").trim();
+    } else if (infoText.includes("Rek:")) {
+      // Pisahkan berdasarkan <br> atau newline
+      const lines = infoText.split(/<br\s*\/?>|\n/).map((line) => line.trim());
+      lines.forEach((line) => {
+        if (line.startsWith("Rek:")) {
+          accountNumber = line.replace("Rek:", "").trim();
+        } else if (line.startsWith("Bank:")) {
+          bankName = line.replace("Bank:", "").trim();
+        }
+      });
+    }
+
     return {
       logo: el.querySelector("img")?.src || "",
       name: el.querySelector("p strong")?.textContent || "",
-      phone:
-        el.querySelectorAll("p")[1]?.textContent?.replace("No HP: ", "") || "",
+      phone,
+      accountNumber,
+      bankName,
     };
   });
 }
@@ -771,7 +831,10 @@ function renderInvoiceCards() {
       <div class="invoice-card-body">
         <p><strong>Billed To:</strong> ${invoice.billedTo?.name || "-"}</p>
         <p><strong>Due Date:</strong> ${invoice.dueDate}</p>
-        
+      </div>
+      <div class="invoice-card-footer">
+      <div class="invoice-status">Paid</div>
+      <div class="see-detail">Lihat Detail<i class="uil uil-angle-right-b"></i></div>
       </div>
     `;
 
@@ -801,13 +864,27 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // flatpickr("#invoiceDate", {
+  //   dateFormat: "d-m-Y",
+  //   defaultDate: "today",
+  // });
+
+  // flatpickr("#dueDate", {
+  //   dateFormat: "d-m-Y",
+  //   defaultDate: "today",
+  // });
+
   flatpickr("#invoiceDate", {
-    dateFormat: "d-m-Y",
+    altInput: true,
+    altFormat: "d F Y", // ditampilkan ke user
+    dateFormat: "Y-m-d", // disimpan ke .value
     defaultDate: "today",
   });
 
   flatpickr("#dueDate", {
-    dateFormat: "d-m-Y",
+    altInput: true,
+    altFormat: "d F Y",
+    dateFormat: "Y-m-d",
     defaultDate: "today",
   });
 });

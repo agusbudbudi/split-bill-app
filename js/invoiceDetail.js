@@ -88,6 +88,25 @@ function renderInvoiceDetails(data) {
     tbody.appendChild(row);
   });
 
+  // // Payment Methods
+  // const paymentContainer = document.getElementById("selectedPaymentInfo");
+  // paymentContainer.innerHTML = "<h3>Metode Pembayaran</h3>";
+
+  // if (data.paymentMethods && data.paymentMethods.length > 0) {
+  //   data.paymentMethods.forEach((method) => {
+  //     const paymentDiv = document.createElement("div");
+  //     paymentDiv.classList.add("selected-payment-summary");
+
+  //     paymentDiv.innerHTML = `
+  //         <img src="${method.logo}" alt="${method.name}" class="payment-logo">
+  //         <p><strong>${method.name}</strong></p>
+  //         <p>No HP: ${method.phone}</p>
+  //       `;
+
+  //     paymentContainer.appendChild(paymentDiv);
+  //   });
+  // }
+
   // Payment Methods
   const paymentContainer = document.getElementById("selectedPaymentInfo");
   paymentContainer.innerHTML = "<h3>Metode Pembayaran</h3>";
@@ -97,11 +116,24 @@ function renderInvoiceDetails(data) {
       const paymentDiv = document.createElement("div");
       paymentDiv.classList.add("selected-payment-summary");
 
+      // Tentukan detail isi berdasarkan data yang tersedia
+      let detailHTML = "";
+      if (method.phone) {
+        detailHTML = `<p>No HP: ${method.phone}</p>`;
+      } else if (method.accountNumber || method.bankName) {
+        detailHTML = `
+        <p>
+          ${method.accountNumber ? `Rek: ${method.accountNumber}<br>` : ""}
+          ${method.bankName ? `Bank: ${method.bankName}` : ""}
+        </p>
+      `;
+      }
+
       paymentDiv.innerHTML = `
-          <img src="${method.logo}" alt="${method.name}" class="payment-logo">
-          <p><strong>${method.name}</strong></p>
-          <p>No HP: ${method.phone}</p>
-        `;
+      <img src="${method.logo}" alt="${method.name}" class="payment-logo">
+      <p><strong>${method.name}</strong></p>
+      ${detailHTML}
+    `;
 
       paymentContainer.appendChild(paymentDiv);
     });

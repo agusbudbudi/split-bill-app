@@ -216,14 +216,30 @@
 
 .invoice-card {
   border-radius: 10px;
-  padding: 10px;
+  /* padding: 10px; */
   transition: transform 0.3s ease;
   border: 1px solid var(--table-border-color);
   cursor: pointer;
+  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.03); */
+}
+
+.invoice-card-body {
+  padding: 0 10px 10px 10px;
+}
+
+.invoice-card-footer {
+  border-top: 1px solid var(--table-border-color);
+  padding: 8px 10px;
+  /* background-color: var(--input-bg); */
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .invoice-card-header {
   font-size: 12px;
+  padding: 10px;
   margin-bottom: 0.5rem;
   color: var(--text-color);
   display: flex;
@@ -236,7 +252,6 @@
 .invoice-card-body p {
   margin: 0.3rem 0;
   font-size: 12px;
-  color: var(--text-color);
 }
 
 .invoice-icon {
@@ -260,4 +275,20 @@
 
 .tab-transaction {
   padding: 7px 12px;
+}
+
+.see-detail {
+  cursor: pointer;
+  color: #667eea;
+  font-size: 12px;
+}
+
+.invoice-status {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--achieved-color);
+  background-color: var(--achieved-bg);
+  padding: 1px 8px;
+  border-radius: 6px;
+  /* border: 1px solid var(--achieved-border); */
 }
