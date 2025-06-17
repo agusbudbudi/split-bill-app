@@ -204,7 +204,7 @@ function displayTransactions(savings) {
                       <span class="category-name">${saving.categoryName}</span>
                   </div>
                   <div class="savings-right">
-                      <div class="savings-amount">+ Rp ${formatCurrency(
+                      <div class="savings-amount">+ ${formatCurrency(
                         saving.nominal
                       )}</div>
                       <div class="savings-meta">
@@ -228,7 +228,7 @@ function updateSummary(savings) {
 
   document.getElementById(
     "totalFilteredAmount"
-  ).textContent = `Rp ${formatCurrency(totalAmount)}`;
+  ).textContent = `${formatCurrency(totalAmount)}`;
   document.getElementById("totalFilteredTransactions").textContent =
     totalTransactions;
 }
@@ -265,16 +265,6 @@ function toggleSection(sectionSelector, iconId) {
   icon.classList.toggle("fa-chevron-down", !isActive);
   icon.classList.toggle("fa-chevron-up", isActive);
 }
-
-/**
- * Stores the user's intention to return to the 'nabung' section in localStorage
- * and redirects the browser to the index.html page.
- */
-
-// function goBack() {
-//   localStorage.setItem("activeSection", "nabung");
-//   window.location.href = "index.html";
-// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const savedCategory = localStorage.getItem("filterCategory");

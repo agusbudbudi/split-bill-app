@@ -117,7 +117,7 @@
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
-  <body>
+  <body data-default-tab="ai-scan">
     <header class="sticky-header">
       <img src="img/logo.png" alt="logo" class="logo" />
 
@@ -282,11 +282,7 @@
               </button>
             </div>
 
-            <div
-              id="manual-input"
-              class="section-input-bill"
-              style="display: none"
-            >
+            <div id="manual-input" class="section-input-bill tab-section">
               <div id="input-section">
                 <!-- Section Add People -->
                 <label for="personName">Tambah Teman</label>
@@ -344,7 +340,7 @@
                       <h3>ℹ️ Informasi Jumlah</h3>
                       <button
                         onclick="closePopup('infoPopup')"
-                        class="close-top-right"
+                        class="close-btn-bottom-sheet"
                       >
                         <i class="fa-solid fa-xmark"></i>
                       </button>
@@ -384,7 +380,7 @@
             </div>
 
             <!-- SCAN WITH AI -->
-            <div id="ai-scan" class="section-input-bill" style="display: none">
+            <div id="ai-scan" class="section-input-bill tab-section">
               <div class="main-content">
                 <div class="upload-section">
                   <div class="api-key-section">
@@ -406,7 +402,7 @@
                           <h3>ℹ️ Informasi Scan Bill</h3>
                           <button
                             onclick="closePopup('infoPopupScanBill')"
-                            class="close-top-right"
+                            class="close-btn-bottom-sheet"
                           >
                             <i class="fa-solid fa-xmark"></i>
                           </button>
@@ -490,7 +486,7 @@
               </div>
             </div>
 
-            <div id="ocr-scan" class="section-input-bill" style="display: none">
+            <div id="ocr-scan" class="section-input-bill tab-section">
               <div class="info-box information">
                 <div class="icon">
                   <i class="fa-solid fa-circle-info"></i>
@@ -835,11 +831,16 @@
               </div>
               <div class="content">
                 <p>
-                  Dari input data ke invoice siap kirim hanya dalam beberapa
-                  klik - hemat waktu, tanpa ribet, cocok untuk UMKM dan
-                  freelancer!
+                  Bikin invoice cepat & praktis — sekarang kamu juga bisa cek
+                  riwayatnya lewat tombol <b>Lihat Semua</b>!
                 </p>
               </div>
+              <button
+                onclick="window.location.href='transactions.html?tab=invoice'"
+                class="see-all-button"
+              >
+                Lihat Semua
+              </button>
             </div>
 
             <div class="section">
@@ -885,14 +886,15 @@
               />
               <div class="share-button-container scan-section">
                 <div class="file-info">
-                  <i class="fa-regular fa-image file-icon"></i>
+                  <i class="uil uil-image file-icon"></i>
                   <span id="fileName-logo">No selected File</span>
                   <button id="removeLogoBtn" class="delete-button">
                     <i class="fa-solid fa-xmark"></i>
                   </button>
                 </div>
                 <label for="logoPreview" class="custom-button">
-                  <i class="fa-solid fa-arrow-up-from-bracket"></i> Upload Logo
+                  <i class="uil uil-upload"></i>
+                  Upload Logo
                 </label>
                 <input
                   type="file"
@@ -1232,6 +1234,9 @@
               <div id="preview-footer" class="preview-footer"></div>
             </section>
             <div class="share-button-container">
+              <button onclick="saveInvoiceToHistory()" class="secondary-button">
+                <i class="uil uil-invoice"></i>Save to History
+              </button>
               <button onclick="exportInvoiceToPDF()">
                 <i class="fa-solid fa-file-export"></i> Export to PDF
               </button>

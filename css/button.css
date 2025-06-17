@@ -131,7 +131,7 @@ button:hover {
   display: flex;
   justify-content: left;
   gap: 10px;
-  margin: 20px 0px;
+  margin: 0;
   padding: 5px;
   max-width: 500px;
   overflow-x: auto;
