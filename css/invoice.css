@@ -427,3 +427,18 @@ hr {
   padding: 15px 20px;
   color: white;
 }
+
+.invoice-date-section {
+  display: flex;
+  gap: 10px; /* jarak antar kolom */
+  flex-wrap: wrap;
+}
+
+.date-group {
+  flex: 1; /* agar dua-duanya ambil lebar seimbang */
+  /* min-width: 200px; */
+}
+
+.date-input input {
+  width: 100%;
+}

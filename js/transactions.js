@@ -282,12 +282,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // flatpickr("#dateFrom", {
+  //   dateFormat: "d-m-Y",
+  // });
+
+  // flatpickr("#dateTo", {
+  //   dateFormat: "d-m-Y",
+  // });
+
   flatpickr("#dateFrom", {
-    dateFormat: "d-m-Y",
+    altInput: true,
+    altFormat: "d F Y", // ditampilkan ke user
+    dateFormat: "Y-m-d", // disimpan ke .value
   });
 
   flatpickr("#dateTo", {
-    dateFormat: "d-m-Y",
+    altInput: true,
+    altFormat: "d F Y",
+    dateFormat: "Y-m-d",
   });
 });
 
