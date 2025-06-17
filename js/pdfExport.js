@@ -116,7 +116,7 @@ function exportToPDF() {
   avatars.forEach((avatar) => {
     avatar.style.width = "40px";
     avatar.style.height = "40px";
-    avatar.style.borderRadius = "50%";
+    avatar.style.borderRadius = "40%";
     avatar.style.objectFit = "cover";
   });
 

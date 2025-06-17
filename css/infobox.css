@@ -5,6 +5,7 @@
   color: #333;
   gap: 5px;
   margin-bottom: 10px;
+  align-items: center;
 }
 
 .info-box .content {

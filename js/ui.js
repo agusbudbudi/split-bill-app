@@ -1,17 +1,29 @@
 const toggle = document.getElementById("themeSwitch");
 
-//show popup informasi
 function openPopup(popupId) {
   const popup = document.getElementById(popupId);
   if (popup) {
     popup.style.display = "flex";
+
+    // Jalankan animasi setelah elemen ditampilkan
+    requestAnimationFrame(() => {
+      popup.querySelector(".popup-content").classList.add("show");
+    });
   }
 }
 
 function closePopup(popupId) {
   const popup = document.getElementById(popupId);
   if (popup) {
-    popup.style.display = "none";
+    const popupContent = popup.querySelector(".popup-content");
+    if (popupContent) {
+      popupContent.classList.remove("show");
+    }
+
+    // Tunggu animasi selesai baru disembunyikan
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 300); // sama dengan durasi animasi di CSS
   }
 }
 
@@ -84,17 +96,22 @@ function nextSlide() {
 
 setInterval(nextSlide, 6000);
 
-function showTab(tabId) {
+function showTab(
+  tabId,
+  sectionSelector = ".tab-section",
+  tabGroupSelector = ".tab-container"
+) {
   // Sembunyikan semua section
-  document.getElementById("ai-scan").style.display = "none";
-  document.getElementById("manual-input").style.display = "none";
-  document.getElementById("ocr-scan").style.display = "none";
+  document.querySelectorAll(sectionSelector).forEach((section) => {
+    section.style.display = "none";
+  });
 
   // Tampilkan section yang dipilih
-  document.getElementById(tabId).style.display = "block";
+  const target = document.getElementById(tabId);
+  if (target) target.style.display = "block";
 
   // Update active tab button
-  const buttons = document.querySelectorAll(".tab-container .tab-button");
+  const buttons = document.querySelectorAll(`${tabGroupSelector} .tab-button`);
   buttons.forEach((btn) => {
     if (btn.dataset.tab === tabId) {
       btn.classList.add("active");
@@ -104,17 +121,33 @@ function showTab(tabId) {
   });
 }
 
-// // Default aktif (jika ingin aktif saat page load)
-// window.onload = function () {
-//   //set default show section in ai-scan in split bill page
-//   showTab("ai-scan");
-
-//   //set default invoice number when opened invoice menu
-//   generateInvoiceNumber();
-// };
-
 window.addEventListener("load", function () {
-  showTab("ai-scan");
-  generateInvoiceNumber();
+  // Ambil tab dari URL jika ada
+  const params = new URLSearchParams(window.location.search);
+  const urlTab = params.get("tab");
+
+  // Ambil default tab dari data attribute body
+  const defaultTab = document.body.dataset.defaultTab || "default-tab-id";
+
+  // Tentukan tab yang akan ditampilkan
+  const activeTab = urlTab ? `transaction-${urlTab}` : defaultTab;
+
+  // Tampilkan tab
+  showTab(activeTab);
+
+  // Jika tab yang aktif adalah ai-scan, jalankan generateInvoiceNumber
+  if (activeTab === "ai-scan") {
+    generateInvoiceNumber();
+  }
+
+  // Atur dark mode
+  const savedMode = localStorage.getItem("darkMode") === "enabled";
   setTheme(savedMode);
+
+  // Tampilkan invoice cards jika ada
+  renderInvoiceCards();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderInvoiceCards();
 });

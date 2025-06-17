@@ -272,10 +272,10 @@ function renderBilled(type) {
       <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&scale=100&seed=${encodeURIComponent(
         data.name
       )}" class="billed-logo"/>
-      <p><strong>${data.name}</strong></p>
-      <p>${data.address}</p>
-      <p>${data.email}</p>
-      <p>${data.phone}</p>
+      <p class="name"><strong>${data.name}</strong></p>
+      <p class="address">${data.address}</p>
+      <p class="email">${data.email}</p>
+      <p class="phoneNumber">${data.phone}</p>
     `;
 
     card.addEventListener("click", (e) => {
@@ -493,10 +493,10 @@ function previewInvoice() {
     });
   }
 
-  const subtotal = document.getElementById("subtotal")?.textContent || "Rp 0";
+  const subtotal = document.getElementById("subtotal")?.textContent || "Rp 0";
   const discountInfo =
-    document.getElementById("discountInfo")?.textContent || "Diskon: Rp 0";
-  const total = document.getElementById("total")?.textContent || "Rp 0";
+    document.getElementById("discountInfo")?.textContent || "Diskon: Rp 0";
+  const total = document.getElementById("total")?.textContent || "Rp 0";
   const totalWords = document.querySelector(".total-words")?.textContent || "";
 
   document.getElementById("preview-subtotal").textContent = subtotal;
@@ -605,6 +605,185 @@ function truncateFileName(fileName, maxLength = 20) {
   const truncatedName = nameOnly.slice(0, maxLength - ext.length - 3);
   return truncatedName + "..." + ext;
 }
+//GET SELECTED BILLED BY AND BILLED TO
+function getSelectedBillingData(containerId) {
+  const selectedCard = document.querySelector(
+    `#${containerId} .billed-card.selected`
+  );
+  if (!selectedCard) return null;
+
+  return {
+    name: selectedCard.querySelector("p strong")?.textContent || "",
+    address: selectedCard.querySelectorAll("p")[1]?.textContent || "",
+    email: selectedCard.querySelectorAll("p")[2]?.textContent || "",
+    phone: selectedCard.querySelectorAll("p")[3]?.textContent || "",
+    logo: selectedCard.querySelector(".billed-logo")?.src || "",
+  };
+}
+
+//GET SELECTED PAYMENT METOD
+function getSelectedPaymentMethods() {
+  const paymentElements = document.querySelectorAll(
+    "#selectedPaymentInfo .selected-payment-summary"
+  );
+
+  return Array.from(paymentElements).map((el) => {
+    return {
+      logo: el.querySelector("img")?.src || "",
+      name: el.querySelector("p strong")?.textContent || "",
+      phone:
+        el.querySelectorAll("p")[1]?.textContent?.replace("No HP: ", "") || "",
+    };
+  });
+}
+
+//Parse Currency to Amount
+function parseCurrency(rpString) {
+  if (!rpString) return 0;
+
+  // Hilangkan "Rp", spasi, dan ubah titik jadi kosong, lalu koma jadi titik
+  const cleaned = rpString
+    .replace(/[^0-9,]/g, "") // hanya sisakan angka dan koma
+    .replace(/\./g, "") // hapus titik (ribuan separator)
+    .replace(",", "."); // ubah koma (desimal ID) ke titik (desimal en-US)
+
+  return parseFloat(cleaned);
+}
+
+//Save invoice to History
+function saveInvoiceToHistory() {
+  const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+  const billedBy = getSelectedBillingData("billedByContainer");
+  const billedTo = getSelectedBillingData("billedToContainer");
+
+  const invoiceNo = document.getElementById(
+    "preview-invoice-number"
+  ).textContent;
+
+  const invoiceData = {
+    invoiceNo,
+    invoiceDate: document.getElementById("preview-invoice-date").textContent,
+    dueDate: document.getElementById("preview-due-date").textContent,
+
+    subtotal: parseCurrency(
+      document.getElementById("preview-subtotal").textContent
+    ),
+    discountInfo: parseCurrency(
+      document.getElementById("preview-discountInfo").textContent
+    ),
+    total: parseCurrency(document.getElementById("preview-total").textContent),
+
+    totalWords: document.getElementById("preview-total-words").textContent,
+    tnc: document.getElementById("preview-tnc").innerHTML,
+    footer: document.getElementById("preview-footer").textContent,
+    logoSrc: null,
+    items: [],
+    billedBy,
+    billedTo,
+    paymentMethods: getSelectedPaymentMethods(),
+  };
+
+  // Handle logo
+  const logoElement = document.getElementById("invoice-logo-preview");
+  if (logoElement) {
+    invoiceData.logoSrc = logoElement.src;
+  }
+
+  // Ambil semua item dari preview
+  const rows = document.querySelectorAll("#preview-items tr");
+  rows.forEach((row) => {
+    const nameEl = row.querySelector(".item-name");
+    const descEl = row.querySelector(".item-desc");
+    const cells = row.querySelectorAll("td");
+
+    if (nameEl && descEl && cells.length === 4) {
+      invoiceData.items.push({
+        name: nameEl.textContent,
+        // desc: descEl.innerHTML,
+        desc: descEl.innerHTML.trim(), // ✅ simpan deskripsi dalam bentuk HTML
+        qty: parseFloat(cells[1].textContent) || 0,
+        rate: parseCurrency(cells[2].textContent),
+        amount: parseCurrency(cells[3].textContent),
+      });
+    }
+  });
+
+  // Cek apakah invoice dengan nomor yang sama sudah ada
+  const existingIndex = history.findIndex(
+    (item) => item.invoiceNo === invoiceNo
+  );
+
+  if (existingIndex !== -1) {
+    // Sudah ada → update data
+    history[existingIndex] = invoiceData;
+    showToast("Invoice berhasil diperbarui di histori!", "success", 4000);
+  } else {
+    // Belum ada → tambahkan
+    history.push(invoiceData);
+    showToast("Invoice berhasil disimpan ke histori!", "success", 4000);
+  }
+
+  // Simpan kembali ke localStorage
+  localStorage.setItem("invoiceHistory", JSON.stringify(history));
+}
+
+//Get data dari local storage buat list history nya
+const invoiceHistory = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+function renderInvoiceCards() {
+  const container = document.getElementById("invoiceCardList");
+  container.innerHTML = "";
+
+  const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+  if (history.length === 0) {
+    container.innerHTML = `
+           <div class="no-data-message">
+            <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+                <p class="title-empty-state">Belum ada Invoice yang disimpan<p>
+                <p class="desc-empty-state">Buat invoice sekarang!<p>
+            </div>
+    `;
+    return;
+  }
+
+  history.forEach((invoice) => {
+    const card = document.createElement("div");
+    card.classList.add("invoice-card");
+    // Tambahkan data-id dan onclick
+    card.dataset.id = invoice.invoiceNo;
+    card.onclick = () => openInvoiceDetail(invoice.invoiceNo);
+
+    card.innerHTML = `
+      <div class="invoice-card-header">
+        <div class="invoice-card-header-left">
+          <i class="uil uil-invoice invoice-icon"></i>
+          <span class="invoice-no">${invoice.invoiceNo}</span>
+        </div>
+        <div class="invoice-card-header-right">
+
+          <div class="invoice-card-amount">${formatCurrency(
+            invoice.total
+          )}</div>
+
+        </div>
+      </div>
+      <div class="invoice-card-body">
+        <p><strong>Billed To:</strong> ${invoice.billedTo?.name || "-"}</p>
+        <p><strong>Due Date:</strong> ${invoice.dueDate}</p>
+        
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+//Open Invoice Detail Page
+function openInvoiceDetail(invoiceNo) {
+  sessionStorage.setItem("selectedInvoiceNo", invoiceNo);
+  window.location.href = "invoice-detail.html";
+}
 
 document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
 document
@@ -623,12 +802,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   flatpickr("#invoiceDate", {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y",
     defaultDate: "today",
   });
 
   flatpickr("#dueDate", {
-    dateFormat: "Y-m-d",
+    dateFormat: "d-m-Y",
     defaultDate: "today",
   });
 });
