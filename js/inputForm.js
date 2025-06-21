@@ -79,6 +79,7 @@ function updateDropdowns() {
 //NEW USED AVATAR IMAGE
 function renderAvatars() {
   const container = document.getElementById("avatarContainer");
+  if (!container) return; // Cegah error jika container tidak ditemukan
   container.innerHTML = "";
 
   // ✅ Tambahkan pengecekan jika belum ada orang

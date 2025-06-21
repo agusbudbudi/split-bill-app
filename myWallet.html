@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Wallet</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/avatar.css" />
+    <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/infobox.css" />
+    <link rel="stylesheet" href="css/toastMessage.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/saving.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+
+    <link rel="stylesheet" href="css/myWallet.css" />
+    <link rel="stylesheet" href="css/profile.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="sticky-header">
+      <div class="header-left">
+        <button class="back-btn" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="section-title">My Digital Wallet</span>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="table-wrapper">
+        <div class="header-section"></div>
+        <div class="card-container wallet-container">
+          <div class="stats-container" style="display: none">
+            <div class="stat-card">
+              <div class="stat-number" id="bankCount">0</div>
+              <div class="stat-label">Bank Accounts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="ewalletCount">0</div>
+              <div class="stat-label">E-Wallets</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="totalCount">0</div>
+              <div class="stat-label">Total Methods</div>
+            </div>
+          </div>
+
+          <div class="cards-grid" id="bankCards"></div>
+
+          <div class="ewallet-section">
+            <div class="cards-grid ewallet-grid" id="ewalletCards">
+              <!-- STATIC IMAGE CARD -->
+              <div class="static-image-card">
+                <img src="img/wallet-icon.png" alt="E-wallet Icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container banner-wallet-container">
+      <img
+        src="img/banner-profile.png"
+        alt="banner splitbill"
+        class="banner-wallet"
+      />
+    </div>
+
+    <div class="container">
+      <div class="infobox-container">
+        <div class="info-box information">
+          <div class="icon">🏦</div>
+          <div class="content">
+            <p>
+              Tenang aja, data akun bank kamu aman 100%, cuma tersimpan di
+              handphone kamu, gak ke mana-mana!
+            </p>
+          </div>
+        </div>
+
+        <button
+          class="secondary-button"
+          onclick="openBottomSheet('addPaymentMethodBottomSheet')"
+        >
+          <i class="uil uil-wallet"></i>Tambah Digital Wallet
+        </button>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD BOTTOM SHEET -->
+    <div class="table-wrapper">
+      <div class="bottom-sheet hidden" id="addPaymentMethodBottomSheet">
+        <div class="bottom-sheet-header">
+          <h3 class="title-bottom-sheet">Tambah Metode Pembayaran</h3>
+          <button
+            onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
+            class="close-btn-bottom-sheet"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="bottom-sheet-content">
+          <div id="input-section">
+            <label for="paymentMethod">Metode Pembayaran</label>
+            <select id="paymentMethod" onchange="handlePaymentMethodChange()">
+              <option value="">Pilih Metode</option>
+              <option value="BankTransfer">Bank Transfer</option>
+              <option value="OVO">OVO</option>
+              <option value="GoPay">GoPay</option>
+              <option value="DANA">DANA</option>
+              <option value="ShopeePay">Shopee Pay</option>
+              <option value="LinkAja">LinkAja</option>
+            </select>
+            <div id="paymentDetailsForm"></div>
+          </div>
+
+          <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+          <div id="paymentDetails" style="display: none">
+            <!-- Bagian Bank Transfer -->
+            <div id="bankForm" style="display: none">
+              <label for="bankName">Nama Bank</label>
+              <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
+
+              <label for="bankName">Nama</label>
+              <input
+                type="text"
+                id="bankAccountName"
+                placeholder="Nama Pemilik Rekening"
+              />
+
+              <label for="bankAccountNumber">Nomor Rekening</label>
+              <input
+                type="text"
+                id="bankAccountNumber"
+                placeholder="Contoh: 1234567890"
+              />
+            </div>
+
+            <!-- Bagian e-Wallet -->
+            <div id="ewalletForm" style="display: none">
+              <label for="ewalletName">Nama</label>
+              <input
+                type="text"
+                id="ewalletName"
+                placeholder="Nama Akun e-Wallet"
+              />
+
+              <label for="ewalletPhone">Nomor Telepon</label>
+              <input
+                type="text"
+                id="ewalletPhone"
+                placeholder="Contoh: 081234567890"
+              />
+            </div>
+          </div>
+
+          <button onclick="addPaymentMethod()">
+            <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="toast" id="toast"></div> -->
+
+    <!-- Toast Message -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- overlay -->
+    <div id="overlay" class="overlay hidden"></div>
+
+    <script src="js/sharedFunction.js"></script>
+    <script src="js/bottomsheet.js"></script>
+    <script src="js/inputForm.js"></script>
+    <script src="js/paymentMethod.js"></script>
+    <script src="js/toastMessage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/myWallet.js"></script>
+  </body>
+</html>

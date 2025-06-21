@@ -65,8 +65,14 @@ function addPaymentMethod() {
   paymentMethods.push(data);
   localStorage.setItem("paymentMethods", JSON.stringify(paymentMethods));
 
+  // ✅ Panggil refresh jika walletApp tersedia
+  if (typeof walletApp !== "undefined") {
+    walletApp.refresh();
+  }
+
   // Reset form dan render ulang kartu
   renderPaymentCards();
+
   document.getElementById("paymentDetailsForm").innerHTML = "";
   document.getElementById("paymentMethod").value = "";
 
@@ -143,16 +149,6 @@ function getPaymentLogo(method) {
       return "img/linkaja.png";
     default:
       return "img/default.png";
-  }
-}
-
-function removePayment(index) {
-  if (confirm("Yakin ingin menghapus metode ini?")) {
-    paymentMethods.splice(index, 1);
-    localStorage.setItem("paymentMethods", JSON.stringify(paymentMethods));
-    renderPaymentCards();
-
-    showToast("Metode pembayaran berhasil dihapus", "success", 5000);
   }
 }
 
