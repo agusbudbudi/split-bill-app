@@ -3,14 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Wallet</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <link rel="manifest" href="/split-bill-app/manifest.json" />
+
+    <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
+    <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
+    <meta
+      name="description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="og:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="og:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="og:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="twitter:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="twitter:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <title>Split Bill</title>
+    <!-- Favicon -->
+    <link rel="icon" href="SplitBill-icon.png" type="image/png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
       rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
 
     <link
@@ -66,10 +120,7 @@
 
           <div class="ewallet-section">
             <div class="cards-grid ewallet-grid" id="ewalletCards">
-              <!-- STATIC IMAGE CARD -->
-              <div class="static-image-card">
-                <img src="img/wallet-icon.png" alt="E-wallet Icon" />
-              </div>
+              <div class="static-image-card"></div>
             </div>
           </div>
         </div>
@@ -78,8 +129,8 @@
 
     <div class="container banner-wallet-container">
       <img
-        src="img/banner-profile.png"
-        alt="banner splitbill"
+        src="img/banner-wallet.png"
+        alt="banner wallet"
         class="banner-wallet"
       />
     </div>
@@ -100,7 +151,7 @@
           class="secondary-button"
           onclick="openBottomSheet('addPaymentMethodBottomSheet')"
         >
-          <i class="uil uil-wallet"></i>Tambah Digital Wallet
+          <i class="uil uil-wallet"></i> Tambah Digital Wallet
         </button>
       </div>
     </div>
@@ -179,8 +230,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="toast" id="toast"></div> -->
 
     <!-- Toast Message -->
     <div class="toast-container" id="toastContainer"></div>

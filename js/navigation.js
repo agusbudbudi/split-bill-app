@@ -18,4 +18,6 @@ function showSection(sectionName, element = null) {
   if (element) {
     element.classList.add("active");
   }
+
+  closeBottomSheet("allMenuBottomSheet");
 }
