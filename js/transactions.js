@@ -247,11 +247,6 @@ function formatDate(dateString) {
   });
 }
 
-function goBack() {
-  // Redirect to main page or use history.back()
-  window.history.back();
-}
-
 function toggleSection(sectionSelector, iconId) {
   const section = document.querySelector(sectionSelector);
   const icon = document.getElementById(iconId);

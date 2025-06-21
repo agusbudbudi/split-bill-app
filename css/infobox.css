@@ -7,6 +7,8 @@
   gap: 5px;
   margin-bottom: 10px;
   align-items: center;
+
+  border-left: 4px solid var(--infobox-info-border-color);
 }
 
 .info-box .content {
@@ -70,3 +72,7 @@
   color: #f1c40f;
   color: var(--infobox-icon-color);
 } */
+
+.infobox-container {
+  padding: 10px;
+}

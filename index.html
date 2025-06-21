@@ -824,25 +824,6 @@
       <div id="section-invoice" class="section-content" style="display: none">
         <div class="table-wrapper">
           <div class="card-container">
-            <!-- infobox -->
-            <!-- <div class="info-box information">
-              <div class="icon">
-                <span class="icon">🤩</span>
-              </div>
-              <div class="content">
-                <p>
-                  Bikin invoice cepat & praktis — sekarang kamu juga bisa cek
-                  riwayatnya lewat tombol <b>Lihat Semua</b>!
-                </p>
-                <button
-                  onclick="window.location.href='transactions.html?tab=invoice'"
-                  class="see-all-button"
-                >
-                  Lihat Semua
-                </button>
-              </div>
-            </div> -->
-
             <div class="info-box information">
               <div class="info-left">
                 <span class="icon">🤩</span>
@@ -857,6 +838,7 @@
                   class="see-all-button"
                 >
                   Lihat Semua
+                  <i class="uil uil-angle-right-b"></i>
                 </button>
               </div>
             </div>
@@ -872,29 +854,6 @@
                 />
                 <input type="text" id="invoiceNo" readonly />
               </div>
-
-              <!-- NEW SELECT DATE USING Flatpickr -->
-              <!-- <div class="invoice-date-section">
-                <label style="display: block">Invoice Date</label>
-                <div class="date-input">
-                  <input
-                    type="date"
-                    id="invoiceDate"
-                    placeholder="Select date"
-                    readonly
-                  />
-                </div>
-
-                <label style="display: block">Due Date</label>
-                <div class="date-input">
-                  <input
-                    type="date"
-                    id="dueDate"
-                    placeholder="Select date"
-                    readonly
-                  />
-                </div>
-              </div> -->
 
               <div class="invoice-date-section">
                 <div class="date-group">
@@ -1366,6 +1325,7 @@
                   class="see-all-button"
                 >
                   Lihat Semua
+                  <i class="uil uil-angle-right-b"></i>
                 </button>
               </div>
               <div id="savings-list" class="savings-list">
@@ -1621,6 +1581,7 @@
     <script src="js/invoice.js"></script>
     <script src="js/saving.js"></script>
     <script src="js/toastMessage.js"></script>
+    <script src="js/sharedFunction.js"></script>
     <script src="js/ui.js"></script>
 
     <script>

@@ -34,6 +34,8 @@
   --expired-border: #ef9a9a;
 
   --disable-btn: #ccc;
+
+  --ewallet-bg: linear-gradient(310deg, #7056ec 0%, #eef6fc 60%, #ffffff 100%);
 }
 
 body.dark-mode {
@@ -72,4 +74,6 @@ body.dark-mode {
   --expired-border: #a35d5d;
 
   --disable-btn: #444;
+
+  --ewallet-bg: linear-gradient(310deg, #4e3cb5, #2d2f4a, #1a1a2e);
 }

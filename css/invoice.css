@@ -405,6 +405,8 @@ hr {
   padding: 0;
   border: none;
   width: 95%;
+  text-align: left;
+  align-items: flex-start;
 }
 
 .date-input {
@@ -436,9 +438,4 @@ hr {
 
 .date-group {
   flex: 1; /* agar dua-duanya ambil lebar seimbang */
-  /* min-width: 200px; */
-}
-
-.date-input input {
-  width: 100%;
 }
