@@ -276,25 +276,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  // flatpickr("#dateFrom", {
-  //   dateFormat: "d-m-Y",
-  // });
+// document.addEventListener("DOMContentLoaded", function () {
+//   // flatpickr("#dateFrom", {
+//   //   dateFormat: "d-m-Y",
+//   // });
 
-  // flatpickr("#dateTo", {
-  //   dateFormat: "d-m-Y",
-  // });
+//   // flatpickr("#dateTo", {
+//   //   dateFormat: "d-m-Y",
+//   // });
+
+//   flatpickr("#dateFrom", {
+//     altInput: true,
+//     altFormat: "d F Y", // ditampilkan ke user
+//     dateFormat: "Y-m-d", // disimpan ke .value
+//   });
+
+//   flatpickr("#dateTo", {
+//     altInput: true,
+//     altFormat: "d F Y",
+//     dateFormat: "Y-m-d",
+//   });
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const today = new Date();
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(today.getDate() - 30);
 
   flatpickr("#dateFrom", {
     altInput: true,
-    altFormat: "d F Y", // ditampilkan ke user
-    dateFormat: "Y-m-d", // disimpan ke .value
+    altFormat: "d F Y", // untuk tampilan user
+    dateFormat: "Y-m-d", // untuk .value
+    defaultDate: thirtyDaysAgo,
   });
 
   flatpickr("#dateTo", {
     altInput: true,
     altFormat: "d F Y",
     dateFormat: "Y-m-d",
+    defaultDate: today,
   });
 });
 

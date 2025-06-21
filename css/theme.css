@@ -35,7 +35,12 @@
 
   --disable-btn: #ccc;
 
-  --ewallet-bg: linear-gradient(310deg, #7056ec 0%, #eef6fc 60%, #ffffff 100%);
+  --ewallet-bg: linear-gradient(
+    310deg,
+    rgba(112, 86, 236, 0.3) 0%,
+    rgba(238, 246, 252, 0.8) 70%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
 body.dark-mode {
@@ -75,5 +80,10 @@ body.dark-mode {
 
   --disable-btn: #444;
 
-  --ewallet-bg: linear-gradient(310deg, #4e3cb5, #2d2f4a, #1a1a2e);
+  --ewallet-bg: linear-gradient(
+    310deg,
+    rgba(112, 86, 236, 0.25) 0%,
+    rgba(40, 44, 52, 0.6) 70%,
+    rgba(23, 26, 33, 0.9) 100%
+  );
 }

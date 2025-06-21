@@ -62,3 +62,9 @@
   font-size: 12px;
   color: var(--text-color);
 }
+
+.menu-circle-bottomsheet {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 👈 Tetap 4 kolom */
+  gap: 16px;
+}

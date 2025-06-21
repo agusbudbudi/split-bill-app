@@ -309,8 +309,8 @@ class WalletRenderer {
       // Re-render
       this.renderWalletCards();
       this.updateStats();
+      showToast("Metode pembayaran berhasil dihapus!", "success", 5000);
     }
-    showToast("Metode pembayaran berhasil dihapus!", "success", 5000);
   }
 
   // Method untuk refresh data (bisa dipanggil dari luar)

@@ -153,6 +153,11 @@
             alt="banner invoice"
             class="banner-slide"
           />
+          <img
+            src="img/banner-wallet.png"
+            alt="banner wallet"
+            class="banner-slide"
+          />
         </div>
       </div>
 
@@ -174,19 +179,19 @@
           </a>
 
           <a class="menu-circle" onclick="showSection('invoice', this)">
-            <!-- <div class="badge">New</div> -->
+            <div class="badge">Populer</div>
             <div class="menu-icon">
               <img src="img/invoice-icon.png" alt="Invoice" />
             </div>
             <span>Invoice</span>
           </a>
 
-          <a class="menu-circle" onclick="showSection('collect', this)">
-            <!-- <div class="badge">New</div> -->
+          <a class="menu-circle" onclick="window.location.href='myWallet.html'">
+            <div class="badge">New</div>
             <div class="menu-icon">
-              <img src="img/collect-money-icon.png" alt="Collect Money" />
+              <img src="img/wallet-menu.png" alt="Wallet" />
             </div>
-            <span>Patungan</span>
+            <span>Wallet</span>
           </a>
 
           <a class="menu-circle" onclick="showSection('nabung', this)">
@@ -197,13 +202,23 @@
             <span>Tabungan</span>
           </a>
 
-          <a class="menu-circle" onclick="showSection('daily', this)">
+          <a
+            class="menu-circle"
+            onclick="openBottomSheet('allMenuBottomSheet')"
+          >
+            <div class="menu-icon">
+              <img src="img/others-menu.png" alt="Lainnya" />
+            </div>
+            <span>Lainnya</span>
+          </a>
+
+          <!-- <a class="menu-circle" onclick="showSection('daily', this)">
             <div class="badge">Soon</div>
             <div class="menu-icon">
               <img src="img/daily-expense-icon.png" alt="Daily Expense" />
             </div>
             <span>Expense</span>
-          </a>
+          </a> -->
         </div>
       </div>
 
@@ -1552,6 +1567,76 @@
           <button onclick="addPaymentMethod()">
             <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD BOTTOM SHEET -->
+    <div class="table-wrapper">
+      <div class="bottom-sheet hidden" id="allMenuBottomSheet">
+        <div class="bottom-sheet-header">
+          <h3 class="title-bottom-sheet">All Menu</h3>
+          <button
+            onclick="closeBottomSheet('allMenuBottomSheet')"
+            class="close-btn-bottom-sheet"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="bottom-sheet-content">
+          <div class="menu-circle-bottomsheet">
+            <a class="menu-circle" onclick="showSection('split', this)">
+              <div class="badge">Populer</div>
+              <div class="menu-icon">
+                <img src="img/split-bill-icon.png" alt="Split Bill" />
+              </div>
+              <span>Split Bill</span>
+            </a>
+
+            <a class="menu-circle" onclick="showSection('invoice', this)">
+              <div class="badge">Populer</div>
+              <div class="menu-icon">
+                <img src="img/invoice-icon.png" alt="Invoice" />
+              </div>
+              <span>Invoice</span>
+            </a>
+
+            <a
+              class="menu-circle"
+              onclick="window.location.href='myWallet.html'"
+            >
+              <div class="badge">New</div>
+              <div class="menu-icon">
+                <img src="img/wallet-menu.png" alt="Wallet" />
+              </div>
+              <span>Wallet</span>
+            </a>
+
+            <a class="menu-circle" onclick="showSection('nabung', this)">
+              <!-- <div class="badge">New</div> -->
+              <div class="menu-icon">
+                <img src="img/nabung-icon.png" alt="Tabungan" />
+              </div>
+              <span>Tabungan</span>
+            </a>
+
+            <a class="menu-circle" onclick="showSection('collect', this)">
+              <!-- <div class="badge">New</div> -->
+              <div class="menu-icon">
+                <img src="img/collect-money-icon.png" alt="Collect Money" />
+              </div>
+              <span>Patungan</span>
+            </a>
+
+            <a class="menu-circle" onclick="showSection('daily', this)">
+              <div class="badge">Soon</div>
+              <div class="menu-icon">
+                <img src="img/daily-expense-icon.png" alt="Daily Expense" />
+              </div>
+              <span>Expense</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

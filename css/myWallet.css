@@ -121,7 +121,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("../img/card-bg.png");
+  background-image: url("../img/ewallet-bg.png");
   background-size: cover;
   background-position: center;
   opacity: 0.8;
@@ -423,7 +423,7 @@
 .wallet-card {
   position: relative;
   background: linear-gradient(135deg, #ffffff1a, #e0e0e022);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(10px);
@@ -516,7 +516,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("/img/ewallet-bg.png");
+  background-image: url("../img/ewallet-bg.png");
   background-size: cover;
   background-position: center;
   opacity: 0.8;
