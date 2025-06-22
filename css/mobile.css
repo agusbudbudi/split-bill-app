@@ -66,8 +66,8 @@
   } */
 
   .menu-circle-container {
-    gap: 10px;
-    min-width: 80px;
+    gap: 15px;
+    min-width: 100px;
   }
 
   .menu-circle {
@@ -84,7 +84,7 @@
   }
 
   .menu-circle span {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
@@ -133,7 +133,7 @@
   }
 
   .menu-circle-container {
-    gap: 10px;
+    gap: 15px;
     min-width: 80px;
   }
 
@@ -147,6 +147,6 @@
   }
 
   .menu-circle span {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
