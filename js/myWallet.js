@@ -73,8 +73,8 @@ class WalletRenderer {
       <div data-index="${index}">
         <div class="wallet-card ${isBank ? "bank-card" : "ewallet-card"}">
           <div class="card-header">
-            <div class="payment-logo ${logo.class}">
-              <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
+            <div class=" chip-icon">
+              <img src="../img/chip-icon.png" alt="chip-icon" class="chip-icon" />
             </div>
             <div class="payment-info">
               <h3>${logo.text}</h3>
@@ -94,11 +94,18 @@ class WalletRenderer {
                     <span class="detail-value account-number">${data.phoneNumber}</span>
                   </div>`
             }
-            <div class="detail-row">
+           
+          </div>
+
+         <div class="card-footer-logo">
+          <div class="detail-row">
               <span class="detail-label">Nama Pemilik:</span>
               <span class="detail-value account-holder">${data.name}</span>
             </div>
-          </div>
+            <div class="payment-logo ${logo.class}">
+              <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
+            </div>
+         </div>
         </div>
         
         <div class="card-actions">

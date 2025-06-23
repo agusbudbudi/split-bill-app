@@ -17,7 +17,9 @@
   --infobox-info-bg: #eef6fc;
   --infobox-info-border-color: #3b82f6;
   --border-color: #cccccc;
-  --gradient-color: linear-gradient(135deg, #a390f8, #7056ec);
+  /* --gradient-color: linear-gradient(135deg, #a390f8, #7056ec); */
+  --gradient-color: linear-gradient(135deg, #7f00ff, #e100ff);
+
   /* Achieved */
   --achieved-bg: #e0f7e9;
   --achieved-color: #2e7d32;
@@ -35,11 +37,17 @@
 
   --disable-btn: #ccc;
 
-  --ewallet-bg: linear-gradient(
+  /* --ewallet-bg: linear-gradient(
     310deg,
     rgba(112, 86, 236, 0.3) 0%,
     rgba(238, 246, 252, 0.8) 70%,
     rgba(255, 255, 255, 1) 100%
+  ); */
+
+  --ewallet-bg: linear-gradient(
+    310deg,
+    rgba(112, 86, 236, 0.05) 0%,
+    rgba(255, 255, 255, 0.5) 100%
   );
 }
 
