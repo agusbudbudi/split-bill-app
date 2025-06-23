@@ -74,7 +74,7 @@ class WalletRenderer {
         <div class="wallet-card ${isBank ? "bank-card" : "ewallet-card"}">
           <div class="card-header">
             <div class=" chip-icon">
-              <img src="../img/chip-icon.png" alt="chip-icon" class="chip-icon" />
+              <img src="img/chip-icon.png" alt="chip-icon" class="chip-icon" />
             </div>
             <div class="payment-info">
               <h3>${logo.text}</h3>
