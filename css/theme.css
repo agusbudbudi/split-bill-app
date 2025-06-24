@@ -17,8 +17,7 @@
   --infobox-info-bg: #eef6fc;
   --infobox-info-border-color: #3b82f6;
   --border-color: #cccccc;
-  /* --gradient-color: linear-gradient(135deg, #a390f8, #7056ec); */
-  --gradient-color: linear-gradient(135deg, #7f00ff, #e100ff);
+  --gradient-color: linear-gradient(135deg, #7056ec, #a390f8);
 
   /* Achieved */
   --achieved-bg: #e0f7e9;

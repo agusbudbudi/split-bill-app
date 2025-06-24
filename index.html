@@ -1272,17 +1272,18 @@
               <div class="savings-card">
                 <div class="total-savings-card">
                   <div>
-                    <h2>Total Tabungan</h2>
-                    <div class="total-amount" id="totalAmount">
-                      Yuk Mulai Nabung
+                    <p class="total-savings-card-title">💰 Tabungan Kamu</p>
+                    <div class="total-savings-title">
+                      <p>Total Saldo</p>
+                      <button
+                        id="toggleAmountBtn"
+                        onclick="toggleAmount()"
+                        class="toggle-amount-btn"
+                      >
+                        <i id="eyeIcon" class="uil uil-eye-slash"></i>
+                      </button>
                     </div>
-                    <!-- Button Add Tabungan -->
-                    <button
-                      class="btn-add-tabungan-top"
-                      onclick="openBottomSheet('addSavingsBottomSheet')"
-                    >
-                      <i class="fa-solid fa-plus"></i> Add Tabungan
-                    </button>
+                    <div class="total-amount" id="totalAmount"></div>
                   </div>
                   <img
                     src="img/wallet-icon.png"
@@ -1290,11 +1291,43 @@
                     class="nabung-icon"
                   />
                 </div>
-                <div
-                  class="total-savings-card-footer"
-                  onclick="window.location.href='transactions.html'"
-                >
-                  Lihat Detail Tabungan <i class="uil uil-angle-right-b"></i>
+                <!-- Card Menu -->
+                <div class="card-menu">
+                  <!-- Add Savings -->
+                  <button
+                    onclick="openBottomSheet('addSavingsBottomSheet')"
+                    class="menu-item"
+                  >
+                    <i class="uil uil-money-withdraw"></i>
+                    <span>Add Savings</span>
+                  </button>
+
+                  <!-- Tambah Kategori -->
+                  <button
+                    onclick="openBottomSheet('addSavingsBottomSheet'); showCategoryForm();"
+                    class="menu-item"
+                  >
+                    <i class="uil uil-plane-departure"></i>
+                    <span>Add Category</span>
+                  </button>
+                  <!-- Lihat History -->
+                  <button
+                    onclick="window.location.href='transactions.html'"
+                    class="menu-item"
+                  >
+                    <i class="uil uil-transaction"></i>
+                    <span>History</span>
+                  </button>
+
+                  <!-- Cek Wallet -->
+                  <button
+                    onclick="window.location.href='myWallet.html'"
+                    ;
+                    class="menu-item"
+                  >
+                    <i class="uil uil-wallet"></i>
+                    <span>Wallet</span>
+                  </button>
                 </div>
               </div>
 
