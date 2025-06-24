@@ -1,35 +1,102 @@
 .savings-card {
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.card-menu {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background: var(--container-bg);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin: 10px;
+  z-index: 2;
+  position: relative;
+  margin-top: -30px; /* ini akan geser naik dan overlap */
+  border: 1px solid var(--table-border-color);
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background: transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  padding: 8px;
+}
+.menu-item:hover {
+  background: var(--infobox-info-bg);
+}
+
+.menu-item i {
+  font-size: 24px;
+  color: var(--btn-bg);
+  margin-bottom: 2px;
+}
+
+.menu-item span {
+  font-size: 10px;
+  color: var(--text-color);
 }
 
 /* styles.css */
 .total-savings-card {
-  background: var(--gradient-color);
-  border-radius: 16px 16px 0 0;
-  padding: 20px 25px 15px 25px;
-  color: white;
-  text-align: center;
-
-  position: relative;
-  overflow: hidden;
   text-align: left;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
+  padding: 25px 25px 50px 25px;
+  border-radius: 20px;
+  color: #fff;
+  position: relative;
+
+  background-image: url("../img/bg-card.png");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
-.total-savings-card-footer {
-  /* background-color: var(--btn-bg); */
-  margin-bottom: 25px;
-  border-radius: 0 0 16px 16px;
-  padding: 5px;
-  color: var(--text-color-desc);
-  font-size: 12px;
+.total-savings-card-title {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.total-savings-title {
+  display: flex;
+  flex-direction: row; /* default, bisa dihapus juga */
+  align-items: center;
+  gap: 5px;
+  color: white;
+}
+
+.total-savings-title p {
+  color: white;
+  white-space: nowrap;
+  font-weight: 0px;
+}
+
+.toggle-amount-btn {
+  background: none;
+  border: none;
   cursor: pointer;
-  border-bottom: 0.5px solid var(--btn-bg);
-  border-left: 0.5px solid var(--btn-bg);
-  border-right: 0.5px solid var(--btn-bg);
+  color: white;
+  font-size: 14px;
+  align-items: left;
+  padding: 0;
+  margin: 0;
+  width: 0;
+}
+
+.toggle-amount-btn:hover {
+  background: none;
+  border: none;
 }
 
 .total-savings-card::before {
@@ -66,12 +133,9 @@
 }
 
 .total-amount {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 1;
-  margin-bottom: 10px;
 }
 
 .payment-method-stats h3 {
@@ -129,7 +193,7 @@
 }
 
 .nabung-icon {
-  height: 100px;
+  height: 90px;
 }
 
 .card-body {
@@ -340,7 +404,6 @@
 }
 
 .category-item.selected {
-  /* background: linear-gradient(45deg, #667eea, #764ba2); */
   color: white;
   border: 1px solid var(--btn-bg);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -567,18 +630,6 @@
   background-color: var(--expired-bg);
   color: var(--expired-color);
   /* border: 1px solid var(--expired-border); */
-}
-
-.btn-add-tabungan-top {
-  border: 1px solid white;
-  border-radius: 10px;
-  color: white;
-  font-size: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: transparent;
-  padding: 8px 8px;
-  max-width: 110px;
 }
 
 /* HIDE SOME ITEM WHEN EMPTY STATE */

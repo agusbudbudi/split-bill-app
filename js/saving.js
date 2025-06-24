@@ -616,6 +616,33 @@ function toggleSavingsUI(savings) {
   });
 }
 
+function showCategoryForm() {
+  const form = document.querySelector(".category-form");
+  if (form) {
+    form.classList.remove("hidden");
+  }
+}
+
+let isHidden = false;
+const originalAmount = "Rp 8.000.000"; // kamu bisa update dari JS jika dinamis
+
+function toggleAmount() {
+  const amountEl = document.getElementById("totalAmount");
+  const iconEl = document.getElementById("eyeIcon");
+
+  if (isHidden) {
+    amountEl.textContent = originalAmount;
+    iconEl.classList.remove("uil-eye");
+    iconEl.classList.add("uil-eye-slash");
+  } else {
+    amountEl.textContent = "••••••••";
+    iconEl.classList.remove("uil-eye-slash");
+    iconEl.classList.add("uil-eye");
+  }
+
+  isHidden = !isHidden;
+}
+
 // Export functions for potential future use
 window.tabunganApp = {
   openBottomSheet,

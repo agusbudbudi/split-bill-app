@@ -37,6 +37,11 @@
   min-width: 60px;
   cursor: pointer;
   flex: 0 0 auto; /* ini penting agar tidak menyusut */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-circle:hover {
+  transform: translateY(-5px);
 }
 
 .menu-icon {
