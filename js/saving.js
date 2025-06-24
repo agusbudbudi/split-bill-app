@@ -25,7 +25,9 @@ function displayTotalSavings() {
   const totalAmountElement = document.getElementById("totalAmount");
   const totalAmount = savings.reduce((sum, saving) => sum + saving.nominal, 0);
 
-  totalAmountElement.textContent = `Rp ${formatCurrency(totalAmount)}`;
+  if (!isHidden) {
+    totalAmountElement.textContent = `Rp ${formatCurrency(totalAmount)}`;
+  }
 }
 function displayPaymentMethodStats() {
   const paymentMethodCards = document.getElementById("paymentMethodCards");
@@ -624,18 +626,25 @@ function showCategoryForm() {
 }
 
 let isHidden = false;
-const originalAmount = "Rp 8.000.000"; // kamu bisa update dari JS jika dinamis
 
 function toggleAmount() {
   const amountEl = document.getElementById("totalAmount");
   const iconEl = document.getElementById("eyeIcon");
 
   if (isHidden) {
-    amountEl.textContent = originalAmount;
+    // Tampilkan total tabungan
+    const totalAmount = savings.reduce(
+      (sum, saving) => sum + saving.nominal,
+      0
+    );
+    amountEl.textContent = `Rp ${formatCurrency(totalAmount)}`;
+
     iconEl.classList.remove("uil-eye");
     iconEl.classList.add("uil-eye-slash");
   } else {
+    // Sembunyikan saldo
     amountEl.textContent = "••••••••";
+
     iconEl.classList.remove("uil-eye-slash");
     iconEl.classList.add("uil-eye");
   }
