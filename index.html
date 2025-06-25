@@ -274,7 +274,7 @@
                 class="tab-button"
                 data-tab="ai-scan"
               >
-                <i class="uil uil-robot"></i>
+                <i class="uil uil-robot tab-icon"></i>
                 Scan with AI
               </button>
               <button
@@ -282,7 +282,7 @@
                 class="tab-button"
                 data-tab="manual-input"
               >
-                <i class="uil uil-clipboard-notes"></i>
+                <i class="uil uil-clipboard-notes tab-icon"></i>
                 Input Manual
               </button>
 
@@ -292,7 +292,7 @@
                 class="tab-button"
                 data-tab="ocr-scan"
               >
-                <i class="uil uil-image-search"></i>
+                <i class="uil uil-image-search tab-icon"></i>
                 OCR Scan
               </button>
             </div>
@@ -383,7 +383,7 @@
                 />
                 <input type="hidden" id="splitAmount" />
 
-                <label>Siapa yang Berhutang</label>
+                <label>Siapa yang Berhutang (Pilih minimal 1 orang)</label>
                 <div id="avatarContainer" class="avatar-container"></div>
 
                 <label for="paidBy">Dibayar oleh</label>
@@ -567,7 +567,7 @@
 
         <!-- table expense -->
         <div class="table-wrapper">
-          <div class="card-container">
+          <div class="card-container" id="expenseCard">
             <div class="title-section">Transaksi Pengeluaran 📊</div>
             <div class="table-container hidden">
               <table id="expense-table">
@@ -686,14 +686,16 @@
               </div>
 
               <div class="bottom-sheet-content">
-                <!-- Item & Amount -->
+                <!-- Item -->
                 <label for="item">Item Name</label>
                 <input type="text" id="editItemName" />
 
+                <!-- Amount -->
                 <label for="amount">Jumlah (dalam Rupiah)</label>
-                <input type="number" id="editAmount" />
+                <input type="text" id="editAmountFormatted" />
+                <input type="hidden" id="editAmount" />
 
-                <label>Siapa yang berhutang</label>
+                <label>Siapa yang berhutang (Pilih minimal 1 orang)</label>
                 <!-- <div id="avatarContainer" class="avatar-container"></div> -->
                 <input
                   type="text"
@@ -1272,7 +1274,7 @@
               <div class="savings-card">
                 <div class="total-savings-card">
                   <div>
-                    <p class="total-savings-card-title">💰 Tabungan Kamu</p>
+                    <p class="total-savings-card-title">Tabungan Kamu 💰</p>
                     <div class="total-savings-title">
                       <p>Total Saldo</p>
                       <button

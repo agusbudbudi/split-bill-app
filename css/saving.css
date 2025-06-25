@@ -1,7 +1,7 @@
 .savings-card {
   border-radius: 16px;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .card-menu {
@@ -72,7 +72,7 @@
   display: flex;
   flex-direction: row; /* default, bisa dihapus juga */
   align-items: center;
-  gap: 5px;
+  /* gap: 5px; */
   color: white;
 }
 
@@ -91,7 +91,7 @@
   align-items: left;
   padding: 0;
   margin: 0;
-  width: 0;
+  width: 25px;
 }
 
 .toggle-amount-btn:hover {

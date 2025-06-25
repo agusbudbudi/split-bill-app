@@ -269,13 +269,18 @@ function renderBilled(type) {
       <button onclick="removeBilled(${index}, '${type}')" class="delete-top-right">
         <i class="uil uil-trash"></i>
       </button>
-      <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&scale=100&seed=${encodeURIComponent(
-        data.name
-      )}" class="billed-logo"/>
-      <p class="name"><strong>${data.name}</strong></p>
-      <p class="address">${data.address}</p>
+      <div class="billed-header">
+        <img src="https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&scale=100&seed=${encodeURIComponent(
+          data.name
+        )}" class="billed-logo"/>
+        <div class="billed-info">
+          <p class="name"><strong>${data.name}</strong></p>
+          <p class="phoneNumber">${data.phone}</p>
+        </div>
+      </div>
       <p class="email">${data.email}</p>
-      <p class="phoneNumber">${data.phone}</p>
+      <p class="address">${data.address}</p>
+      
     `;
 
     card.addEventListener("click", (e) => {

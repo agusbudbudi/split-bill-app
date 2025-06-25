@@ -1,5 +1,5 @@
 .payment-card {
-  background-color: var(--input-bg);
+  /* background-color: var(--input-bg); */
   border-radius: 16px;
   padding: 10px 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -14,7 +14,7 @@
   min-width: 100px;
   flex-shrink: 0;
   cursor: pointer;
-  border: 1px solid var(--input-bg);
+  border: 1px solid var(--table-border-color);
 }
 
 .payment-logo {
@@ -85,8 +85,8 @@ input {
 /* Checklist icon di pojok kiri atas */
 .check-icon {
   position: absolute;
-  top: -8px;
-  right: -5px;
+  top: -9px;
+  right: -6px;
   color: var(--btn-bg);
   font-size: 20px;
   display: none; /* Default disembunyikan */
