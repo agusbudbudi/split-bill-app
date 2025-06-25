@@ -116,7 +116,7 @@ body {
 .sticky-header {
   position: fixed;
   top: 0;
-  padding: 8px 20px 8px 20px;
+  padding: 10px 20px 10px 20px;
   background-color: var(--btn-bg);
   /* background: linear-gradient(to right, #8b5cf6, #7c3aed); */
   z-index: 1000;

@@ -166,3 +166,19 @@ _Dibuat dengan Split Bill App_`;
   // Buka WhatsApp dengan pesan yang telah dipersiapkan
   window.open(url, "_blank");
 }
+
+function shareAppToWhatsApp() {
+  const message =
+    `🚀 *Cobain Aplikasi Split Bill!* \n\n` +
+    `💸 *Fitur lengkap:*\n` +
+    `- Split Bill\n` +
+    `- Tabungan Personal\n` +
+    `- Invoice Praktis\n` +
+    `- Dompet Digital\n\n` +
+    `📲 Yuk pakai sekarang:\n https://agusbudbudi.github.io/split-bill-app/`;
+
+  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+    message
+  )}`;
+  window.open(url, "_blank");
+}
