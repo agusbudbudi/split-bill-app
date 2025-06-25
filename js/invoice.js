@@ -834,8 +834,8 @@ function renderInvoiceCards() {
         </div>
       </div>
       <div class="invoice-card-body">
-        <p><strong>Billed To:</strong> ${invoice.billedTo?.name || "-"}</p>
-        <p><strong>Due Date:</strong> ${invoice.dueDate}</p>
+        <p>Billed To: <strong>${invoice.billedTo?.name || "-"}</strong></p>
+        <p>Due Date: <strong>${invoice.dueDate}</strong></p>
       </div>
       <div class="invoice-card-footer">
       <div class="invoice-status">Paid</div>

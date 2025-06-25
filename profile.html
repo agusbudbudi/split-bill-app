@@ -138,26 +138,6 @@
           <div class="card-container menu-profile-container">
             <div class="profile-section">
               <div class="menu-navigation-container">
-                <div class="menu-navigation">
-                  <div>
-                    <!-- <i class="fa-solid fa-desktop"></i> -->
-                    <!-- <i class="bi bi-laptop"></i> -->
-                    <i class="uil uil-laptop card-icon"></i>
-                    <span class="menu-text">Tema</span>
-                  </div>
-
-                  <label class="theme-toggle">
-                    <input type="checkbox" id="themeSwitch" />
-                    <span class="slider">
-                      <i class="uil uil-sun icon sun"></i>
-                      <i class="uil uil-moon icon moon"></i>
-                      <span class="toggle-ball"></span>
-                    </span>
-                  </label>
-                </div>
-                <hr />
-              </div>
-              <div class="menu-navigation-container">
                 <div
                   class="menu-navigation"
                   onclick="window.location.href='transactions.html'"
@@ -169,7 +149,6 @@
 
                   <i class="fa-solid fa-chevron-down"></i>
                 </div>
-                <hr />
               </div>
 
               <!-- My Wallet Menu -->
@@ -185,7 +164,6 @@
 
                   <i class="fa-solid fa-chevron-down"></i>
                 </div>
-                <hr />
               </div>
 
               <div class="menu-navigation-container">
@@ -200,7 +178,6 @@
 
                   <i class="fa-solid fa-chevron-down"></i>
                 </div>
-                <hr />
               </div>
 
               <div class="menu-navigation-container">
@@ -242,6 +219,35 @@
 
           <div class="card-container menu-profile-container">
             <div class="profile-section">
+              <div class="menu-navigation-container">
+                <div class="menu-navigation">
+                  <div>
+                    <i class="uil uil-laptop card-icon"></i>
+                    <span class="menu-text">Tema</span>
+                  </div>
+
+                  <label class="theme-toggle">
+                    <input type="checkbox" id="themeSwitch" />
+                    <span class="slider">
+                      <i class="uil uil-sun icon sun"></i>
+                      <i class="uil uil-moon icon moon"></i>
+                      <span class="toggle-ball"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div class="menu-navigation-container">
+                <div class="menu-navigation" onclick="shareAppToWhatsApp()">
+                  <div>
+                    <i class="uil uil-share card-icon"></i>
+                    <span class="menu-text">Share SplitBill</span>
+                  </div>
+
+                  <span>
+                    <i class="uil uil-whatsapp card-icon"></i>
+                  </span>
+                </div>
+              </div>
               <div class="menu-navigation-container">
                 <div
                   class="menu-navigation"
@@ -441,6 +447,7 @@
     <script src="js/inputForm.js"></script>
     <script src="js/saving.js"></script>
     <script src="js/sharedFunction.js"></script>
+    <script src="js/shareSummary.js"></script>
     <script src="js/ui.js"></script>
   </body>
 </html>

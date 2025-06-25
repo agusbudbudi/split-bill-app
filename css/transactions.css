@@ -11,11 +11,12 @@
   background: transparent;
   border: none;
   color: white;
-  padding: 8px;
+  padding: 4px 9px;
   border-radius: 10%;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 30px;
+  border-radius: 50%;
 }
 
 .back-btn:hover {
@@ -108,7 +109,7 @@
 }
 
 .summary-card {
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   padding: 16px;
   display: flex;
@@ -215,7 +216,7 @@
 /* Transaction Invoice */
 
 .invoice-card {
-  border-radius: 10px;
+  border-radius: 14px;
   /* padding: 10px; */
   transition: transform 0.3s ease;
   border: 1px solid var(--table-border-color);
@@ -274,7 +275,8 @@
 }
 
 .tab-transaction {
-  padding: 7px 12px;
+  padding: 9px 12px 9px 9px;
+  border-radius: 14px;
 }
 
 .see-detail {

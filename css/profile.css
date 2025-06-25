@@ -59,7 +59,7 @@
 .banner-profile {
   width: 100%;
   border-radius: 15px;
-  margin-top: 55px;
+  margin-top: 45px;
 }
 
 .banner-profile-container {
@@ -93,12 +93,18 @@
   color: var(--text-color-desc);
   font-size: 10px;
 }
+.menu-navigation-container {
+  border-bottom: 1px solid var(--table-border-color);
+}
+
+.menu-navigation-container:last-child {
+  border-bottom: none;
+}
 
 .menu-navigation-container hr {
   margin: 0;
   height: 0.5px;
   background-color: var(--table-border-color);
-  border: none;
 }
 
 .card-icon {
