@@ -55,6 +55,7 @@ function renderPeople() {
   });
 }
 
+//Remove Person at section Manual Add Expense
 function removePerson(index, name) {
   people.splice(index, 1);
   who = who.filter((n) => n !== name);
@@ -62,11 +63,24 @@ function removePerson(index, name) {
   renderPeople();
   updateDropdowns();
   renderAvatars();
+
+  showToast("Teman berhasil dihapus!", "success", 5000);
 }
 
+//Update Dropdown Paid By at section Manual Add Expense
 function updateDropdowns() {
   const paidBySelect = document.getElementById("paidBy");
   paidBySelect.innerHTML = "";
+
+  if (people.length === 0) {
+    console.log("People masih kosong, tampilkan placeholder.");
+    const placeholderOption = document.createElement("option");
+    placeholderOption.textContent = "Tambahkan teman terlebih dahulu";
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true;
+    paidBySelect.appendChild(placeholderOption);
+    return;
+  }
 
   people.forEach((person) => {
     const paidOption = document.createElement("option");
@@ -122,92 +136,6 @@ function renderAvatars() {
   });
 }
 
-function getInitials(name) {
-  return name
-    .split(" ")
-    .map((n) => n.charAt(0).toUpperCase())
-    .join("");
-}
-
-function getColorForName(name) {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const color =
-    "#" +
-    ((hash >> 24) & 0xff).toString(16).padStart(2, "0") +
-    ((hash >> 16) & 0xff).toString(16).padStart(2, "0") +
-    ((hash >> 8) & 0xff).toString(16).padStart(2, "0");
-  return color.slice(0, 7);
-}
-
-function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
-  const formattedInput = document.getElementById(formattedInputId);
-  const hiddenInput = document.getElementById(hiddenInputId);
-
-  if (!formattedInput || !hiddenInput) return;
-
-  formattedInput.addEventListener("input", () => {
-    let inputValue = formattedInput.value;
-
-    if (inputValue === "-") {
-      hiddenInput.value = "";
-      return;
-    }
-
-    const isNegative = inputValue.trim().startsWith("-");
-    let numericOnly = inputValue.replace(/[^0-9]/g, "");
-    if (numericOnly === "") {
-      hiddenInput.value = "";
-      formattedInput.value = isNegative ? "-" : "";
-      return;
-    }
-
-    if (isNegative) numericOnly = "-" + numericOnly;
-
-    hiddenInput.value = numericOnly;
-    formattedInput.value = formatToIDR(numericOnly);
-  });
-}
-
-// function formatToIDR(number) {
-//   if (!number) return "";
-//   const isNegative = parseFloat(number) < 0;
-//   const absolute = Math.abs(parseFloat(number));
-//   const formatted = new Intl.NumberFormat("id-ID", {
-//     style: "currency",
-//     currency: "IDR",
-//     minimumFractionDigits: 0,
-//   }).format(absolute);
-
-//   return isNegative ? `- ${formatted}` : formatted;
-// }
-
-function formatToIDR(number) {
-  // Ubah pengecekan ini
-  if (number === null || number === undefined || number === "") {
-    return "";
-  }
-
-  const isNegative = parseFloat(number) < 0;
-  const absolute = Math.abs(parseFloat(number));
-
-  // Pastikan 0 tetap diproses jika absolute menjadi NaN karena input non-angka
-  // Tambahkan pengecekan jika after parseFloat, number menjadi NaN, kembalikan Rp0
-  if (isNaN(absolute)) {
-    return "Rp0";
-  }
-
-  const formatted = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(absolute);
-
-  return isNegative ? `- ${formatted}` : formatted;
-}
-
 // handle payment method change
 function handlePaymentMethodChange() {
   const method = document.getElementById("paymentMethod").value;
@@ -232,4 +160,7 @@ function handlePaymentMethodChange() {
   }
 }
 
-renderAvatars();
+document.addEventListener("DOMContentLoaded", () => {
+  updateDropdowns(); // ⬅️ ini harus dipanggil setelah DOM siap
+  renderAvatars();
+});

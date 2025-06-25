@@ -106,7 +106,7 @@
 
 /* Billed Item */
 .billed-card {
-  background-color: var(--input-bg);
+  /* background-color: var(--input-bg); */
   border-radius: 16px;
   padding: 10px 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -120,7 +120,7 @@
   min-width: 150px;
   flex-shrink: 0;
   cursor: pointer;
-  border: 1px solid var(--input-bg);
+  border: 1px solid var(--table-border-color);
 }
 .billed-card p {
   margin: 0;
@@ -131,7 +131,25 @@
   height: 30px;
   border-radius: 40%;
   object-fit: cover;
-  margin-bottom: 5px;
+}
+
+.billed-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.billed-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.billed-card .email,
+.billed-card .address {
+  color: var(--text-color-desc);
 }
 
 .billed-card.selected {

@@ -6,10 +6,15 @@ function editExpense(index) {
   currentEditIndex = index;
 
   document.getElementById("editItemName").value = expense.item;
-  document.getElementById("editAmount").value = expense.amount;
+  document.getElementById("editAmountFormatted").value = formatToIDR(
+    expense.amount
+  );
+  document.getElementById("editAmount").value = expense.amount; // set hidden numeric value
   document.getElementById("editWho").value = expense.who.join(", ");
   document.getElementById("editPaidBy").value = expense.paidBy;
   document.getElementById("overlay").classList.remove("hidden");
+
+  setupCurrencyFormatter("editAmountFormatted", "editAmount"); // ⬅️ inisialisasi formatter
 
   openBottomSheet("editBottomSheet");
 }
@@ -48,7 +53,8 @@ function openBottomSheet(sheetId) {
 
 function saveEditedExpense() {
   const item = document.getElementById("editItemName").value;
-  const amount = parseFloat(document.getElementById("editAmount").value);
+  const amount = parseFloat(document.getElementById("editAmount").value); // dari hidden input
+
   const who = document
     .getElementById("editWho")
     .value.split(",")
@@ -56,7 +62,6 @@ function saveEditedExpense() {
   const paidBy = document.getElementById("editPaidBy").value;
 
   if (currentEditIndex !== null) {
-    // Fix: Use window.expenses consistently
     window.expenses[currentEditIndex] = {
       item,
       amount,
@@ -64,9 +69,9 @@ function saveEditedExpense() {
       paidBy,
     };
 
-    updateTable(); // If this function exists
+    updateTable(); // opsional, jika ada
     updateExpenseCards();
-    updateCalculateButton(); // If this function exists
+    updateCalculateButton(); // opsional, jika ada
     closeBottomSheet("editBottomSheet");
   }
 
@@ -92,12 +97,23 @@ function updateExpenseCards() {
   console.log("Is empty:", window.expenses.length === 0);
 
   if (window.expenses.length === 0) {
-    container.innerHTML = `
-    <div class="empty-state">
-    <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
-    <p class="title-empty-state">Belum ada daftar transaksi</p>
-    <p class="desc-empty-state">Scan bill atau tambah manual untuk menambah transaksi</p></div>`;
-    return;
+    // Sembunyikan card-container
+    if (expenseCard) {
+      expenseCard.style.display = "none";
+    }
+
+    // Unused code
+    // container.innerHTML = `
+    // <div class="empty-state">
+    // <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+    // <p class="title-empty-state">Belum ada daftar transaksi</p>
+    // <p class="desc-empty-state">Scan bill atau tambah manual untuk menambah transaksi</p></div>`;
+    // return;
+  } else {
+    // Tampilkan card-container kembali jika ada data
+    if (expenseCard) {
+      expenseCard.style.display = "block"; // atau "" untuk default
+    }
   }
 
   let cardsHTML = "";

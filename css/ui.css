@@ -178,10 +178,6 @@ p {
   margin-bottom: 0;
 }
 
-.empty-text {
-  font-size: 14px;
-}
-
 h1 {
   font-size: 16px;
   color: var(--text-color);
@@ -358,11 +354,10 @@ button:focus select:focus {
 }
 
 .empty-text {
-  font-style: italic;
   color: #aaa;
   font-size: 0.9rem;
+  font-size: 14px;
 }
-
 p {
   color: var(--text-color);
 }
@@ -509,5 +504,5 @@ td {
 }
 
 .section-input-bill {
-  margin-top: 20px;
+  margin-top: 10px;
 }

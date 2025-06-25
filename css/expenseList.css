@@ -79,6 +79,10 @@
   border-bottom: 0.5px solid var(--table-border-color);
 }
 
+.expense-meta:last-child {
+  border-bottom: none;
+}
+
 .action-buttons {
   position: absolute;
   bottom: 5px;
