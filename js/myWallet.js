@@ -65,53 +65,136 @@ class WalletRenderer {
   }
 
   //Create Wallet Card
+  // createWalletCard(data, index) {
+  //   const isBank = data.method === "banktransfer";
+  //   const logo = this.getPaymentLogo(data.method, data.bankName); // returns { text, image, class }
+
+  //   return `
+  //     <div data-index="${index}">
+  //       <div class="wallet-card ${isBank ? "bank-card" : "ewallet-card"}">
+  //         <div class="card-header">
+  //           <div class=" chip-icon">
+  //             <img src="img/chip-icon.png" alt="chip-icon" class="chip-icon" />
+  //           </div>
+  //           <div class="payment-info">
+  //             <h3>${logo.text}</h3>
+  //             <div class="payment-type">${
+  //               isBank ? "Bank Account" : "E-Wallet"
+  //             }</div>
+  //           </div>
+  //         </div>
+
+  //         <div class="card-details">
+  //           ${
+  //             isBank
+  //               ? `<div class="detail-row">
+  //                   <span class="detail-value account-number">${data.accountNumber}</span>
+  //                 </div>`
+  //               : `<div class="detail-row">
+  //                   <span class="detail-value account-number">${data.phoneNumber}</span>
+  //                 </div>`
+  //           }
+
+  //         </div>
+
+  //        <div class="card-footer-logo">
+  //         <div class="detail-row">
+  //             <span class="detail-label">Nama Pemilik:</span>
+  //             <span class="detail-value account-holder">${data.name}</span>
+  //           </div>
+  //           <div class="payment-logo ${logo.class}">
+  //             <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
+  //           </div>
+  //        </div>
+  //       </div>
+
+  //       <div class="card-actions">
+  //         <button class="action-btn copy-btn" onclick="walletApp.copyToClipboard('${
+  //           isBank ? data.accountNumber : data.phoneNumber
+  //         }', '${isBank ? "Nomor rekening" : "Nomor HP"}')">
+  //           <i class="uil uil-copy"></i>
+  //         </button>
+  //         <button class="action-btn share-btn" onclick="walletApp.shareToWhatsApp(${index})">
+  //           <i class="uil uil-whatsapp"></i>
+  //         </button>
+  //         <button class="action-btn delete-btn" onclick="walletApp.deletePaymentMethod(${index})">
+  //           <i class="uil uil-trash"></i>
+  //         </button>
+  //       </div>
+  //     </div>
+  //   `;
+  // }
+
   createWalletCard(data, index) {
     const isBank = data.method === "banktransfer";
     const logo = this.getPaymentLogo(data.method, data.bankName); // returns { text, image, class }
 
+    // Jika e-wallet, tampilkan versi e-wallet simple card
+    if (!isBank) {
+      return `
+        <div data-index="${index}">
+          <div class="wallet-card ewallet-simple-card">
+            <div class="ewallet-logo">
+              <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
+            </div>
+            <div class="ewallet-details">
+              <div class="detail-row">
+                <span class="detail-value phone-number">${data.phoneNumber}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-value account-holder">${data.name}</span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="card-actions">
+            <button class="action-btn copy-btn" onclick="walletApp.copyToClipboard('${data.phoneNumber}', 'Nomor HP')">
+              <i class="uil uil-copy"></i>
+            </button>
+            <button class="action-btn share-btn" onclick="walletApp.shareToWhatsApp(${index})">
+              <i class="uil uil-whatsapp"></i>
+            </button>
+            <button class="action-btn delete-btn" onclick="walletApp.deletePaymentMethod(${index})">
+              <i class="uil uil-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Jika bank, gunakan desain lama
     return `
       <div data-index="${index}">
-        <div class="wallet-card ${isBank ? "bank-card" : "ewallet-card"}">
+        <div class="wallet-card bank-card">
           <div class="card-header">
-            <div class=" chip-icon">
+            <div class="chip-icon">
               <img src="img/chip-icon.png" alt="chip-icon" class="chip-icon" />
             </div>
             <div class="payment-info">
               <h3>${logo.text}</h3>
-              <div class="payment-type">${
-                isBank ? "Bank Account" : "E-Wallet"
-              }</div>
+              <div class="payment-type">Bank Account</div>
             </div>
           </div>
           
           <div class="card-details">
-            ${
-              isBank
-                ? `<div class="detail-row">
-                    <span class="detail-value account-number">${data.accountNumber}</span>
-                  </div>`
-                : `<div class="detail-row">
-                    <span class="detail-value account-number">${data.phoneNumber}</span>
-                  </div>`
-            }
-           
+            <div class="detail-row">
+              <span class="detail-value account-number">${data.accountNumber}</span>
+            </div>
           </div>
-
-         <div class="card-footer-logo">
-          <div class="detail-row">
+  
+          <div class="card-footer-logo">
+            <div class="detail-row">
               <span class="detail-label">Nama Pemilik:</span>
               <span class="detail-value account-holder">${data.name}</span>
             </div>
             <div class="payment-logo ${logo.class}">
               <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
             </div>
-         </div>
+          </div>
         </div>
         
         <div class="card-actions">
-          <button class="action-btn copy-btn" onclick="walletApp.copyToClipboard('${
-            isBank ? data.accountNumber : data.phoneNumber
-          }', '${isBank ? "Nomor rekening" : "Nomor HP"}')">
+          <button class="action-btn copy-btn" onclick="walletApp.copyToClipboard('${data.accountNumber}', 'Nomor rekening')">
             <i class="uil uil-copy"></i>
           </button>
           <button class="action-btn share-btn" onclick="walletApp.shareToWhatsApp(${index})">

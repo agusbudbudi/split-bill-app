@@ -77,6 +77,11 @@
   margin-right: 5px;
 }
 
+.static-bank-card .share-all-btn {
+  color: white;
+  border: 1px solid white;
+}
+
 .share-all-btn {
   /* background: linear-gradient(45deg, #ff6b6b, #ff8e53); */
   background: transparent;
@@ -121,15 +126,15 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("../img/bg-card.png");
+  background-image: url("../img/wallet-bg.png");
   background-size: cover;
   background-position: top center;
   z-index: -1;
-  filter: blur(1px);
-  border-radius: 16px;
+  border-radius: 24px;
 }
 
-.payment-logo .logo-img {
+.payment-logo .logo-img,
+.ewallet-logo .logo-img {
   width: 60px;
   height: 30px;
   object-fit: contain;
@@ -167,7 +172,7 @@
 
 .payment-info h3 {
   font-size: 14px;
-  color: #272a33;
+  color: white;
   margin: 0;
   font-weight: 600;
 }
@@ -177,13 +182,14 @@
 }
 
 .payment-type {
-  color: var(--text-color-desc);
+  color: white;
   font-size: 10px;
   /* font-weight: 500; */
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  /* background: linear-gradient(45deg, #667eea, #764ba2); */
+  /* color: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-clip: text; */
 }
 
 .card-details {
@@ -193,7 +199,7 @@
 .detail-row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  /* margin-bottom: 5px; */
 }
 
 .detail-row:last-child {
@@ -215,7 +221,6 @@
   font-weight: 600;
   /* color: var(--text-color); */
   color: white;
-  font-family: "Courier New", monospace;
   font-size: 12px;
 }
 
@@ -225,6 +230,7 @@
 
 .account-number {
   font-size: 22px;
+  font-family: "Courier New", monospace;
 }
 
 .card-actions {
@@ -428,10 +434,10 @@
 } */
 
 .ewallet-section {
-  /* background: var(--ewallet-bg); */
+  /* background: var(--infobox-info-bg); */
   position: relative;
 
-  background-image: url(../img/bg-element.png);
+  background-image: url(../img/wallet-bg2.png);
   border-radius: 16px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -449,18 +455,18 @@
 }
 
 .ewallet-grid {
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .wallet-card,
 .bank-card {
   position: relative;
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 15px 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
   color: #333;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 10px;
@@ -488,23 +494,24 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--btn-bg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   min-width: 200px;
 }
 
 /* unused dulu */
-/* .ewallet-card::before {
+.ewallet-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("../img/new-card-bg.png");
+  background-image: url("../img/wallet-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   background-attachment: scroll;
   z-index: -1;
   filter: blur(15px);
-} */
+}
 
 .ewallet-card .card-header {
   margin-bottom: 10px;
@@ -514,12 +521,12 @@
   padding: 10px;
   position: relative;
   background: linear-gradient(135deg, #ffffff1a, #e0e0e022);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
   color: #333;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 10px;
@@ -534,26 +541,39 @@
   padding: 16px 0;
 }
 
-.static-ewallet-card h3,
 .static-bank-card h3 {
   font-size: 14px;
-  color: var(--text-color);
+  color: white;
   margin: 0;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.static-ewallet-card p,
 .static-bank-card p {
   font-size: 10px;
-  color: var(--text-color);
+  color: white;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.static-ewallet-card h3 {
+  font-size: 14px;
+  color: var(--btn-bg);
+  margin: 0;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.static-ewallet-card p {
+  font-size: 10px;
+  color: var(--btn-bg);
   margin: 0;
   margin-bottom: 10px;
 }
 
 .static-bank-card::before,
 .empty-state::before {
-  content: "";
+  /* content: "";
   position: absolute;
   inset: 0;
   background-image: url("../img/bg-card.png");
@@ -561,7 +581,53 @@
   background-position: top center;
   z-index: -1;
   filter: blur(1px);
-  border-radius: 16px;
+  border-radius: 16px; */
+
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../img/wallet-bg.png");
+  background-size: cover;
+  background-position: top center;
+  z-index: -1;
+
+  border-radius: 24px;
+}
+
+.ewallet-simple-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  /* background-color: white; */
+  padding: 15px 20px 20px 20px;
+  border-radius: 20px;
+  background-image: url("../img/wallet-bg.png");
+  background-size: cover;
+  background-position: top right;
+}
+
+.ewallet-logo img {
+  width: 50px;
+  height: auto;
+  margin-bottom: 5px;
+}
+
+.ewallet-details .detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.detail-row .phone-number {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.detail-row .account-holder {
+  font-family: poppins;
+  font-size: 11px;
+  color: white;
 }
 
 @media (max-width: 480px) {
