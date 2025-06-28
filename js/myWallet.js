@@ -326,6 +326,9 @@ class WalletRenderer {
       message += `📞 *No. HP:* ${method.phoneNumber}`;
     }
 
+    // Tambahkan URL halaman di akhir
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
+
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
     )}`;
@@ -342,7 +345,7 @@ class WalletRenderer {
       return;
     }
 
-    let message = `🏦 *Koleksi Rekening Bank*\n\n`;
+    let message = `🏦 *Daftar Rekening Bank*\n\n`;
     message += `Berikut adalah daftar rekening bank yang tersedia:\n\n`;
 
     banks.forEach((bank, index) => {
@@ -352,6 +355,8 @@ class WalletRenderer {
     });
 
     message += `Silakan transfer ke salah satu rekening di atas. Terima kasih! 🙏`;
+    // Tambahkan URL halaman di akhir
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
@@ -369,7 +374,7 @@ class WalletRenderer {
       return;
     }
 
-    let message = `📱 *Koleksi E-Wallet*\n\n`;
+    let message = `📱 *Daftar E-Wallet*\n\n`;
     message += `Berikut adalah daftar e-wallet yang tersedia:\n\n`;
 
     ewallets.forEach((ewallet, index) => {
@@ -379,6 +384,8 @@ class WalletRenderer {
     });
 
     message += `Pilih yang paling mudah untuk Anda! Terima kasih! 🙏`;
+    // Tambahkan URL halaman di akhir
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
