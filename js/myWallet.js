@@ -32,15 +32,19 @@ class WalletRenderer {
     const bankKey = bankName.toLowerCase().replace(/\s/g, "");
 
     const logoMap = {
-      bca: { text: "BCA", image: "img/bca.png" },
-      mandiri: { text: "Mandiri", image: "img/mandiri.png" },
-      bni: { text: "BNI", image: "img/bni.png" },
-      bri: { text: "BRI", image: "img/bri.png" },
-      gopay: { text: "Gopay", image: "img/gopay.png" },
-      ovo: { text: "OVO", image: "img/ovo.png" },
-      dana: { text: "Dana", image: "img/dana.png" },
-      shopeepay: { text: "ShpeePay", image: "img/shopeepay.png" },
-      linkaja: { text: "LinkAja", image: "img/linkaja.png" },
+      jenius: { text: "Jenius", image: "img/logo-jenius.png" },
+      danamon: { text: "Danamon", image: "img/logo-danamon.png" },
+      btn: { text: "BTN", image: "img/logo-btn.png" },
+      permata: { text: "Permata", image: "img/logo-permata.png" },
+      bca: { text: "BCA", image: "img/logo-bca.png" },
+      mandiri: { text: "Mandiri", image: "img/logo-mandiri.png" },
+      bni: { text: "BNI", image: "img/logo-bni.png" },
+      bri: { text: "BRI", image: "img/logo-bri.png" },
+      gopay: { text: "Gopay", image: "img/logo-gopay.png" },
+      ovo: { text: "OVO", image: "img/logo-ovo.png" },
+      dana: { text: "Dana", image: "img/logo-dana.png" },
+      shopeepay: { text: "ShpeePay", image: "img/logo-shopeepay.png" },
+      linkaja: { text: "LinkAja", image: "img/logo-linkaja.png" },
     };
 
     let text, imagePath, logoClass;

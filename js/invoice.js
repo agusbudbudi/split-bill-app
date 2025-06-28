@@ -45,6 +45,8 @@ function previewLogo(event) {
 function addNewItem() {
   const itemContainer = document.getElementById("items");
   const div = document.createElement("div");
+  const uniqueId = Date.now(); // atau bisa pakai increment counter juga
+
   div.className = "section item-invoice";
   div.innerHTML = `
         <input type="text" placeholder="Item Name" class="itemName" /><br>
@@ -53,7 +55,8 @@ function addNewItem() {
       </div>
         <div class="row">
           <input type="number" min="0" placeholder="Qty" class="qty" onchange="calculateAmount(this)" />
-          <input type="number" min="0" placeholder="Rate" class="rate" onchange="calculateAmount(this)" />
+          <input type="text" id="rateFormatted-${uniqueId}" class="rateFormatted" placeholder="Rate">
+          <input type="hidden" id="rateRaw-${uniqueId}" class="rateRaw" onchange="calculateAmount(this)">
           <input type="text" placeholder="Amount" class="amount" readonly />
         </div>
         <div class="action-buttons-invoice">
@@ -64,6 +67,7 @@ function addNewItem() {
 
       `;
   itemContainer.appendChild(div);
+  setupCurrencyFormatter(`rateFormatted-${uniqueId}`, `rateRaw-${uniqueId}`);
 
   const quill = new Quill(div.querySelector(".itemDescQuill"), {
     theme: "snow",
@@ -85,13 +89,11 @@ function addNewItem() {
 function calculateAmount(el) {
   const row = el.closest(".row");
   const qty = row.querySelector(".qty").value;
-  const rate = row.querySelector(".rate").value;
+  const rate = row.querySelector(".rateRaw").value;
   const amount = row.querySelector(".amount");
   const result = (parseFloat(qty) || 0) * (parseFloat(rate) || 0);
-  amount.value = result.toLocaleString("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
+  amount.value = formatToIDR(result);
+
   calculateTotal();
 }
 
@@ -502,7 +504,7 @@ function previewInvoice() {
       const name = item.querySelector(".itemName").value;
       const desc = item.quillInstance?.root.innerHTML || "";
       const qty = item.querySelector(".qty").value;
-      const rate = item.querySelector(".rate").value;
+      const rate = item.querySelector(".rateRaw").value;
       const amount = item.querySelector(".amount").value;
 
       const row = document.createElement("tr");
@@ -827,9 +829,7 @@ function renderInvoiceCards() {
         </div>
         <div class="invoice-card-header-right">
 
-          <div class="invoice-card-amount">${formatCurrency(
-            invoice.total
-          )}</div>
+          <div class="invoice-card-amount">${formatToIDR(invoice.total)}</div>
 
         </div>
       </div>
@@ -848,8 +848,30 @@ function renderInvoiceCards() {
 }
 
 //Open Invoice Detail Page
+// function openInvoiceDetail(invoiceNo) {
+//   sessionStorage.setItem("selectedInvoiceNo", invoiceNo);
+//   window.location.href = "invoice-detail.html";
+// }
+
 function openInvoiceDetail(invoiceNo) {
+  const invoiceHistory =
+    JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+  const selectedInvoice = invoiceHistory.find(
+    (inv) => inv.invoiceNo === invoiceNo
+  );
+
+  if (!selectedInvoice) {
+    alert("Invoice tidak ditemukan");
+    return;
+  }
+
+  // Simpan invoice yang sedang aktif ke localStorage
+  localStorage.setItem("currentInvoice", JSON.stringify(selectedInvoice));
+
+  // Opsional: kalau kamu tetap ingin simpan nomor invoice juga
   sessionStorage.setItem("selectedInvoiceNo", invoiceNo);
+
+  // Pindah ke halaman detail
   window.location.href = "invoice-detail.html";
 }
 
@@ -913,3 +935,5 @@ discountInput.addEventListener("keydown", function (e) {
     e.preventDefault();
   }
 });
+
+hiddenInput.dispatchEvent(new Event("change")); // WAJIB agar calculateAmount jalan

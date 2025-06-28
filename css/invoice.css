@@ -251,6 +251,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .invoice-section img {
@@ -456,4 +457,24 @@ hr {
 
 .date-group {
   flex: 1; /* agar dua-duanya ambil lebar seimbang */
+}
+
+.invoice-button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-icon {
+  color: var(--btn-bg);
+  font-size: 14px;
+  margin-left: 5px;
+  cursor: pointer;
+  border: 1px solid var(--table-border-color);
+  padding: 2px 5px;
+  border-radius: 8px;
 }

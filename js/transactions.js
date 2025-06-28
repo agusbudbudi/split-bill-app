@@ -204,7 +204,7 @@ function displayTransactions(savings) {
                       <span class="category-name">${saving.categoryName}</span>
                   </div>
                   <div class="savings-right">
-                      <div class="savings-amount">+ ${formatCurrency(
+                      <div class="savings-amount">+ ${formatToIDR(
                         saving.nominal
                       )}</div>
                       <div class="savings-meta">
@@ -226,17 +226,17 @@ function updateSummary(savings) {
   const totalAmount = savings.reduce((sum, saving) => sum + saving.nominal, 0);
   const totalTransactions = savings.length;
 
-  document.getElementById(
-    "totalFilteredAmount"
-  ).textContent = `${formatCurrency(totalAmount)}`;
+  document.getElementById("totalFilteredAmount").textContent = `${formatToIDR(
+    totalAmount
+  )}`;
   document.getElementById("totalFilteredTransactions").textContent =
     totalTransactions;
 }
 
 // Utility functions
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("id-ID").format(amount);
-}
+// function formatCurrency(amount) {
+//   return new Intl.NumberFormat("id-ID").format(amount);
+// }
 
 function formatDate(dateString) {
   const date = new Date(dateString);
