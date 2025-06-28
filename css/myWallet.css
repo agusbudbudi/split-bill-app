@@ -139,7 +139,6 @@
   height: 30px;
   object-fit: contain;
   display: block;
-  /* padding: 5px; */
   filter: brightness(0) invert(1);
 }
 
@@ -319,77 +318,6 @@
   opacity: 0.8;
 }
 
-/* Logo colors for different banks/e-wallets
-.logo-bca {
-  background: linear-gradient(45deg, #0066cc, #0052a3) !important;
-  color: white !important;
-}
-
-.logo-mandiri {
-  background: linear-gradient(45deg, #ffcc00, #ffa500) !important;
-  color: #333 !important;
-}
-
-.logo-bni {
-  background: linear-gradient(45deg, #ff6600, #e55100) !important;
-  color: white !important;
-}
-
-.logo-bri {
-  background: linear-gradient(45deg, #003d7a, #002147) !important;
-  color: white !important;
-}
-
-.logo-cimb {
-  background: linear-gradient(45deg, #dc143c, #b71c1c) !important;
-  color: white !important;
-}
-
-.logo-danamon {
-  background: linear-gradient(45deg, #4169e1, #303f9f) !important;
-  color: white !important;
-}
-
-.logo-permata {
-  background: linear-gradient(45deg, #228b22, #388e3c) !important;
-  color: white !important;
-}
-
-.logo-btn {
-  background: linear-gradient(45deg, #ff4500, #f57c00) !important;
-  color: white !important;
-}
-
-.logo-gopay {
-  background: linear-gradient(45deg, #00aa13, #4caf50) !important;
-  color: white !important;
-}
-
-.logo-ovo {
-  background: linear-gradient(45deg, #4c2c92, #673ab7) !important;
-  color: white !important;
-}
-
-.logo-dana {
-  background: linear-gradient(45deg, #118eea, #2196f3) !important;
-  color: white !important;
-}
-
-.logo-shopeepay {
-  background: linear-gradient(45deg, #ee4d2d, #ff5722) !important;
-  color: white !important;
-}
-
-.logo-linkaja {
-  background: linear-gradient(45deg, #e31e24, #d32f2f) !important;
-  color: white !important;
-}
-
-.logo-jenius {
-  background: linear-gradient(45deg, #00d4ff, #00bcd4) !important;
-  color: white !important;
-} */
-
 /* Loading animation */
 @keyframes pulse {
   0% {
@@ -422,21 +350,8 @@
   border-radius: 15px;
 }
 
-/* .ewallet-section {
-  background-color: var(--infobox-info-bg);
-  background-image: url("/img/ewallet-bg.png");
-  border-image-width: 100%;
-  border-radius: 16px;
-  background-repeat: no-repeat;
-  background-size: cover; /* tampil tanpa crop 
-  background-position: center center;
-  background-attachment: scroll; /* atau fixed jika kamu mau efek paralaks 
-} */
-
 .ewallet-section {
-  /* background: var(--infobox-info-bg); */
   position: relative;
-
   background-image: url(../img/wallet-bg2.png);
   border-radius: 16px;
   background-repeat: no-repeat;
@@ -573,16 +488,6 @@
 
 .static-bank-card::before,
 .empty-state::before {
-  /* content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("../img/bg-card.png");
-  background-size: cover;
-  background-position: top center;
-  z-index: -1;
-  filter: blur(1px);
-  border-radius: 16px; */
-
   content: "";
   position: absolute;
   inset: 0;
@@ -598,7 +503,6 @@
   display: flex;
   flex-direction: column;
   min-width: 150px;
-  /* background-color: white; */
   padding: 15px 20px 20px 20px;
   border-radius: 20px;
   background-image: url("../img/wallet-bg.png");

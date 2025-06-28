@@ -1,4 +1,4 @@
-//Open bottom sheet reusable function
+// Open bottom sheet reusable function
 function openBottomSheet(sheetId) {
   const sheet = document.getElementById(sheetId);
   if (!sheet) return;

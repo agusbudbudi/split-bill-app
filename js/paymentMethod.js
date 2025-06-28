@@ -109,17 +109,22 @@ function renderPaymentCards() {
             <i class="fa-solid fa-check-circle"></i>
           </div>
 
-        <img src="${logo}" alt="${data.method}" class="payment-logo"/>
-        <p>${data.name}</p>
-        ${
-          data.method === "banktransfer"
-            ? `<p>Rek: ${data.accountNumber}</p><p>Bank: ${data.bankName}</p>`
-            : `<p>${data.phoneNumber}</p>`
-        }
+          <div class="payment-card-header">
+            <img src="${logo}" alt="${data.method}" class="payment-logo"/>
+          </div>
+          <div class="payment-card-content">
+            <p>${data.name}</p>
+            ${
+              data.method === "banktransfer"
+                ? `<p class="account-number">${data.accountNumber}</p><p>${data.bankName}</p>`
+                : `<p class="account-number">${data.phoneNumber}</p>
+            `
+            }
 
-          <button onclick="removePayment(${index})" class="delete-top-right"><i class="uil uil-trash"></i></button>
-      </div>
-    `;
+              <button onclick="removePayment(${index})" class="delete-top-right"><i class="uil uil-trash"></i></button>
+            </div>
+        </div>
+      `;
 
     // Tambahkan ke semua container
     containers.forEach((container) => {
@@ -138,15 +143,15 @@ function getPaymentLogo(method) {
     case "banktransfer":
       return "img/banktransfer.png";
     case "ovo":
-      return "img/ovo.png";
+      return "img/logo-ovo.png";
     case "gopay":
-      return "img/gopay.png";
+      return "img/logo-gopay.png";
     case "dana":
-      return "img/dana.png";
+      return "img/logo-dana.png";
     case "shopeepay":
-      return "img/shopeepay.png";
+      return "img/logo-shopeepay.png";
     case "linkaja":
-      return "img/linkaja.png";
+      return "img/logo-linkaja.png";
     default:
       return "img/default.png";
   }
@@ -197,6 +202,7 @@ function updateCardSelection() {
 }
 
 function showSelectedPayment() {
+  console.log(selectedPaymentIndexes);
   const selectedDiv = document.getElementById("selectedPaymentInfo");
   if (!selectedDiv) return;
 

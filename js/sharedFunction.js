@@ -75,5 +75,7 @@ function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
 
     hiddenInput.value = numericOnly;
     formattedInput.value = formatToIDR(numericOnly);
+    // <<< Tambahkan baris ini supaya calculateAmount terpanggil
+    hiddenInput.dispatchEvent(new Event("change"));
   });
 }
