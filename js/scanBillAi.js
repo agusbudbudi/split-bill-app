@@ -134,122 +134,19 @@ class BillScanner {
   }
 
   async callGeminiAPI(base64Image) {
-    // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+    const BASE_API_URL = "https://split-bill-backend-vercel.vercel.app"; // domain backend kamu
 
-    const url = `/api/gemini-scan`; // move to BE function
-
-    const prompt = `
-Analyze this bill/receipt image and extract the following information in JSON format:
-{
-"merchant_name": "name of the store/restaurant",
-"date": "transaction date (YYYY-MM-DD format)",
-"time": "transaction time (HH:MM format)",
-"items": [
-  {
-      "name": "item name",
-      "quantity": "quantity",
-      "price": "price per item",
-      "total": "total price for this item"
-  }
-],
-"subtotal": "subtotal amount",
-"tax": "tax amount",
-"service_charge": "service charge if any",
-"discount": "discount amount if any",
-"total_amount": "final total amount",
-"payment_method": "cash/card/etc",
-"receipt_number": "receipt/transaction number"
-}
-
-Please extract as much information as possible from the image. If some information is not available, use null as the value. Respond with ONLY the JSON, no additional text.`;
-
-    //   const requestBody = {
-    //     contents: [
-    //       {
-    //         parts: [
-    //           {
-    //             text: prompt,
-    //           },
-    //           {
-    //             inline_data: {
-    //               mime_type: this.selectedFile.type,
-    //               data: base64Image,
-    //             },
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   };
-
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestBody),
-    //   });
-
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(
-    //       errorData.error?.message || `HTTP error! status: ${response.status}`
-    //     );
-    //   }
-
-    //   const data = await response.json();
-
-    //   if (
-    //     !data.candidates ||
-    //     !data.candidates[0] ||
-    //     !data.candidates[0].content
-    //   ) {
-    //     throw new Error("Invalid response from Gemini API");
-    //   }
-
-    //   const textResponse = data.candidates[0].content.parts[0].text;
-
-    //   try {
-    //     // Clean the response to extract JSON
-    //     const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-    //     if (!jsonMatch) {
-    //       throw new Error("No JSON found in response");
-    //     }
-
-    //     return JSON.parse(jsonMatch[0]);
-    //   } catch (parseError) {
-    //     // If JSON parsing fails, return the raw response
-    //     return {
-    //       raw_response: textResponse,
-    //       error: "Failed to parse JSON response",
-    //       timestamp: new Date().toISOString(),
-    //     };
-    //   }
-    // }
-
-    const requestBody = {
-      contents: [
-        {
-          parts: [
-            { text: prompt },
-            {
-              inline_data: {
-                mime_type: this.selectedFile.type,
-                data: base64Image,
-              },
-            },
-          ],
-        },
-      ],
+    const payload = {
+      mime_type: this.selectedFile.type,
+      base64Image: base64Image,
     };
-
-    const BASE_API_URL = "https://split-bill-backend-vercel.vercel.app";
 
     const response = await fetch(`${BASE_API_URL}/api/gemini-scan`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
@@ -259,23 +156,152 @@ Please extract as much information as possible from the image. If some informati
       );
     }
 
-    const data = await response.json();
-
-    const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    try {
-      const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("No JSON found in response");
-
-      return JSON.parse(jsonMatch[0]);
-    } catch (parseError) {
-      return {
-        raw_response: textResponse,
-        error: "Failed to parse JSON response",
-        timestamp: new Date().toISOString(),
-      };
-    }
+    return await response.json(); // sudah dalam bentuk JSON object hasil parsing dari backend
   }
+
+  //   async callGeminiAPI(base64Image) {
+  //     // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+
+  //     const url = `/api/gemini-scan`; // move to BE function
+
+  //     const prompt = `
+  // Analyze this bill/receipt image and extract the following information in JSON format:
+  // {
+  // "merchant_name": "name of the store/restaurant",
+  // "date": "transaction date (YYYY-MM-DD format)",
+  // "time": "transaction time (HH:MM format)",
+  // "items": [
+  //   {
+  //       "name": "item name",
+  //       "quantity": "quantity",
+  //       "price": "price per item",
+  //       "total": "total price for this item"
+  //   }
+  // ],
+  // "subtotal": "subtotal amount",
+  // "tax": "tax amount",
+  // "service_charge": "service charge if any",
+  // "discount": "discount amount if any",
+  // "total_amount": "final total amount",
+  // "payment_method": "cash/card/etc",
+  // "receipt_number": "receipt/transaction number"
+  // }
+
+  // Please extract as much information as possible from the image. If some information is not available, use null as the value. Respond with ONLY the JSON, no additional text.`;
+
+  //     //   const requestBody = {
+  //     //     contents: [
+  //     //       {
+  //     //         parts: [
+  //     //           {
+  //     //             text: prompt,
+  //     //           },
+  //     //           {
+  //     //             inline_data: {
+  //     //               mime_type: this.selectedFile.type,
+  //     //               data: base64Image,
+  //     //             },
+  //     //           },
+  //     //         ],
+  //     //       },
+  //     //     ],
+  //     //   };
+
+  //     //   const response = await fetch(url, {
+  //     //     method: "POST",
+  //     //     headers: {
+  //     //       "Content-Type": "application/json",
+  //     //     },
+  //     //     body: JSON.stringify(requestBody),
+  //     //   });
+
+  //     //   if (!response.ok) {
+  //     //     const errorData = await response.json();
+  //     //     throw new Error(
+  //     //       errorData.error?.message || `HTTP error! status: ${response.status}`
+  //     //     );
+  //     //   }
+
+  //     //   const data = await response.json();
+
+  //     //   if (
+  //     //     !data.candidates ||
+  //     //     !data.candidates[0] ||
+  //     //     !data.candidates[0].content
+  //     //   ) {
+  //     //     throw new Error("Invalid response from Gemini API");
+  //     //   }
+
+  //     //   const textResponse = data.candidates[0].content.parts[0].text;
+
+  //     //   try {
+  //     //     // Clean the response to extract JSON
+  //     //     const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+  //     //     if (!jsonMatch) {
+  //     //       throw new Error("No JSON found in response");
+  //     //     }
+
+  //     //     return JSON.parse(jsonMatch[0]);
+  //     //   } catch (parseError) {
+  //     //     // If JSON parsing fails, return the raw response
+  //     //     return {
+  //     //       raw_response: textResponse,
+  //     //       error: "Failed to parse JSON response",
+  //     //       timestamp: new Date().toISOString(),
+  //     //     };
+  //     //   }
+  //     // }
+
+  //     const requestBody = {
+  //       contents: [
+  //         {
+  //           parts: [
+  //             { text: prompt },
+  //             {
+  //               inline_data: {
+  //                 mime_type: this.selectedFile.type,
+  //                 data: base64Image,
+  //               },
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     };
+
+  //     const BASE_API_URL = "https://split-bill-backend-vercel.vercel.app";
+
+  //     const response = await fetch(`${BASE_API_URL}/api/gemini-scan`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(requestBody),
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(
+  //         errorData.error?.message || `HTTP error! status: ${response.status}`
+  //       );
+  //     }
+
+  //     const data = await response.json();
+
+  //     const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  //     try {
+  //       const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+  //       if (!jsonMatch) throw new Error("No JSON found in response");
+
+  //       return JSON.parse(jsonMatch[0]);
+  //     } catch (parseError) {
+  //       return {
+  //         raw_response: textResponse,
+  //         error: "Failed to parse JSON response",
+  //         timestamp: new Date().toISOString(),
+  //       };
+  //     }
+  //   }
 
   displayResult(result) {
     const jsonOutput = document.getElementById("jsonOutput");
