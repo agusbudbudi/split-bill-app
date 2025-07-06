@@ -242,7 +242,7 @@ Please extract as much information as possible from the image. If some informati
       ],
     };
 
-    const BASE_API_URL = "https://split-bill-backend-vercel.vercel.app/";
+    const BASE_API_URL = "https://split-bill-backend-vercel.vercel.app";
 
     const response = await fetch(`${BASE_API_URL}/api/gemini-scan`, {
       method: "POST",
