@@ -5,21 +5,26 @@ class BillScanner {
   //   this.apiKey = ""; // Remove the hardcoded API key for security
   //   this.initializeEventListeners();
   // }
+  // constructor() {
+  //   this.selectedFile = null;
+  //   // this.apiKey = localStorage.getItem("myApiKey") || ""; move to BE
+  //   this.initializeEventListeners();
+  // }
+
   constructor() {
     this.selectedFile = null;
-    // this.apiKey = localStorage.getItem("myApiKey") || ""; move to BE
     this.initializeEventListeners();
   }
 
   initializeEventListeners() {
     const fileInput = document.getElementById("fileInput");
-    const apiKeyInput = document.getElementById("apiKey");
+    // const apiKeyInput = document.getElementById("apiKey");
     const scanBtn = document.getElementById("scanBtn");
 
     if (fileInput)
       fileInput.addEventListener("change", (e) => this.handleFileSelect(e));
-    if (apiKeyInput)
-      apiKeyInput.addEventListener("input", (e) => this.handleApiKeyInput(e));
+    // if (apiKeyInput)
+    //   apiKeyInput.addEventListener("input", (e) => this.handleApiKeyInput(e));
     if (scanBtn) scanBtn.addEventListener("click", () => this.scanBill());
   }
 
@@ -32,10 +37,10 @@ class BillScanner {
     this.updateScanButton();
   }
 
-  handleApiKeyInput(event) {
-    this.apiKey = event.target.value.trim();
-    this.updateScanButton();
-  }
+  // handleApiKeyInput(event) {
+  //   this.apiKey = event.target.value.trim();
+  //   this.updateScanButton();
+  // }
 
   displayFileInfo(file) {
     const fileInfo = document.getElementById("fileInfo");
@@ -70,16 +75,28 @@ class BillScanner {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   }
 
+  // updateScanButton() {
+  //   const scanBtn = document.getElementById("scanBtn");
+  //   if (scanBtn) {
+  //     scanBtn.disabled = !(this.selectedFile && this.apiKey);
+  //   }
+  // }
+
   updateScanButton() {
     const scanBtn = document.getElementById("scanBtn");
     if (scanBtn) {
-      scanBtn.disabled = !(this.selectedFile && this.apiKey);
+      scanBtn.disabled = !this.selectedFile;
     }
   }
 
   async scanBill() {
-    if (!this.selectedFile || !this.apiKey) {
-      this.showError("Pilih file dan masukkan API Key terlebih dahulu");
+    // if (!this.selectedFile || !this.apiKey) {
+    //   this.showError("Pilih file dan masukkan API Key terlebih dahulu");
+    //   return;
+    // }
+
+    if (!this.selectedFile) {
+      this.showError("Pilih file terlebih dahulu");
       return;
     }
 
@@ -384,21 +401,21 @@ Please extract as much information as possible from the image. If some informati
   }
 }
 
-function saveApiKey() {
-  const apiKeyInput = document.getElementById("apiKey");
-  const apiKey = apiKeyInput.value.trim();
+// function saveApiKey() {
+//   const apiKeyInput = document.getElementById("apiKey");
+//   const apiKey = apiKeyInput.value.trim();
 
-  if (apiKey) {
-    localStorage.setItem("myApiKey", apiKey);
+//   if (apiKey) {
+//     localStorage.setItem("myApiKey", apiKey);
 
-    showToast("API Key berhasil disimpan", "success", 5000);
+//     showToast("API Key berhasil disimpan", "success", 5000);
 
-    apiKeyInput.value = ""; // kosongkan input setelah simpan
-    closeBottomSheet("addApiKeyBottomSheet"); // tutup bottom sheet
-  } else {
-    showToast("API Key tidak boleh kosong.", "error", 5000);
-  }
-}
+//     apiKeyInput.value = ""; // kosongkan input setelah simpan
+//     closeBottomSheet("addApiKeyBottomSheet"); // tutup bottom sheet
+//   } else {
+//     showToast("API Key tidak boleh kosong.", "error", 5000);
+//   }
+// }
 
 // Initialize the AI scanner when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
