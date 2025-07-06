@@ -7,7 +7,7 @@ class BillScanner {
   // }
   constructor() {
     this.selectedFile = null;
-    this.apiKey = localStorage.getItem("myApiKey") || "";
+    // this.apiKey = localStorage.getItem("myApiKey") || ""; move to BE
     this.initializeEventListeners();
   }
 
@@ -117,7 +117,9 @@ class BillScanner {
   }
 
   async callGeminiAPI(base64Image) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+    // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+
+    const url = `/api/gemini-scan`; // move to BE function
 
     const prompt = `
 Analyze this bill/receipt image and extract the following information in JSON format:
@@ -144,13 +146,74 @@ Analyze this bill/receipt image and extract the following information in JSON fo
 
 Please extract as much information as possible from the image. If some information is not available, use null as the value. Respond with ONLY the JSON, no additional text.`;
 
+    //   const requestBody = {
+    //     contents: [
+    //       {
+    //         parts: [
+    //           {
+    //             text: prompt,
+    //           },
+    //           {
+    //             inline_data: {
+    //               mime_type: this.selectedFile.type,
+    //               data: base64Image,
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   };
+
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(requestBody),
+    //   });
+
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     throw new Error(
+    //       errorData.error?.message || `HTTP error! status: ${response.status}`
+    //     );
+    //   }
+
+    //   const data = await response.json();
+
+    //   if (
+    //     !data.candidates ||
+    //     !data.candidates[0] ||
+    //     !data.candidates[0].content
+    //   ) {
+    //     throw new Error("Invalid response from Gemini API");
+    //   }
+
+    //   const textResponse = data.candidates[0].content.parts[0].text;
+
+    //   try {
+    //     // Clean the response to extract JSON
+    //     const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+    //     if (!jsonMatch) {
+    //       throw new Error("No JSON found in response");
+    //     }
+
+    //     return JSON.parse(jsonMatch[0]);
+    //   } catch (parseError) {
+    //     // If JSON parsing fails, return the raw response
+    //     return {
+    //       raw_response: textResponse,
+    //       error: "Failed to parse JSON response",
+    //       timestamp: new Date().toISOString(),
+    //     };
+    //   }
+    // }
+
     const requestBody = {
       contents: [
         {
           parts: [
-            {
-              text: prompt,
-            },
+            { text: prompt },
             {
               inline_data: {
                 mime_type: this.selectedFile.type,
@@ -162,7 +225,7 @@ Please extract as much information as possible from the image. If some informati
       ],
     };
 
-    const response = await fetch(url, {
+    const response = await fetch("/api/gemini-scan", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -179,26 +242,14 @@ Please extract as much information as possible from the image. If some informati
 
     const data = await response.json();
 
-    if (
-      !data.candidates ||
-      !data.candidates[0] ||
-      !data.candidates[0].content
-    ) {
-      throw new Error("Invalid response from Gemini API");
-    }
-
-    const textResponse = data.candidates[0].content.parts[0].text;
+    const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     try {
-      // Clean the response to extract JSON
       const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        throw new Error("No JSON found in response");
-      }
+      if (!jsonMatch) throw new Error("No JSON found in response");
 
       return JSON.parse(jsonMatch[0]);
     } catch (parseError) {
-      // If JSON parsing fails, return the raw response
       return {
         raw_response: textResponse,
         error: "Failed to parse JSON response",
