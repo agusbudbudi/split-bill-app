@@ -9,14 +9,52 @@
     />
     <link rel="manifest" href="/split-bill-app/manifest.json" />
 
-    <title>Split Bill App - Invoice Detail</title>
-    <meta name="title" content="Split Bill App - Invoice Detail" />
+    <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
+    <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
     <meta
       name="description"
-      content="Detail invoice dari Split Bill App. Praktis dan cepat!"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
     />
 
-    <title>Invoice Detail</title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="og:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="og:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="og:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="twitter:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="twitter:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <title>Split Bill</title>
     <!-- Favicon -->
     <link rel="icon" href="SplitBill-icon.png" type="image/png" />
     <link
@@ -32,7 +70,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
     <!-- Quill CSS -->
     <link
       href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
@@ -81,8 +120,7 @@
       </div>
     </header>
 
-    <!-- Main Container with required ID -->
-    <div id="invoice-detail-container" class="container">
+    <div class="container">
       <div class="table-wrapper">
         <div class="card-container top-container">
           <!-- Invoice Detail Page -->
@@ -99,7 +137,9 @@
                 <p>
                   Invoice No:
                   <strong
-                    ><span id="preview-invoice-number">Loading...</span></strong
+                    ><span id="preview-invoice-number"
+                      >AGD-2025044</span
+                    ></strong
                   >
                 </p>
 
@@ -169,12 +209,9 @@
               <p><em id="preview-total-words"></em></p>
             </div>
 
-            <!-- Selected Payment Method -->
+            <!-- Selected Payment Metod -->
             <div class="edit-button-section">
-              <i
-                class="uil uil-edit-alt edit-icon"
-                onclick="openBottomSheet('editInvoicePaymentMethodBottomSheet')"
-              ></i>
+              <i class="uil uil-edit-alt edit-icon"></i>
             </div>
 
             <div
@@ -191,9 +228,12 @@
             </div>
             <div class="invoice-tnc">
               <h3>Terms and Conditions</h3>
+
               <div id="preview-tnc"></div>
             </div>
-
+            <!-- <div class="edit-button-section">
+              <i class="uil uil-edit-alt edit-icon"></i>
+            </div> -->
             <div id="preview-footer" class="preview-footer"></div>
           </section>
         </div>
@@ -289,139 +329,17 @@
       </div>
     </div>
 
-    <!-- Edit Invoice Payment Method -->
-    <div class="table-wrapper">
-      <div class="bottom-sheet hidden" id="editInvoicePaymentMethodBottomSheet">
-        <div id="input-section">
-          <div class="bottom-sheet-header">
-            <h3 class="title-bottom-sheet">Edit Invoice Payment Method</h3>
-            <button
-              onclick="closeBottomSheet('editInvoicePaymentMethodBottomSheet')"
-              class="close-btn-bottom-sheet"
-            >
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-
-          <div class="bottom-sheet-content">
-            <!-- Payment Method -->
-            <div class="table-wrapper">
-              <div class="card-container">
-                <label>Payment Method</label>
-                <div class="people-container invoice-payment-section">
-                  <!-- Tombol Add New -->
-                  <div class="add-new-wrapper person-item">
-                    <div
-                      class="add-new"
-                      onclick="openBottomSheet('addPaymentMethodBottomSheet')"
-                    >
-                      <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <span class="add-text">Tambah</span>
-                  </div>
-                  <!-- List payment method (dinamis) -->
-                  <div class="paymentCardsContainer card-display-section"></div>
-                </div>
-              </div>
-            </div>
-            <button onclick="submitInvoicePaymentMethod()">
-              Simpan Invoice
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- overlay -->
     <div id="overlay" class="overlay hidden"></div>
-
-    <!-- Scripts - Load dalam urutan yang benar -->
-
-    <!-- 1. External Libraries -->
+    <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-    <!-- 2. Utility Functions (Load dulu sebelum yang lain) -->
-    <script>
-      // Define utility functions yang dibutuhkan
-      function goBack() {
-        window.history.back();
-      }
-
-      function exportInvoiceToPDF() {
-        const element = document.getElementById("invoice");
-        if (!element) {
-          alert("Invoice tidak ditemukan untuk di-export");
-          return;
-        }
-
-        const opt = {
-          margin: [0.5, 0.5, 0.5, 0.5],
-          filename: "invoice.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        };
-
-        html2pdf().set(opt).from(element).save();
-      }
-
-      function editInvoice() {
-        const invoiceDate = document.getElementById("invoiceDate").value;
-        const dueDate = document.getElementById("dueDate").value;
-
-        const currentInvoice = JSON.parse(
-          localStorage.getItem("currentInvoice") || "{}"
-        );
-
-        if (invoiceDate) {
-          window.submitEditSection(
-            currentInvoice.invoiceNo,
-            "invoiceDate",
-            null,
-            invoiceDate
-          );
-        }
-        if (dueDate) {
-          window.submitEditSection(
-            currentInvoice.invoiceNo,
-            "dueDate",
-            null,
-            dueDate
-          );
-        }
-
-        closeBottomSheet("editInvoiceDateBottomSheet");
-      }
-
-      // Add overlay click handler
-      document.addEventListener("DOMContentLoaded", function () {
-        const overlay = document.getElementById("overlay");
-        if (overlay) {
-          overlay.addEventListener("click", function () {
-            // Close all bottom sheets
-            const sheets = document.querySelectorAll(".bottom-sheet");
-            sheets.forEach((sheet) => {
-              sheet.classList.add("hidden");
-            });
-            overlay.classList.add("hidden");
-          });
-        }
-      });
-    </script>
-
-    <!-- 3. Shared Functions -->
-    <script src="js/sharedFunction.js"></script>
-
-    <!-- 4. Invoice Detail Script (HANYA INI YANG DIBUTUHKAN) -->
-    <script src="js/invoiceDetail.js"></script>
-
-    <!-- 5. Bottom Sheet Handler (Jika perlu) -->
+    <script src="js/invoice.js"></script>
+    <script src="js/transactions.js"></script>
     <script src="js/bottomsheet.js"></script>
-
-    <!-- JANGAN LOAD SCRIPT INI - AKAN KONFLIK -->
-    <!-- <script src="js/invoice.js"></script> -->
-    <!-- <script src="js/transactions.js"></script> -->
-    <!-- <script src="js/ui.js"></script> -->
+    <script src="js/invoiceDetail.js"></script>
+    <script src="js/sharedFunction.js"></script>
+    <script src="js/ui.js"></script>
   </body>
 </html>
