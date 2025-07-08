@@ -215,7 +215,10 @@ class WalletRenderer {
   //Render Wallet Cards
   renderWalletCards() {
     const bankContainer = document.getElementById("bankCards");
+    const bankSection = document.querySelector(".bank-section");
     const ewalletContainer = document.getElementById("ewalletCards");
+    const ewalletSection = document.querySelector(".ewallet-section");
+    const emptyState = document.querySelector(".no-data-message");
 
     // Pisahkan bank dan e-wallet
     const banks = this.paymentMethods.filter(
@@ -227,6 +230,7 @@ class WalletRenderer {
 
     // Render bank cards
     if (banks.length === 0) {
+      bankSection.classList.add("hidden");
       bankContainer.innerHTML = `
         <div class="empty-state">
           <i class="fas fa-university"></i>
@@ -235,6 +239,7 @@ class WalletRenderer {
         </div>
       `;
     } else {
+      bankSection.classList.remove("hidden");
       const staticBankImage = `
 
         <div class="static-bank-card">
@@ -259,6 +264,7 @@ class WalletRenderer {
 
     // Render e-wallet cards
     if (ewallets.length === 0) {
+      ewalletSection.classList.add("hidden");
       ewalletContainer.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-mobile-alt"></i>
@@ -267,6 +273,7 @@ class WalletRenderer {
                         </div>
                     `;
     } else {
+      ewalletSection.classList.remove("hidden");
       const staticImage = `
 
         <div class="static-ewallet-card">
@@ -286,6 +293,12 @@ class WalletRenderer {
         .join("");
 
       ewalletContainer.innerHTML = staticImage + cardsHTML;
+    }
+    // ✅ Tampilkan no-data-message hanya jika kedua-duanya kosong
+    if (banks.length === 0 && ewallets.length === 0) {
+      emptyState.classList.remove("hidden");
+    } else {
+      emptyState.classList.add("hidden");
     }
   }
 

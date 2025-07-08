@@ -97,22 +97,12 @@ function updateExpenseCards() {
   console.log("Is empty:", window.expenses.length === 0);
 
   if (window.expenses.length === 0) {
-    // Sembunyikan card-container
     if (expenseCard) {
-      expenseCard.style.display = "none";
+      expenseCard.classList.add("hidden"); // Sembunyikan card-container
     }
-
-    // Unused code
-    // container.innerHTML = `
-    // <div class="empty-state">
-    // <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
-    // <p class="title-empty-state">Belum ada daftar transaksi</p>
-    // <p class="desc-empty-state">Scan bill atau tambah manual untuk menambah transaksi</p></div>`;
-    // return;
   } else {
-    // Tampilkan card-container kembali jika ada data
     if (expenseCard) {
-      expenseCard.style.display = "block"; // atau "" untuk default
+      expenseCard.classList.remove("hidden"); // Tampilkan card-container kembali jika ada data
     }
   }
 

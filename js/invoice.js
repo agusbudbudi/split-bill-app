@@ -806,7 +806,7 @@ function renderInvoiceCards() {
   if (history.length === 0) {
     container.innerHTML = `
            <div class="no-data-message">
-            <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+            <img src="img/state-search.png" alt="Empty State" class="empty-state-image">
                 <p class="title-empty-state">Belum ada Invoice yang disimpan<p>
                 <p class="desc-empty-state">Buat invoice sekarang!<p>
             </div>

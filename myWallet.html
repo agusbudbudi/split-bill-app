@@ -76,6 +76,7 @@
     <link rel="stylesheet" href="css/toastMessage.css" />
     <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/saving.css" />
+    <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/mobile.css" />
 
     <link rel="stylesheet" href="css/myWallet.css" />
@@ -112,7 +113,9 @@
             </div>
           </div>
 
-          <div class="cards-grid" id="bankCards"></div>
+          <div class="bank-section">
+            <div class="cards-grid" id="bankCards"></div>
+          </div>
 
           <div class="ewallet-section">
             <div class="cards-grid ewallet-grid" id="ewalletCards"></div>
@@ -129,14 +132,24 @@
       />
     </div>
 
+    <div class="no-data-message">
+      <img
+        src="img/empty-state-wallet.png"
+        alt="Empty State"
+        class="empty-state-image"
+      />
+      <p class="title-empty-state">Belum ada Digital Wallet yang tersimpan</p>
+      <p class="desc-empty-state">Click tombol untuk menambahkan!</p>
+    </div>
+
     <div class="container">
       <div class="infobox-container">
         <div class="info-box information">
           <div class="icon">🏦</div>
           <div class="content">
             <p>
-              Tenang aja, data akun bank kamu aman 100%, cuma tersimpan di
-              handphone kamu, gak ke mana-mana!
+              Tenang aja, data akun bank kamu <b>aman 100%</b>, cuma tersimpan
+              di handphone kamu, gak ke mana-mana!
             </p>
           </div>
         </div>

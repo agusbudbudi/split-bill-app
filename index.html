@@ -262,17 +262,6 @@
 
         <div class="table-wrapper">
           <div class="card-container">
-            <!-- infobox -->
-            <div class="info-box information validasi-split-bill">
-              <div class="icon">😎</div>
-              <div class="content">
-                <p>
-                  Stop pusing soal split bill! Cukup scan bill, pilih bestie,
-                  auto-itung, tinggal share-ez pz no cap!
-                </p>
-              </div>
-            </div>
-
             <div class="tab-container">
               <button
                 onclick="showTab('ai-scan')"
@@ -456,7 +445,7 @@
                   >
                     <!-- <div class="upload-icon"> -->
                     <img
-                      src="img/upload-image.png"
+                      src="img/state-bill.png"
                       alt="Upload Icon"
                       class="upload-icon"
                     />
@@ -508,18 +497,6 @@
             </div>
 
             <div id="ocr-scan" class="section-input-bill tab-section">
-              <div class="info-box information">
-                <div class="icon">
-                  <i class="fa-solid fa-circle-info"></i>
-                </div>
-                <div class="content">
-                  <p>
-                    Fitur ini masih dalam tahap pengembangan. Jika hasil scan
-                    belum sempurna, kamu bisa mengeditnya secara manual.
-                  </p>
-                </div>
-              </div>
-
               <div
                 id="scan-success-message"
                 class="success-message"
@@ -532,7 +509,7 @@
                 <div class="upload-container">
                   <label for="bill-image" class="drop-area">
                     <img
-                      src="img/upload-image.png"
+                      src="img/state-bill.png"
                       alt="Upload Icon"
                       class="upload-icon"
                     />
@@ -566,6 +543,17 @@
                     Scan Bill
                   </button>
                 </div>
+                <div class="info-box information">
+                  <div class="icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                  </div>
+                  <div class="content">
+                    <p>
+                      Fitur ini masih dalam tahap pengembangan. Jika hasil scan
+                      belum sempurna, kamu bisa mengeditnya secara manual.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -575,6 +563,16 @@
         <div class="table-wrapper">
           <div class="card-container" id="expenseCard">
             <div class="title-section">Transaksi Pengeluaran 📊</div>
+            <!-- infobox -->
+            <!-- <div class="info-box information validasi-split-bill">
+              <div class="icon">😎</div>
+              <div class="content">
+                <p>
+                  Stop pusing soal split bill! Cukup scan bill, pilih bestie,
+                  auto-itung, tinggal share-ez pz no cap!
+                </p>
+              </div>
+            </div> -->
             <div class="table-container hidden">
               <table id="expense-table">
                 <thead>
@@ -589,6 +587,7 @@
                 <tbody></tbody>
               </table>
             </div>
+
             <!-- NEW TABEL PENGELUARAN -->
 
             <div id="expense-list" class="expense-list"></div>

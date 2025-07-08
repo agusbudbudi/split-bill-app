@@ -342,7 +342,7 @@ function displaySavings() {
   if (savings.length === 0) {
     savingsList.innerHTML = `
             <div class="no-data-message">
-            <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+            <img src="img/empty-state-wallet.png" alt="Empty State" class="empty-state-image">
                 <p class="title-empty-state">Belum ada tabungan<p>
                 <p class="desc-empty-state">Mulai menabung sekarang!<p>
             </div>
