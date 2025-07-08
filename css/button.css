@@ -125,6 +125,7 @@ button:hover {
   background-color: var(--infobox-info-bg);
   color: var(--btn-bg);
   border: 1px solid var(--btn-bg);
+  cursor: pointer;
 }
 
 .tab-container {

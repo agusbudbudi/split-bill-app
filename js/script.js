@@ -112,10 +112,6 @@ function updateTable() {
     });
   }
 }
-
-// REMOVE LOCAL updateExpenseCards - use shared function instead
-// Keep this comment as reference but remove the duplicate function
-
 // REMOVE LOCAL deleteExpense - use shared function instead
 // Keep this comment as reference but remove the duplicate function
 

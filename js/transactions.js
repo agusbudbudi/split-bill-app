@@ -177,7 +177,7 @@ function displayTransactions(savings) {
   if (savings.length === 0) {
     transactionsList.innerHTML = `
               <div class="no-data-message">
-                  <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 16px;"></i>
+                  <img src="img/state-search.png" alt="empty state" class="empty-state-image">
                   <p class="title-empty-state">Tidak ada transaksi ditemukan</p>
                   <p class="desc-empty-state"">Coba ubah filter pencarian Anda</p>
               </div>
