@@ -131,6 +131,7 @@
 
       // Set basic invoice information
       safeSetText("preview-invoice-number", data.invoiceNo);
+      safeSetText("preview-invoice-status", data.status);
       safeSetText("preview-invoice-date", data.invoiceDate);
       safeSetText("preview-due-date", data.dueDate);
       safeSetText("preview-subtotal", formatToIDR(data.subtotal || 0));
@@ -140,6 +141,28 @@
       );
       safeSetText("preview-total", formatToIDR(data.total || 0));
       safeSetText("preview-total-words", data.totalWords);
+
+      // Handle invoice status display and styling
+      const statusSection = document.getElementById("invoice-status-section");
+      const statusElement = document.getElementById("preview-invoice-status");
+
+      if (statusElement && statusSection) {
+        if (data.status) {
+          statusSection.style.display = "block";
+          statusElement.textContent = data.status;
+
+          // Reset class di elemen status
+          statusElement.classList.remove("paid", "unpaid", "overdue");
+
+          // Tambahkan class berdasarkan status
+          const statusClass = data.status.toLowerCase();
+          if (["paid", "unpaid", "overdue"].includes(statusClass)) {
+            statusElement.classList.add(statusClass);
+          }
+        } else {
+          statusSection.style.display = "none";
+        }
+      }
 
       // Render billed sections
       renderBilledSection(data);

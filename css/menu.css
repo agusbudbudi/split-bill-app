@@ -56,7 +56,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   /* background: linear-gradient(135deg, #a390f8, #7056ec);  */
   /* background-color: #ddf1fe; */
-  background-color: white;
+  /* background-color: white; */
+  background-color: var(--menu-bg);
 }
 
 .menu-icon img {

@@ -1163,7 +1163,7 @@
               </div>
 
               <button onclick="previewInvoice()">
-                <i class="fa-solid fa-file-invoice"></i>
+                <i class="uil uil-invoice"></i>
                 Preview Invoice
               </button>
             </div>
@@ -1260,13 +1260,70 @@
               </div>
               <div id="preview-footer" class="preview-footer"></div>
             </section>
-            <div class="share-button-container">
-              <button onclick="saveInvoiceToHistory()" class="secondary-button">
-                <i class="uil uil-invoice"></i> Save to History
+            <div id="finalizeInvoiceSection" class="share-button-container">
+              <button
+                onclick="openPopup('popupFinalizeInvoice')"
+                class="primary-button"
+              >
+                <i class="uil uil-file-check"></i> Finalize Invoice
+              </button>
+            </div>
+
+            <div
+              id="invoiceActions"
+              class="share-button-container invoice-draft hidden"
+            >
+              <button
+                onclick="window.location.href='transactions.html?tab=invoice'"
+                class="secondary-button"
+              >
+                <i class="uil uil-invoice"></i> Lihat History
               </button>
               <button onclick="exportInvoiceToPDF()">
-                <i class="fa-solid fa-file-export"></i> Export to PDF
+                <i class="uil uil-file-export"></i> Export to PDF
               </button>
+            </div>
+
+            <!-- Popup Finalize invoice -->
+            <div id="popupFinalizeInvoice" class="popup-overlay">
+              <div class="popup-content">
+                <div class="popup-header">
+                  <h3>Finalize Invoice</h3>
+                  <button
+                    onclick="closePopup('popupFinalizeInvoice')"
+                    class="close-btn-bottom-sheet"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div class="popup-body">
+                  <img
+                    src="img/save-invoice.png"
+                    alt="Empty State"
+                    class="empty-state-image"
+                  />
+                  <p class="title-empty-state">
+                    Kamu yakin ingin menyelesaikan invoice ini?
+                  </p>
+                  <p class="desc-empty-state">
+                    Invoice yang sudah di Finalize akan tersimpan ke History dan
+                    tidak dapat diubah lagi
+                  </p>
+                  <div class="share-button-container">
+                    <button
+                      onclick="closePopup('popupFinalizeInvoice')"
+                      class="secondary-button"
+                    >
+                      <i class="uil uil-times"></i> Cancel
+                    </button>
+                    <button
+                      onclick="saveInvoiceToHistory(), closePopup('popupFinalizeInvoice'), showActionInvoice()"
+                    >
+                      <i class="uil uil-check-circle"></i> Yes Finalize
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

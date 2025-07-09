@@ -120,27 +120,25 @@
     </header>
 
     <div class="container">
-      <div class="table-wrapper">
-        <div class="card-container top-container">
-          <div class="tab-container">
-            <button
-              onclick="showTab('transaction-savings')"
-              class="tab-button tab-transaction"
-              data-tab="transaction-savings"
-            >
-              <i class="uil uil-wallet tab-icon"></i>
-              Tabungan
-            </button>
+      <div class="filter-container">
+        <div class="tab-container">
+          <button
+            onclick="showTab('transaction-savings')"
+            class="tab-button tab-transaction"
+            data-tab="transaction-savings"
+          >
+            <i class="uil uil-wallet tab-icon"></i>
+            Tabungan
+          </button>
 
-            <button
-              onclick="showTab('transaction-invoice')"
-              class="tab-button tab-transaction"
-              data-tab="transaction-invoice"
-            >
-              <i class="uil uil-invoice tab-icon"></i>
-              Invoice
-            </button>
-          </div>
+          <button
+            onclick="showTab('transaction-invoice')"
+            class="tab-button tab-transaction"
+            data-tab="transaction-invoice"
+          >
+            <i class="uil uil-invoice tab-icon"></i>
+            Invoice
+          </button>
         </div>
       </div>
 
@@ -270,12 +268,16 @@
         </div>
       </div>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="js/invoice.js"></script>
     <script src="js/transactions.js"></script>
+    <script src="js/toastMessage.js"></script>
     <script src="js/bottomsheet.js"></script>
     <script src="js/invoiceDetail.js"></script>
     <script src="js/sharedFunction.js"></script>

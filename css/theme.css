@@ -50,6 +50,7 @@
   );
 
   --tab-icon: #e2f0fa;
+  --menu-bg: #f6fafb;
 }
 
 body.dark-mode {
@@ -97,4 +98,5 @@ body.dark-mode {
   );
 
   --tab-icon: #223344;
+  --menu-bg: #1e2a36;
 }

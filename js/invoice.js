@@ -748,6 +748,7 @@ function saveInvoiceToHistory() {
     billedBy,
     billedTo,
     paymentMethods: getSelectedPaymentMethods(),
+    status: "unpaid",
   };
 
   // Handle logo
@@ -782,10 +783,15 @@ function saveInvoiceToHistory() {
 
   if (existingIndex !== -1) {
     // Sudah ada → update data
+    // Update tanpa mengubah createdAt
+    invoiceData.createdAt =
+      history[existingIndex].createdAt || new Date().toISOString();
     history[existingIndex] = invoiceData;
     showToast("Invoice berhasil diperbarui di histori!", "success", 4000);
   } else {
     // Belum ada → tambahkan
+    // Tambahkan createdAt saat baru
+    invoiceData.createdAt = new Date().toISOString();
     history.push(invoiceData);
     showToast("Invoice berhasil disimpan ke histori!", "success", 4000);
   }
@@ -813,6 +819,8 @@ function renderInvoiceCards() {
     `;
     return;
   }
+  // ✅ Sort dari yang terbaru (desc)
+  history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   history.forEach((invoice) => {
     const card = document.createElement("div");
@@ -820,6 +828,23 @@ function renderInvoiceCards() {
     // Tambahkan data-id dan onclick
     card.dataset.id = invoice.invoiceNo;
     card.onclick = () => openInvoiceDetail(invoice.invoiceNo);
+
+    // Ambil status, default ke "-" jika tidak ada
+    const status = invoice.status ? capitalize(invoice.status) : "-";
+
+    // Tambahkan icon jika statusnya "paid"
+    const statusHTML =
+      invoice.status === "paid"
+        ? `<div class="invoice-status ${invoice.status}">
+     <i class="uil uil-check-circle"></i> ${status}
+   </div>`
+        : `<div class="invoice-status ${invoice.status}"><i class="uil uil-clock"></i> ${status}</div>`;
+
+    // Tombol Mark Paid ditampilkan hanya jika status bukan paid
+    const markPaidButton =
+      invoice.status !== "paid"
+        ? `<button class="mark-paid-button" onclick="markInvoiceAsPaid('${invoice.invoiceNo}', event)"><i class="uil uil-check-circle"></i> Mark Paid</button>`
+        : "";
 
     card.innerHTML = `
       <div class="invoice-card-header">
@@ -838,13 +863,34 @@ function renderInvoiceCards() {
         <p>Due Date: <strong>${invoice.dueDate}</strong></p>
       </div>
       <div class="invoice-card-footer">
-      <div class="invoice-status">Paid</div>
-      <div class="see-detail">Lihat Detail<i class="uil uil-angle-right-b"></i></div>
+        ${statusHTML}
+         ${markPaidButton}
+        <div class="see-detail">Lihat Detail<i class="uil uil-angle-right-b"></i></div>
       </div>
     `;
 
     container.appendChild(card);
   });
+}
+
+// Fungsi bantu untuk kapitalisasi kata pertama
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+// Fungsi untuk mengubah status menjadi paid
+function markInvoiceAsPaid(invoiceNo, event) {
+  event.stopPropagation(); // Hindari trigger openInvoiceDetail
+
+  const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+  const index = history.findIndex((item) => item.invoiceNo === invoiceNo);
+
+  if (index !== -1) {
+    history[index].status = "paid";
+    localStorage.setItem("invoiceHistory", JSON.stringify(history));
+    showToast("Yeay! Invoice berhasil dibayar", "success", 5000);
+    renderInvoiceCards();
+  }
 }
 
 //Open Invoice Detail Page
@@ -874,6 +920,15 @@ function openInvoiceDetail(invoiceNo) {
   // Pindah ke halaman detail
   window.location.href = "invoice-detail.html";
 }
+function showActionInvoice() {
+  // Tampilkan invoiceActions
+  const invoiceActions = document.getElementById("invoiceActions");
+  invoiceActions.classList.remove("hidden");
+
+  // Sembunyikan finalizeInvoiceSection
+  const finalizeSection = document.getElementById("finalizeInvoiceSection");
+  finalizeSection.classList.add("hidden");
+}
 
 document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
 document
@@ -891,16 +946,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // flatpickr("#invoiceDate", {
-  //   dateFormat: "d-m-Y",
-  //   defaultDate: "today",
-  // });
-
-  // flatpickr("#dueDate", {
-  //   dateFormat: "d-m-Y",
-  //   defaultDate: "today",
-  // });
-
   flatpickr("#invoiceDate", {
     altInput: true,
     altFormat: "d F Y", // ditampilkan ke user
