@@ -67,6 +67,7 @@
     <link rel="stylesheet" href="css/paymentMethod.css" />
     <link rel="stylesheet" href="css/saving.css" />
     <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/invoiceDetail.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -87,19 +88,25 @@
         <div class="card-container top-container">
           <!-- Invoice Detail Page -->
           <section id="invoice" class="invoice-preview">
-            <div class="edit-button-section">
+            <!-- UNRELEASED FEATURE -->
+            <!-- <div class="edit-button-section">
               <i
                 class="uil uil-edit-alt edit-icon"
                 onclick="openBottomSheet('editInvoiceDateBottomSheet')"
               ></i>
+            </div> -->
+            <div class="invoice-status-section" id="invoice-status-section">
+              Status:
+              <div id="preview-invoice-status" class="invoice-status"></div>
             </div>
+
             <div class="invoice-header">
               <div class="invoice-info">
                 <h1>Invoice</h1>
                 <p>
                   Invoice No:
-                  <strong
-                    ><span id="preview-invoice-number">Loading...</span></strong
+                  <strong>
+                    <span id="preview-invoice-number">Loading...</span></strong
                   >
                 </p>
 
@@ -122,9 +129,9 @@
               </div>
             </div>
 
-            <div class="edit-button-section">
+            <!-- <div class="edit-button-section">
               <i class="uil uil-edit-alt edit-icon"></i>
-            </div>
+            </div> -->
             <div class="billed-preview">
               <!-- Bagian Billed By -->
               <div id="invoice-billed-by" class="invoice-section"></div>
@@ -133,9 +140,9 @@
               <div id="invoice-billed-to" class="invoice-section"></div>
             </div>
 
-            <div class="edit-button-section">
+            <!-- <div class="edit-button-section">
               <i class="uil uil-edit-alt edit-icon"></i>
-            </div>
+            </div> -->
             <div class="table-container">
               <table class="invoice-table">
                 <thead>
@@ -170,12 +177,12 @@
             </div>
 
             <!-- Selected Payment Method -->
-            <div class="edit-button-section">
+            <!-- <div class="edit-button-section">
               <i
                 class="uil uil-edit-alt edit-icon"
                 onclick="openBottomSheet('editInvoicePaymentMethodBottomSheet')"
               ></i>
-            </div>
+            </div> -->
 
             <div
               id="selectedPaymentInfo"
@@ -183,12 +190,12 @@
             ></div>
 
             <!-- TnC dan footer -->
-            <div class="edit-button-section">
+            <!-- <div class="edit-button-section">
               <i
                 class="uil uil-edit-alt edit-icon"
                 onclick="openBottomSheet('editInvoiceFooterBottomSheet')"
               ></i>
-            </div>
+            </div> -->
             <div class="invoice-tnc">
               <h3>Terms and Conditions</h3>
               <div id="preview-tnc"></div>

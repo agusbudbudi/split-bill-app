@@ -3,8 +3,22 @@
 }
 
 .top-container {
-  margin-top: 65px;
-  padding: 10px 15px;
+  margin-top: 60px;
+  padding: 0;
+  align-items: center;
+  white-space: nowrap;
+  padding: 15px 15px;
+}
+
+.filter-container {
+  margin-top: 60px;
+  padding: 0;
+  align-items: center;
+  white-space: nowrap;
+  display: flex;
+  justify-content: flex-start; /* memastikan isi align ke kiri */
+  width: 100%; /* pastikan lebar penuh */
+  padding: 0; /* hapus padding jika perlu */
 }
 
 .back-btn {
@@ -104,7 +118,7 @@
 
 .transactionsList {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   margin-top: 20px;
 }
 
@@ -229,13 +243,14 @@
 }
 
 .invoice-card-footer {
-  border-top: 1px solid var(--table-border-color);
+  /* border-top: 1px solid var(--table-border-color); */
   padding: 8px 10px;
-  /* background-color: var(--input-bg); */
-  border-radius: 0 0 10px 10px;
+  background-color: var(--input-bg);
+  border-radius: 0 0 14px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .invoice-card-header {
@@ -275,8 +290,9 @@
 }
 
 .tab-transaction {
-  padding: 9px 12px 9px 9px;
+  padding: 6px 12px 6px 6px;
   border-radius: 14px;
+  background-color: white;
 }
 
 .see-detail {
@@ -285,12 +301,48 @@
   font-size: 12px;
 }
 
+.invoice-status-section {
+  color: var(--text-color);
+  font-size: 12px;
+}
+
 .invoice-status {
   font-size: 12px;
-  font-weight: 600;
+  color: var(--text-color-desc);
+  background-color: var(--container-bg);
+  padding: 3px 8px;
+  border-radius: 16px;
+  border: 1px solid var(--table-border-color);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.mark-paid-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-right: auto;
+  font-size: 12px;
+  width: auto;
+}
+.mark-paid-button:hover {
+  background-color: #45a049;
+}
+
+.invoice-status.paid {
   color: var(--achieved-color);
   background-color: var(--achieved-bg);
-  padding: 1px 8px;
-  border-radius: 6px;
-  /* border: 1px solid var(--achieved-border); */
+  border: 1px solid var(--achieved-border);
+}
+
+.invoice-status.unpaid {
+  color: var(--progress-color);
+  background-color: var(--progress-bg);
+  border: 1px solid var(--progress-border);
 }
