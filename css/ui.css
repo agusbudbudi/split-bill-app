@@ -274,7 +274,7 @@ button:focus select:focus {
   border-radius: 10px;
   padding: 15px;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 10px;
   width: 100%;
   white-space: nowrap; /* Prevent text from wrapping */
   background-color: var(--container-bg);
@@ -402,6 +402,7 @@ textarea {
   border-radius: 12px; /* Agar tetap membulat meski scroll */
   padding: 0; /* Hindari padding yang bisa mengganggu scroll */
   margin-top: 10px;
+  border: 1px solid var(--table-border-color);
 }
 
 #expense-table {
@@ -446,7 +447,6 @@ th {
 td {
   background-color: var(--table-body-bg);
   color: var(--text-color);
-  border: 1px solid var(--table-border-color);
   padding: 5px 10px 5px 10px;
 }
 

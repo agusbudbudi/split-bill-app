@@ -149,15 +149,45 @@
       if (statusElement && statusSection) {
         if (data.status) {
           statusSection.style.display = "block";
-          statusElement.textContent = data.status;
 
           // Reset class di elemen status
           statusElement.classList.remove("paid", "unpaid", "overdue");
 
-          // Tambahkan class berdasarkan status
           const statusClass = data.status.toLowerCase();
-          if (["paid", "unpaid", "overdue"].includes(statusClass)) {
-            statusElement.classList.add(statusClass);
+          let icon = "";
+          let label = data.status;
+
+          // Tentukan ikon dan label berdasarkan status
+          switch (statusClass) {
+            case "paid":
+              icon = `<i class="uil uil-check-circle"></i>`;
+              label = "Lunas";
+              break;
+            case "unpaid":
+              icon = `<i class="uil uil-clock"></i>`;
+              label = "Belum Dibayar";
+              break;
+
+            case "overdue":
+              icon = `<i class="uil uil-exclamation-triangle"></i>`;
+              label = "Jatuh Tempo";
+              break;
+          }
+
+          // Render status icon + label
+          statusElement.innerHTML = `${icon} <span>${label}</span>`;
+          statusElement.classList.add(statusClass);
+
+          // Handle Mark Paid button visibility
+          const markPaidBtn = document.getElementById("mark-paid-button");
+          if (markPaidBtn) {
+            if (statusClass === "unpaid") {
+              markPaidBtn.style.display = "inline-block";
+              markPaidBtn.onclick = (event) =>
+                markInvoiceAsPaid(data.invoiceNo, event);
+            } else {
+              markPaidBtn.style.display = "none";
+            }
           }
         } else {
           statusSection.style.display = "none";
@@ -426,6 +456,4 @@
     formatToIDR: formatToIDR,
     initializeQuill: initializeQuill,
   };
-
-  console.log("Invoice Detail module loaded successfully");
 })();

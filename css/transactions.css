@@ -292,7 +292,7 @@
 .tab-transaction {
   padding: 6px 12px 6px 6px;
   border-radius: 14px;
-  background-color: white;
+  background-color: var(--container-bg);
 }
 
 .see-detail {
@@ -307,16 +307,14 @@
 }
 
 .invoice-status {
+  display: inline-flex;
   font-size: 12px;
   color: var(--text-color-desc);
   background-color: var(--container-bg);
   padding: 3px 8px;
   border-radius: 16px;
-  border: 1px solid var(--table-border-color);
-  display: flex;
   align-items: center;
   gap: 2px;
-  display: inline-block;
   text-transform: capitalize;
 }
 

@@ -878,9 +878,8 @@ function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-// Fungsi untuk mengubah status menjadi paid
 function markInvoiceAsPaid(invoiceNo, event) {
-  event.stopPropagation(); // Hindari trigger openInvoiceDetail
+  event.stopPropagation();
 
   const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
   const index = history.findIndex((item) => item.invoiceNo === invoiceNo);
@@ -889,15 +888,19 @@ function markInvoiceAsPaid(invoiceNo, event) {
     history[index].status = "paid";
     localStorage.setItem("invoiceHistory", JSON.stringify(history));
     showToast("Yeay! Invoice berhasil dibayar", "success", 5000);
-    renderInvoiceCards();
+
+    const isInTransactionPage = document.getElementById("invoiceCardList");
+    const isInDetailPage = document.getElementById("preview-invoice-status");
+
+    if (isInTransactionPage) {
+      renderInvoiceCards();
+    }
+
+    if (isInDetailPage && window.invoiceDetailModule?.renderInvoiceDetails) {
+      window.invoiceDetailModule.renderInvoiceDetails(history[index]);
+    }
   }
 }
-
-//Open Invoice Detail Page
-// function openInvoiceDetail(invoiceNo) {
-//   sessionStorage.setItem("selectedInvoiceNo", invoiceNo);
-//   window.location.href = "invoice-detail.html";
-// }
 
 function openInvoiceDetail(invoiceNo) {
   const invoiceHistory =
