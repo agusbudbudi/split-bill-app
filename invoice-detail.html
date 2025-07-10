@@ -95,9 +95,27 @@
                 onclick="openBottomSheet('editInvoiceDateBottomSheet')"
               ></i>
             </div> -->
-            <div class="invoice-status-section" id="invoice-status-section">
-              Status:
-              <div id="preview-invoice-status" class="invoice-status"></div>
+            <div class="invoice-action-button">
+              <div class="invoice-status-section" id="invoice-status-section">
+                <div id="preview-invoice-status" class="invoice-status"></div>
+                <button
+                  id="mark-paid-button"
+                  class="mark-paid-button"
+                  style="display: none"
+                >
+                  <i class="uil uil-check-circle"></i>
+                  Mark Paid
+                </button>
+              </div>
+
+              <div class="invoice-button-container">
+                <button
+                  onclick="exportInvoiceToPDF()"
+                  class="export-button secondary-button"
+                >
+                  <i class="uil uil-import"></i> Download
+                </button>
+              </div>
             </div>
 
             <div class="invoice-header">
@@ -203,13 +221,6 @@
 
             <div id="preview-footer" class="preview-footer"></div>
           </section>
-        </div>
-        <div class="card-container">
-          <div class="invoice-button-container">
-            <button onclick="exportInvoiceToPDF()">
-              <i class="uil uil-file-export"></i> Export to PDF
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -338,6 +349,7 @@
         </div>
       </div>
     </div>
+    <div class="toast-container" id="toastContainer"></div>
 
     <!-- overlay -->
     <div id="overlay" class="overlay hidden"></div>
@@ -422,6 +434,9 @@
 
     <!-- 4. Invoice Detail Script (HANYA INI YANG DIBUTUHKAN) -->
     <script src="js/invoiceDetail.js"></script>
+    <script src="js/invoice.js"></script>
+    <script src="js/pdfExport.js"></script>
+    <script src="js/toastMessage.js"></script>
 
     <!-- 5. Bottom Sheet Handler (Jika perlu) -->
     <script src="js/bottomsheet.js"></script>

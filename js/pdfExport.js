@@ -357,6 +357,12 @@ function exportInvoiceToPDF() {
 
   const clonedInvoice = invoiceDiv.cloneNode(true);
 
+  // ❌ Hapus elemen status sebelum export PDF
+  const statusSection = clonedInvoice.querySelector(".invoice-action-button");
+  if (statusSection) {
+    statusSection.remove();
+  }
+
   // Set semua warna teks & latar jadi netral untuk PDF
   const allElements = clonedInvoice.querySelectorAll("*");
   allElements.forEach((el) => {
@@ -365,12 +371,20 @@ function exportInvoiceToPDF() {
     el.style.boxShadow = "none";
   });
 
+  const tableContainers = clonedInvoice.querySelectorAll(".table-container");
+  tableContainers.forEach((tableContainer) => {
+    tableContainer.style.width = "100%";
+    tableContainer.style.borderRadius = "16px";
+    tableContainer.style.border = "1px solid #F3F2F3";
+  });
+
   // Format tabel
   const tables = clonedInvoice.querySelectorAll("table");
   tables.forEach((table) => {
     // table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.borderRadius = "8px";
+    table.style.borderRadius = "16px";
+    table.style.border = "none";
   });
 
   // Format header tabel
@@ -378,7 +392,7 @@ function exportInvoiceToPDF() {
   ths.forEach((th) => {
     th.style.backgroundColor = "#7056ec";
     th.style.color = "#ffffff";
-    th.style.padding = "8px";
+    th.style.padding = "16px";
     th.style.border = "1px solid #7056ec";
     th.style.textAlign = "center";
   });
@@ -390,11 +404,12 @@ function exportInvoiceToPDF() {
     td.style.color = "#000000";
     td.style.padding = "5px 20px";
     td.style.textAlign = "center";
+    td.style.border = "none";
   });
 
   const trs = clonedInvoice.querySelectorAll("tr");
   trs.forEach((tr) => {
-    tr.style.border = "1px solid #F3F2F3";
+    tr.style.border = "none";
   });
 
   const itemName = clonedInvoice.querySelectorAll(".item-name");
