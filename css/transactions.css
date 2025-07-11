@@ -231,15 +231,15 @@
 
 .invoice-card {
   border-radius: 14px;
-  /* padding: 10px; */
+  min-width: 280px;
   transition: transform 0.3s ease;
   border: 1px solid var(--table-border-color);
   cursor: pointer;
-  /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.03); */
 }
 
 .invoice-card-body {
   padding: 0 10px 10px 10px;
+  text-align: left;
 }
 
 .invoice-card-footer {

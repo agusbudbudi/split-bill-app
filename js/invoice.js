@@ -891,6 +891,7 @@ function markInvoiceAsPaid(invoiceNo, event) {
 
     const isInTransactionPage = document.getElementById("invoiceCardList");
     const isInDetailPage = document.getElementById("preview-invoice-status");
+    const isInvoicePreview = document.getElementById("unpaidInvoicesPreview");
 
     if (isInTransactionPage) {
       renderInvoiceCards();
@@ -898,6 +899,10 @@ function markInvoiceAsPaid(invoiceNo, event) {
 
     if (isInDetailPage && window.invoiceDetailModule?.renderInvoiceDetails) {
       window.invoiceDetailModule.renderInvoiceDetails(history[index]);
+    }
+
+    if (isInvoicePreview) {
+      renderUnpaidInvoicesPreview();
     }
   }
 }
@@ -923,6 +928,7 @@ function openInvoiceDetail(invoiceNo) {
   // Pindah ke halaman detail
   window.location.href = "invoice-detail.html";
 }
+
 function showActionInvoice() {
   // Tampilkan invoiceActions
   const invoiceActions = document.getElementById("invoiceActions");
@@ -931,6 +937,104 @@ function showActionInvoice() {
   // Sembunyikan finalizeInvoiceSection
   const finalizeSection = document.getElementById("finalizeInvoiceSection");
   finalizeSection.classList.add("hidden");
+}
+
+//INVOICE SUMMARY
+document.addEventListener("DOMContentLoaded", () => {
+  const data = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+
+  const totalInvoices = data.length;
+  const totalPaid = data.filter((i) => i.status === "paid").length;
+  const totalUnpaid = data.filter((i) => i.status === "unpaid").length;
+
+  const amountPaid = data
+    .filter((i) => i.status === "paid")
+    .reduce((sum, i) => sum + (i.total || 0), 0);
+
+  const amountUnpaid = data
+    .filter((i) => i.status === "unpaid")
+    .reduce((sum, i) => sum + (i.total || 0), 0);
+
+  const grid = document.getElementById("invoiceSummaryGrid");
+
+  grid.innerHTML = `
+      <div class="summary-box total">
+       <i class="uil uil-invoice"></i>
+        <div class="summary-amount">${totalInvoices}</div>
+        <div class="summary-label">Total Invoices</div>
+      </div>
+      <div class="summary-box paid">
+        <i class="uil uil-money-withdraw"></i>
+        <div class="summary-amount">Rp ${amountPaid.toLocaleString(
+          "id-ID"
+        )}</div>
+        <div class="summary-label">Paid Invoices (${totalPaid})</div>
+      </div>
+      <div class="summary-box unpaid">
+        <i class="uil uil-clock"></i>
+        <div class="summary-amount">Rp ${amountUnpaid.toLocaleString(
+          "id-ID"
+        )}</div>
+        <div class="summary-label">Unpaid Invoices (${totalUnpaid})</div>
+      </div>
+      <div class="summary-box see-all" onclick="window.location.href='transactions.html?tab=invoice'">
+        <img src="img/save-invoice.png" class="see-all-img" />
+        <div class="summary-label">Lihat Semua</div>
+      </div>
+    `;
+});
+
+function renderUnpaidInvoicesPreview() {
+  const invoices = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+  const unpaidInvoices = invoices
+    .filter((inv) => inv.status === "unpaid")
+    .slice(0, 3); // ambil max 3
+
+  const container = document.getElementById("unpaidInvoicesPreview");
+
+  if (!unpaidInvoices.length) {
+    container.innerHTML = "<p>Yeayy semua Invoice mu sudah Lunas 🤑</p>";
+    return;
+  }
+
+  const html = unpaidInvoices
+    .map(
+      (inv) => `
+       <div class="invoice-card" data-id="${
+         inv.invoiceNo
+       }" onclick="openInvoiceDetail('${inv.invoiceNo}')">
+        <div class="invoice-card-header">
+          <div class="invoice-card-header-left">
+            <i class="uil uil-invoice invoice-icon"></i>
+            <span class="invoice-no">${inv.invoiceNo}</span>
+          </div>
+          <div class="invoice-card-header-right">
+            <div class="invoice-card-amount">Rp&nbsp;${(
+              inv.total || 0
+            ).toLocaleString("id-ID")}</div>
+          </div>
+        </div>
+        <div class="invoice-card-body">
+          <p>Billed To: <strong>${inv.billedTo?.name || "-"}</strong></p>
+          <p>Due Date: <strong>${inv.dueDate || "-"}</strong></p>
+        </div>
+        <div class="invoice-card-footer">
+          <div class="invoice-status unpaid">
+            <i class="uil uil-clock"></i> Unpaid
+          </div>
+
+          <div class="see-detail" onclick="seeInvoiceDetail('${
+            inv.invoiceNo
+          }')">
+            Lihat Detail<i class="uil uil-angle-right-b"></i>
+          </div>
+        </div>
+      </div>
+    `
+    )
+    .join("");
+
+  container.innerHTML = html;
 }
 
 document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
@@ -942,6 +1046,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadBilledFromLocalStorage("By");
   loadBilledFromLocalStorage("To");
   loadTncAndFooter();
+  renderUnpaidInvoicesPreview();
 });
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -149,4 +149,17 @@
   .menu-circle span {
     font-size: 12px;
   }
+
+  .invoice-illustration {
+    width: 24%;
+  }
+
+  .invoice-message {
+    font-size: 14px;
+  }
+
+  .invoice-message-desc {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
 }
