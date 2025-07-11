@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Favicon standar -->
+    <link rel="icon" type="image/png" href="SplitBill-icon.png" />
+
+    <!-- Untuk ditambahkan ke homescreen (Android) -->
+    <link rel="manifest" href="/split-bill-app/manifest.json" />
+
+    <!-- Untuk iOS (Apple) -->
+    <link rel="apple-touch-icon" href="SplitBill-icon.png" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
+    <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
+    <meta
+      name="description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="og:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="og:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="og:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="twitter:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="twitter:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <title>Split Bill</title>
+    <!-- Favicon -->
+    <link rel="icon" href="SplitBill-icon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <!-- Quill CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <!-- Flatpickr CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <link rel="stylesheet" href="css/table.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/saving.css" />
+    <link rel="stylesheet" href="css/paymentMethod.css" />
+    <link rel="stylesheet" href="css/menu.css" />
+    <link rel="stylesheet" href="css/infobox.css" />
+    <link rel="stylesheet" href="css/collectMoney.css" />
+    <link rel="stylesheet" href="css/underConstruction.css" />
+    <link rel="stylesheet" href="css/uploadFile.css" />
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <link rel="stylesheet" href="css/avatar.css" />
+    <link rel="stylesheet" href="css/expenseList.css" />
+    <link rel="stylesheet" href="css/summary.css" />
+    <link rel="stylesheet" href="css/invoice.css" />
+    <link rel="stylesheet" href="css/toastMessage.css" />
+    <link rel="stylesheet" href="css/scanBill.css" />
+    <link rel="stylesheet" href="css/profile.css" />
+    <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+  </head>
+
+  <body data-default-tab="ai-scan">
+    <!-- Header -->
+    <header class="sticky-header">
+      <div class="header-left">
+        <button class="back-btn" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="section-title">Invoice</span>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Invoice -->
+      <div class="table-wrapper">
+        <div class="card-container top-container">
+          <div class="info-box information">
+            <div class="info-left">
+              <span class="icon">🤩</span>
+              <p>
+                Bikin invoice makin praktis, cek riwayatnya lewat tombol
+                <b>Lihat Semua</b>!
+              </p>
+            </div>
+            <div class="info-right">
+              <button
+                onclick="window.location.href='transactions.html?tab=invoice'"
+                class="see-all-button"
+              >
+                Lihat Semua
+                <i class="uil uil-angle-right-b"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <label>Invoice No</label>
+            <div class="row">
+              <input
+                type="text"
+                id="invoicePrefix"
+                placeholder="Prefix (e.g. AGD-)"
+                oninput="generateInvoiceNumber()"
+              />
+              <input type="text" id="invoiceNo" readonly />
+            </div>
+
+            <div class="invoice-date-section">
+              <div class="date-group">
+                <label>Invoice Date</label>
+                <div class="date-input">
+                  <input
+                    type="date"
+                    id="invoiceDate"
+                    placeholder="Select date"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="date-group">
+                <label>Due Date</label>
+                <div class="date-input">
+                  <input
+                    type="date"
+                    id="dueDate"
+                    placeholder="Select date"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <label>Upload Logo</label>
+
+            <!-- Preview kecil setelah upload -->
+            <img
+              id="preview-logo-upload"
+              style="display: none"
+              class="preview-logo"
+            />
+            <div class="share-button-container scan-section">
+              <div class="file-info">
+                <i class="uil uil-image file-icon"></i>
+                <span id="fileName-logo">No selected File</span>
+                <button id="removeLogoBtn" class="delete-button">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <label for="logoPreview" class="custom-button">
+                <i class="uil uil-upload"></i>
+                Upload Logo
+              </label>
+              <input
+                type="file"
+                id="logoPreview"
+                accept="image/*"
+                onchange="previewLogo(event)"
+                style="display: none"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billed By -->
+      <div class="table-wrapper">
+        <div class="card-container">
+          <label>Billed By</label>
+          <div class="people-container payment-container">
+            <!-- Tombol Add New (static di kiri) -->
+            <div class="add-new-wrapper person-item">
+              <div
+                class="add-new"
+                onclick="openBottomSheet('addBilledByBottomSheet')"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <span class="add-text">Tambah</span>
+            </div>
+            <!-- List Billed By (dinamis) -->
+            <div id="billedByContainer" class="card-display-section"></div>
+          </div>
+          <hr />
+
+          <label>Billed To</label>
+          <div class="people-container payment-container">
+            <!-- Tombol Add New (static di kiri) -->
+            <div class="add-new-wrapper person-item">
+              <div
+                class="add-new"
+                onclick="openBottomSheet('addBilledToBottomSheet')"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <span class="add-text">Tambah</span>
+            </div>
+            <!-- List payment method (dinamis) -->
+            <div id="billedToContainer" class="card-display-section"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Billed By Bottom Sheet -->
+      <div class="table-wrapper">
+        <div class="bottom-sheet hidden" id="addBilledByBottomSheet">
+          <div id="input-section">
+            <div class="bottom-sheet-header">
+              <h3 class="title-bottom-sheet">Tambah Billed By</h3>
+              <button
+                onclick="closeBottomSheet('addBilledByBottomSheet')"
+                class="close-btn-bottom-sheet"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="bottom-sheet-content">
+              <label for="nameBilledBy">Nama Billed By</label>
+              <input
+                type="text"
+                id="nameBilledBy"
+                placeholder="Contoh: AG Design Official"
+              />
+
+              <label for="addressBilledBy">Address</label>
+              <input
+                type="text"
+                id="addressBilledBy"
+                placeholder="Contoh: Jakarta Pusat"
+              />
+              <label for="emailBilledBy">Email</label>
+              <input
+                type="text"
+                id="emailBilledBy"
+                placeholder="Contoh: agdesign@gmailcom"
+              />
+              <label for="phoneNumberBilledBy">Phone Number</label>
+              <input
+                type="number"
+                id="phoneNumberBilledBy"
+                placeholder="Contoh: 08555555555"
+              />
+
+              <button onclick="saveBilled('By')">
+                <i class="fa-solid fa-user-plus"></i> Tambah Billed By
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Billed To Bottom Sheet -->
+      <div class="table-wrapper">
+        <div class="bottom-sheet hidden" id="addBilledToBottomSheet">
+          <div id="input-section">
+            <div class="bottom-sheet-header">
+              <h3 class="title-bottom-sheet">Tambah Billed To</h3>
+              <button
+                onclick="closeBottomSheet('addBilledToBottomSheet')"
+                class="close-btn-bottom-sheet"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="bottom-sheet-content">
+              <label for="nameBilledTo">Nama Billed To</label>
+              <input
+                type="text"
+                id="nameBilledTo"
+                placeholder="Contoh: My Indo Kitchen"
+              />
+              <label for="phoneNumberBilledTo">Phone Number</label>
+              <input
+                type="number"
+                id="phoneNumberBilledTo"
+                placeholder="Contoh: 08555555555"
+              />
+
+              <button onclick="saveBilled('To')">
+                <i class="fa-solid fa-user-plus"></i> Tambah Billed To
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item Invoice -->
+      <div class="table-wrapper">
+        <div class="card-container">
+          <div class="section item-container" id="items">
+            <label>Items Invoice</label>
+          </div>
+          <button onclick="addNewItem()" class="secondary-button">
+            <i class="fa-solid fa-plus"></i>
+            Add New Item
+          </button>
+          <div class="discount-section">
+            <label>Add Discount</label>
+            <div class="discount-input-group">
+              <!-- Select tipe diskon -->
+              <select
+                id="discountType"
+                class="discount-type"
+                placeholder="select discount type"
+              >
+                <option value="amount">Rp</option>
+                <option value="percent">%</option>
+              </select>
+
+              <!-- Input nilai diskon -->
+              <input
+                type="number"
+                id="discountValue"
+                min="0"
+                placeholder="input discount amount"
+              />
+            </div>
+          </div>
+          <div class="total-summary-section">
+            <div class="total-section">
+              <span>Sub Total:</span>
+              <span id="subtotal">Rp&nbsp;0,00</span>
+            </div>
+            <div class="total-section">
+              <span>Discount:</span>
+              <span id="discountInfo">Rp&nbsp;0,00</span>
+            </div>
+            <div class="total-section">
+              <span class="total-label">Total (IDR):</span>
+              <span class="total-value" id="total">Rp&nbsp;0,00</span>
+            </div>
+
+            <div class="total-words" id="totalInWords"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Invoice -->
+      <div class="table-wrapper"></div>
+
+      <!-- Payment Method -->
+      <div class="table-wrapper">
+        <div class="card-container">
+          <label>Payment Method</label>
+          <div class="people-container invoice-payment-section">
+            <!-- Tombol Add New -->
+            <div class="add-new-wrapper person-item">
+              <div
+                class="add-new"
+                onclick="openBottomSheet('addPaymentMethodBottomSheet')"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </div>
+              <span class="add-text">Tambah</span>
+            </div>
+            <!-- List payment method (dinamis) -->
+            <div class="paymentCardsContainer card-display-section"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="card-container">
+          <label>Add TnC</label>
+          <div class="tnc-container">
+            <!-- Quill Editor Container -->
+            <div id="tncField" style="height: 100px"></div>
+          </div>
+
+          <label>Add Footer</label>
+          <input
+            type="text"
+            placeholder="Footer"
+            class="footer"
+            id="footerField"
+          />
+          <div class="button-preview-section">
+            <!-- infobox -->
+            <div class="info-box information">
+              <div class="icon">
+                <i class="fa-solid fa-circle-info"></i>
+              </div>
+              <div class="content">
+                <p>
+                  Pastikan semua item dalam invoice telah diisi, agar invoice
+                  bisa dicetak, klik button untuk update preview
+                </p>
+              </div>
+            </div>
+
+            <button onclick="previewInvoice()">
+              <i class="uil uil-invoice"></i>
+              Preview Invoice
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW INVOICE -->
+      <div class="table-wrapper">
+        <div
+          class="card-container"
+          style="display: none"
+          id="invoice-preview-section"
+        >
+          <section id="invoice" class="invoice-preview">
+            <div class="invoice-header">
+              <div class="invoice-info">
+                <h1>Invoice</h1>
+                <p>
+                  Invoice No:
+                  <strong
+                    ><span id="preview-invoice-number"
+                      >AGD-2025044</span
+                    ></strong
+                  >
+                </p>
+                <p>
+                  Invoice Date:
+                  <strong><span id="preview-invoice-date">-</span></strong>
+                </p>
+                <p>
+                  Due Date:
+                  <strong><span id="preview-due-date">-</span></strong>
+                </p>
+              </div>
+              <div class="invoice-logo">
+                <img
+                  id="invoice-logo-preview"
+                  alt="Company Logo"
+                  style="display: none"
+                />
+              </div>
+            </div>
+            <div class="billed-preview">
+              <!-- Bagian Billed By -->
+              <div id="invoice-billed-by" class="invoice-section"></div>
+
+              <!-- Bagian Billed To -->
+              <div id="invoice-billed-to" class="invoice-section"></div>
+            </div>
+
+            <div class="table-container">
+              <table class="invoice-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="preview-items">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="invoice-total">
+              <div class="total-preview">
+                <span>Sub Total:</span>
+                <span id="preview-subtotal">Rp&nbsp;0,00</span>
+              </div>
+              <div class="total-preview">
+                <span>Discount:</span>
+                <span id="preview-discountInfo">Rp&nbsp;0,00</span>
+              </div>
+
+              <div class="total-preview">
+                <span class="total-label">Total (IDR):</span>
+                <span class="total-value" id="preview-total"></span>
+              </div>
+              <p><em id="preview-total-words"></em></p>
+            </div>
+
+            <!-- Selected Payment Metod -->
+            <div
+              id="selectedPaymentInfo"
+              class="select-payment-method-invoice"
+            ></div>
+
+            <!-- TnC dan footer -->
+            <div class="invoice-tnc">
+              <h3>Terms and Conditions</h3>
+              <div id="preview-tnc"></div>
+            </div>
+            <div id="preview-footer" class="preview-footer"></div>
+          </section>
+          <div id="finalizeInvoiceSection" class="share-button-container">
+            <button
+              onclick="openPopup('popupFinalizeInvoice')"
+              class="primary-button"
+            >
+              <i class="uil uil-file-check"></i> Finalize Invoice
+            </button>
+          </div>
+
+          <div
+            id="invoiceActions"
+            class="share-button-container invoice-draft hidden"
+          >
+            <button
+              onclick="window.location.href='transactions.html?tab=invoice'"
+              class="secondary-button"
+            >
+              <i class="uil uil-invoice"></i> Lihat Histori
+            </button>
+            <button onclick="exportInvoiceToPDF()">
+              <i class="uil uil-import"></i> Download PDF
+            </button>
+          </div>
+
+          <!-- Popup Finalize invoice -->
+          <div id="popupFinalizeInvoice" class="popup-overlay">
+            <div class="popup-content">
+              <div class="popup-header">
+                <h3>Finalize Invoice</h3>
+                <button
+                  onclick="closePopup('popupFinalizeInvoice')"
+                  class="close-btn-bottom-sheet"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div class="popup-body">
+                <img
+                  src="img/save-invoice.png"
+                  alt="Empty State"
+                  class="empty-state-image"
+                />
+                <p class="title-empty-state">
+                  Kamu yakin ingin menyelesaikan invoice ini?
+                </p>
+                <p class="desc-empty-state">
+                  Invoice yang sudah di Finalize akan tersimpan ke History dan
+                  tidak dapat diubah lagi
+                </p>
+                <div class="share-button-container">
+                  <button
+                    onclick="closePopup('popupFinalizeInvoice')"
+                    class="secondary-button"
+                  >
+                    <i class="uil uil-times"></i> Cancel
+                  </button>
+                  <button
+                    onclick="saveInvoiceToHistory(), closePopup('popupFinalizeInvoice'), showActionInvoice()"
+                  >
+                    <i class="uil uil-check-circle"></i> Yes Finalize
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT METHOD BOTTOM SHEET -->
+    <div class="table-wrapper">
+      <div class="bottom-sheet hidden" id="addPaymentMethodBottomSheet">
+        <div class="bottom-sheet-header">
+          <h3 class="title-bottom-sheet">Tambah Metode Pembayaran</h3>
+          <button
+            onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
+            class="close-btn-bottom-sheet"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="bottom-sheet-content">
+          <div id="input-section">
+            <label for="paymentMethod">Metode Pembayaran</label>
+            <select id="paymentMethod" onchange="handlePaymentMethodChange()">
+              <option value="">Pilih Metode</option>
+              <option value="BankTransfer">Bank Transfer</option>
+              <option value="OVO">OVO</option>
+              <option value="GoPay">GoPay</option>
+              <option value="DANA">DANA</option>
+              <option value="ShopeePay">Shopee Pay</option>
+              <option value="LinkAja">LinkAja</option>
+            </select>
+            <div id="paymentDetailsForm"></div>
+          </div>
+
+          <!-- Form tambahan berdasarkan pilihan metode pembayaran -->
+          <div id="paymentDetails" style="display: none">
+            <!-- Bagian Bank Transfer -->
+            <div id="bankForm" style="display: none">
+              <label for="bankName">Nama Bank</label>
+              <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
+
+              <label for="bankName">Nama</label>
+              <input
+                type="text"
+                id="bankAccountName"
+                placeholder="Nama Pemilik Rekening"
+              />
+
+              <label for="bankAccountNumber">Nomor Rekening</label>
+              <input
+                type="text"
+                id="bankAccountNumber"
+                placeholder="Contoh: 1234567890"
+              />
+            </div>
+
+            <!-- Bagian e-Wallet -->
+            <div id="ewalletForm" style="display: none">
+              <label for="ewalletName">Nama</label>
+              <input
+                type="text"
+                id="ewalletName"
+                placeholder="Nama Akun e-Wallet"
+              />
+
+              <label for="ewalletPhone">Nomor Telepon</label>
+              <input
+                type="text"
+                id="ewalletPhone"
+                placeholder="Contoh: 081234567890"
+              />
+            </div>
+          </div>
+
+          <button onclick="addPaymentMethod()">
+            <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- overlay -->
+    <div id="overlay" class="overlay hidden"></div>
+    <!-- Quill JS -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="js/inputForm.js"></script>
+    <script src="js/paymentMethod.js"></script>
+    <script src="js/pdfExport.js"></script>
+    <script src="js/bottomsheet.js"></script>
+    <script src="js/invoice.js"></script>
+    <script src="js/toastMessage.js"></script>
+    <script src="js/sharedFunction.js"></script>
+    <script src="js/ui.js"></script>
+  </body>
+</html>

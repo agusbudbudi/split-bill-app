@@ -469,3 +469,121 @@ hr {
   padding: 2px 5px;
   border-radius: 8px;
 }
+
+/* INVOICE summary */
+.card-summary-grid {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0;
+  scrollbar-width: none; /* Firefox */
+  align-items: center;
+  align-items: stretch; /* ✅ stretch semua anak ke height maksimum */
+  margin-bottom: 10px;
+}
+
+.card-summary-grid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.summary-box {
+  min-width: 100px;
+  height: 100%; /* ✅ biar ikut tinggi parent */
+  justify-content: center; /* ✅ agar konten tetap di tengah secara vertikal */
+  flex: 0 0 auto;
+  border: 1px solid var(--infobox-info-bg);
+  border-radius: 20px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: 0.3s;
+  height: auto;
+}
+
+.summary-box i {
+  font-size: 20px;
+  color: var(--btn-bg);
+  margin-bottom: 5px;
+}
+
+.summary-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.summary-label {
+  font-size: 10px;
+  color: var(--text-color-desc);
+}
+
+/* Border color per status */
+.total i {
+  color: #6366f1;
+}
+
+.paid i {
+  color: #16a34a;
+}
+
+.unpaid i {
+  color: var(--progress-color);
+}
+
+.see-all {
+  background-color: var(--infobox-info-bg);
+  border: none;
+  cursor: pointer;
+}
+
+.see-all-img {
+  width: 40px;
+  margin-bottom: 10px;
+}
+
+.invoice-illustration-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  background: var(--gradient-color);
+}
+
+.invoice-illustration {
+  width: 20%;
+  max-width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.invoice-text {
+  text-align: left;
+}
+
+.invoice-message {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.invoice-message-desc {
+  color: white;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.create-invoice-btn {
+  border: 1px solid white;
+  border-radius: 10px;
+  background-color: transparent;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin: 0px;
+  align-items: center;
+  width: auto;
+  font-size: 12px;
+}

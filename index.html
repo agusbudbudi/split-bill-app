@@ -106,7 +106,6 @@
     <link rel="stylesheet" href="css/uploadFile.css" />
     <link rel="stylesheet" href="css/ui.css" />
     <link rel="stylesheet" href="css/modal.css" />
-    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/avatar.css" />
     <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/summary.css" />
@@ -114,6 +113,8 @@
     <link rel="stylesheet" href="css/toastMessage.css" />
     <link rel="stylesheet" href="css/scanBill.css" />
     <link rel="stylesheet" href="css/profile.css" />
+    <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -842,11 +843,45 @@
         </div>
       </div>
 
-      <!-- Invoice -->
+      <!-- Invoice Section-->
       <div id="section-invoice" class="section-content" style="display: none">
         <div class="table-wrapper">
           <div class="card-container">
-            <div class="info-box information">
+            <div for="activityName" class="title-section">
+              Summary Invoices 🧾
+            </div>
+            <div class="card-summary-grid" id="invoiceSummaryGrid"></div>
+
+            <div for="activityName" class="title-section">
+              Unpaid Invoices 🕒
+            </div>
+            <div class="card-summary-grid" id="unpaidInvoicesPreview"></div>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <div class="card-container invoice-illustration-container">
+            <img
+              src="img/invoice-illustration.png"
+              alt="Invoice Illustration"
+              class="invoice-illustration"
+            />
+            <div class="invoice-text">
+              <p class="invoice-message">Buat invoice makin praktis 🤩</p>
+              <p class="invoice-message-desc">
+                yuk mulai bikin invoice sekarang!
+              </p>
+              <button
+                onclick="window.location.href='invoice.html'"
+                class="create-invoice-btn"
+              >
+                <i class="uil uil-invoice"></i> Buat Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <div class="card-container">
+            <!-- <div class="info-box information">
               <div class="info-left">
                 <span class="icon">🤩</span>
                 <p>
@@ -863,7 +898,7 @@
                   <i class="uil uil-angle-right-b"></i>
                 </button>
               </div>
-            </div>
+            </div> -->
 
             <div class="section">
               <label>Invoice No</label>
@@ -1277,10 +1312,10 @@
                 onclick="window.location.href='transactions.html?tab=invoice'"
                 class="secondary-button"
               >
-                <i class="uil uil-invoice"></i> Lihat History
+                <i class="uil uil-invoice"></i> Lihat Histori
               </button>
               <button onclick="exportInvoiceToPDF()">
-                <i class="uil uil-file-export"></i> Export to PDF
+                <i class="uil uil-import"></i> Download PDF
               </button>
             </div>
 

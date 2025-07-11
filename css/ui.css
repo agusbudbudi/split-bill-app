@@ -507,3 +507,7 @@ td {
 .section-input-bill {
   margin-top: 10px;
 }
+
+.hidden {
+  display: none;
+}

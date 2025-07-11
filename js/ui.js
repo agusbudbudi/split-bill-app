@@ -1,43 +1,3 @@
-const toggle = document.getElementById("themeSwitch");
-
-function openPopup(popupId) {
-  const popup = document.getElementById(popupId);
-  if (popup) {
-    popup.style.display = "flex";
-
-    // Jalankan animasi setelah elemen ditampilkan
-    requestAnimationFrame(() => {
-      popup.querySelector(".popup-content").classList.add("show");
-    });
-  }
-}
-
-function closePopup(popupId) {
-  const popup = document.getElementById(popupId);
-  if (popup) {
-    const popupContent = popup.querySelector(".popup-content");
-    if (popupContent) {
-      popupContent.classList.remove("show");
-    }
-
-    // Tunggu animasi selesai baru disembunyikan
-    setTimeout(() => {
-      popup.style.display = "none";
-    }, 300); // sama dengan durasi animasi di CSS
-  }
-}
-
-// function setTheme(isDark) {
-//   document.body.classList.toggle("dark-mode", isDark);
-//   toggle.checked = isDark;
-//   localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
-// }
-
-// // Toggle event
-// toggle.addEventListener("change", function () {
-//   setTheme(this.checked);
-// });
-
 //Set Theme
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("themeSwitch");
@@ -56,12 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
     });
   }
-
-  // // Load saved preference on page load
-  // window.addEventListener("DOMContentLoaded", () => {
-  //   const savedMode = localStorage.getItem("darkMode") === "enabled";
-  //   setTheme(savedMode);
-  // });
+  // Load saved preference on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedMode = localStorage.getItem("darkMode") === "enabled";
+    setTheme(savedMode);
+  });
 
   function setTheme(isDark) {
     document.body.classList.toggle("dark-mode", isDark);
