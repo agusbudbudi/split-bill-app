@@ -246,6 +246,8 @@ function saveBilled(type) {
   closeBottomSheet(`addBilled${type}BottomSheet`);
 
   showToast(`Billed ${type} berhasil ditambahkan!`, "success", 2000);
+
+  renderClient();
 }
 
 // ==== RENDER FUNCTION (REUSABLE) ====
@@ -340,6 +342,7 @@ function removeBilled(index, type) {
 
   saveBilledToLocalStorage(type);
   renderBilled(type);
+  renderClient();
 }
 
 // ==== LOCAL STORAGE SAVE/LOAD (REUSABLE) ====
@@ -1036,6 +1039,52 @@ function renderUnpaidInvoicesPreview() {
 
   container.innerHTML = html;
 }
+function renderClient() {
+  const billedToList = JSON.parse(localStorage.getItem("billedToList")) || [];
+  const clientListDiv = document.getElementById("ClientList");
+
+  // Bersihkan isi sebelumnya (agar tidak dobel saat re-render)
+  clientListDiv.innerHTML = "";
+
+  // 1. Tambahkan tombol "Tambah" di paling awal
+  const addButton = document.createElement("div");
+  addButton.className = "add-new-wrapper client-card";
+  addButton.onclick = function () {
+    openBottomSheet("addBilledToBottomSheet");
+  };
+
+  addButton.innerHTML = `
+    <div class="add-client">
+      <i class="uil uil-user-plus"></i>
+    </div>
+    <span class="add-text">Tambah<br>Client</span>
+  `;
+  clientListDiv.appendChild(addButton);
+
+  // 2. Tampilkan daftar client
+  billedToList
+    .slice()
+    .reverse()
+    .forEach((client) => {
+      // billedToList.forEach((client) => {
+      const clientCard = document.createElement("div");
+      clientCard.classList.add("client-card");
+
+      const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?seed=${encodeURIComponent(
+        client.name
+      )}&scale=100`;
+
+      clientCard.innerHTML = `
+      <img src="${avatarUrl}" alt="${client.name}" />
+      <div class="client-info">
+        <h4>${client.name}</h4>
+        <p>Phone: ${client.phone || "-"}</p>
+      </div>
+    `;
+
+      clientListDiv.appendChild(clientCard);
+    });
+}
 
 document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
 document
@@ -1047,6 +1096,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadBilledFromLocalStorage("To");
   loadTncAndFooter();
   renderUnpaidInvoicesPreview();
+  renderClient();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
