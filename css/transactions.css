@@ -199,7 +199,12 @@
   background-color: transparent;
 }
 
-.filter-section {
+.filter-section,
+.billed-section,
+.invoice-details-section,
+.invoice-items-section,
+.payment-details-section,
+.invoice-tnc-section {
   max-height: 0;
   opacity: 0;
   padding-top: 0;
@@ -207,8 +212,13 @@
   transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
 }
 
-.filter-section.active {
-  max-height: 500px;
+.filter-section.active,
+.billed-section.active,
+.invoice-details-section.active,
+.invoice-items-section.active,
+.payment-details-section.active,
+.invoice-tnc-section.active {
+  max-height: fit-content;
   opacity: 1;
   padding-top: 12px;
   padding-bottom: 12px;

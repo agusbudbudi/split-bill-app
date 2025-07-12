@@ -61,6 +61,10 @@
     margin-bottom: 100px;
   }
 
+  #invoicePage {
+    padding-bottom: 140px;
+  }
+
   /* .section-content {
     padding: 5px;
   } */
@@ -89,6 +93,10 @@
 }
 
 @media (max-width: 480px) {
+  #invoicePage {
+    margin-bottom: 140px;
+  }
+
   .container {
     width: 100%;
   }
