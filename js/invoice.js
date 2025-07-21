@@ -815,9 +815,13 @@ function renderInvoiceCards() {
   if (history.length === 0) {
     container.innerHTML = `
            <div class="no-data-message">
-            <img src="img/state-search.png" alt="Empty State" class="empty-state-image">
+                <img src="img/state-search.png" alt="Empty State" class="empty-state-image">
                 <p class="title-empty-state">Belum ada Invoice yang disimpan<p>
                 <p class="desc-empty-state">Buat invoice sekarang!<p>
+
+                <button class="secondary-button" onclick="window.location.href='invoice.html'">
+                    <i class="uil uil-plus"></i> Buat Invoice
+                </button>
             </div>
     `;
     return;
@@ -1070,6 +1074,11 @@ function renderClient() {
       const clientCard = document.createElement("div");
       clientCard.classList.add("client-card");
 
+      const phoneNumber = client.phone || "-";
+      const waLink = client.phone
+        ? `https://wa.me/${client.phone.replace(/^0/, "62").replace(/\D/g, "")}`
+        : "#";
+
       const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?seed=${encodeURIComponent(
         client.name
       )}&scale=100`;
@@ -1077,8 +1086,17 @@ function renderClient() {
       clientCard.innerHTML = `
       <img src="${avatarUrl}" alt="${client.name}" />
       <div class="client-info">
-        <h4>${client.name}</h4>
-        <p>Phone: ${client.phone || "-"}</p>
+          <h4>${client.name}</h4>
+          <div class="tooltip-container">
+            <p>
+              <i class="uil uil-whatsapp"></i>
+              <a href="${waLink}" target="_blank" style="text-decoration: none; color: inherit;">
+            ${phoneNumber}
+              </a>
+             </p>
+          <span class="tooltip-text">Klik untuk WhatsApp</span>
+        </div>
+
       </div>
     `;
 
