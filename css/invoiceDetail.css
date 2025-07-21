@@ -9,7 +9,13 @@
 }
 
 .export-button {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 14px;
+  border: 1px solid var(--table-border-color);
+  background-color: transparent;
+  color: var(--btn-bg);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  max-width: 40px;
 }
