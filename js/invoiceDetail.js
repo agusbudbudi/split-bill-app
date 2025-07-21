@@ -193,6 +193,8 @@
           statusSection.style.display = "none";
         }
       }
+      //render logo
+      renderLogoDirect(data.logoSrc);
 
       // Render billed sections
       renderBilledSection(data);
@@ -210,6 +212,20 @@
       console.log("Invoice details rendered successfully");
     } catch (error) {
       console.error("Error rendering invoice details:", error);
+    }
+  }
+
+  function renderLogoDirect(logoBase64) {
+    const logoImg = document.getElementById("invoice-logo-preview");
+    const logoContainer = document.querySelector(".invoice-logo");
+
+    if (!logoImg || !logoContainer) return;
+
+    if (logoBase64 && logoBase64.startsWith("data:image/")) {
+      logoImg.src = logoBase64;
+      logoContainer.style.display = "block";
+    } else {
+      logoContainer.style.display = "none";
     }
   }
 

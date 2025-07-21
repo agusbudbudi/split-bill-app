@@ -88,7 +88,7 @@
 }
 
 .selected-payment-summary {
-  border: 1px solid var(--btn-bg);
+  border: 1px solid var(--infobox-info-bg);
   background-color: var(--container-bg);
   border-radius: 12px;
   padding: 10px;
