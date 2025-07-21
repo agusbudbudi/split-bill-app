@@ -936,6 +936,39 @@ function openInvoiceDetail(invoiceNo) {
   window.location.href = "invoice-detail.html";
 }
 
+//DELETE INVOICE
+function deleteInvoice() {
+  const currentInvoice = JSON.parse(localStorage.getItem("currentInvoice"));
+
+  if (!currentInvoice || !currentInvoice.invoiceNo) {
+    alert("Invoice saat ini tidak ditemukan.");
+    return;
+  }
+
+  const invoiceNo = currentInvoice.invoiceNo;
+
+  const storedHistory = localStorage.getItem("invoiceHistory");
+  let invoiceHistory = storedHistory ? JSON.parse(storedHistory) : [];
+
+  if (!confirm(`Yakin ingin menghapus invoice ${invoiceNo}?`)) return;
+
+  // Hapus invoice yang cocok
+  const updatedHistory = invoiceHistory.filter(
+    (inv) => inv.invoiceNo !== invoiceNo
+  );
+
+  // Simpan kembali
+  localStorage.setItem("invoiceHistory", JSON.stringify(updatedHistory));
+
+  // Bersihkan invoice saat ini
+  localStorage.removeItem("currentInvoice");
+
+  showToast(`Yeay! Invoice ${invoiceNo} berhasil dihapus`, "success", 5000);
+
+  // Arahkan kembali ke halaman utama
+  window.location.href = "transactions.html?tab=invoice";
+}
+
 function showActionInvoice() {
   // Tampilkan invoiceActions
   const invoiceActions = document.getElementById("invoiceActions");

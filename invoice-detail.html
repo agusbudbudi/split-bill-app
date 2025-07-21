@@ -68,6 +68,7 @@
     <link rel="stylesheet" href="css/saving.css" />
     <link rel="stylesheet" href="css/transactions.css" />
     <link rel="stylesheet" href="css/invoiceDetail.css" />
+    <link rel="stylesheet" href="css/tooltip.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -113,7 +114,20 @@
                   onclick="exportInvoiceToPDF()"
                   class="export-button secondary-button"
                 >
-                  <i class="uil uil-import"></i> Download
+                  <div class="tooltip-container">
+                    <i class="uil uil-import"></i>
+                    <span class="tooltip-text">Download Invoice PDF</span>
+                  </div>
+                </button>
+
+                <button
+                  onclick="deleteInvoice()"
+                  class="export-button secondary-button"
+                >
+                  <div class="tooltip-container">
+                    <i class="uil uil-trash"></i>
+                    <span class="tooltip-text">Delete Invoice</span>
+                  </div>
                 </button>
               </div>
             </div>

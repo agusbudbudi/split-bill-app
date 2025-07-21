@@ -129,7 +129,6 @@ function generateSummaryStats(totalExpense, totalPaid, totalVariance) {
   return `
   <div class="summary-validation">
     <p>Total Pengeluaran: <strong>${formatToIDR(totalExpense)}</strong></p>
-    <p>Total Pembayaran: <strong>${formatToIDR(totalPaid)}</strong></p>
     <p class="text-desc">${expenseMatch}</p>
     <p class="text-desc">${varianceText}</p>
   </div>
