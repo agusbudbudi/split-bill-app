@@ -46,6 +46,13 @@
   color: white;
   border-left: 5px solid #0d47a1;
 }
+
+.toast-warning {
+  background-color: #ff9800; /* warna oranye */
+  color: white;
+  border-left: 5px solid #e65100; /* oranye gelap */
+}
+
 .toast i {
   font-size: 16px;
 }

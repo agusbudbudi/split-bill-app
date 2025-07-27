@@ -1,7 +1,7 @@
 .summary-header {
   text-align: left;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--table-border-color);
+  border-bottom: 1px solid var(--infobox-info-bg);
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
@@ -21,7 +21,8 @@
   color: var(--text-color);
 }
 
-.header-title .activity-date {
+.header-title .activity-date,
+.header-title .total-expense {
   font-size: 12px;
   color: var(--text-color-desc);
   margin: 0.25rem 0 0;

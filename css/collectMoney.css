@@ -4,38 +4,48 @@
   margin: 20px auto;
 }
 
-#methodSummaryList li {
-  color: var(--text-color); /* warna biru */
-  text-align: left;
-}
-
 #collectSummary {
   text-align: left;
 }
 
-.method-summary-cards {
+/* .method-summary-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 16px;
   align-items: center;
+} */
+
+.method-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 kolom */
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center; /* atau center sesuai kebutuhan */
+  width: 100%;
 }
 
 .method-card {
-  border: 1px solid var(--btn-bg);
-  background-color: var(--container-bg);
+  border: 1px solid var(--infobox-info-bg);
   border-radius: 12px;
   padding: 10px;
   display: flex;
   align-items: center;
-  gap: 1em;
-  width: 100%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  gap: 12px;
 }
 
-.method-card img {
-  width: 75px;
-  height: 30px;
+.method-logo-wrapper {
+  max-width: 70px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.method-logo-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
@@ -54,11 +64,18 @@
   font-size: 13px;
 }
 
+#collectSummary h3 {
+  background-color: var(--achieved-bg);
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin: 0;
+  font-weight: 500;
+}
+/* hide some element when export */
 .exclude-pdf {
   display: block;
 }
 
-/* hide some element when export */
 .exclude-pdf-temp-hide {
   display: none !important;
 }

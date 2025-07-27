@@ -636,3 +636,7 @@ hr {
   font-size: 12px;
   color: var(--text-color-desc);
 }
+
+.popupFinalizeInvoice {
+  text-align: center;
+}

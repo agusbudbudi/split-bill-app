@@ -56,7 +56,7 @@
   overflow-wrap: break-word; /* modern equivalent, works better */
   white-space: normal; /* ensure text can wrap */
   align-items: center;
-  text-align: center;
+  text-align: left;
 }
 
 .popup-body ul {
