@@ -79,3 +79,17 @@ function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
     hiddenInput.dispatchEvent(new Event("change"));
   });
 }
+
+/**
+ * Clean a price string by removing any non-numeric characters and converting
+ * it to a number. If the input string is empty or null, return 0.
+ *
+ * @param {string} priceStr The price string to clean
+ * @returns {number} The cleaned price number
+ */
+function cleanPriceString(priceStr) {
+  if (!priceStr) return 0;
+  // Remove currency symbols, commas, dots used as thousand separators
+  // Handle formats like: 43,000 or 43.000 or Rp 43,000
+  return parseInt(priceStr.toString().replace(/[^\d]/g, "")) || 0;
+}

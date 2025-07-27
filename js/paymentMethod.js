@@ -36,18 +36,18 @@ function addPaymentMethod() {
 
   // Validasi input
   if (!method) {
-    alert("Silakan pilih metode pembayaran.");
+    showToast("Silakan pilih metode pembayaran.", "error", 5000);
     return;
   }
 
   if (method === "banktransfer") {
     if (!bankAccountName || !accountNumber || !bankName) {
-      alert("Mohon lengkapi semua data Bank Transfer.");
+      showToast("Mohon lengkapi semua data Bank Transfer.", "error", 5000);
       return;
     }
   } else {
     if (!ewalletName || !phoneNumber) {
-      alert("Mohon lengkapi semua data eWallet.");
+      showToast("Mohon lengkapi semua data eWallet.", "error", 5000);
       return;
     }
   }
@@ -88,7 +88,11 @@ function addPaymentMethod() {
   showToast("Metode pembayaran berhasil ditambahkan", "success", 3000);
 }
 
-// tampilkan metode pembayaran yang sudah ditambahkan
+/**
+ * Render payment cards di semua container yang memiliki class "paymentCardsContainer".
+ * Membuatkan kartu dari yang terbaru.
+ * Pasang ulang event listener ke semua kartu.
+ */
 function renderPaymentCards() {
   const containers = document.querySelectorAll(".paymentCardsContainer");
 
@@ -97,7 +101,10 @@ function renderPaymentCards() {
     container.innerHTML = "";
   });
 
-  paymentMethods.forEach((data, index) => {
+  // Tampilkan dari yang terbaru
+  [...paymentMethods].reverse().forEach((data, reversedIndex) => {
+    // Dapatkan index asli dari data
+    const index = paymentMethods.length - 1 - reversedIndex;
     const logo = getPaymentLogo(data.method);
 
     const cardHTML = `
@@ -105,26 +112,25 @@ function renderPaymentCards() {
         selectedPaymentIndexes.includes(index) ? "selected" : ""
       }" data-index="${index}">
 
-          <div class="check-icon">
-            <i class="fa-solid fa-check-circle"></i>
-          </div>
-
-          <div class="payment-card-header">
-            <img src="${logo}" alt="${data.method}" class="payment-logo"/>
-          </div>
-          <div class="payment-card-content">
-            <p>${data.name}</p>
-            ${
-              data.method === "banktransfer"
-                ? `<p class="account-number">${data.accountNumber}</p><p>${data.bankName}</p>`
-                : `<p class="account-number">${data.phoneNumber}</p>
-            `
-            }
-
-              <button onclick="removePayment(${index})" class="delete-top-right"><i class="uil uil-trash"></i></button>
-            </div>
+        <div class="check-icon">
+          <i class="fa-solid fa-check-circle"></i>
         </div>
-      `;
+
+        <div class="payment-card-header">
+          <img src="${logo}" alt="${data.method}" class="payment-logo"/>
+        </div>
+        <div class="payment-card-content">
+          <p>${data.name}</p>
+          ${
+            data.method === "banktransfer"
+              ? `<p class="account-number">${data.accountNumber}</p><p>${data.bankName}</p>`
+              : `<p class="account-number">${data.phoneNumber}</p>`
+          }
+
+          <button onclick="removePayment(${index})" class="delete-top-right"><i class="uil uil-trash"></i></button>
+        </div>
+      </div>
+    `;
 
     // Tambahkan ke semua container
     containers.forEach((container) => {

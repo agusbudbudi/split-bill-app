@@ -52,3 +52,11 @@ function closePopup(popupId) {
     }, 300); // sama dengan durasi animasi di CSS
   }
 }
+
+function showOverlay() {
+  document.getElementById("overlay").classList.remove("hidden");
+}
+
+function hideOverlay() {
+  document.getElementById("overlay").classList.add("hidden");
+}

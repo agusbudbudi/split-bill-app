@@ -1,3 +1,8 @@
+/**
+ * Hitung total biaya, biaya per user, dan varian per user.
+ * Metode ini juga akan menampilkan info metode pembayaran jika diatur.
+ * @returns {void}
+ */
 function calculateSplit() {
   let totalExpense = 0;
   let userExpenses = {};
@@ -28,6 +33,17 @@ function calculateSplit() {
   displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
 }
 
+/**
+ * Calculates the variance for each user based on their expenses and payments.
+ * The variance is the difference between what each person paid and what they owed.
+ * @param {Object} userExpenses - An object where each key is a user and
+ * the value is the total amount they need to pay.
+ * @param {Object} userPayments - An object where each key is a user and
+ * the value is the amount they paid.
+ * @param {number} totalExpense - The total amount of the shared expense.
+ * @returns {Object} An object where each key is a user and the value is their
+ * variance (how much they owe or are owed).
+ */
 function calculateVariance(userExpenses, userPayments, totalExpense) {
   let variance = {};
   for (let user in userExpenses) {
@@ -37,14 +53,38 @@ function calculateVariance(userExpenses, userPayments, totalExpense) {
   return variance;
 }
 
+/**
+ * Calculates the total amount paid by all users.
+ * @param {Object} userPayments - An object where each key is a user and
+ * the value is the amount they paid.
+ * @returns {number} The total amount paid by all users.
+ */
 function calculateTotalPaid(userPayments) {
   return Object.values(userPayments).reduce((sum, pay) => sum + pay, 0);
 }
 
+/**
+ * Calculates the total variance of all users.
+ * The total variance is the sum of each user's variance (how much they owe or are owed).
+ * @param {Object} variance - An object where each key is a user and
+ * the value is their variance (how much they owe or are owed).
+ * @returns {number} The total variance of all users.
+ */
 function calculateTotalVariance(variance) {
   return Object.values(variance).reduce((sum, val) => sum + val, 0);
 }
 
+/**
+ * Menampilkan ringkasan pembagian biaya per orang.
+ * Menerima total biaya, biaya per orang, pembayaran per orang, variansi per orang,
+ * dan daftar item biaya.
+ * Menghitung ringkasan per orang dan menampilkan hasilnya dalam bentuk HTML.
+ * @param {number} totalExpense - Total biaya yang dibagi
+ * @param {Object} userExpenses - Biaya per orang
+ * @param {Object} userPayments - Pembayaran per orang
+ * @param {Object} variance - Variansi per orang
+ * @param {Array} items - Daftar item biaya
+ */
 function displaySummary(
   totalExpense,
   userExpenses,
@@ -71,6 +111,9 @@ function displaySummary(
     <div class="header-title">
       <h1 class="activity-name">${activityName || "Aktivitas Tanpa Nama"}</h1>
       <p class="activity-date"> Tanggal: ${formattedDate}</p>
+      <p class="total-expense">Total Pengeluaran: <strong>${formatToIDR(
+        totalExpense
+      )}</strong></p>
     </div
     <div class="split-bill-icon">
        <img src="img/logoSummary.png" alt="logo" class="logo" />
@@ -78,21 +121,7 @@ function displaySummary(
   </div>
 `;
 
-  // summaryDiv.innerHTML = `<h2>💰 Ringkasan Pembayaran</h2>`;
   document.querySelector(".summary-container").style.display = "block";
-
-  const totalPaid = calculateTotalPaid(userPayments);
-  const totalVariance = calculateTotalVariance(variance);
-
-  summaryDiv.innerHTML += generateSummaryStats(
-    totalExpense,
-    totalPaid,
-    totalVariance
-  );
-  //TEMPORARY HIDDEN
-  summaryDiv.innerHTML += `<h3 class="hidden">List Item</h3><div class="table-container hidden">${generateItemTable(
-    items
-  )}</div>`;
 
   // ⬇️ Tambahkan di sini
   const { transactionMap, transferSummaryMap } = generateTransactionMap(items);
@@ -116,58 +145,19 @@ function displaySummary(
   showToast("Berhasil! cek Split Bill kamu di bawah", "success", 20000);
 }
 
-function generateSummaryStats(totalExpense, totalPaid, totalVariance) {
-  const expenseMatch =
-    totalExpense === totalPaid
-      ? "✅ Total Pengeluaran dan Total Pembayaran SESUAI"
-      : "❌ Total Pengeluaran dan Total Pembayaran SALAH";
-  const varianceText =
-    totalVariance === 0
-      ? `✅ Selisih sama dengan ${formatToIDR(totalVariance)}`
-      : `❌ Selisih tidak seimbang: ${formatToIDR(totalVariance)}`;
-
-  return `
-  <div class="summary-validation">
-    <p>Total Pengeluaran: <strong>${formatToIDR(totalExpense)}</strong></p>
-    <p class="text-desc">${expenseMatch}</p>
-    <p class="text-desc">${varianceText}</p>
-  </div>
-  `;
-}
-
-// TEMPORARY HIDDEN
-function generateItemTable(items) {
-  return `
-    <table id="itemTable">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Jumlah</th>
-          <th>Yang Berhutang</th>
-          <th>Dibayar Oleh</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${items
-          .map(
-            ({ item, amount, who, paidBy }) => `
-          <tr>
-            <td>${item}</td>
-            <td>
-              ${formatToIDR(amount)}
-              ${amount < 0 ? '<span class="discount-label">Diskon</span>' : ""}
-            </td>
-            <td>${who.join(", ")}</td>
-            <td>${paidBy}</td>
-          </tr>
-        `
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
-}
-
+/**
+ * Membuat mapping transaksi per orang.
+ * Mapping ini akan dipakai untuk menghitung siapa yang harus membayar siapa dan berapa.
+ * @param {object[]} items - array of objects, masing-masing berisi:
+ *   {amount: number, who: string[], paidBy: string}
+ * @returns {object} - object dengan 2 properti: transactionMap dan transferSummaryMap
+ *   transactionMap: { [key: string]: number } - mapping transaksi per orang
+ *     key: string berupa "debtor->creditor"
+ *     value: number berupa jumlah yang harus dibayar dari debtor ke creditor
+ *   transferSummaryMap: { [key: string]: { [key: string]: number } } - mapping ringkasan transfer per orang
+ *     key: string berupa nama orang yang menerima uang
+ *     value: object dengan key berupa nama orang yang mengirim uang dan value berupa jumlah yang dikirim
+ */
 function generateTransactionMap(items) {
   const transactionMap = {};
   const transferSummaryMap = {};
@@ -195,6 +185,18 @@ function generateTransactionMap(items) {
   return { transactionMap, transferSummaryMap };
 }
 
+/**
+ * Adjusts the transaction map to account for mutual payments between users.
+ * This function checks for transactions where two users owe each other money
+ * and reduces or eliminates the amounts accordingly. The transaction map is
+ * updated to reflect the minimized transactions.
+ *
+ * @param {Object} transactionMap - An object mapping transactions in the form
+ * of "debtor->creditor" as keys and the amount owed as values.
+ * @param {Object} transferSummaryMap - An object mapping each user's payment
+ * summary to others, not used in this function but included for compatibility.
+ */
+
 function adjustForMutualPayments(transactionMap, transferSummaryMap) {
   for (const key in transactionMap) {
     const [from, to] = key.split("->");
@@ -218,7 +220,21 @@ function adjustForMutualPayments(transactionMap, transferSummaryMap) {
   }
 }
 
-// NEW FUNCTION Person breakdown
+/**
+ * Calculates the breakdown of expenses for each user based on shared items.
+ * Each item is divided equally among the users who need to pay for it.
+ * Returns a detailed breakdown for each user including their share of each item.
+ *
+ * @param {Array} items - An array of expense items. Each item is an object
+ * containing the item name, total amount, array of users ('who') sharing the
+ * expense, and the user ('paidBy') who paid for it.
+ *
+ * @returns {Object} An object where each key is a user and the value is an
+ * array of item breakdowns. Each breakdown includes the item name, the user's
+ * share of the amount, who paid, the original amount, and other users sharing
+ * the cost.
+ */
+
 function calculateUserItemBreakdown(items) {
   const breakdown = {};
 
@@ -241,7 +257,19 @@ function calculateUserItemBreakdown(items) {
   return breakdown;
 }
 
-//NEW Render person breakdown
+/**
+ * Renders the item breakdown for each person within the user card element.
+ *
+ * This function iterates over the provided breakdown object, which contains
+ * information about each user's share of expenses. For each person, it creates
+ * a list of items and their respective amounts (including discounts) and appends
+ * this list to the corresponding user's card in the DOM.
+ *
+ * @param {Object} breakdown - An object where each key is a user's name,
+ * and the value is an array of item breakdowns. Each item breakdown contains
+ * details such as the item name and the user's share of the amount.
+ */
+
 function renderItemBreakdownPerPerson(breakdown) {
   Object.entries(breakdown).forEach(([person, items]) => {
     const userCard = document.querySelector(
@@ -280,7 +308,21 @@ function renderItemBreakdownPerPerson(breakdown) {
   });
 }
 
-//WORK CODE
+/**
+ * Generates HTML elements for each user to display their total expenses and
+ * any money they owe or are owed by other users.
+ *
+ * @param {Object} userExpenses - An object where each key is a user and the
+ * value is the amount they need to pay.
+ * @param {Object} userPayments - An object where each key is a user and the
+ * value is the amount they paid.
+ * @param {Object} variance - An object where each key is a user and the value
+ * is the difference between what they paid and what they owed.
+ * @param {Object} transactionMap - An object where each key is a string in the
+ * format 'creditor->debtor' and the value is the amount that the debtor owes
+ * the creditor.
+ * @returns {string} A string of HTML elements, one for each user.
+ */
 function generateUserCards(
   userExpenses,
   userPayments,
@@ -297,7 +339,7 @@ function generateUserCards(
         .filter(([key]) => key.startsWith(`${user}->`))
         .map(([key, amount]) => {
           const creditor = key.split("->")[1];
-          return `<p class="transfer-detail">💸 Hutang <strong>${formatToIDR(
+          return `<p class="transfer-detail">💸 Bayar <strong>${formatToIDR(
             amount
           )}</strong> ke <strong>${creditor}</strong></p>`;
         })
@@ -322,7 +364,6 @@ function generateUserCards(
               <h3>${formatToIDR(expense)}</h3>
             </div>
           </div>
-          <hr class="separator"/>
           <div class="user-transfers">
             ${transfers}
           </div>
@@ -331,22 +372,3 @@ function generateUserCards(
     })
     .join("");
 }
-
-// UNUSED CODE change to formatToIDR
-// function formatCurrency(amount) {
-//   return new Intl.NumberFormat("id-ID", {
-//     style: "currency",
-//     currency: "IDR",
-//   }).format(amount);
-// }
-
-// function formatCurrency(amount) {
-//   // Ensure amount is a number, default to 0 if not
-//   const numericAmount =
-//     typeof amount === "number" ? amount : parseFloat(amount) || 0;
-
-//   return new Intl.NumberFormat("id-ID", {
-//     style: "currency",
-//     currency: "IDR",
-//   }).format(numericAmount);
-// }

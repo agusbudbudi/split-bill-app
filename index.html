@@ -665,10 +665,13 @@
             <div id="summary"></div>
 
             <div class="share-button-container">
-              <button onclick="exportToPDF()" class="exportToPDF">
+              <button onclick="exportSplitBillToPDF()" class="exportToPDF">
                 <i class="fa-solid fa-file-export"></i> Export to PDF
               </button>
-              <button onclick="shareToWhatsApp()" class="shareToWhatsApp">
+              <button
+                onclick="shareToWhatsAppMessage(generateSplitBillMessage())"
+                class="shareToWhatsApp"
+              >
                 <i class="fa-brands fa-whatsapp"></i>
                 Share ke WA
               </button>
@@ -796,7 +799,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Jumlah</th>
-                        <th>Metode Transaksi</th>
+                        <th>Metode</th>
                         <th class="exclude-pdf">Aksi</th>
                       </tr>
                     </thead>
@@ -809,8 +812,6 @@
           <div id="collectSummarySection" style="display: none">
             <div class="table-wrapper">
               <div class="card-container">
-                <label><strong>💰 Ringkasan Collect Money</strong></label>
-
                 <!-- grafik -->
                 <canvas id="paymentChart"></canvas>
 
@@ -827,13 +828,13 @@
                     onclick="exportCollectMoneyToPDF()"
                     class="exportToPDF exclude-pdf"
                   >
-                    <i class="fa-solid fa-file-export"></i> Export to PDF
+                    <i class="uil uil-file-export"></i> Export to PDF
                   </button>
                   <button
-                    onclick="shareCollectMoneyToWhatsApp()"
+                    onclick="shareToWhatsAppMessage(generateCollectMoneyMessage())"
                     class="shareToWhatsApp exclude-pdf"
                   >
-                    <i class="fa-brands fa-whatsapp"></i>
+                    <i class="uil uil-whatsapp"></i>
                     Share ke WA
                   </button>
                 </div>
@@ -1330,7 +1331,7 @@
                     <i class="fa-solid fa-xmark"></i>
                   </button>
                 </div>
-                <div class="popup-body">
+                <div class="popup-body popupFinalizeInvoice">
                   <img
                     src="img/save-invoice.png"
                     alt="Empty State"
@@ -1785,11 +1786,12 @@
     <script src="js/script.js"></script>
     <script src="js/scanBillAi.js"></script>
     <script src="js/scanBill.js"></script>
-    <script src="js/editExpense.js"></script>
+    <script src="js/splitBillExpense.js"></script>
     <script src="js/summary.js"></script>
     <script src="js/inputForm.js"></script>
     <script src="js/paymentMethod.js"></script>
     <script src="js/pdfExport.js"></script>
+    <script src="js/generatePdf.js"></script>
     <script src="js/shareSummary.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/collectMoney.js"></script>
@@ -1798,6 +1800,8 @@
     <script src="js/saving.js"></script>
     <script src="js/toastMessage.js"></script>
     <script src="js/sharedFunction.js"></script>
+    <script src="js/splitBillPerson.js"></script>
+
     <script src="js/ui.js"></script>
 
     <script>
