@@ -208,15 +208,15 @@ function renderCollectSummary() {
 }
 
 /**
- * Renders the detail method summary cards.
- * @param {Object.<string, number>} methodTotals - Object with method names as keys and total amounts as values.
- * @example
- * {
- *   "BNI": 100000,
- *   "BCA": 50000,
- *   "Mandiri": 20000
- * }
+ * Renders summary cards for each payment method.
+ *
+ * This function clears the existing content in the method summary cards container
+ * and populates it with new cards representing each payment method and their totals.
+ * Each card includes a logo and method information.
+ *
+ * @param {Object} methodTotals - An object where keys are method names and values are totals.
  */
+
 function renderMethodSummaryCards(methodTotals) {
   const container = document.getElementById("methodSummaryCards");
   if (!container) return;
@@ -227,30 +227,32 @@ function renderMethodSummaryCards(methodTotals) {
     const card = document.createElement("div");
     card.classList.add("method-card");
 
-    const logoSrc = getPaymentLogo(method) || "default-logo.png"; // fallback logo
+    // ✅ Ambil object logo dari fungsi baru
+    const logoData = getPaymentLogo(method);
+    const logoSrc = logoData?.image || "img/default.png";
+    const altText = logoData?.text || method;
 
     const imgWrapper = document.createElement("div");
-    imgWrapper.className = "method-logo-wrapper"; // opsional: untuk styling
+    imgWrapper.className = "method-logo-wrapper";
 
     const img = document.createElement("img");
     img.src = logoSrc;
-    img.alt = `${method} logo`;
-    img.style.maxWidth = "100%"; // opsional styling
+    img.alt = `${altText} logo`;
+    img.className = `payment-logo ${logoData?.class || ""}`;
 
-    imgWrapper.appendChild(img); // masukkan <img> ke dalam <div>
+    imgWrapper.appendChild(img);
 
     const infoDiv = document.createElement("div");
     infoDiv.classList.add("method-info");
 
     const methodName = document.createElement("span");
     methodName.className = "method-name";
-    methodName.textContent = method;
+    methodName.textContent = altText;
 
     const methodTotal = document.createElement("span");
     methodTotal.className = "method-total";
     methodTotal.textContent = formatToIDR(total);
 
-    // Susun struktur
     infoDiv.append(methodName, methodTotal);
     card.append(imgWrapper, infoDiv);
     container.appendChild(card);

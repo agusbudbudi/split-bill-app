@@ -116,7 +116,8 @@
   border-bottom: 1px solid var(--table-border-color);
 }
 
-.transactionsList {
+.transactionsList,
+#SplitBillList {
   display: grid;
   gap: 12px;
   margin-top: 20px;
@@ -239,7 +240,8 @@
 
 /* Transaction Invoice */
 
-.invoice-card {
+.invoice-card,
+.splitBill-card {
   border-radius: 14px;
   min-width: 280px;
   transition: transform 0.3s ease;
@@ -247,12 +249,14 @@
   cursor: pointer;
 }
 
-.invoice-card-body {
-  padding: 0 10px 10px 10px;
+.invoice-card-body,
+.transaction-body {
+  padding: 0 15px 10px 15px;
   text-align: left;
 }
 
-.invoice-card-footer {
+.invoice-card-footer,
+.transaction-footer {
   /* border-top: 1px solid var(--table-border-color); */
   padding: 8px 10px;
   background-color: var(--input-bg);
@@ -263,7 +267,8 @@
   gap: 10px;
 }
 
-.invoice-card-header {
+.invoice-card-header,
+.transaction-header {
   font-size: 12px;
   padding: 10px;
   margin-bottom: 0.5rem;
@@ -292,8 +297,10 @@
 .invoice-no {
   font-size: 12px;
   color: var(--text-color);
+  font-weight: 600;
 }
-.invoice-card-amount {
+.invoice-card-amount,
+.split-bill-amount {
   font-size: 14px;
   font-weight: bold;
   color: #667eea;
@@ -353,4 +360,119 @@
   color: var(--progress-color);
   background-color: var(--progress-bg);
   border: 1px solid var(--progress-border);
+}
+
+/* SPLIT BILL */
+
+#SplitBillList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transaction-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  border: 1px solid var(--table-border-color);
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.split-bill-number {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.activity-name {
+  color: var(--text-color);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.activity-date {
+  color: var(--text-color-desc);
+  font-size: 10px;
+}
+
+.total-amount {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--btn-bg);
+  text-align: right;
+}
+
+.participants-preview {
+  display: flex;
+  align-items: center;
+}
+
+.profile-icons {
+  display: flex;
+  margin-right: 10px;
+}
+
+.profile-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--input-bg);
+  margin-left: -8px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.profile-icon:first-child {
+  margin-left: 0;
+}
+
+.profile-icon:nth-child(2) {
+  z-index: 2;
+}
+
+.profile-icon:nth-child(3) {
+  z-index: 3;
+}
+
+.friend-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.more-participants {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #d9dffd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  /* font-weight: 600; */
+  font-size: 10px;
+  border: 2px solid var(--input-bg);
+  margin-left: -8px;
+  z-index: 4;
+}
+
+.participants-count {
+  color: var(--text-color-desc);
+  font-size: 10px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 10px;
+  color: var(--text-color-desc);
+  border-radius: 12px;
+  font-size: 12px;
 }

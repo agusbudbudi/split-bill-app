@@ -139,6 +139,15 @@
             <i class="uil uil-invoice tab-icon"></i>
             Invoice
           </button>
+
+          <button
+            onclick="showTab('transaction-splitBill')"
+            class="tab-button tab-transaction"
+            data-tab="transaction-splitBill"
+          >
+            <i class="uil uil-bill tab-icon"></i>
+            Split Bill
+          </button>
         </div>
       </div>
 
@@ -267,6 +276,17 @@
           </div>
         </div>
       </div>
+
+      <!-- Section Split Bill -->
+      <div id="transaction-splitBill" class="section-content tab-section">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <label class="section-title">History Split Bill</label>
+
+            <div id="SplitBillList"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
@@ -279,6 +299,7 @@
     <script src="js/transactions.js"></script>
     <script src="js/toastMessage.js"></script>
     <script src="js/bottomsheet.js"></script>
+    <script src="js/transactionSplitBill.js"></script>
     <script src="js/invoiceDetail.js"></script>
     <script src="js/sharedFunction.js"></script>
     <script src="js/ui.js"></script>

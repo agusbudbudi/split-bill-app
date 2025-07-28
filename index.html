@@ -218,14 +218,6 @@
             </div>
             <span>All Menu</span>
           </a>
-
-          <!-- <a class="menu-circle" onclick="showSection('daily', this)">
-            <div class="badge">Soon</div>
-            <div class="menu-icon">
-              <img src="img/daily-expense-icon.png" alt="Daily Expense" />
-            </div>
-            <span>Expense</span>
-          </a> -->
         </div>
       </div>
 
@@ -264,33 +256,35 @@
 
         <div class="table-wrapper">
           <div class="card-container">
-            <div class="tab-container">
-              <button
-                onclick="showTab('ai-scan')"
-                class="tab-button"
-                data-tab="ai-scan"
-              >
-                <i class="uil uil-robot tab-icon"></i>
-                Scan with AI
-              </button>
-              <button
-                onclick="showTab('manual-input')"
-                class="tab-button"
-                data-tab="manual-input"
-              >
-                <i class="uil uil-clipboard-notes tab-icon"></i>
-                Input Manual
-              </button>
+            <div class="tab-wrapper">
+              <div class="tab-container">
+                <button
+                  onclick="showTab('ai-scan')"
+                  class="tab-button"
+                  data-tab="ai-scan"
+                >
+                  <i class="uil uil-robot tab-icon"></i>
+                  Scan with AI
+                </button>
+                <button
+                  onclick="showTab('manual-input')"
+                  class="tab-button"
+                  data-tab="manual-input"
+                >
+                  <i class="uil uil-clipboard-notes tab-icon"></i>
+                  Input Manual
+                </button>
 
-              <!-- PENDING FEATURE SCAN BILL WITH OCR -->
-              <button
-                onclick="showTab('ocr-scan')"
-                class="tab-button"
-                data-tab="ocr-scan"
-              >
-                <i class="uil uil-image-search tab-icon"></i>
-                OCR Scan
-              </button>
+                <!-- PENDING FEATURE SCAN BILL WITH OCR -->
+                <button
+                  onclick="showTab('ocr-scan')"
+                  class="tab-button"
+                  data-tab="ocr-scan"
+                >
+                  <i class="uil uil-image-search tab-icon"></i>
+                  OCR Scan
+                </button>
+              </div>
             </div>
 
             <div id="manual-input" class="section-input-bill tab-section">
@@ -609,6 +603,9 @@
                 placeholder="Masukkan nama aktivitas (opsional)"
               />
             </div>
+            <p class="split-bill-number hidden">
+              Nomor Split Bill: <strong id="splitBillNumberDisplay"></strong>
+            </p>
           </div>
         </div>
 
@@ -665,15 +662,37 @@
             <div id="summary"></div>
 
             <div class="share-button-container">
-              <button onclick="exportSplitBillToPDF()" class="exportToPDF">
-                <i class="fa-solid fa-file-export"></i> Export to PDF
+              <!-- button finalize Split Bill -->
+              <button
+                id="finalizeSplitBillBtn"
+                onclick="openPopup('popupFinalizeSplitBill')"
+                class="primary-button"
+              >
+                <i class="uil uil-file-check"></i>
+                Save to History
+              </button>
+
+              <!-- button see Split Bill history -->
+              <button
+                id="seeSplitBillHistoryBtn"
+                onclick="window.location.href='transactions.html?tab=splitBill'"
+                class="secondary-button hidden"
+              >
+                <i class="uil uil-file-check"></i>
+                Lihat History
+              </button>
+
+              <button
+                onclick="exportSplitBillToPDF()"
+                class="secondary-button export-button"
+              >
+                <i class="uil uil-import"></i>
               </button>
               <button
                 onclick="shareToWhatsAppMessage(generateSplitBillMessage())"
-                class="shareToWhatsApp"
+                class="secondary-button export-button"
               >
                 <i class="fa-brands fa-whatsapp"></i>
-                Share ke WA
               </button>
             </div>
           </div>
@@ -718,6 +737,48 @@
 
                 <button class="save-btn" onclick="saveEditedExpense()">
                   Simpan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Popup Finalize Split Bill -->
+        <div id="popupFinalizeSplitBill" class="popup-overlay">
+          <div class="popup-content">
+            <div class="popup-header">
+              <h3>Finalize Split Bill</h3>
+              <button
+                onclick="closePopup('popupFinalizeSplitBill')"
+                class="close-btn-bottom-sheet"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div class="popup-body popupFinalizeSplitBill">
+              <img
+                src="img/save-invoice.png"
+                alt="Empty State"
+                class="empty-state-image"
+              />
+              <p class="title-empty-state">
+                Kamu yakin ingin menyelesaikan Split Bill ini?
+              </p>
+              <p class="desc-empty-state">
+                Split Bill yang sudah di Finalize akan tersimpan ke History dan
+                tidak dapat diubah lagi
+              </p>
+              <div class="share-button-container">
+                <button
+                  onclick="closePopup('popupFinalizeSplitBill')"
+                  class="secondary-button"
+                >
+                  <i class="uil uil-times"></i> Cancel
+                </button>
+                <button
+                  onclick="handleFinalizeSplitBill(), showActionSplitBill()"
+                >
+                  <i class="uil uil-check-circle"></i> Yes Finalize
                 </button>
               </div>
             </div>
@@ -1618,14 +1679,7 @@
 
     <!-- Daily Expense -->
     <div id="section-daily" class="section-content" style="display: none">
-      <img
-        src="img/under-construction.png"
-        alt="Under Construction"
-        class="under-construction"
-      />
-      <p class="coming-soon">
-        📅 Halaman Daily Expense masih dalam pengembangan. Coming Soon!
-      </p>
+      <div id="showUnderConstruction"></div>
     </div>
 
     <!-- PAYMENT METHOD BOTTOM SHEET -->
@@ -1788,7 +1842,6 @@
     <script src="js/scanBill.js"></script>
     <script src="js/splitBillExpense.js"></script>
     <script src="js/summary.js"></script>
-    <script src="js/inputForm.js"></script>
     <script src="js/paymentMethod.js"></script>
     <script src="js/pdfExport.js"></script>
     <script src="js/generatePdf.js"></script>

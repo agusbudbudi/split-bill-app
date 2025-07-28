@@ -78,6 +78,8 @@ function showTab(
       btn.classList.remove("active");
     }
   });
+
+  showUnderConstruction();
 }
 
 window.addEventListener("load", function () {
@@ -109,4 +111,21 @@ window.addEventListener("load", function () {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderInvoiceCards();
+  initSplitBillNumber();
 });
+
+function showUnderConstruction(
+  message = "📅 Halaman ini masih dalam pengembangan. Coming Soon!"
+) {
+  const container = document.getElementById("showUnderConstruction");
+  if (!container) return;
+
+  container.innerHTML = `
+    <img
+      src="img/under-construction.png"
+      alt="Under Construction"
+      class="under-construction"
+    />
+    <p class="coming-soon">${message}</p>
+  `;
+}
