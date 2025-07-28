@@ -1,9 +1,40 @@
 /**
- * Hitung total biaya, biaya per user, dan varian per user.
- * Metode ini juga akan menampilkan info metode pembayaran jika diatur.
- * @returns {void}
+ * Calculates and displays the split bill summary.
+ *
+ * This function is called when the calculate button is clicked. It first
+ * generates the split bill summary by calling generateSplitSummary, and then
+ * displays the summary by calling displaySummary.
+ *
+ * If a payment method is selected, it also shows the selected payment method.
+ *
+ * The result is not saved to local storage here; instead, the user must click
+ * the "Finalize Split Bill" button to save the result.
  */
 function calculateSplit() {
+  const { totalExpense, userExpenses, userPayments, variance } =
+    generateSplitSummary();
+
+  if (
+    typeof selectedPaymentIndex === "number" &&
+    paymentMethods[selectedPaymentIndex]
+  ) {
+    showSelectedPayment();
+  }
+
+  displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
+}
+
+/**
+ * Generates the split bill summary.
+ *
+ * This function iterates over all expense items and calculates the total
+ * expense, the amount each user needs to pay, and the amount each user has
+ * paid. Then, it calculates the variance for each user.
+ *
+ * @return {Object} The summary object containing the total expense, user
+ * expenses, user payments, and variance.
+ */
+function generateSplitSummary() {
   let totalExpense = 0;
   let userExpenses = {};
   let userPayments = {};
@@ -22,15 +53,122 @@ function calculateSplit() {
 
   let variance = calculateVariance(userExpenses, userPayments, totalExpense);
 
-  // ✅ Tampilkan info metode pembayaran jika ada
-  if (
-    typeof selectedPaymentIndex === "number" &&
-    paymentMethods[selectedPaymentIndex]
-  ) {
-    showSelectedPayment();
+  return {
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance,
+  };
+}
+
+/**
+ * Generates a split bill record object.
+ *
+ * This function takes in the total expense, user expenses, user payments, and
+ * variance and returns an object containing all the relevant information,
+ * including the split bill number, activity name, date, and expenses.
+ *
+ * @param {number} totalExpense - Total expense of the split bill.
+ * @param {Object} userExpenses - Object where each key is a user and the value
+ * is the amount they need to pay.
+ * @param {Object} userPayments - Object where each key is a user and the value
+ * is the amount they paid.
+ * @param {Object} variance - Object where each key is a user and the value is
+ * the difference between what they paid and what they owed.
+ *
+ * @return {Object} The split bill record object.
+ */
+function generateSplitRecord(
+  totalExpense,
+  userExpenses,
+  userPayments,
+  variance
+) {
+  const splitBillNumber =
+    localStorage.getItem("currentSplitBillNumber") ||
+    generateDailySplitBillNumber();
+
+  return {
+    splitBillNumber,
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance,
+    expenses,
+    activityName: document.getElementById("activityName").value,
+    date: new Date().toISOString(),
+    selectedPaymentIndexes,
+  };
+}
+
+/**
+ * Saves a split bill record to local storage.
+ *
+ * This function takes in a split bill record object and saves it to the
+ * "splitBillHistoryList" local storage key. If a record with the same split
+ * bill number already exists, it is overwritten; otherwise, the new record is
+ * added to the list.
+ *
+ * @param {Object} newRecord - The split bill record object to be saved.
+ */
+function saveSplitBillToLocalStorage(newRecord) {
+  const splitBillNumber = newRecord.splitBillNumber;
+
+  let historyList =
+    JSON.parse(localStorage.getItem("splitBillHistoryList")) || [];
+
+  const existingIndex = historyList.findIndex(
+    (item) => item.splitBillNumber === splitBillNumber
+  );
+
+  if (existingIndex !== -1) {
+    historyList[existingIndex] = newRecord;
+  } else {
+    historyList.push(newRecord);
   }
 
-  displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
+  localStorage.setItem("splitBillHistoryList", JSON.stringify(historyList));
+}
+
+/**
+ * Finalizes the split bill process and saves the bill to local storage.
+ *
+ * This function generates the split bill summary, creates a new split bill record,
+ * and saves it to local storage. After saving, it closes the finalize popup and
+ * displays a success toast message to the user.
+ */
+
+function handleFinalizeSplitBill() {
+  const { totalExpense, userExpenses, userPayments, variance } =
+    generateSplitSummary();
+
+  const newRecord = generateSplitRecord(
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance
+  );
+
+  saveSplitBillToLocalStorage(newRecord);
+  closePopup("popupFinalizeSplitBill");
+  showToast("Split Bill berhasil disimpan!", "success");
+}
+
+/**
+ * Updates the UI to reflect the completion of a split bill process.
+ *
+ * This function hides the "Finalize Split Bill" button and shows the
+ * "See Split Bill History" button, indicating that the split bill has
+ * been finalized and saved. It modifies the visibility of these buttons
+ * based on their presence in the DOM.
+ */
+
+function showActionSplitBill() {
+  const finalizeBtn = document.getElementById("finalizeSplitBillBtn");
+  const seeHistoryBtn = document.getElementById("seeSplitBillHistoryBtn");
+
+  if (finalizeBtn) finalizeBtn.classList.add("hidden");
+  if (seeHistoryBtn) seeHistoryBtn.classList.remove("hidden");
 }
 
 /**
@@ -372,3 +510,28 @@ function generateUserCards(
     })
     .join("");
 }
+
+function generateDailySplitBillNumber() {
+  const today = new Date();
+  const datePart = today.toISOString().slice(0, 10).replace(/-/g, ""); // 20250727
+  const timePart =
+    today.getHours().toString().padStart(2, "0") +
+    today.getMinutes().toString().padStart(2, "0");
+  const randomPart = Math.floor(Math.random() * 900 + 100); // 3 digit acak
+  return `SB-${datePart}-${timePart}${randomPart}`;
+}
+
+function initSplitBillNumber() {
+  const generatedNumber = generateDailySplitBillNumber();
+  localStorage.setItem("currentSplitBillNumber", generatedNumber);
+
+  // Tampilkan ke elemen jika ada
+  const splitNumberDisplay = document.getElementById("splitBillNumberDisplay");
+  if (splitNumberDisplay) {
+    splitNumberDisplay.textContent = generatedNumber;
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  initSplitBillNumber();
+});

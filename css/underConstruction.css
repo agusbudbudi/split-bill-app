@@ -1,12 +1,19 @@
-.under-construction {
-  width: 250px;
-  height: auto;
+#showUnderConstruction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
 }
 
-#section-daily,
-#section-collect,
-#section-invoice,
-#section-nabung {
+.under-construction {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+#section-daily {
   display: flex;
   flex-direction: column;
   align-items: center;

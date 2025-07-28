@@ -44,7 +44,6 @@
   text-align: right;
   margin: 20px 0px 20px 0;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--table-border-color);
 }
 
 #preview-total-words {
@@ -637,6 +636,7 @@ hr {
   color: var(--text-color-desc);
 }
 
-.popupFinalizeInvoice {
+.popupFinalizeInvoice,
+.popupFinalizeSplitBill {
   text-align: center;
 }

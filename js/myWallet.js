@@ -45,6 +45,7 @@ class WalletRenderer {
       dana: { text: "Dana", image: "img/logo-dana.png" },
       shopeepay: { text: "ShpeePay", image: "img/logo-shopeepay.png" },
       linkaja: { text: "LinkAja", image: "img/logo-linkaja.png" },
+      bsi: { text: "BSI", image: "img/logo-bsi.png" },
     };
 
     let text, imagePath, logoClass;
@@ -67,67 +68,6 @@ class WalletRenderer {
       class: logoClass,
     };
   }
-
-  //Create Wallet Card
-  // createWalletCard(data, index) {
-  //   const isBank = data.method === "banktransfer";
-  //   const logo = this.getPaymentLogo(data.method, data.bankName); // returns { text, image, class }
-
-  //   return `
-  //     <div data-index="${index}">
-  //       <div class="wallet-card ${isBank ? "bank-card" : "ewallet-card"}">
-  //         <div class="card-header">
-  //           <div class=" chip-icon">
-  //             <img src="img/chip-icon.png" alt="chip-icon" class="chip-icon" />
-  //           </div>
-  //           <div class="payment-info">
-  //             <h3>${logo.text}</h3>
-  //             <div class="payment-type">${
-  //               isBank ? "Bank Account" : "E-Wallet"
-  //             }</div>
-  //           </div>
-  //         </div>
-
-  //         <div class="card-details">
-  //           ${
-  //             isBank
-  //               ? `<div class="detail-row">
-  //                   <span class="detail-value account-number">${data.accountNumber}</span>
-  //                 </div>`
-  //               : `<div class="detail-row">
-  //                   <span class="detail-value account-number">${data.phoneNumber}</span>
-  //                 </div>`
-  //           }
-
-  //         </div>
-
-  //        <div class="card-footer-logo">
-  //         <div class="detail-row">
-  //             <span class="detail-label">Nama Pemilik:</span>
-  //             <span class="detail-value account-holder">${data.name}</span>
-  //           </div>
-  //           <div class="payment-logo ${logo.class}">
-  //             <img src="${logo.image}" alt="${logo.text}" class="logo-img" />
-  //           </div>
-  //        </div>
-  //       </div>
-
-  //       <div class="card-actions">
-  //         <button class="action-btn copy-btn" onclick="walletApp.copyToClipboard('${
-  //           isBank ? data.accountNumber : data.phoneNumber
-  //         }', '${isBank ? "Nomor rekening" : "Nomor HP"}')">
-  //           <i class="uil uil-copy"></i>
-  //         </button>
-  //         <button class="action-btn share-btn" onclick="walletApp.shareToWhatsApp(${index})">
-  //           <i class="uil uil-whatsapp"></i>
-  //         </button>
-  //         <button class="action-btn delete-btn" onclick="walletApp.deletePaymentMethod(${index})">
-  //           <i class="uil uil-trash"></i>
-  //         </button>
-  //       </div>
-  //     </div>
-  //   `;
-  // }
 
   createWalletCard(data, index) {
     const isBank = data.method === "banktransfer";

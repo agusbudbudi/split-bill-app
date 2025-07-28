@@ -8,7 +8,7 @@
   --btn-hover-bg: #5844bb;
   --btn-delete-bg: #e15555;
   --btn-delete-hover-bg: #c33c3c;
-  --table-header-bg: #7056ec;
+  --table-header-bg: #d9dffd;
   --table-body-bg: #ffffff;
   --table-border-color: #e9ecef;
   /* e9ecef  7056ec*/
@@ -51,6 +51,13 @@
 
   --tab-icon: #e2f0fa;
   --menu-bg: #ffff;
+
+  --gradient-fade-right: linear-gradient(
+    to right,
+    #fff,
+    rgba(255, 255, 255, 0)
+  );
+  --gradient-fade-left: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
 }
 
 body.dark-mode {
@@ -99,4 +106,11 @@ body.dark-mode {
 
   --tab-icon: #223344;
   --menu-bg: #1e2a36;
+
+  --gradient-fade-right: linear-gradient(
+    to right,
+    #1f1f21,
+    rgba(31, 31, 33, 0)
+  );
+  --gradient-fade-left: linear-gradient(to left, #1f1f21, rgba(31, 31, 33, 0));
 }

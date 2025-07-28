@@ -33,7 +33,7 @@ function exportInvoiceToPDF() {
   const tableContainers = clonedInvoice.querySelectorAll(".table-container");
   tableContainers.forEach((tableContainer) => {
     tableContainer.style.width = "100%";
-    tableContainer.style.borderRadius = "16px";
+    tableContainer.style.borderRadius = "8px";
     tableContainer.style.border = "1px solid #F3F2F3";
   });
 
@@ -42,17 +42,17 @@ function exportInvoiceToPDF() {
   tables.forEach((table) => {
     // table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.borderRadius = "16px";
+    table.style.borderRadius = "8px";
     table.style.border = "none";
   });
 
   // Format header tabel
   const ths = clonedInvoice.querySelectorAll("th");
   ths.forEach((th) => {
-    th.style.backgroundColor = "#7056ec";
-    th.style.color = "#ffffff";
+    th.style.backgroundColor = "#eef6fc";
+    th.style.color = "#272a33";
     th.style.padding = "16px";
-    th.style.border = "1px solid #7056ec";
+    th.style.border = "1px solid #eef6fc";
     th.style.textAlign = "center";
   });
 
@@ -69,6 +69,13 @@ function exportInvoiceToPDF() {
   const trs = clonedInvoice.querySelectorAll("tr");
   trs.forEach((tr) => {
     tr.style.border = "none";
+  });
+
+  const paymentMethodCard = clonedInvoice.querySelectorAll(
+    ".selected-payment-summary"
+  );
+  paymentMethodCard.forEach((paymentMethodCard) => {
+    paymentMethodCard.style.border = "1px solid #eef6fc";
   });
 
   const itemName = clonedInvoice.querySelectorAll(".item-name");

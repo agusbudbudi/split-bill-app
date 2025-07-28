@@ -122,17 +122,6 @@
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-.bank-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("../img/wallet-bg.png");
-  background-size: cover;
-  background-position: top center;
-  z-index: -1;
-  border-radius: 24px;
-}
-
 .payment-logo .logo-img,
 .ewallet-logo .logo-img {
   width: 60px;
@@ -379,9 +368,6 @@
   border-radius: 24px;
   padding: 15px 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  /* border: 1px solid rgba(255, 255, 255, 0.2); */
   color: #333;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 10px;
@@ -389,6 +375,9 @@
   min-width: 240px;
   scroll-snap-align: start; /* opsional: snap behavior */
   flex: 0 0 auto;
+  background-image: url("../img/wallet-bg.png");
+  background-size: cover;
+  background-position: top center;
 }
 
 .wallet-card:hover {
@@ -505,9 +494,6 @@
   min-width: 150px;
   padding: 15px 20px 20px 20px;
   border-radius: 20px;
-  background-image: url("../img/wallet-bg.png");
-  background-size: cover;
-  background-position: top right;
 }
 
 .ewallet-logo img {

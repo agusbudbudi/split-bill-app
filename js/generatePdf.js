@@ -1,4 +1,17 @@
 // ===== MAIN PDF EXPORT FUNCTION =====
+
+/**
+ * Export a given HTML element as a PDF file.
+ *
+ * @param {Object} config - Configuration options.
+ * @param {string} config.elementId - The ID of the HTML element to export.
+ * @param {string} [config.title="Report"] - The title to display in the PDF.
+ * @param {string} [config.filename] - A custom filename for the PDF.
+ * @param {boolean} [config.showSuccessToast=true] - Whether to show a success toast.
+ * @param {string} [config.toastMessage="Berhasil download!"] - The message to display in the toast.
+ * @param {Object} [config.customStyles={}] - Additional CSS styles to apply to the element.
+ * @param {Object} [config.containerOptions={}] - Additional options to pass to the PDF container element.
+ */
 function exportToPDF(config) {
   const {
     elementId,
@@ -42,6 +55,17 @@ function exportToPDF(config) {
 }
 
 // ===== PDF CONTAINER CREATOR =====
+
+/**
+ * Create a container element for PDF export.
+ *
+ * @param {string} [title="Report"] - Title of the report
+ * @param {object} [options={}] - Options to customize the container
+ * @param {boolean} [options.hideHeader=false] - Hide the header section
+ * @param {boolean} [options.hideTitle=false] - Hide the title in the header
+ * @param {boolean} [options.hideLogo=false] - Hide the logo in the header
+ * @returns {HTMLElement} - The container element
+ */
 function createPDFContainer(title = "Report", options = {}) {
   const container = document.createElement("div");
   container.style.padding = "50px";
@@ -88,6 +112,16 @@ function createPDFContainer(title = "Report", options = {}) {
 }
 
 // ===== ELEMENT PREPARATION =====
+
+/**
+ * Clone the given element and prepare it for PDF conversion.
+ * Hides elements with class "exclude-pdf", converts images to base64,
+ * converts canvases to images, applies base styles, and formats elements
+ * based on content type.
+ * @param {HTMLElement} originalElement - The element to clone and prepare.
+ * @param {Object} customStyles - Optional custom styles to apply to the clone.
+ * @returns {HTMLElement} The prepared clone.
+ */
 function prepareClonedElement(originalElement, customStyles = {}) {
   const clone = originalElement.cloneNode(true);
 
@@ -110,12 +144,31 @@ function prepareClonedElement(originalElement, customStyles = {}) {
 }
 
 // ===== UTILITY FUNCTIONS =====
+
+/**
+ * Hides elements with the class "exclude-pdf" within the given clone.
+ *
+ * This utility function iterates over all elements with the "exclude-pdf"
+ * class within the provided clone and sets their display style to "none".
+ * It is typically used to prevent specific elements from being included
+ * in the PDF generation process.
+ *
+ * @param {HTMLElement} clone - The cloned element containing elements to hide.
+ */
+
 function hideExcludedElements(clone) {
   clone
     .querySelectorAll(".exclude-pdf")
     .forEach((el) => (el.style.display = "none"));
 }
 
+/**
+ * Converts all images with class "summary-avatar" or attribute
+ * "data-convert-base64" within the given container to base64.
+ * This is necessary because jsPDF cannot directly use external images.
+ * @param {HTMLElement} container - The container element containing the images.
+ * @returns {Promise} A promise that resolves when all images have been converted.
+ */
 function convertImagesToBase64(container) {
   const images = container.querySelectorAll(
     "img.summary-avatar, img[data-convert-base64]"
@@ -151,6 +204,18 @@ function convertImagesToBase64(container) {
   return Promise.all(promises);
 }
 
+/**
+ * Replaces all canvas elements in the given clone with img elements.
+ * The replacement img elements are created by calling toDataURL() on the
+ * corresponding canvas element from the original element. The img elements
+ * are then styled with a maximum width of 40%, margin of 10px auto, and
+ * display of block. This function is used to allow jsPDF to generate a PDF
+ * containing images created by the canvas element.
+ * @param {HTMLElement} originalElement - The element containing the original
+ * canvas elements.
+ * @param {HTMLElement} clone - The element containing the canvas elements to
+ * be replaced.
+ */
 function convertCanvasesToImages(originalElement, clone) {
   const originalCanvases = originalElement.querySelectorAll("canvas");
   const clonedCanvases = clone.querySelectorAll("canvas");
@@ -171,6 +236,17 @@ function convertCanvasesToImages(originalElement, clone) {
   });
 }
 
+/**
+ * Applies base CSS styles to all elements in the given clone.
+ * Specifically, the styles applied are:
+ *   - color: The value of customStyles.textColor, or "#000000" if it is not
+ *     provided.
+ *   - background-color: transparent.
+ *   - box-shadow: none.
+ * @param {HTMLElement} clone - The element to apply the styles to.
+ * @param {Object} customStyles - An object containing custom styles to apply.
+ *   Currently the only supported style is textColor.
+ */
 function applyBaseStyles(clone, customStyles) {
   const allElements = clone.querySelectorAll("*");
   allElements.forEach((el) => {
@@ -180,6 +256,21 @@ function applyBaseStyles(clone, customStyles) {
   });
 }
 
+/**
+ * Formats elements in the given clone according to the default PDF formatting.
+ * The specific formatting applied is as follows:
+ *   - Tables are formatted with a border of 1px solid black.
+ *   - Cards are formatted with a border radius of 12px.
+ *   - Split Bill specific elements are formatted according to the split bill
+ *     PDF formatting.
+ *   - Collect Money specific elements are formatted according to the collect
+ *     money PDF formatting.
+ *   - Custom styles are applied if provided.
+ * @param {HTMLElement} clone - The element containing the elements to be
+ *   formatted.
+ * @param {Object} customStyles - An object containing custom styles to apply.
+ *   Currently the only supported style is customFormatter.
+ */
 function formatElementsInClone(clone, customStyles) {
   // Format tables
   formatTables(clone);
@@ -200,6 +291,27 @@ function formatElementsInClone(clone, customStyles) {
 }
 
 // ===== SPLIT BILL SPECIFIC FORMATTING =====
+
+/**
+ * Formats elements in the given clone according to the Split Bill PDF
+ * formatting. The specific formatting applied is as follows:
+ *   - Status indicators are formatted with different colors, font weights, and
+ *     font sizes.
+ *   - Separators are formatted with a border color of #f7f7f7.
+ *   - Activity name is formatted with a font size of 20px.
+ *   - User transfers are formatted with a border radius of 10px and a
+ *     background color of #eef6fc.
+ *   - Breakdown rows are formatted with a color of #848486 and a font weight
+ *     of 100.
+ *   - Discount labels are formatted with a color of #cc0000, a padding of 1px
+ *     4px, a border radius of 5px, and a background color of #ffe0e0.
+ *   - User details and expenses are formatted with a color of #848486 and a
+ *     font weight of 100.
+ *   - Avatars are formatted with a width and height of 40px, a border radius of
+ *     40%, and an object-fit of cover.
+ * @param {HTMLElement} container - The element containing the elements to be
+ *   formatted.
+ */
 function formatSplitBillElements(container) {
   // Format status indicators
   container.querySelectorAll("*").forEach((el) => {
@@ -269,6 +381,12 @@ function formatSplitBillElements(container) {
 }
 
 // ===== COLLECT MONEY SPECIFIC FORMATTING =====
+
+/**
+ * Format HTML elements specific to the collect money summary PDF.
+ * @param {HTMLElement} container - The container element containing the
+ * elements to be formatted.
+ */
 function formatCollectMoneyElements(container) {
   // Format total collect money
   const summary = container.querySelector("#collectSummary");
@@ -291,18 +409,24 @@ function formatCollectMoneyElements(container) {
 }
 
 // ===== COMMON FORMATTING =====
+
+/**
+ * Format tables in the given container.
+ * @param {HTMLElement} container - The container element containing the
+ * tables to be formatted.
+ */
 function formatTables(container) {
   container.querySelectorAll("table").forEach((table) => {
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-    table.style.borderRadius = "10px";
+    table.style.borderRadius = "8px";
   });
 
   container.querySelectorAll("th").forEach((th) => {
-    th.style.backgroundColor = "#7056ec";
-    th.style.color = "#ffffff";
+    th.style.backgroundColor = "#eef6fc";
+    th.style.color = "#272a33";
     th.style.padding = "8px";
-    th.style.border = "1px solid #7056ec";
+    th.style.border = "1px solid #eef6fc";
     th.style.textAlign = "center";
   });
 
@@ -325,6 +449,10 @@ function formatCards(container) {
   });
 }
 
+/**
+ * Creates a footer element for the PDF with the given text.
+ * @returns {HTMLElement} The created footer element.
+ */
 function createPDFFooter() {
   const footer = document.createElement("div");
   footer.textContent =
@@ -338,6 +466,12 @@ function createPDFFooter() {
   return footer;
 }
 
+/**
+ * Generates a PDF from the given container element and saves it as a file with the given filename.
+ * @param {HTMLElement} container The HTML element to generate the PDF from.
+ * @param {string} filename The name of the PDF file to save.
+ * @returns {Promise<void>} A promise that resolves when the PDF is saved.
+ */
 async function generatePDF(container, filename) {
   // Wait for images to load
   await convertImagesToBase64(container);
@@ -355,6 +489,15 @@ async function generatePDF(container, filename) {
 }
 
 // ===== WRAPPER FUNCTIONS FOR SPECIFIC FEATURES =====
+
+/**
+ * Exports the split bill summary as a PDF file. If an activity name is provided
+ * in the "activityName" input field, it will be used as the title and filename
+ * of the PDF; otherwise, a default name is used. The PDF is generated from the
+ * element with the ID "summary", and a toast message is shown upon successful
+ * download.
+ */
+
 function exportSplitBillToPDF() {
   const activityNameInput = document.getElementById("activityName");
   const activityName =
@@ -373,6 +516,11 @@ function exportSplitBillToPDF() {
   });
 }
 
+/**
+ * Exports the collect money summary as a PDF file. The PDF is generated from
+ * the element with the ID "collectSectionToExport", and a toast message is
+ * shown upon successful download.
+ */
 function exportCollectMoneyToPDF() {
   exportToPDF({
     elementId: "collectSectionToExport",
