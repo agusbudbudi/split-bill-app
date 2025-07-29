@@ -401,13 +401,6 @@
   font-size: 10px;
 }
 
-.total-amount {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--btn-bg);
-  text-align: right;
-}
-
 .participants-preview {
   display: flex;
   align-items: center;

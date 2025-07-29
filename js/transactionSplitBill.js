@@ -135,8 +135,17 @@ function renderTransactionList() {
   const data = loadDataFromLocalStorage();
 
   if (!data || data.length === 0) {
-    container.innerHTML =
-      '<div class="no-data">Tidak ada data transaksi split bill</div>';
+    container.innerHTML = `
+           <div class="no-data-message">
+                <img src="img/state-search.png" alt="Empty State" class="empty-state-image">
+                <p class="title-empty-state">Belum ada Split Bill yang disimpan<p>
+                <p class="desc-empty-state">Buat Split Bill sekarang!<p>
+
+                <button class="secondary-button" onclick="window.location.href='index.html'">
+                    <i class="uil uil-plus"></i> Buat Split Bill
+                </button>
+            </div>
+    `;
     return;
   }
 

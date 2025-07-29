@@ -103,7 +103,6 @@
   /* background-color: var(--input-bg); */
   border-radius: 16px;
   padding: 10px 15px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
@@ -476,7 +475,7 @@ hr {
   justify-content: flex-start;
   gap: 10px;
   overflow-x: auto;
-  padding: 0;
+  padding: 0 10px;
   scrollbar-width: none; /* Firefox */
   align-items: center;
   align-items: stretch; /* ✅ stretch semua anak ke height maksimum */
@@ -593,6 +592,7 @@ hr {
   gap: 10px;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
+  padding: 0 10px;
 }
 
 .client-card {
