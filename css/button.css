@@ -189,7 +189,7 @@ button:hover {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 15px;
+  width: 10px;
   z-index: 2;
   pointer-events: none;
 }
