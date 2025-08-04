@@ -1,22 +1,18 @@
 /**
  * Calculates and displays the split bill summary.
  *
- * This function is called when the calculate button is clicked. It first
- * generates the split bill summary by calling generateSplitSummary, and then
- * displays the summary by calling displaySummary.
+ * This function calculates the total expense, user expenses, user payments,
+ * and variance for the split bill. It then displays the summary in the page.
  *
- * If a payment method is selected, it also shows the selected payment method.
- *
- * The result is not saved to local storage here; instead, the user must click
- * the "Finalize Split Bill" button to save the result.
+ * If a payment method is selected, it is also displayed.
  */
 function calculateSplit() {
   const { totalExpense, userExpenses, userPayments, variance } =
     generateSplitSummary();
 
   if (
-    typeof selectedPaymentIndex === "number" &&
-    paymentMethods[selectedPaymentIndex]
+    typeof getSelectedPaymentInfo === "number" &&
+    paymentMethods[getSelectedPaymentInfo]
   ) {
     showSelectedPayment();
   }
@@ -61,6 +57,32 @@ function generateSplitSummary() {
   };
 }
 
+function getSelectedPaymentInfo() {
+  const paymentDivs = document.querySelectorAll(
+    "#summary #selectedPaymentInfo .selected-payment-summary"
+  );
+  const result = [];
+
+  paymentDivs.forEach((div) => {
+    const img = div.querySelector("img");
+    const name = div.querySelector("strong")?.textContent || "";
+    const details = div.querySelectorAll("p")[1]?.innerText.split("\n") || [];
+
+    const accountNumber = details[0]?.replace("Rek: ", "").trim();
+    const bankName = details[1]?.replace("Bank: ", "").trim();
+
+    result.push({
+      name,
+      bank: bankName,
+      accountNumber,
+      logoUrl: img?.getAttribute("src") || "",
+      bankCode: img?.getAttribute("alt") || "",
+    });
+  });
+
+  return result;
+}
+
 /**
  * Generates a split bill record object.
  *
@@ -97,7 +119,7 @@ function generateSplitRecord(
     expenses,
     activityName: document.getElementById("activityName").value,
     date: new Date().toISOString(),
-    selectedPaymentIndexes,
+    selectedPaymentMethods: getSelectedPaymentInfo(), // data sudah rapi
   };
 }
 
@@ -514,11 +536,11 @@ function generateUserCards(
 function generateDailySplitBillNumber() {
   const today = new Date();
   const datePart = today.toISOString().slice(0, 10).replace(/-/g, ""); // 20250727
-  const timePart =
-    today.getHours().toString().padStart(2, "0") +
-    today.getMinutes().toString().padStart(2, "0");
+  // const timePart =
+  //   today.getHours().toString().padStart(2, "0") +
+  //   today.getMinutes().toString().padStart(2, "0");
   const randomPart = Math.floor(Math.random() * 900 + 100); // 3 digit acak
-  return `SB-${datePart}-${timePart}${randomPart}`;
+  return `SB-${datePart}${randomPart}`;
 }
 
 function initSplitBillNumber() {

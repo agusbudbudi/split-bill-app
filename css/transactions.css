@@ -117,7 +117,7 @@
 }
 
 .transactionsList,
-#SplitBillList {
+.split-bill-list {
   display: grid;
   gap: 12px;
   margin-top: 20px;
@@ -243,10 +243,11 @@
 .invoice-card,
 .splitBill-card {
   border-radius: 14px;
-  min-width: 280px;
   transition: transform 0.3s ease;
   border: 1px solid var(--table-border-color);
   cursor: pointer;
+  min-width: 280px;
+  background: var(--container-bg);
 }
 
 .invoice-card-body,
@@ -364,7 +365,7 @@
 
 /* SPLIT BILL */
 
-#SplitBillList {
+.split-bill-list {
   display: flex;
   flex-direction: column;
   gap: 15px;

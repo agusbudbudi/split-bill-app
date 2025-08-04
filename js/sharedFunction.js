@@ -1,4 +1,9 @@
-//Remove Payment
+/**
+ * Menghapus data metode pembayaran pada indeks yang ditentukan.
+ * Jika user mengkonfirmasi, maka data akan dihapus, localStorage akan diupdate,
+ * dan tabel metode pembayaran akan dirender ulang.
+ * @param {number} index - indeks data yang ingin dihapus
+ */
 function removePayment(index) {
   if (confirm("Yakin ingin menghapus metode ini?")) {
     paymentMethods.splice(index, 1);
@@ -17,13 +22,26 @@ function removePayment(index) {
   }
 }
 
-//Back FUnction
+/**
+ * Redirects to the main page by using the `history.back()` method.
+ *
+ * @since 1.0.0
+ */
 function goBack() {
   // Redirect to main page or use history.back()
   window.history.back();
 }
 
-//Format to IDR
+/**
+ * Formats a given number to Indonesian Rupiah (IDR) currency format.
+ *
+ * @param {number|string} number - The numeric value to format. Can be a number or a string representation of a number.
+ * @returns {string} The formatted currency string in IDR. Returns "Rp0" for invalid inputs or zero, and an empty string for null or undefined inputs.
+ *
+ * The function handles negative numbers by prefixing them with "- ".
+ * It ensures proper handling of non-numeric inputs and returns "Rp0" if parsing results in NaN.
+ */
+
 function formatToIDR(number) {
   // Ubah pengecekan ini
   if (number === null || number === undefined || number === "") {
@@ -48,7 +66,21 @@ function formatToIDR(number) {
   return isNegative ? `- ${formatted}` : formatted;
 }
 
-//Automatically format currency when user input
+/**
+ * Setup currency formatter for given input elements.
+ *
+ * This function sets up two input elements (a formatted input and a hidden input)
+ * to work together. The formatted input shows the currency formatted value, and
+ * the hidden input holds the actual numeric value. When the user types into the
+ * formatted input, this function will convert the value to a numeric only value
+ * and store it in the hidden input. The formatted input will then be updated
+ * with the formatted currency value.
+ *
+ * @param {string} formattedInputId the id of the input element to show the
+ *        formatted value
+ * @param {string} hiddenInputId the id of the input element to store the
+ *        actual numeric value
+ */
 function setupCurrencyFormatter(formattedInputId, hiddenInputId) {
   const formattedInput = document.getElementById(formattedInputId);
   const hiddenInput = document.getElementById(hiddenInputId);
@@ -92,4 +124,21 @@ function cleanPriceString(priceStr) {
   // Remove currency symbols, commas, dots used as thousand separators
   // Handle formats like: 43,000 or 43.000 or Rp 43,000
   return parseInt(priceStr.toString().replace(/[^\d]/g, "")) || 0;
+}
+
+/**
+ * Format a date string into a short date string format suitable for display.
+ *
+ * The resulting format is "dd MMM yyyy", e.g. "12 Jan 2022".
+ *
+ * @param {string} dateString The date string to format
+ * @returns {string} The formatted date string
+ */
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
