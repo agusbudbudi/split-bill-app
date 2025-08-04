@@ -475,11 +475,11 @@ hr {
   justify-content: flex-start;
   gap: 10px;
   overflow-x: auto;
-  padding: 0 10px;
+  padding: 0 6px;
   scrollbar-width: none; /* Firefox */
   align-items: center;
   align-items: stretch; /* ✅ stretch semua anak ke height maksimum */
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .card-summary-grid::-webkit-scrollbar {
@@ -592,7 +592,7 @@ hr {
   gap: 10px;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
-  padding: 0 10px;
+  padding: 0 6px;
 }
 
 .client-card {

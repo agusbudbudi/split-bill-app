@@ -115,6 +115,7 @@
     <link rel="stylesheet" href="css/profile.css" />
     <link rel="stylesheet" href="css/transactions.css" />
     <link rel="stylesheet" href="css/tooltip.css" />
+    <link rel="stylesheet" href="css/splitBill.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
@@ -250,6 +251,24 @@
                   <i class="fa-solid fa-user-plus"></i> Tambah Teman
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="preview-container">
+            <div class="title-section">
+              Latest Split Bill 💰
+              <button
+                onclick="window.location.href='transactions.html?tab=splitBill'"
+                class="see-all-button"
+              >
+                Lihat Semua
+                <i class="uil uil-angle-right-b"></i>
+              </button>
+            </div>
+            <div class="tab-wrapper">
+              <div id="SplitBillList" class="preview-splitbill"></div>
             </div>
           </div>
         </div>
@@ -1849,8 +1868,16 @@
     <script src="js/toastMessage.js"></script>
     <script src="js/sharedFunction.js"></script>
     <script src="js/splitBillPerson.js"></script>
+    <script src="js/transactionSplitBill.js"></script>
 
     <script src="js/ui.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        renderLatestTransactionsOnLanding();
+        hidePreviewContainerIfNoData();
+      });
+    </script>
 
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");

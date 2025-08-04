@@ -1,32 +1,11 @@
-// Fungsi untuk memformat mata uang Rupiah
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(amount);
-}
-
-// Fungsi untuk memformat tanggal
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-// Fungsi untuk mendapatkan initial dari nama
-function getInitials(name) {
-  return name
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase())
-    .join("")
-    .substring(0, 2);
-}
-
-// Fungsi untuk mendapatkan semua participants dari transaction
+/**
+ * Mendapatkan semua peserta yang terlibat dalam suatu transaksi split bill.
+ * Peserta terlibat adalah orang-orang yang membayar, membayar sebagian,
+ * atau menerima biaya dari transaksi tersebut.
+ *
+ * @param {Object} transaction - Transaksi split bill yang ingin diolah.
+ * @return {Array<string>} Nama peserta yang terlibat dalam transaksi.
+ */
 function getAllParticipants(transaction) {
   const participants = new Set();
 
@@ -49,7 +28,18 @@ function getAllParticipants(transaction) {
   return Array.from(participants);
 }
 
-// Fungsi untuk membuat profile icons
+/**
+ * Generates HTML for a set of profile icons based on the given participants.
+ *
+ * This function creates a visual representation of the participants in a transaction
+ * by generating up to three profile icons. Each icon is associated with a participant's
+ * name and represents it using an avatar image. If there are more than three participants,
+ * an additional indicator is displayed to show the number of remaining participants.
+ *
+ * @param {Array<string>} participants - An array of participant names.
+ * @return {string} A string of HTML containing the profile icons and an indicator if applicable.
+ */
+
 function createProfileIcons(participants) {
   const maxVisible = 3;
   let iconsHTML = "";
@@ -75,7 +65,18 @@ function createProfileIcons(participants) {
   return iconsHTML;
 }
 
-// Fungsi untuk membuat HTML transaction item
+/**
+ * Generates HTML for a transaction item card, displaying transaction details and participants.
+ *
+ * This function creates an HTML representation of a transaction item, including the split bill number,
+ * total expense, activity name, date, and a preview of participant profile icons. The card includes
+ * an interactive element that allows users to open transaction details by clicking on it.
+ *
+ * @param {Object} transaction - An object containing transaction details including splitBillNumber,
+ * totalExpense, activityName, and date.
+ * @returns {string} A string of HTML representing the transaction item card.
+ */
+
 function createTransactionItemHTML(transaction) {
   const participants = getAllParticipants(transaction);
   const profileIconsHTML = createProfileIcons(participants);
@@ -89,7 +90,7 @@ function createTransactionItemHTML(transaction) {
                         <div class="split-bill-number"> <i class="uil uil-bill invoice-icon"></i> ${
                           transaction.splitBillNumber
                         }</div>
-                        <div class="split-bill-amount">${formatCurrency(
+                        <div class="split-bill-amount">${formatToIDR(
                           transaction.totalExpense
                         )}</div>
                     </div>
@@ -109,14 +110,22 @@ function createTransactionItemHTML(transaction) {
                             <div class="profile-icons">
                                 ${profileIconsHTML}
                             </div>
-                            <span class="participants-count">Split dengan ${participantCount} teman</span>
+                            <span class="participants-count"> ${participantCount} teman</span>
                         </div>
+                        <div class="see-detail">Lihat Detail<i class="uil uil-angle-right-b"></i></div>
                     </div>
                 </div>
             `;
 }
 
-// Fungsi untuk load data dari localStorage (gunakan ini dalam implementasi nyata)
+/**
+ * Loads the split bill history from localStorage.
+ *
+ * This function retrieves the data from localStorage and parses it as JSON.
+ * If the data is not available or there is an error while parsing, it returns an empty array.
+ *
+ * @return {Array<Object>} The split bill history data, or an empty array if there is an error.
+ */
 function loadDataFromLocalStorage() {
   try {
     const data = localStorage.getItem("splitBillHistoryList");
@@ -127,11 +136,17 @@ function loadDataFromLocalStorage() {
   }
 }
 
-// Fungsi untuk render transaction list
+/**
+ * Renders the list of split bill transactions.
+ *
+ * This function renders the list of split bill transactions in the #SplitBillList container.
+ * If there is no data available, it shows a "no data" message.
+ *
+ * @return {void}
+ */
 function renderTransactionList() {
   const container = document.getElementById("SplitBillList");
 
-  // Dalam implementasi nyata, gunakan:
   const data = loadDataFromLocalStorage();
 
   if (!data || data.length === 0) {
@@ -156,19 +171,98 @@ function renderTransactionList() {
   container.innerHTML = html;
 }
 
-// Fungsi untuk membuka detail transaksi (placeholder)
+/**
+ * Opens the detail page of a split bill transaction.
+ *
+ * This function takes a split bill number as a parameter and opens the detail page
+ * of the split bill transaction with that number. It validates whether the split
+ * bill number is available and whether the data is available in localStorage.
+ * If the data is not found, it shows an error message to the user.
+ *
+ * @param {string} splitBillNumber - the split bill number to open the detail page for
+ * @return {void}
+ */
 function openTransactionDetail(splitBillNumber) {
   console.log("Open detail for:", splitBillNumber);
-  // Implementasi detail view bisa ditambahkan di sini
-  alert(`Detail untuk ${splitBillNumber}`);
+
+  // Validasi apakah splitBillNumber ada
+  if (!splitBillNumber) {
+    console.error("Split bill number is required");
+    return;
+  }
+
+  // Validasi apakah data ada di localStorage
+  const storedData = localStorage.getItem("splitBillHistoryList");
+  if (!storedData) {
+    alert("Tidak ada data split bill yang tersimpan");
+    return;
+  }
+
+  const splitBillList = JSON.parse(storedData);
+  const selectedSplitBill = splitBillList.find(
+    (item) => item.splitBillNumber === splitBillNumber
+  );
+
+  if (!selectedSplitBill) {
+    alert(`Split bill ${splitBillNumber} tidak ditemukan`);
+    return;
+  }
+
+  // Buka halaman detail dengan parameter splitBillNumber
+  window.location.href = `splitBill-detail.html?id=${encodeURIComponent(
+    splitBillNumber
+  )}`;
+}
+
+/**
+ * Loads the latest split bill transactions from localStorage.
+ *
+ * This function retrieves the data from localStorage and sorts it by date
+ * in descending order. It then returns the first `limit` transactions.
+ * If there is no data available or there is an error while parsing, it returns an empty array.
+ *
+ * @param {number} [limit = 3] - The number of transactions to load
+ * @return {Array<Object>} The latest split bill transactions, or an empty array if there is an error.
+ */
+function loadLatestTransactions(limit = 3) {
+  const data = loadDataFromLocalStorage();
+  const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return sorted.slice(0, limit);
+}
+
+/**
+ * Renders the latest split bill transactions on the landing page.
+ *
+ * This function retrieves the latest three split bill transactions from localStorage,
+ * and renders them in the #SplitBillList container. If there are no transactions available,
+ * it shows an empty state message with a button to create a new split bill transaction.
+ *
+ * @return {void}
+ */
+function renderLatestTransactionsOnLanding() {
+  const container = document.getElementById("SplitBillList");
+  const latestData = loadLatestTransactions(3);
+
+  if (!latestData || latestData.length === 0) {
+    container.innerHTML = `
+           <div class="no-data-message">
+                <img src="img/state-search.png" alt="Empty State" class="empty-state-image">
+                <p class="title-empty-state">Belum ada Split Bill yang disimpan<p>
+                <p class="desc-empty-state">Buat Split Bill sekarang!<p>
+
+                <button class="secondary-button" onclick="window.location.href='index.html'">
+                    <i class="uil uil-plus"></i> Buat Split Bill
+                </button>
+            </div>
+    `;
+    return;
+  }
+
+  const html = latestData.map(createTransactionItemHTML).join("");
+  container.innerHTML = html;
 }
 
 // Inisialisasi saat halaman dimuat
 document.addEventListener("DOMContentLoaded", function () {
   renderTransactionList();
 });
-
-// Fungsi untuk refresh data (bisa dipanggil dari luar)
-window.refreshTransactionList = function () {
-  renderTransactionList();
-};

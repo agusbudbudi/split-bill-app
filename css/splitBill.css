@@ -1,0 +1,9 @@
+.preview-splitbill {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 1rem; /* opsional, buat jarak antar elemen */
+  scroll-behavior: smooth; /* opsional, agar scroll-nya halus */
+  width: auto;
+  padding: 10px 6px;
+}

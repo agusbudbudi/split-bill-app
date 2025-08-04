@@ -1,5 +1,4 @@
 .card-display-section {
-  width: 100%;
   display: flex;
   overflow-x: auto; /* Scroll horizontal */
   white-space: nowrap;
@@ -87,7 +86,8 @@
   background-color: rgba(112, 86, 236, 0.1); /* soft highlight */
 }
 
-.selected-payment-summary {
+.selected-payment-summary,
+.payment-method-item {
   border: 1px solid var(--infobox-info-bg);
   background-color: var(--container-bg);
   border-radius: 12px;
@@ -97,7 +97,8 @@
   gap: 1em;
   margin-bottom: 10px;
 }
-.selected-payment-summary img {
+.selected-payment-summary img,
+.payment-logo img {
   width: 60px;
 }
 

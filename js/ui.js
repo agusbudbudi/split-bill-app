@@ -129,3 +129,12 @@ function showUnderConstruction(
     <p class="coming-soon">${message}</p>
   `;
 }
+
+function hidePreviewContainerIfNoData() {
+  const previewContainer = document.querySelector(".preview-container");
+  const noDataMessage = previewContainer.querySelector(".no-data-message");
+
+  if (noDataMessage) {
+    previewContainer.style.display = "none";
+  }
+}
