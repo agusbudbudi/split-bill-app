@@ -301,21 +301,6 @@ function renderUserSummaries() {
   splitBillData.transactionMap = transactionMap;
 }
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Membuat mapping transaksi per orang.
- * Mapping ini akan dipakai untuk menghitung siapa yang harus membayar siapa dan berapa.
- * @param {object[]} items - array of objects, masing-masing berisi:
- *   {amount: number, who: string[], paidBy: string}
- * @returns {object} - object dengan 2 properti: transactionMap dan transferSummaryMap
- *   transactionMap: { [key: string]: number } - mapping transaksi per orang
- *     key: string berupa "debtor->creditor"
- *     value: number berupa jumlah yang harus dibayar dari debtor ke creditor
- *   transferSummaryMap: { [key: string]: { [key: string]: number } } - mapping ringkasan transfer per orang
- *     key: string berupa nama orang yang menerima uang
- *     value: object dengan key berupa nama orang yang mengirim uang dan value berupa jumlah yang dikirim
- */
-/*******  19be19dc-a482-4bd1-96c6-c47233e95bae  *******/
 function generateTransactionMap(items) {
   const transactionMap = {};
   const transferSummaryMap = {};

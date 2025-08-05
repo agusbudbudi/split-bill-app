@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Split Bill - Authentication</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/profile.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+  </head>
+
+  <body>
+    <div class="container banner-profile-container">
+      <img
+        src="img/banner-profile.png"
+        alt="banner splitbill"
+        class="banner-profile"
+      />
+    </div>
+    <div class="container">
+      <div class="table-wrapper">
+        <!-- Login Form -->
+        <div id="loginForm" class="card-container">
+          <div class="auth-header">
+            <img
+              src="img/logoSummary.png"
+              alt="Split Bill"
+              class="logo-login"
+            />
+            <!-- <h1><i class="fas fa-receipt"></i> Split Bill</h1> -->
+            <p>Hi Gengs! ketemu lagi, masuk untuk melanjutkan ya 👋🏻</p>
+          </div>
+
+          <div id="loginError" class="error-message hidden"></div>
+
+          <form id="loginFormElement">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <div class="input-with-icon">
+                <i class="uil uil-envelope"></i>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  required
+                  placeholder="Enter you email"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  required
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('loginPassword')"
+                >
+                  <!-- <i class="fas fa-eye"></i> -->
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn" id="loginBtn">
+              <span id="loginLoader" class="loading hidden"></span>
+              Masuk
+            </button>
+          </form>
+
+          <div class="auth-switch">
+            <p>
+              Belum punya akun?
+              <a href="#" onclick="showRegister()">Daftar sekarang</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="card-container hidden">
+          <div class="auth-header">
+            <img
+              src="img/logoSummary.png"
+              alt="Split Bill"
+              class="logo-login"
+            />
+            <!-- <h1><i class="fas fa-receipt"></i> Split Bill</h1> -->
+            <p>Hi Gengs! daftar dulu ya buat melanjutkan 👋🏻</p>
+          </div>
+
+          <div id="registerError" class="error-message hidden"></div>
+          <div id="registerSuccess" class="success-message hidden"></div>
+
+          <form id="registerFormElement">
+            <div class="form-group">
+              <label for="registerName">Nama Lengkap</label>
+              <div class="input-with-icon">
+                <i class="uil uil-user"></i>
+                <input
+                  type="text"
+                  id="registerName"
+                  required
+                  placeholder="Input Nama Lengkap"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="registerEmail">Email</label>
+              <div class="input-with-icon">
+                <i class="uil uil-envelope"></i>
+                <input
+                  type="email"
+                  id="registerEmail"
+                  required
+                  placeholder="Input Email"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="registerPassword"
+                  required
+                  minlength="6"
+                  placeholder="Input Password"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('registerPassword')"
+                >
+                  <!-- <i class="fas fa-eye"></i> -->
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Konfirmasi Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  required
+                  minlength="6"
+                  placeholder="Input Konfirmasi Password"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('confirmPassword')"
+                >
+                  <!-- <i class="fas fa-eye"></i> -->
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn" id="registerBtn">
+              <span id="registerLoader" class="loading hidden"></span>
+              Daftar
+            </button>
+          </form>
+
+          <div class="auth-switch">
+            <p>
+              Sudah punya akun?
+              <a href="#" onclick="showLogin()">Masuk sekarang</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="userDashboard" class="user-info hidden">
+      <h2>Selamat datang!</h2>
+      <p id="userName"></p>
+      <p id="userEmail"></p>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+      <br /><br />
+      <a href="/" class="btn">Lanjut ke Split Bill App</a>
+    </div>
+    <script src="js/login.js"></script>
+  </body>
+</html>
