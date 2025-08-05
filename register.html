@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Split Bill - Authentication</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <style>
+      /* Modern Authentication Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .banner-profile-container {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .banner-profile {
+        max-width: 200px;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .logo-login {
+        max-width: 120px;
+        height: auto;
+        margin-bottom: 15px;
+      }
+
+      .auth-header p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-with-icon i {
+        position: absolute;
+        left: 15px;
+        color: #999;
+        z-index: 2;
+      }
+
+      .input-with-icon input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: 2px solid #e1e5e9;
+        border-radius: 12px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      .input-with-icon input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .password-input {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        z-index: 3;
+        padding: 5px;
+        transition: color 0.3s ease;
+      }
+
+      .password-toggle:hover {
+        color: #667eea;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .auth-switch {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e1e5e9;
+      }
+
+      .auth-switch p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .auth-switch a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .auth-switch a:hover {
+        color: #764ba2;
+      }
+
+      .error-message,
+      .success-message {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .error-message {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+      }
+
+      .success-message {
+        background: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #bbf7d0;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .loading {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ffffff40;
+        border-top: 2px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .user-info {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .user-info h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .user-info p {
+        color: #666;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      .logout-btn {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 20px 0;
+        transition: background 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background: #b91c1c;
+      }
+
+      .field-error {
+        border-color: #dc2626 !important;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+      }
+
+      .field-success {
+        border-color: #16a34a !important;
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 10px;
+        }
+
+        .card-container {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container banner-profile-container">
+      <img
+        src="https://via.placeholder.com/200x100/667eea/ffffff?text=Split+Bill"
+        alt="banner splitbill"
+        class="banner-profile"
+      />
+    </div>
+    <div class="container">
+      <div class="table-wrapper">
+        <!-- Login Form -->
+        <div id="loginForm" class="card-container">
+          <div class="auth-header">
+            <img
+              src="https://via.placeholder.com/120x60/764ba2/ffffff?text=Logo"
+              alt="Split Bill"
+              class="logo-login"
+            />
+            <p>Hi Gengs! ketemu lagi, masuk untuk melanjutkan ya 👋🏻</p>
+          </div>
+
+          <div id="loginError" class="error-message hidden">
+            <i class="fas fa-exclamation-circle"></i>
+            <span></span>
+          </div>
+
+          <form id="loginFormElement">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <div class="input-with-icon">
+                <i class="uil uil-envelope"></i>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  required
+                  placeholder="Masukkan email Anda"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  required
+                  placeholder="Masukkan password Anda"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('loginPassword')"
+                >
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn" id="loginBtn">
+              <span id="loginLoader" class="loading hidden"></span>
+              Masuk
+            </button>
+          </form>
+
+          <div class="auth-switch">
+            <p>
+              Belum punya akun?
+              <a href="#" onclick="showRegister()">Daftar sekarang</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="card-container hidden">
+          <div class="auth-header">
+            <img
+              src="https://via.placeholder.com/120x60/764ba2/ffffff?text=Logo"
+              alt="Split Bill"
+              class="logo-login"
+            />
+            <p>Hi Gengs! daftar dulu ya buat melanjutkan 👋🏻</p>
+          </div>
+
+          <div id="registerError" class="error-message hidden">
+            <i class="fas fa-exclamation-circle"></i>
+            <span></span>
+          </div>
+          <div id="registerSuccess" class="success-message hidden">
+            <i class="fas fa-check-circle"></i>
+            <span></span>
+          </div>
+
+          <form id="registerFormElement">
+            <div class="form-group">
+              <label for="registerName">Nama Lengkap</label>
+              <div class="input-with-icon">
+                <i class="uil uil-user"></i>
+                <input
+                  type="text"
+                  id="registerName"
+                  required
+                  minlength="2"
+                  placeholder="Masukkan nama lengkap"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="registerEmail">Email</label>
+              <div class="input-with-icon">
+                <i class="uil uil-envelope"></i>
+                <input
+                  type="email"
+                  id="registerEmail"
+                  required
+                  placeholder="Masukkan email"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="registerPassword"
+                  required
+                  minlength="6"
+                  placeholder="Minimal 6 karakter"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('registerPassword')"
+                >
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+              <small
+                id="passwordStrength"
+                style="margin-top: 5px; display: block; font-size: 12px"
+              ></small>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Konfirmasi Password</label>
+              <div class="input-with-icon password-input">
+                <i class="uil uil-lock"></i>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  required
+                  minlength="6"
+                  placeholder="Konfirmasi password"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('confirmPassword')"
+                >
+                  <i class="uil uil-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn" id="registerBtn">
+              <span id="registerLoader" class="loading hidden"></span>
+              Daftar
+            </button>
+          </form>
+
+          <div class="auth-switch">
+            <p>
+              Sudah punya akun?
+              <a href="#" onclick="showLogin()">Masuk sekarang</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="userDashboard" class="user-info hidden">
+      <h2>Selamat datang! 🎉</h2>
+      <p><strong>Nama:</strong> <span id="userName"></span></p>
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+      <br />
+      <a href="/" class="btn">
+        <i class="fas fa-calculator"></i>
+        Lanjut ke Split Bill App
+      </a>
+    </div>
+
+    <script>
+      // API Configuration
+      const API_BASE_URL = "https://split-bill-backend-vercel.vercel.app";
+
+      // Enhanced Authentication service
+      class AuthService {
+        constructor() {
+          this.baseURL = API_BASE_URL;
+          this.token = localStorage.getItem("accessToken");
+          this.refreshToken = localStorage.getItem("refreshToken");
+          this.tokenRefreshPromise = null;
+        }
+
+        // Enhanced request method with automatic token refresh
+        async request(endpoint, options = {}) {
+          const url = `${this.baseURL}${endpoint}`;
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              ...options.headers,
+            },
+            ...options,
+          };
+
+          if (this.token) {
+            config.headers.Authorization = `Bearer ${this.token}`;
+          }
+
+          try {
+            let response = await fetch(url, config);
+
+            // If token expired, try to refresh
+            if (
+              response.status === 401 &&
+              this.refreshToken &&
+              !options.skipRefresh
+            ) {
+              const refreshed = await this.refreshTokens();
+              if (refreshed) {
+                config.headers.Authorization = `Bearer ${this.token}`;
+                response = await fetch(url, config);
+              }
+            }
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.error || data.message || "Request failed");
+            }
+
+            return data;
+          } catch (error) {
+            console.error("API request failed:", error);
+            throw error;
+          }
+        }
+
+        // Token refresh method
+        async refreshTokens() {
+          if (!this.refreshToken) return false;
+
+          // Prevent multiple simultaneous refresh requests
+          if (this.tokenRefreshPromise) {
+            return await this.tokenRefreshPromise;
+          }
+
+          this.tokenRefreshPromise = this.performTokenRefresh();
+          const result = await this.tokenRefreshPromise;
+          this.tokenRefreshPromise = null;
+          return result;
+        }
+
+        async performTokenRefresh() {
+          try {
+            const response = await fetch(`${this.baseURL}/api/auth/refresh`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ refreshToken: this.refreshToken }),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              this.setTokens(
+                data.accessToken,
+                data.refreshToken || this.refreshToken
+              );
+              return true;
+            } else {
+              this.clearTokens();
+              return false;
+            }
+          } catch (error) {
+            console.error("Token refresh failed:", error);
+            this.clearTokens();
+            return false;
+          }
+        }
+
+        async register(userData) {
+          const response = await this.request("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify(userData),
+          });
+
+          if (response.accessToken) {
+            this.setTokens(response.accessToken, response.refreshToken);
+          }
+
+          return response;
+        }
+
+        async login(credentials) {
+          const response = await this.request("/api/auth/login", {
+            method: "POST",
+            body: JSON.stringify(credentials),
+          });
+
+          if (response.accessToken) {
+            this.setTokens(response.accessToken, response.refreshToken);
+          }
+
+          return response;
+        }
+
+        async logout() {
+          try {
+            await this.request("/api/auth/logout", {
+              method: "POST",
+              body: JSON.stringify({ refreshToken: this.refreshToken }),
+            });
+          } catch (error) {
+            console.warn("Logout request failed:", error);
+          } finally {
+            this.clearTokens();
+          }
+        }
+
+        async getCurrentUser() {
+          return await this.request("/api/auth/me");
+        }
+
+        setTokens(accessToken, refreshToken) {
+          this.token = accessToken;
+          this.refreshToken = refreshToken;
+          localStorage.setItem("accessToken", accessToken);
+          if (refreshToken) {
+            localStorage.setItem("refreshToken", refreshToken);
+          }
+        }
+
+        clearTokens() {
+          this.token = null;
+          this.refreshToken = null;
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        }
+
+        isLoggedIn() {
+          return !!this.token;
+        }
+      }
+
+      // Initialize auth service
+      const authService = new AuthService();
+
+      // Enhanced validation functions
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function validatePassword(password) {
+        const checks = {
+          length: password.length >= 6,
+          hasNumber: /\d/.test(password),
+          hasLetter: /[a-zA-Z]/.test(password),
+        };
+
+        return {
+          isValid: checks.length && (checks.hasNumber || checks.hasLetter),
+          strength: Object.values(checks).filter(Boolean).length,
+          checks,
+        };
+      }
+
+      function validateName(name) {
+        return name.trim().length >= 2 && /^[a-zA-Z\s]+$/.test(name.trim());
+      }
+
+      // Enhanced UI Functions
+      function showLogin() {
+        document.getElementById("loginForm").classList.remove("hidden");
+        document.getElementById("registerForm").classList.add("hidden");
+        document.getElementById("userDashboard").classList.add("hidden");
+        clearMessages();
+        clearFieldValidation();
+      }
+
+      function showRegister() {
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("registerForm").classList.remove("hidden");
+        document.getElementById("userDashboard").classList.add("hidden");
+        clearMessages();
+        clearFieldValidation();
+      }
+
+      function showDashboard(user) {
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("registerForm").classList.add("hidden");
+        document.getElementById("userDashboard").classList.remove("hidden");
+        document.getElementById("userName").textContent = user.name;
+        document.getElementById("userEmail").textContent = user.email;
+      }
+
+      function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling.querySelector("i");
+
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.remove("uil-eye");
+          icon.classList.add("uil-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.remove("uil-eye-slash");
+          icon.classList.add("uil-eye");
+        }
+      }
+
+      function showError(elementId, message) {
+        const element = document.getElementById(elementId);
+        const span = element.querySelector("span");
+        if (span) {
+          span.textContent = message;
+        } else {
+          element.textContent = message;
+        }
+        element.classList.remove("hidden");
+      }
+
+      function showSuccess(elementId, message) {
+        const element = document.getElementById(elementId);
+        const span = element.querySelector("span");
+        if (span) {
+          span.textContent = message;
+        } else {
+          element.textContent = message;
+        }
+        element.classList.remove("hidden");
+      }
+
+      function clearMessages() {
+        const messages = document.querySelectorAll(
+          ".error-message, .success-message"
+        );
+        messages.forEach((msg) => msg.classList.add("hidden"));
+      }
+
+      function clearFieldValidation() {
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach((input) => {
+          input.classList.remove("field-error", "field-success");
+        });
+      }
+
+      function setFieldValidation(fieldId, isValid) {
+        const field = document.getElementById(fieldId);
+        field.classList.remove("field-error", "field-success");
+        field.classList.add(isValid ? "field-success" : "field-error");
+      }
+
+      function setLoading(buttonId, loaderId, isLoading) {
+        const button = document.getElementById(buttonId);
+        const loader = document.getElementById(loaderId);
+
+        if (isLoading) {
+          button.disabled = true;
+          loader.classList.remove("hidden");
+        } else {
+          button.disabled = false;
+          loader.classList.add("hidden");
+        }
+      }
+
+      function getErrorMessage(error) {
+        const message = error.message.toLowerCase();
+
+        if (
+          message.includes("401") ||
+          message.includes("unauthorized") ||
+          message.includes("invalid credentials")
+        ) {
+          return "Email atau password salah";
+        } else if (
+          message.includes("409") ||
+          message.includes("conflict") ||
+          message.includes("already exists")
+        ) {
+          return "Email sudah terdaftar";
+        } else if (message.includes("400") || message.includes("bad request")) {
+          return "Data yang dimasukkan tidak valid";
+        } else if (message.includes("network") || message.includes("fetch")) {
+          return "Koneksi bermasalah, coba lagi";
+        } else if (message.includes("server") || message.includes("500")) {
+          return "Server sedang bermasalah, coba lagi nanti";
+        }
+
+        return error.message || "Terjadi kesalahan, coba lagi";
+      }
+
+      // Real-time validation
+      document.addEventListener("DOMContentLoaded", function () {
+        // Email validation
+        const loginEmail = document.getElementById("loginEmail");
+        const registerEmail = document.getElementById("registerEmail");
+
+        [loginEmail, registerEmail].forEach((email) => {
+          if (email) {
+            email.addEventListener("blur", function () {
+              if (this.value) {
+                setFieldValidation(this.id, validateEmail(this.value));
+              }
+            });
+          }
+        });
+
+        // Name validation
+        const registerName = document.getElementById("registerName");
+        if (registerName) {
+          registerName.addEventListener("blur", function () {
+            if (this.value) {
+              setFieldValidation(this.id, validateName(this.value));
+            }
+          });
+        }
+
+        // Password strength indicator
+        const registerPassword = document.getElementById("registerPassword");
+        const passwordStrength = document.getElementById("passwordStrength");
+
+        if (registerPassword && passwordStrength) {
+          registerPassword.addEventListener("input", function () {
+            const validation = validatePassword(this.value);
+
+            if (this.value.length === 0) {
+              passwordStrength.textContent = "";
+              return;
+            }
+
+            let strengthText = "";
+            let strengthColor = "";
+
+            if (validation.strength === 1) {
+              strengthText = "Lemah";
+              strengthColor = "#dc2626";
+            } else if (validation.strength === 2) {
+              strengthText = "Sedang";
+              strengthColor = "#f59e0b";
+            } else if (validation.strength === 3) {
+              strengthText = "Kuat";
+              strengthColor = "#16a34a";
+            }
+
+            passwordStrength.textContent = `Kekuatan password: ${strengthText}`;
+            passwordStrength.style.color = strengthColor;
+          });
+        }
+
+        // Confirm password validation
+        const confirmPassword = document.getElementById("confirmPassword");
+        if (confirmPassword && registerPassword) {
+          confirmPassword.addEventListener("input", function () {
+            if (this.value) {
+              const isMatch = this.value === registerPassword.value;
+              setFieldValidation(this.id, isMatch);
+            }
+          });
+        }
+      });
+
+      // Enhanced Event Listeners
+      document
+        .getElementById("loginFormElement")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearMessages();
+          setLoading("loginBtn", "loginLoader", true);
+
+          const email = document.getElementById("loginEmail").value.trim();
+          const password = document.getElementById("loginPassword").value;
+
+          // Client-side validation
+          if (!validateEmail(email)) {
+            showError("loginError", "Format email tidak valid");
+            setFieldValidation("loginEmail", false);
+            setLoading("loginBtn", "loginLoader", false);
+            return;
+          }
+
+          if (password.length < 6) {
+            showError("loginError", "Password minimal 6 karakter");
+            setFieldValidation("loginPassword", false);
+            setLoading("loginBtn", "loginLoader", false);
+            return;
+          }
+
+          try {
+            const response = await authService.login({ email, password });
+            showDashboard(response.user);
+
+            // Auto redirect after 2 seconds if this is not the main app
+            setTimeout(() => {
+              if (window.location.pathname !== "/") {
+                window.location.href = "/";
+              }
+            }, 2000);
+          } catch (error) {
+            showError("loginError", getErrorMessage(error));
+          } finally {
+            setLoading("loginBtn", "loginLoader", false);
+          }
+        });
+
+      document
+        .getElementById("registerFormElement")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearMessages();
+          setLoading("registerBtn", "registerLoader", true);
+
+          const name = document.getElementById("registerName").value.trim();
+          const email = document.getElementById("registerEmail").value.trim();
+          const password = document.getElementById("registerPassword").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          // Enhanced client-side validation
+          let hasError = false;
+
+          if (!validateName(name)) {
+            showError(
+              "registerError",
+              "Nama harus minimal 2 karakter dan hanya berisi huruf"
+            );
+            setFieldValidation("registerName", false);
+            hasError = true;
+          }
+
+          if (!validateEmail(email)) {
+            showError("registerError", "Format email tidak valid");
+            setFieldValidation("registerEmail", false);
+            hasError = true;
+          }
+
+          const passwordValidation = validatePassword(password);
+          if (!passwordValidation.isValid) {
+            showError(
+              "registerError",
+              "Password minimal 6 karakter dan harus mengandung huruf atau angka"
+            );
+            setFieldValidation("registerPassword", false);
+            hasError = true;
+          }
+
+          if (password !== confirmPassword) {
+            showError("registerError", "Konfirmasi password tidak cocok");
+            setFieldValidation("confirmPassword", false);
+            hasError = true;
+          }
+
+          if (hasError) {
+            setLoading("registerBtn", "registerLoader", false);
+            return;
+          }
+
+          try {
+            const response = await authService.register({
+              name,
+              email,
+              password,
+            });
+
+            showSuccess(
+              "registerSuccess",
+              "Registrasi berhasil! Anda akan diarahkan ke dashboard..."
+            );
+
+            setTimeout(() => {
+              showDashboard(response.user);
+
+              // Auto redirect after additional 2 seconds
+              setTimeout(() => {
+                if (window.location.pathname !== "/") {
+                  window.location.href = "/";
+                }
+              }, 2000);
+            }, 2000);
+          } catch (error) {
+            showError("registerError", getErrorMessage(error));
+          } finally {
+            setLoading("registerBtn", "registerLoader", false);
+          }
+        });
+
+      async function logout() {
+        try {
+          setLoading("logoutBtn", "logoutLoader", true);
+          await authService.logout();
+          showLogin();
+        } catch (error) {
+          console.error("Logout failed:", error);
+          // Still logout locally even if server request fails
+          authService.clearTokens();
+          showLogin();
+        }
+      }
+
+      // Enhanced app initialization
+      async function initApp() {
+        if (authService.isLoggedIn()) {
+          try {
+            const response = await authService.getCurrentUser();
+            showDashboard(response.user);
+          } catch (error) {
+            console.error("Failed to get current user:", error);
+            // If token is invalid, clear it and show login
+            if (
+              error.message.includes("401") ||
+              error.message.includes("unauthorized")
+            ) {
+              authService.clearTokens();
+            }
+            showLogin();
+          }
+        } else {
+          showLogin();
+        }
+      }
+
+      // Auto-save form data to prevent data loss (but not passwords)
+      function saveFormData() {
+        const loginEmail = document.getElementById("loginEmail").value;
+        const registerName = document.getElementById("registerName").value;
+        const registerEmail = document.getElementById("registerEmail").value;
+
+        if (loginEmail) sessionStorage.setItem("loginEmail", loginEmail);
+        if (registerName) sessionStorage.setItem("registerName", registerName);
+        if (registerEmail)
+          sessionStorage.setItem("registerEmail", registerEmail);
+      }
+
+      function loadFormData() {
+        const loginEmail = sessionStorage.getItem("loginEmail");
+        const registerName = sessionStorage.getItem("registerName");
+        const registerEmail = sessionStorage.getItem("registerEmail");
+
+        if (loginEmail)
+          document.getElementById("loginEmail").value = loginEmail;
+        if (registerName)
+          document.getElementById("registerName").value = registerName;
+        if (registerEmail)
+          document.getElementById("registerEmail").value = registerEmail;
+      }
+
+      // Add form data saving on input
+      document.addEventListener("DOMContentLoaded", function () {
+        loadFormData();
+
+        // Save form data on input (except passwords)
+        ["loginEmail", "registerName", "registerEmail"].forEach((id) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener("input", saveFormData);
+          }
+        });
+      });
+
+      // Clear saved form data on successful login/register
+      function clearSavedFormData() {
+        sessionStorage.removeItem("loginEmail");
+        sessionStorage.removeItem("registerName");
+        sessionStorage.removeItem("registerEmail");
+      }
+
+      // Enhanced keyboard navigation
+      document.addEventListener("keydown", function (e) {
+        // Enter key on inputs should move to next field or submit
+        if (e.key === "Enter" && e.target.tagName === "INPUT") {
+          const form = e.target.closest("form");
+          const inputs = Array.from(form.querySelectorAll("input"));
+          const currentIndex = inputs.indexOf(e.target);
+
+          if (currentIndex < inputs.length - 1) {
+            e.preventDefault();
+            inputs[currentIndex + 1].focus();
+          }
+        }
+
+        // Escape key to clear messages
+        if (e.key === "Escape") {
+          clearMessages();
+        }
+      });
+
+      // Network status handling
+      function handleNetworkStatus() {
+        if (!navigator.onLine) {
+          showError("loginError", "Tidak ada koneksi internet");
+          showError("registerError", "Tidak ada koneksi internet");
+        }
+      }
+
+      window.addEventListener("online", function () {
+        clearMessages();
+      });
+
+      window.addEventListener("offline", handleNetworkStatus);
+
+      // Session timeout warning
+      let sessionWarningTimer;
+      let sessionTimeoutTimer;
+
+      function startSessionTimers() {
+        clearSessionTimers();
+
+        // Warn user 5 minutes before token expires (assuming 30 min token)
+        sessionWarningTimer = setTimeout(() => {
+          if (authService.isLoggedIn()) {
+            const shouldContinue = confirm(
+              "Sesi Anda akan berakhir dalam 5 menit. Klik OK untuk memperpanjang sesi."
+            );
+            if (shouldContinue) {
+              // Try to refresh token
+              authService.refreshTokens().catch(() => {
+                alert("Gagal memperpanjang sesi. Silakan login kembali.");
+                logout();
+              });
+            }
+          }
+        }, 25 * 60 * 1000); // 25 minutes
+
+        // Auto logout after 30 minutes of inactivity
+        sessionTimeoutTimer = setTimeout(() => {
+          if (authService.isLoggedIn()) {
+            alert("Sesi Anda telah berakhir. Silakan login kembali.");
+            logout();
+          }
+        }, 30 * 60 * 1000); // 30 minutes
+      }
+
+      function clearSessionTimers() {
+        if (sessionWarningTimer) clearTimeout(sessionWarningTimer);
+        if (sessionTimeoutTimer) clearTimeout(sessionTimeoutTimer);
+      }
+
+      function resetSessionTimers() {
+        if (authService.isLoggedIn()) {
+          startSessionTimers();
+        }
+      }
+
+      // Reset session timers on user activity
+      ["mousedown", "mousemove", "keypress", "scroll", "touchstart"].forEach(
+        (event) => {
+          document.addEventListener(event, resetSessionTimers, true);
+        }
+      );
+
+      // Enhanced error recovery
+      window.addEventListener("unhandledrejection", function (event) {
+        console.error("Unhandled promise rejection:", event.reason);
+
+        // Handle authentication errors globally
+        if (
+          event.reason &&
+          event.reason.message &&
+          event.reason.message.includes("401")
+        ) {
+          authService.clearTokens();
+          showLogin();
+          showError(
+            "loginError",
+            "Sesi Anda telah berakhir. Silakan login kembali."
+          );
+        }
+      });
+
+      // Start the app
+      initApp();
+
+      // Start session timers if user is logged in
+      if (authService.isLoggedIn()) {
+        startSessionTimers();
+      }
+
+      // Export functions for external use if needed
+      window.SplitBillAuth = {
+        authService,
+        showLogin,
+        showRegister,
+        logout,
+        isLoggedIn: () => authService.isLoggedIn(),
+        getCurrentUser: () => authService.getCurrentUser(),
+      };
+    </script>
+  </body>
+</html>
