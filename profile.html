@@ -125,6 +125,7 @@
         <span class="section-title">Profil & Pengaturan</span>
       </div>
     </header>
+    <!-- Banner section -->
     <div class="container banner-profile-container">
       <img
         src="img/banner-profile.png"
@@ -132,11 +133,66 @@
         class="banner-profile"
       />
     </div>
+
     <div class="container">
       <div id="section-transaction" class="section-content">
         <div class="table-wrapper">
           <div class="card-container menu-profile-container">
-            <div class="profile-section">
+            <!-- Login Required Message (Hidden by default) -->
+            <div
+              id="loginRequiredSection"
+              class="login-required-section hidden"
+            >
+              <div class="login-message-card">
+                <div class="non-login-message">
+                  <div class="login-icon">
+                    <img src="img/non-login-state.png" alt="Login Icon" />
+                  </div>
+                  <h3>Ayok login dulu!</h3>
+                  <p>
+                    Kamu bisa mengakses semua fitur Split Bill setelah login
+                  </p>
+                  <button
+                    onclick="window.location.href='login.html'"
+                    class="login-btn"
+                  >
+                    <i class="uil uil-signin"></i> Login
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- User Profile Section -->
+            <div id="userProfileSection" class="user-profile-section">
+              <div class="profile-section">
+                <div class="profile-card">
+                  <div class="left-section">
+                    <div class="profile-avatar">
+                      <img
+                        id="userAvatar"
+                        src=""
+                        alt="User Avatar"
+                        class="avatar-large"
+                      />
+                    </div>
+                    <div class="profile-info">
+                      <h2 id="userDisplayName">Loading...</h2>
+                      <p id="userDisplayEmail">Loading...</p>
+                    </div>
+                  </div>
+
+                  <div class="right-section">
+                    <button
+                      id="logoutButton"
+                      class="logout-btn"
+                      onclick="handleLogout()"
+                    >
+                      <i class="uil uil-signout"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div class="menu-navigation-container">
                 <div
                   class="menu-navigation"
@@ -456,5 +512,117 @@
     <script src="js/sharedFunction.js"></script>
     <script src="js/shareSummary.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/register.js"></script>
+
+    <script>
+      // Profile page functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        initProfilePage();
+      });
+
+      function initProfilePage() {
+        const currentUser = getCurrentUserData();
+
+        if (currentUser && isUserLoggedIn()) {
+          showUserProfile(currentUser);
+        } else {
+          showLoginRequired();
+        }
+      }
+
+      function getCurrentUserData() {
+        try {
+          const userData = localStorage.getItem("currentUser");
+          return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+          return null;
+        }
+      }
+
+      function isUserLoggedIn() {
+        const token = localStorage.getItem("accessToken");
+        return !!token;
+      }
+
+      function showUserProfile(user) {
+        const userProfileSection =
+          document.getElementById("userProfileSection");
+        const loginRequiredSection = document.getElementById(
+          "loginRequiredSection"
+        );
+
+        // Show profile section, hide login required
+        userProfileSection.classList.remove("hidden");
+        loginRequiredSection.classList.add("hidden");
+
+        // Generate avatar URL using dicebear with user's name as seed
+        const avatarSeed = user.name || user.email || "default";
+        const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+          avatarSeed
+        )}`;
+
+        // Update profile information
+        document.getElementById("userAvatar").src = avatarUrl;
+        document.getElementById("userDisplayName").textContent =
+          user.name || "User";
+        document.getElementById("userDisplayEmail").textContent =
+          user.email || "";
+      }
+
+      function showLoginRequired() {
+        const userProfileSection =
+          document.getElementById("userProfileSection");
+        const loginRequiredSection = document.getElementById(
+          "loginRequiredSection"
+        );
+
+        // Hide profile section, show login required
+        userProfileSection.classList.add("hidden");
+        loginRequiredSection.classList.remove("hidden");
+      }
+
+      function handleLogout() {
+        // Show confirmation dialog
+        if (confirm("Apakah Anda yakin ingin logout?")) {
+          // Clear all user data
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+
+          // Clear session storage
+          sessionStorage.clear();
+
+          // Show success message
+          if (typeof showToast === "function") {
+            showToast("Logout berhasil!", "success");
+          }
+
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+        }
+      }
+
+      // Update avatar in header if user is logged in
+      function updateHeaderAvatar() {
+        const currentUser = getCurrentUserData();
+        const headerAvatar = document.querySelector(".avatar-profile");
+
+        if (currentUser && isUserLoggedIn() && headerAvatar) {
+          const avatarSeed = currentUser.name || currentUser.email || "default";
+          const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+            avatarSeed
+          )}`;
+          headerAvatar.src = avatarUrl;
+        }
+      }
+
+      // Call updateHeaderAvatar when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        updateHeaderAvatar();
+      });
+    </script>
   </body>
 </html>
