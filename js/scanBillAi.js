@@ -75,17 +75,15 @@ class BillScanner {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   }
 
-  // updateScanButton() {
-  //   const scanBtn = document.getElementById("scanBtn");
-  //   if (scanBtn) {
-  //     scanBtn.disabled = !(this.selectedFile && this.apiKey);
-  //   }
-  // }
-
   updateScanButton() {
     const scanBtn = document.getElementById("scanBtn");
-    if (scanBtn) {
-      scanBtn.disabled = !this.selectedFile;
+    if (!scanBtn) return;
+
+    // Hanya hapus class jika ada file
+    if (this.selectedFile) {
+      scanBtn.classList.remove("disabled-btn");
+    } else {
+      scanBtn.classList.add("disabled-btn"); // Optional: tambahkan kembali jika tidak ada file
     }
   }
 

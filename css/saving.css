@@ -639,14 +639,14 @@
 }
 
 .see-all-button {
-  border: 1px solid var(--btn-bg);
+  border: 1px solid var(--infobox-info-border-color);
   border-radius: 8px;
   color: var(--text-color);
   font-size: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   background-color: transparent;
-  padding: 5px 8px;
+  padding: 6px 10px;
   max-width: 90px;
   max-height: 30px;
 }

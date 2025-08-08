@@ -83,7 +83,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .total-expense {
@@ -254,14 +254,6 @@
 
 .transfer-info p {
   font-weight: 500;
-}
-
-.no-debt {
-  color: #059669;
-}
-
-.transfer-detail {
-  color: #dc2626;
 }
 
 .payment-info p:first-child {

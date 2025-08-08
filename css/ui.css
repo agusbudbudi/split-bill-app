@@ -537,3 +537,52 @@ td {
 .preview-splitbill::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+.card-login {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  align-items: center;
+  gap: 5px;
+  background: var(--progress-bg);
+  border: 1px solid var(--progress-border);
+  border-radius: 10px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  padding: 12px;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.user-info h2 {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.user-info p {
+  color: var(--text-color);
+  font-size: 10px;
+  margin: 0;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: var(--progress-border);
+  font-size: 20px;
+}
+
+.icon img {
+  width: 36px;
+  /* padding: 0 10px; */
+  object-fit: contain;
+}
