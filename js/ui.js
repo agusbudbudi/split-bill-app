@@ -138,3 +138,34 @@ function hidePreviewContainerIfNoData() {
     previewContainer.style.display = "none";
   }
 }
+
+// Update header avatar based on logged in user
+document.addEventListener("DOMContentLoaded", function () {
+  updateHeaderAvatar();
+});
+
+function updateHeaderAvatar() {
+  try {
+    const currentUser = localStorage.getItem("currentUser");
+    const token = localStorage.getItem("accessToken");
+    const headerAvatar = document.getElementById("headerAvatar");
+
+    if (currentUser && token && headerAvatar) {
+      const user = JSON.parse(currentUser);
+      const avatarSeed = user.name || user.email || "default";
+      const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+        avatarSeed
+      )}`;
+      headerAvatar.src = avatarUrl;
+    }
+  } catch (error) {
+    console.error("Error updating header avatar:", error);
+  }
+}
+
+// Update avatar when user data changes
+window.addEventListener("storage", function (e) {
+  if (e.key === "currentUser" || e.key === "accessToken") {
+    updateHeaderAvatar();
+  }
+});

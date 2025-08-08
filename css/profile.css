@@ -115,3 +115,118 @@
 .menu-navigation i {
   color: var(--text-color-desc);
 }
+
+/* User Profile Section Styles */
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border: 1px solid var(--table-border-color);
+  border-radius: 15px;
+  padding: 16px;
+}
+
+.login-message-card {
+  align-items: center;
+  gap: 16px;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-large {
+  border-radius: 40%;
+  object-fit: cover;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-info h2 {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-info p {
+  color: var(--text-color-desc);
+  font-size: 12px;
+  margin: 0;
+}
+
+.logout-btn {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  color: var(--text-color-desc);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  max-width: 50px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: none;
+}
+
+.logout-btn i {
+  font-size: 18px;
+}
+
+/* Login Required Section Styles */
+
+.login-icon img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 10px;
+}
+
+.non-login-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.login-message-card h3 {
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.login-message-card p {
+  color: var(--text-color-desc);
+  font-size: 12px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+}
+
+.login-btn i {
+  font-size: 16px;
+}
