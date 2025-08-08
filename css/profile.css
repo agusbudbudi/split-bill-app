@@ -27,8 +27,8 @@
 }
 
 .avatar-profile {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 40%;
   object-fit: cover;
   cursor: pointer;
@@ -134,7 +134,7 @@
   align-items: center;
   gap: 16px;
   border-radius: 15px;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .left-section {
@@ -196,7 +196,7 @@
 .login-icon img {
   width: 70px;
   height: 70px;
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .non-login-message {

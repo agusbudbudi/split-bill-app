@@ -88,7 +88,7 @@ input {
   padding: 15px 15px 15px 45px;
   border: 1px solid #e1e5e9;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 16px;
   transition: all 0.3s ease;
   background: #fff;
   background-color: var(--input-bg);

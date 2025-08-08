@@ -117,6 +117,7 @@
     <link rel="stylesheet" href="css/tooltip.css" />
     <link rel="stylesheet" href="css/splitBill.css" />
     <link rel="stylesheet" href="css/mobile.css" />
+    <link rel="stylesheet" href="css/loginCard.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -167,6 +168,31 @@
             alt="banner wallet"
             class="banner-slide"
           />
+        </div>
+      </div>
+
+      <!-- Login Card for Non-Login State -->
+      <div class="table-wrapper">
+        <div
+          id="loginCard"
+          class="card-container card-login auth-header hidden"
+          onclick="window.location.href='login.html'"
+        >
+          <div class="user-info">
+            <div class="icon">
+              <img src="img/non-login-state.png" alt="Login Icon" />
+            </div>
+            <div class="text">
+              <h2 class="title-section">Halo! Masuk dulu, ya</h2>
+              <p>
+                Masuk ke akunmu untuk menikmati semua fitur Split Bill tanpa
+                batas!
+              </p>
+            </div>
+            <div class="icon">
+              <i class="uil uil-angle-right-b"></i>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -284,7 +310,7 @@
                   data-tab="ai-scan"
                 >
                   <i class="uil uil-robot tab-icon"></i>
-                  Scan with AI
+                  Scan with AI <span class="badge-new">New</span>
                 </button>
                 <button
                   onclick="showTab('manual-input')"
@@ -296,14 +322,14 @@
                 </button>
 
                 <!-- PENDING FEATURE SCAN BILL WITH OCR -->
-                <button
+                <!-- <button
                   onclick="showTab('ocr-scan')"
                   class="tab-button"
                   data-tab="ocr-scan"
                 >
                   <i class="uil uil-image-search tab-icon"></i>
                   OCR Scan
-                </button>
+                </button> -->
               </div>
             </div>
 
@@ -488,7 +514,7 @@
                     />
                   </div>
 
-                  <button id="scanBtn" class="scan-btn" disabled>
+                  <button id="scanBtn" class="scan-btn disabled-btn">
                     <i class="uil uil-robot"></i>
                     Scan Bill dengan AI
                   </button>
@@ -1877,6 +1903,43 @@
       document.addEventListener("DOMContentLoaded", function () {
         renderLatestTransactionsOnLanding();
         hidePreviewContainerIfNoData();
+        checkLoginStateAndShowCard();
+      });
+      function checkLoginStateAndShowCard() {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const loginCard = document.getElementById("loginCard");
+
+          if (!loginCard) return;
+
+          if (!accessToken) {
+            // User is not logged in, show the login card
+            loginCard.classList.remove("hidden");
+          } else {
+            // User is logged in, hide the login card
+            loginCard.classList.add("hidden");
+          }
+        } catch (error) {
+          console.error("Error checking login state:", error);
+          const loginCard = document.getElementById("loginCard");
+          if (loginCard) {
+            loginCard.classList.remove("hidden");
+          }
+        }
+      }
+
+      // Listen for storage changes to update login card visibility
+      window.addEventListener("storage", function (e) {
+        if (e.key === "accessToken") {
+          checkLoginStateAndShowCard();
+        }
+      });
+
+      // Also check when the page becomes visible (user switches back to tab)
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) {
+          checkLoginStateAndShowCard();
+        }
       });
     </script>
 

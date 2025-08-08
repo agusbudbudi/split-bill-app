@@ -11,6 +11,15 @@
   z-index: 1;
 }
 
+.badge-new {
+  background-color: #ffae00;
+  color: white;
+  padding: 1px 4px;
+  border-radius: 5px;
+  font-size: 9px;
+  z-index: 1;
+}
+
 .menu-circle-container {
   display: flex;
   justify-content: center;

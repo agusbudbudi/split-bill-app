@@ -48,7 +48,7 @@
 .file-info-scan {
   margin-top: 10px;
   padding: 20px;
-  background: #f0f8ff;
+  background: var(--infobox-info-bg);
   border-radius: 8px;
   display: none;
   width: auto;
@@ -129,22 +129,22 @@
 }
 
 .error {
-  background: #ffebee;
-  color: #c62828;
+  background: var(--expired-bg);
+  color: var(--expired-color);
   padding: 10px;
   border-radius: 8px;
-  border-left: 4px solid #c62828;
+  border-left: 4px solid var(--expired-color);
   margin-top: 1rem;
   display: none;
   font-size: 12px;
 }
 
 .success {
-  background: #e8f5e8;
-  color: #2e7d32;
+  background: var(--achieved-bg);
+  color: var(--achieved-color);
   padding: 10px;
   border-radius: 8px;
-  border-left: 4px solid #2e7d32;
+  border-left: 4px solid var(--achieved-color);
   margin-top: 1rem;
   display: none;
   font-size: 12px;
