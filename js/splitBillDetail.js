@@ -362,40 +362,6 @@ function adjustForMutualPayments(transactionMap, transferSummaryMap) {
   }
 }
 
-function shareToWhatsApp() {
-  const message = generateWhatsAppMessage();
-  const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
-}
-
-function generateWhatsAppMessage() {
-  let message = `🧾 *Split Bill Detail*\n`;
-  message += `📋 ${splitBillData.splitBillNumber}\n`;
-  message += `🎯 ${splitBillData.activityName || "No Activity Name"}\n`;
-  message += `📅 ${formatDate(splitBillData.date)}\n`;
-  message += `💰 Total: ${formatToIDR(splitBillData.totalExpense)}\n\n`;
-
-  message += `📊 *Ringkasan Pembayaran:*\n`;
-  Object.entries(splitBillData.variance).forEach(([user, variance]) => {
-    const userName = user.charAt(0).toUpperCase() + user.slice(1);
-    if (variance > 0) {
-      message += `💰 ${userName}: Akan menerima ${formatToIDR(variance)}\n`;
-    } else if (variance < 0) {
-      message += `💸 ${userName}: Harus bayar ${formatToIDR(
-        Math.abs(variance)
-      )}\n`;
-    } else {
-      message += `✅ ${userName}: Sudah lunas\n`;
-    }
-  });
-
-  message += `\n💳 *Metode Pembayaran:*\n`;
-  message += `🟠 OVO: 085559496968 (Agus Budiman)\n`;
-  message += `🔵 BCA: 123456 (Agus Budiman)\n`;
-
-  return message;
-}
-
 // Initialize when page loads
 document.addEventListener("DOMContentLoaded", function () {
   // Get splitBillId from URL params if available

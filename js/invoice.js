@@ -1033,7 +1033,10 @@ function renderUnpaidInvoicesPreview() {
   const container = document.getElementById("unpaidInvoicesPreview");
 
   if (!unpaidInvoices.length) {
-    container.innerHTML = "<p>Yeayy semua Invoice mu sudah Lunas 🤑</p>";
+    document.getElementById("unpaidInvoicesPreviewSection").style.display =
+      "none";
+    document.getElementById("unpaidInvoicesPreviewWrapper").style.display =
+      "none";
     return;
   }
 
