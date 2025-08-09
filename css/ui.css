@@ -557,7 +557,7 @@ td {
   display: flex;
   padding: 12px;
   gap: 16px;
-  justify-content: space-between;
+  /* justify-content: flex-start; */
 }
 
 .user-info h2 {

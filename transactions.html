@@ -105,6 +105,7 @@
     <link rel="stylesheet" href="css/toastMessage.css" />
     <link rel="stylesheet" href="css/saving.css" />
     <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/splitBillDetail.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -239,16 +240,31 @@
               <!-- Summary Cards -->
               <div class="summary-cards">
                 <div class="summary-card">
-                  <h3 id="totalFilteredAmount">Rp 0</h3>
-                  <p>Total Tabungan</p>
+                  <div
+                    class="summary-icon"
+                    style="background: var(--gradient-color)"
+                  >
+                    <i class="uil uil-wallet"></i>
+                  </div>
+                  <div class="summary-text">
+                    <p class="label">Total Tabungan</p>
+                    <p class="value" id="totalFilteredAmount">Rp 0</p>
+                  </div>
                 </div>
                 <div class="summary-card">
-                  <h3 id="totalFilteredTransactions">0</h3>
-                  <p>Total Transaksi</p>
+                  <div
+                    class="summary-icon"
+                    style="background: var(--gradient-color)"
+                  >
+                    <i class="uil uil-transaction"></i>
+                  </div>
+                  <div class="summary-text">
+                    <p class="label">Total Transaksi</p>
+                    <p class="value" id="totalFilteredTransactions">0</p>
+                  </div>
                 </div>
               </div>
 
-              <!-- Section Header -->
               <div class="section-header">
                 <label class="section-title">Riwayat Transaksi</label>
                 <span id="transactionCount" class="transaction-count"

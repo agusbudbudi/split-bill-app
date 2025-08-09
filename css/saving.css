@@ -2,6 +2,11 @@
   border-radius: 16px;
   position: relative;
   margin-bottom: 20px;
+
+  background-image: url("../img/wallet-bg.png");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
 
 .card-menu {
@@ -9,8 +14,8 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   background: var(--container-bg);
-  border-radius: 20px;
-  padding: 10px;
+  border-radius: 12px;
+  padding: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   margin: 10px;
   z-index: 2;
@@ -25,9 +30,9 @@
   align-items: center;
   border: none;
   background: transparent;
-  border-radius: 14px;
+  border-radius: 10px;
   cursor: pointer;
-  padding: 8px;
+  padding: 5px;
 }
 .menu-item:hover {
   background: var(--infobox-info-bg);
@@ -36,7 +41,7 @@
 .menu-item i {
   font-size: 24px;
   color: var(--btn-bg);
-  margin-bottom: 2px;
+  /* margin-bottom: 2px; */
 }
 
 .menu-item span {
@@ -51,15 +56,15 @@
   justify-content: space-between;
   align-items: center;
   z-index: 1;
-  padding: 25px 25px 50px 25px;
+  padding: 10px 25px 40px 25px;
   border-radius: 20px;
   color: #fff;
   position: relative;
 
-  background-image: url("../img/wallet-bg.png");
+  /* background-image: url("../img/wallet-bg.png");
   background-size: cover;
   background-position: center;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 .total-savings-card-title {
@@ -110,7 +115,7 @@
   background: radial-gradient(
     circle,
     rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
+    transparent 90%
   );
   animation: shimmer 3s ease-in-out infinite;
 }
@@ -134,7 +139,7 @@
 }
 
 .total-amount {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -154,7 +159,7 @@
   margin-bottom: 20px;
 }
 
-.payment-method-card::before {
+/* .payment-method-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -162,7 +167,7 @@
   right: 0;
   height: 4px;
   background: var(--gradient-color);
-}
+} */
 
 .payment-method-count {
   font-size: 12px;
@@ -181,9 +186,9 @@
 
 .payment-method-card {
   border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
   padding: 8px;
-  min-width: 150px;
+  min-width: 160px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -194,7 +199,7 @@
 }
 
 .nabung-icon {
-  height: 90px;
+  height: 70px;
 }
 
 .card-body {
@@ -213,13 +218,13 @@
   font-weight: 600;
   /* margin: 8px 0; */
   color: var(--text-color);
-  padding-top: 5px;
+  /* padding-top: 5px; */
 }
 
 .card-footer {
   background-color: var(--infobox-info-bg);
   border-radius: 6px;
-  padding: 3px 10px;
+  padding: 5px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

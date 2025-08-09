@@ -359,4 +359,5 @@
   font-size: 14px;
   font-weight: 600;
   margin: 0;
+  color: var(--text-color);
 }

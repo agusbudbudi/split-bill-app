@@ -29,6 +29,7 @@ function displayTotalSavings() {
     totalAmountElement.textContent = `Rp ${formatCurrency(totalAmount)}`;
   }
 }
+// function displayPaymentMethodStats() {
 function displayPaymentMethodStats() {
   const paymentMethodCards = document.getElementById("paymentMethodCards");
   const paymentStats = getTotalSavingsByPaymentMethod();
@@ -37,11 +38,11 @@ function displayPaymentMethodStats() {
 
   if (Object.keys(paymentStats).length === 0) {
     paymentMethodCards.innerHTML = `
-            <div class="no-data-message">
-                <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
-                <p>Belum ada data transaksi berdasarkan metode penyimpanan<p>
-            </div>
-        `;
+      <div class="no-data-message">
+        <img src="img/empty-state.png" alt="Empty State" class="empty-state-image">
+        <p>Belum ada data transaksi berdasarkan metode penyimpanan</p>
+      </div>
+    `;
     return;
   }
 
@@ -54,30 +55,32 @@ function displayPaymentMethodStats() {
     const card = document.createElement("div");
     card.className = "payment-method-card";
 
-    // Get logo using the existing function
-    const logoSrc =
+    // Ambil logo dari fungsi baru
+    const logoData =
       typeof getPaymentLogo === "function"
-        ? getPaymentLogo(method)
-        : "img/default.png";
+        ? getPaymentLogo(method, data.bankName || "")
+        : { text: method, image: "img/default.png", class: "" };
 
     card.innerHTML = `
-           <div class="card-body">
-            <span class="card-title">Tabungan</span>
-            <div class="payment-method-amount">Rp ${formatCurrency(
-              data.amount
-            )}</div>
-            
-            </div>
-            <div class="card-footer">
-                <div class="payment-method-count">${data.count} transaksi</div>
-                <img src="${logoSrc}" alt="${method}" class="payment-logo" onerror="this.src='img/default.png'">
-            </div>
-            </div>
-            `;
+      <div class="card-body">
+        <span class="card-title">${logoData.text}</span>
+        <div class="payment-method-amount">Rp ${formatCurrency(
+          data.amount
+        )}</div>
+      </div>
+      <div class="card-footer">
+        <div class="payment-method-count">${data.count} transaksi</div>
+        <img src="${logoData.image}" 
+             alt="${logoData.text}" 
+             class="payment-logo ${logoData.class}" 
+             onerror="this.src='img/default.png'">
+      </div>
+    `;
 
     paymentMethodCards.appendChild(card);
   });
 }
+
 function getTotalSavingsByPaymentMethod() {
   const stats = {};
 
