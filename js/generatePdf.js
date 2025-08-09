@@ -378,6 +378,21 @@ function formatSplitBillElements(container) {
     el.style.borderRadius = "40%";
     el.style.objectFit = "cover";
   });
+
+  //format summary card
+  container.querySelectorAll(".summary-total-card").forEach((el) => {
+    el.style.border = "1px solid #eef6fc";
+  });
+
+  //format summary icon summary-icon payment-method-item
+  container.querySelectorAll(".summary-icon i").forEach((el) => {
+    el.style.color = "#ffffff";
+  });
+
+  //format summary icon
+  container.querySelectorAll(".payment-method-item").forEach((el) => {
+    el.style.border = "1px solid #eef6fc";
+  });
 }
 
 // ===== COLLECT MONEY SPECIFIC FORMATTING =====
@@ -461,7 +476,6 @@ function createPDFFooter() {
   footer.style.textAlign = "center";
   footer.style.fontSize = "11px";
   footer.style.color = "#888";
-  footer.style.width = "100%";
   footer.style.lineHeight = "1.4";
   return footer;
 }
