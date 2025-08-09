@@ -1,19 +1,19 @@
 {
   "name": "Split Bill App",
   "short_name": "SplitBill",
-  "start_url": "/split-bill-app/",
-  "scope": "/split-bill-app/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#7056ec",
   "icons": [
     {
-      "src": "/split-bill-app/SplitBill-icon.png",
+      "src": "./SplitBill-icon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/split-bill-app/favicon.png",
+      "src": "./favicon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
