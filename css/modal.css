@@ -148,3 +148,9 @@
 .hidden {
   display: none;
 }
+
+.information-text {
+  color: var(--text-color-desc);
+  font-size: 10px;
+  margin-bottom: 6px;
+}

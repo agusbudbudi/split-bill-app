@@ -419,7 +419,11 @@
                 />
                 <input type="hidden" id="splitAmount" />
 
-                <label>Split dengan Siapa (Pilih minimal 1 orang)</label>
+                <label>Split dengan Siapa</label>
+                <p class="information-text">
+                  <i class="uil uil-info-circle"></i> Klik avatar untuk memilih
+                  (Pilih minimal 1 orang)
+                </p>
                 <div id="avatarContainer" class="avatar-container"></div>
 
                 <label for="paidBy">Dibayar oleh</label>
@@ -771,13 +775,17 @@
                 <input type="text" id="editAmountFormatted" />
                 <input type="hidden" id="editAmount" />
 
-                <label>Siapa yang berhutang (Pilih minimal 1 orang)</label>
-                <!-- <div id="avatarContainer" class="avatar-container"></div> -->
+                <label>Split dengan Siapa</label>
+                <p class="information-text">
+                  <i class="uil uil-info-circle"></i> Kamu bisa input manual
+                  atau pilih dari daftar temanmu (Pilih minimal 1 orang)
+                </p>
                 <input
                   type="text"
                   id="editWho"
                   placeholder="Pisahkan dengan koma"
                 />
+                <div id="avatarContainerEdit" class="avatar-container"></div>
 
                 <label>Dibayar oleh</label>
                 <input type="text" id="editPaidBy" />

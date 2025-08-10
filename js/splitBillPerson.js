@@ -219,12 +219,77 @@ function renderAvatars() {
         // Simpan update ke localStorage
         saveToLocalStorage("who", who);
         renderAvatars(); // render ulang
+        renderAvatarsEdit(); // render ulang list on the edit form
       };
 
       avatarWrapper.appendChild(avatar);
       avatarWrapper.appendChild(nameLabel);
       container.appendChild(avatarWrapper);
     });
+}
+
+function renderAvatarsEdit() {
+  const container = document.getElementById("avatarContainerEdit");
+  if (!container) return;
+
+  // Ambil ulang data dari localStorage
+  people = loadFromLocalStorage("people") || [];
+  who = loadFromLocalStorage("who") || [];
+
+  container.innerHTML = "";
+
+  if (people.length === 0) {
+    const emptyText = document.createElement("div");
+    emptyText.className = "empty-text";
+    emptyText.textContent = "Tambahkan teman terlebih dahulu";
+    container.appendChild(emptyText);
+    return;
+  }
+
+  people
+    .slice()
+    .reverse()
+    .forEach((person) => {
+      const avatarWrapper = document.createElement("div");
+      avatarWrapper.className = "avatar-wrapper";
+
+      const avatar = document.createElement("img");
+      avatar.className = `avatar-img ${who.includes(person) ? "selected" : ""}`;
+      avatar.src = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${encodeURIComponent(
+        person
+      )}`;
+      avatar.alt = person;
+
+      const nameLabel = document.createElement("div");
+      nameLabel.className = "avatar-name";
+      nameLabel.textContent = person;
+
+      avatar.onclick = () => {
+        if (who.includes(person)) {
+          who = who.filter((name) => name !== person);
+        } else {
+          who.push(person);
+        }
+
+        // Simpan update ke localStorage
+        saveToLocalStorage("who", who);
+        renderAvatars(); // render ulang
+        renderAvatarsEdit(); // render ulang list on the edit form
+        updateWhoField(); //update selection from avatar to field on the edit form
+      };
+
+      avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(nameLabel);
+      container.appendChild(avatarWrapper);
+    });
+}
+
+function updateWhoField() {
+  const whoField = document.getElementById("editWho");
+  if (!whoField) return;
+
+  // Update field dengan nama-nama yang dipilih dari avatar
+  whoField.value = who.join(", ");
 }
 
 // 🔁 Helper functions
