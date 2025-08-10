@@ -346,6 +346,7 @@ class BillScanner {
         this.showSuccess(
           `${scanResult.items.length} item berhasil ditambahkan ke expense list!`
         );
+        this.clearUploadedImage();
       }
     }
   }
@@ -424,6 +425,42 @@ class BillScanner {
 
     if (errorDiv) errorDiv.style.display = "none";
     if (successDiv) successDiv.style.display = "none";
+  }
+
+  /**
+   * Clears the uploaded image and resets the related UI elements.
+   *
+   * This function resets the file input, hides and clears the preview image,
+   * hides the file information, clears the file name display, and resets the
+   * internal state of the selected file. It also updates the state of the scan button.
+   */
+
+  clearUploadedImage() {
+    const fileInput = document.getElementById("fileInput");
+    const previewImage = document.getElementById("previewImage");
+    const fileInfo = document.getElementById("fileInfo");
+    const fileName = document.getElementById("fileName");
+
+    // Reset file input
+    if (fileInput) fileInput.value = "";
+
+    // Hide and clear preview image
+    if (previewImage) {
+      previewImage.src = "";
+      previewImage.style.display = "none";
+    }
+
+    // Hide file info
+    if (fileInfo) fileInfo.style.display = "none";
+
+    // Clear file name
+    if (fileName) fileName.textContent = "";
+
+    // Reset internal state
+    this.selectedFile = null;
+
+    // Update scan button state
+    this.updateScanButton();
   }
 }
 

@@ -50,6 +50,7 @@ input {
   max-width: 120px;
   height: auto;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .auth-header p {

@@ -4,7 +4,7 @@
   white-space: nowrap;
   gap: 15px;
   flex-wrap: nowrap;
-  padding: 5px;
+  padding: 5px 10px; /*padding left and right need to 10px for selected card show checklist icon*/
 
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */

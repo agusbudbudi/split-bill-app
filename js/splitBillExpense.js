@@ -115,6 +115,9 @@ function editExpense(index) {
   document.getElementById("editWho").value = expense.who.join(", ");
   document.getElementById("editPaidBy").value = expense.paidBy;
 
+  // Load people data
+  renderAvatarsEdit();
+
   // Initialize currency formatter for edit field
   setupCurrencyFormatter("editAmountFormatted", "editAmount");
 
@@ -152,6 +155,13 @@ function deleteExpense(index) {
 function saveEditedExpense() {
   const item = document.getElementById("editItemName").value;
   const amount = parseFloat(document.getElementById("editAmount").value); // dari hidden input
+  // Validasi form
+  const validation = validateEditExpenseForm();
+
+  if (!validation.isValid) {
+    showToast(validation.errors.join(", "), "error", 5000);
+    return; // Stop execution jika validasi gagal
+  }
 
   const who = document
     .getElementById("editWho")
@@ -194,9 +204,29 @@ function saveEditedExpense() {
     updateExpenseCards?.();
     updateCalculateButton?.(); // opsional, jika ada
     closeBottomSheet("editBottomSheet");
+    resetExpenseForm();
   }
 
   showToast("Expense berhasil diperbarui!", "success", 5000);
+}
+
+function validateEditExpenseForm() {
+  const item = document.getElementById("editItemName").value.trim();
+  const amount = parseFloat(document.getElementById("editAmount").value);
+  const who = document.getElementById("editWho").value.trim();
+  const paidBy = document.getElementById("editPaidBy").value.trim();
+
+  const errors = [];
+
+  if (!item) errors.push("Item Name harus diisi");
+  if (isNaN(amount) || amount <= 0) errors.push("Jumlah harus diisi");
+  if (!who) errors.push("Pilih minimal 1 orang yang berhutang");
+  if (!paidBy) errors.push("Input siapa yang membayar");
+
+  return {
+    isValid: errors.length === 0,
+    errors: errors,
+  };
 }
 
 // Constants
