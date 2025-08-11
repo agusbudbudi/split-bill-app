@@ -163,6 +163,52 @@ function updateHeaderAvatar() {
   }
 }
 
+/**
+ * Inits copy buttons on the page.
+ *
+ * Copy buttons are used to copy numbers of payment methods. This function
+ * queries all elements with class `copy-btn`, and adds a click event listener
+ * to each of them.
+ *
+ * When a button is clicked, it gets the text content of the element's parent
+ * element and trims it. Then it writes the trimmed string to the clipboard
+ * using the `navigator.clipboard` API.
+ *
+ * If the copying is successful, it shows a success toast with the message
+ * "Nomor <number> berhasil disalin". If the copying fails, it shows an error
+ * toast with the message "Nomor <number> gagal disalin".
+ */
+function initCopyButtons() {
+  const copyButtons = document.querySelectorAll(".copy-btn");
+
+  copyButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const number = btn.parentElement
+        .querySelector(".payment-method-donate p:last-child")
+        .textContent.trim();
+
+      navigator.clipboard
+        .writeText(number)
+        .then(() => {
+          const icon = btn.querySelector("i");
+          const oldClass = icon.className;
+          icon.className = "uil uil-check-circle";
+
+          setTimeout(() => {
+            icon.className = oldClass;
+          }, 1500);
+          showToast(`Nomor ${number} berhasil disalin`, "success", 5000);
+        })
+        .catch((err) => {
+          console.error("Gagal menyalin: ", err);
+          showToast(`Nomor ${number} gagal disalin`, "error", 5000);
+        });
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initCopyButtons);
+
 // Update avatar when user data changes
 window.addEventListener("storage", function (e) {
   if (e.key === "currentUser" || e.key === "accessToken") {

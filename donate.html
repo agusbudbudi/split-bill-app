@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="manifest" href="./manifest.json" />
+
+    <title>Split Bill App - Bagi Tagihan Lebih Mudah</title>
+    <meta name="title" content="Split Bill App - Bagi Tagihan Lebih Mudah" />
+    <meta
+      name="description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="og:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="og:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="og:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://agusbudbudi.github.io/split-bill-app/"
+    />
+    <meta
+      property="twitter:title"
+      content="Split Bill App - Bagi Tagihan Lebih Mudah"
+    />
+    <meta
+      property="twitter:description"
+      content="Buat dan bagikan pembagian tagihan secara otomatis dengan Split Bill App. Praktis dan cepat!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://agusbudbudi.github.io/split-bill-app/img/preview.png"
+    />
+
+    <title>Split Bill</title>
+    <link rel="icon" href="SplitBill-icon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/infobox.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <link rel="stylesheet" href="css/toastMessage.css" />
+    <link rel="stylesheet" href="css/transactions.css" />
+    <link rel="stylesheet" href="css/paymentMethod.css" />
+    <link rel="stylesheet" href="css/expenseList.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+  </head>
+
+  <body>
+    <header class="sticky-header">
+      <div class="header-left">
+        <button class="back-btn" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <span class="section-title">Donate Developer</span>
+      </div>
+    </header>
+
+    <div class="container banner-donate-container">
+      <img
+        src="img/banner-donate.png"
+        alt="banner wallet"
+        class="banner-donate"
+      />
+    </div>
+
+    <div class="container">
+      <div class="table-wrapper">
+        <div class="card-container">
+          <div class="section-header">
+            <label class="section-title"
+              >☕ Traktir Kopi, Biar Developer Semangat</label
+            >
+          </div>
+          <p>
+            Split Bill aku buat supaya patungan jadi gampang, nggak bikin ribut
+            di grup, dan semua orang bisa langsung tahu siapa bayar ke siapa.
+          </p>
+          <br />
+          <p>
+            Kalau aplikasi ini bermanfaat buat kamu, yuk traktir kopi (atau nasi
+            goreng sekalian 😆). Dukunganmu bakal bantu biaya server, domain,
+            dan bikin aku semangat ngasih update fitur baru yang lebih keren.
+          </p>
+
+          <div class="donate-section">
+            <div class="user-info">
+              <div class="icon">
+                <img src="img/donate-icon.png" alt="Login Icon" />
+              </div>
+              <div class="text">
+                <p>
+                  Support dari kamu sangat berarti bagi pengembangan aplikasi
+                  Split Bill, saran dan masukan kamu juga akan kami dengarkan
+                  🫶🏻
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="card-container">
+          <div id="selectedPaymentInfo">
+            <div class="title-section">Donasi melalui</div>
+
+            <div class="donate-payment">
+              <div class="payment-method-donate">
+                <img src="img/logo-ovo.png" alt="OVO" class="payment-logo" />
+                <p><strong>Agus Budiman</strong></p>
+                <p>085559496968</p>
+              </div>
+              <div class="copy-btn">
+                <i class="uil uil-copy"></i>
+              </div>
+            </div>
+
+            <div class="donate-payment">
+              <div class="payment-method-donate">
+                <img src="img/logo-dana.png" alt="DANA" class="payment-logo" />
+                <p><strong>Agus Budiman</strong></p>
+                <p>085559496968</p>
+              </div>
+              <div class="copy-btn">
+                <i class="uil uil-copy"></i>
+              </div>
+            </div>
+
+            <div class="donate-payment">
+              <div class="payment-method-donate">
+                <img src="img/logo-bri.png" alt="BRI" class="payment-logo" />
+                <p><strong>Agus Budiman</strong></p>
+                <p>130301003374538</p>
+              </div>
+              <div class="copy-btn">
+                <i class="uil uil-copy"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast-container" id="toastContainer"></div>
+
+      <script src="js/toastMessage.js"></script>
+      <script src="js/ui.js"></script>
+      <script src="js/sharedFunction.js"></script>
+    </div>
+  </body>
+</html>
