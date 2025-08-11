@@ -76,7 +76,7 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--text-color-desc);
 }
 
 .activity-meta-item {
@@ -327,10 +327,8 @@
   border: 1px solid var(--table-border-color);
   border-radius: 16px;
   padding: 10px;
-  /* min-width: 120px; */
   width: 50%;
-  background-color: white;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
+  background-color: var(--container-bg);
   gap: 10px;
 }
 
