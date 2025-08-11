@@ -87,7 +87,8 @@
 }
 
 .selected-payment-summary,
-.payment-method-item {
+.payment-method-item,
+.donate-payment {
   border: 1px solid var(--infobox-info-bg);
   background-color: var(--container-bg);
   border-radius: 12px;
@@ -97,6 +98,11 @@
   gap: 1em;
   margin-bottom: 10px;
 }
+
+.donate-payment {
+  justify-content: space-between;
+}
+
 .selected-payment-summary img,
 .payment-logo img {
   width: 60px;

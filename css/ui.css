@@ -365,7 +365,6 @@ p {
 
 .header-section {
   background-color: var(--btn-bg);
-  /* background: linear-gradient(to right, #8b5cf6, #7c3aed); */
   height: 100px;
   width: 100%;
   top: 0;
@@ -377,7 +376,7 @@ p {
   font-size: 16px;
   color: var(--text-color);
   margin-bottom: 10px;
-  /* margin-top: 16px; */
+  font-weight: 600;
 }
 
 textarea {
@@ -538,7 +537,8 @@ td {
   display: none; /* Chrome, Safari, Opera */
 }
 
-.card-login {
+.card-login,
+.donate-section {
   margin-top: 20px;
   width: 100%;
   position: relative;
@@ -553,11 +553,18 @@ td {
   cursor: pointer;
 }
 
+.donate-section {
+  cursor: default;
+  background: var(--infobox-info-bg);
+  border: 1px solid var(--infobox-info-border-color);
+  align-items: center;
+}
+
 .user-info {
   display: flex;
   padding: 12px;
   gap: 16px;
-  /* justify-content: flex-start; */
+  align-items: center;
 }
 
 .user-info h2 {
@@ -585,4 +592,45 @@ td {
   width: 36px;
   /* padding: 0 10px; */
   object-fit: contain;
+}
+
+.banner-donate-container {
+  padding: 0 10px;
+  margin-top: 60px;
+}
+
+.banner-donate {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.copy-btn {
+  border: 1px solid var(--table-border-color);
+  border-radius: 10px;
+  background-color: var(--table-body-bg);
+  padding: 4px 8px;
+  color: var(--btn-bg);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.payment-method-donate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.donate-btn {
+  border: 1px solid #8d78f0;
+  border-radius: 12px;
+  padding: 6px 10px;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
