@@ -9,7 +9,7 @@ body {
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   background-color: #f6fafb;
 }
@@ -26,6 +26,7 @@ input {
 .banner-profile-container {
   text-align: center;
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 .banner-profile {

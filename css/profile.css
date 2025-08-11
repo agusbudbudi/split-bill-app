@@ -222,11 +222,6 @@
   line-height: 1.5;
 }
 
-.login-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-}
-
 .login-btn i {
   font-size: 16px;
 }
