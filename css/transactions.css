@@ -124,23 +124,13 @@
 
 .summary-card {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-
-  /* flex-direction: column; */
-  /* justify-content: space-between; */
-  /* text-align: center; */
-  /* position: relative; */
   overflow: hidden;
-  /* border: 1px solid var(--table-border-color); */
-
   display: flex;
   align-items: center;
   border: 1px solid var(--table-border-color);
   border-radius: 16px;
   padding: 10px;
-  /* min-width: 120px; */
-  /* width: 50%; */
-  background-color: white;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
+  background-color: var(--container-bg);
   gap: 10px;
 }
 
