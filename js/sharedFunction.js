@@ -23,13 +23,18 @@ function removePayment(index) {
 }
 
 /**
- * Redirects to the main page by using the `history.back()` method.
+ * Redirects to the main page by using the `history.back()` method and refreshes the page.
  *
  * @since 1.0.0
  */
 function goBack() {
   // Redirect to main page or use history.back()
   window.history.back();
+
+  // Refresh the page after going back
+  setTimeout(() => {
+    window.location.reload();
+  }, 100);
 }
 
 /**

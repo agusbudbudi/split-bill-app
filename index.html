@@ -193,7 +193,7 @@
               <img src="img/non-login-state.png" alt="Login Icon" />
             </div>
             <div class="text">
-              <h2 class="title-section">Halo! Masuk dulu, ya</h2>
+              <h2 class="title-section">Halo! Masuk dulu yuk</h2>
               <p>
                 Masuk ke akunmu untuk menikmati semua fitur Split Bill tanpa
                 batas!
@@ -346,7 +346,7 @@
             <div id="manual-input" class="section-input-bill tab-section">
               <div id="input-section">
                 <!-- Section Add People -->
-                <label for="personName">Tambah Teman</label>
+                <!-- <label for="personName">Tambah Teman</label> -->
 
                 <!-- List of Added People with Remove -->
                 <table id="peopleTable" class="people-table">
@@ -359,24 +359,6 @@
                   </thead>
                   <tbody id="peopleTableBody"></tbody>
                 </table>
-
-                <!-- NEW PEOPLE -->
-                <div class="people-container">
-                  <!-- Tombol Add New (static di kiri) -->
-                  <div class="add-new-wrapper person-item">
-                    <div
-                      class="add-new"
-                      onclick="openBottomSheet('addPersonBottomSheet')"
-                    >
-                      <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <span class="add-text">Tambah</span>
-                  </div>
-                  <!-- List avatar orang (dinamis) -->
-                  <div id="peopleList" class="people-list">
-                    <!-- <div class="person-item">...</div> -->
-                  </div>
-                </div>
 
                 <!-- Item & Amount -->
 
@@ -430,6 +412,21 @@
                 <input type="hidden" id="splitAmount" />
 
                 <label>Split dengan Siapa</label>
+
+                <!-- NEW PEOPLE -->
+                <div class="people-container">
+                  <div class="add-new-wrapper person-item">
+                    <div
+                      class="add-new"
+                      onclick="openBottomSheet('addPersonBottomSheet')"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <span class="add-text">Tambah</span>
+                  </div>
+                  <div id="peopleList" class="people-list"></div>
+                </div>
+
                 <p class="information-text">
                   <i class="uil uil-info-circle"></i> Klik avatar untuk memilih
                   (Pilih minimal 1 orang)
@@ -447,6 +444,30 @@
             <!-- SCAN WITH AI -->
             <div id="ai-scan" class="section-input-bill tab-section">
               <div class="main-content">
+                <!-- Non-login state untuk upload section -->
+                <div
+                  id="uploadNonLoginState"
+                  class="upload-non-login-state hidden"
+                >
+                  <div class="login-message-card">
+                    <div class="non-login-message">
+                      <div class="login-icon">
+                        <img src="img/non-login-state.png" alt="Login Icon" />
+                      </div>
+                      <h3>Login dulu yuk!</h3>
+                      <p>
+                        Fitur scan bill dengan AI hanya tersedia setelah login
+                      </p>
+                      <button
+                        onclick="window.location.href='login.html'"
+                        class="login-btn"
+                      >
+                        <i class="uil uil-signin"></i> Login
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="upload-section">
                   <div class="api-key-section">
                     <!-- <label for="apiKey">API Key Gemini ✨</label> -->
@@ -1941,6 +1962,9 @@
             // User is logged in, hide the login card
             loginCard.classList.add("hidden");
           }
+
+          // Also check upload section login state
+          checkLoginStateForUploadSection();
         } catch (error) {
           console.error("Error checking login state:", error);
           const loginCard = document.getElementById("loginCard");
@@ -1950,10 +1974,43 @@
         }
       }
 
+      function checkLoginStateForUploadSection() {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const uploadSection = document.querySelector(".upload-section");
+          const uploadNonLoginState = document.getElementById(
+            "uploadNonLoginState"
+          );
+
+          if (!uploadSection || !uploadNonLoginState) return;
+
+          if (!accessToken) {
+            // User is not logged in, show non-login state and hide upload section
+            uploadSection.style.display = "none";
+            uploadNonLoginState.classList.remove("hidden");
+          } else {
+            // User is logged in, show upload section and hide non-login state
+            uploadSection.style.display = "block";
+            uploadNonLoginState.classList.add("hidden");
+          }
+        } catch (error) {
+          console.error("Error checking upload section login state:", error);
+          // Default to showing non-login state on error
+          const uploadSection = document.querySelector(".upload-section");
+          const uploadNonLoginState = document.getElementById(
+            "uploadNonLoginState"
+          );
+          if (uploadSection) uploadSection.style.display = "none";
+          if (uploadNonLoginState)
+            uploadNonLoginState.classList.remove("hidden");
+        }
+      }
+
       // Listen for storage changes to update login card visibility
       window.addEventListener("storage", function (e) {
         if (e.key === "accessToken") {
           checkLoginStateAndShowCard();
+          checkLoginStateForUploadSection();
         }
       });
 
@@ -1961,6 +2018,7 @@
       document.addEventListener("visibilitychange", function () {
         if (!document.hidden) {
           checkLoginStateAndShowCard();
+          checkLoginStateForUploadSection();
         }
       });
     </script>
