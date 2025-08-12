@@ -160,8 +160,14 @@ button:hover {
   background-color: var(--tab-icon);
   color: var(--infobox-info-border-color);
   border-radius: 8px;
-  padding: 2px 6px;
-  font-size: 16px;
+  /* padding: 2px 6px; */
+  font-size: 18px;
+
+  width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tab-button:hover {
