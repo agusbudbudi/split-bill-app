@@ -376,7 +376,7 @@
                 <label for="amount"
                   >Jumlah (dalam Rupiah)
                   <i
-                    class="fa-solid fa-circle-info info-icon"
+                    class="uil uil-info-circle info-icon"
                     onclick="openPopup('infoPopup')"
                   ></i>
                 </label>
@@ -480,7 +480,7 @@
                       <div>
                         Scan Bill Kamu
                         <i
-                          class="fa-solid fa-circle-info info-icon"
+                          class="uil uil-info-circle info-icon"
                           onclick="openPopup('infoPopupScanBill')"
                         ></i>
                       </div>
@@ -501,8 +501,8 @@
                         <div class="popup-body">
                           <ul>
                             <li>
-                              Fitur ini menggunakan
-                              <b>API Key Gemini</b> untuk melakukan scan bill.
+                              Pastikan bill yang kamu upload terbaca dengan
+                              jelas dan tidak terpotong.
                             </li>
                             <li>
                               Fitur ini masih dalam tahap pengembangan. Jika
@@ -689,6 +689,27 @@
                 placeholder="Masukkan nama aktivitas (opsional)"
               />
             </div>
+
+            <div
+              class="donate-section-banner"
+              onclick="window.location.href='donate.html#review'"
+            >
+              <div class="donate-info">
+                <div class="icon">
+                  <img src="img/donate-icon.png" alt="Login Icon" />
+                </div>
+                <div class="text">
+                  <p>
+                    Dukunganmu sangat berarti untuk pengembangan Split Bill.
+                    Saran dan masukanmu akan kami dengarkan 🫶🏻
+                  </p>
+                </div>
+                <div class="navigate-donate-page">
+                  <i class="uil uil-angle-right-b"></i>
+                </div>
+              </div>
+            </div>
+
             <p class="split-bill-number hidden">
               Nomor Split Bill: <strong id="splitBillNumberDisplay"></strong>
             </p>
