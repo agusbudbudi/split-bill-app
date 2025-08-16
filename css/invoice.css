@@ -532,8 +532,9 @@ hr {
 }
 
 .see-all {
-  background-color: var(--infobox-info-bg);
-  border: none;
+  /* background-color: var(--infobox-info-bg); */
+  border: 1px solid var(--infobox-info-bg);
+  /* border: none; */
   cursor: pointer;
 }
 

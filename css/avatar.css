@@ -101,5 +101,8 @@
 
 .avatar-img.selected {
   border-color: var(--btn-bg);
-  /* #4caf50 */
+}
+
+.avatar-img.selected ~ .avatar-name {
+  color: var(--btn-bg);
 }

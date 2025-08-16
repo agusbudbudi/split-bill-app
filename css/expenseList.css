@@ -1,5 +1,10 @@
 .expense-card {
   padding: 15px 0px 0px 0px;
+  border-bottom: 1px dashed var(--table-border-color);
+}
+
+.expense-card:last-child {
+  border-bottom: none;
 }
 
 .expense-header {
@@ -63,6 +68,7 @@
   flex-wrap: wrap;
   white-space: normal; /* Ini memungkinkan teks dengan spasi untuk membungkus */
   text-align: right;
+  color: var(--text-color-desc);
 }
 
 .label-columns {

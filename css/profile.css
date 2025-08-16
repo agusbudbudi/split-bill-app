@@ -123,11 +123,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  border: 1px solid var(--table-border-color);
-  border-radius: 15px;
-  padding: 16px;
+  /* margin-top: 15px; */
+  /* margin-bottom: 10px; */
+  border-bottom: 1px solid var(--table-border-color);
+  /* border-radius: 15px; */
+  padding: 20px 10px;
 }
 
 .login-message-card {
@@ -173,7 +173,7 @@
 }
 
 .logout-btn {
-  padding: 6px 10px;
+  padding: 6px 0;
   border-radius: 10px;
   background-color: transparent;
   color: var(--text-color-desc);
@@ -188,7 +188,7 @@
 }
 
 .logout-btn i {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 /* Login Required Section Styles */

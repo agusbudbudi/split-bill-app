@@ -1,0 +1,108 @@
+/* Rating Stars Styling */
+.rating-container {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-star {
+  font-size: 30px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.rating-star:hover,
+.rating-star.active {
+  color: #ffd700;
+}
+
+.rating-star.hover-effect {
+  color: #ffd700;
+}
+
+/* Checkbox Container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--container-bg);
+  border: 1px solid var(--table-border-color);
+  border-radius: 6px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* Saat hover */
+.custom-checkbox:hover {
+  border-color: var(--btn-bg); /* ungu */
+}
+
+/* Saat dicentang */
+.custom-checkbox:checked {
+  background-color: var(--btn-bg);
+  border-color: var(--btn-bg);
+}
+
+/* Tambahkan centang */
+.custom-checkbox:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+}
+
+.checkbox-container label {
+  cursor: pointer;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Form spacing improvements */
+#reviewText {
+  min-height: 100px;
+  resize: vertical;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading button states */
+.save-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7 !important;
+}
+
+.save-btn .fa-spinner {
+  margin-right: 8px;
+}
