@@ -648,13 +648,8 @@ td {
 }
 
 .donate-section-banner {
-  border: 1px solid #ffe3e0;
-  background: linear-gradient(135deg, #fff6f5, #fff0ef, #ffe3e0),
-    radial-gradient(
-      circle at top left,
-      rgba(255, 255, 255, 0.6),
-      transparent 70%
-    );
+  border: 1px solid var(--donate-border-color);
+  background: var(--donate-bg-gradient);
   background-blend-mode: screen;
 
   padding: 10px;

@@ -58,6 +58,15 @@
     rgba(255, 255, 255, 0)
   );
   --gradient-fade-left: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
+
+  /* donate banner */
+  --donate-border-color: #ffe3e0;
+  --donate-bg-gradient: linear-gradient(135deg, #fff6f5, #fff0ef, #ffe3e0),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.6),
+      transparent 70%
+    );
 }
 
 body.dark-mode {
@@ -113,4 +122,13 @@ body.dark-mode {
     rgba(31, 31, 33, 0)
   );
   --gradient-fade-left: linear-gradient(to left, #1f1f21, rgba(31, 31, 33, 0));
+
+  /* donate banner */
+  --donate-border-color: #4a2e2b;
+  --donate-bg-gradient: linear-gradient(135deg, #2a1c1b, #311f1e, #4a2e2b),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.08),
+      transparent 70%
+    );
 }
