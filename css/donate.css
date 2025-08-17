@@ -42,7 +42,7 @@
 .custom-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  background-color: var(--container-bg);
+  background-color: var(--input-bg);
   border: 1px solid var(--table-border-color);
   border-radius: 6px;
   width: 18px;
