@@ -613,11 +613,15 @@ td {
 .copy-btn {
   border: 1px solid var(--table-border-color);
   border-radius: 10px;
-  background-color: var(--table-body-bg);
+  background-color: var(--container-bg);
   padding: 4px 8px;
   color: var(--btn-bg);
   font-size: 16px;
   cursor: pointer;
+}
+
+.copy-btn:hover {
+  border: 1px solid var(--btn-bg);
 }
 
 .payment-method-donate {
