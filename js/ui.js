@@ -1,43 +1,130 @@
-//Set Theme
+// Set Theme Function (Global)
+function setTheme(isDark) {
+  document.body.classList.toggle("dark-mode", isDark);
+}
+
+// Global variable to track popup status in current session
+let merchandisingPopupShown = false;
+
+// Merchandising Popup Functions
+function showMerchandisingPopup() {
+  // Check if popup has been seen in current session
+  if (merchandisingPopupShown) {
+    console.log("Popup already shown in this session"); // Debug log
+    return;
+  }
+
+  // Check if popup has been seen before in localStorage or sessionStorage
+  const hasSeenLocalStorage =
+    localStorage.getItem("merchandisingPopupSeen") === "true";
+  const hasSeenSessionStorage =
+    sessionStorage.getItem("merchandisingPopupSeen") === "true";
+  const hasSeenPopup = hasSeenLocalStorage || hasSeenSessionStorage;
+
+  console.log(
+    "Checking popup status - localStorage:",
+    hasSeenLocalStorage,
+    "sessionStorage:",
+    hasSeenSessionStorage
+  ); // Debug log
+
+  if (hasSeenPopup) {
+    console.log("Popup already seen, not showing"); // Debug log
+    merchandisingPopupShown = true;
+    return; // Don't show popup if already seen
+  }
+
+  const popup = document.getElementById("merchandisingPopup");
+  const popupContent = popup?.querySelector(".popup-content");
+
+  if (popup && popupContent) {
+    console.log("Showing merchandising popup"); // Debug log
+    merchandisingPopupShown = true;
+    popup.style.display = "flex";
+    // Small delay to ensure display is set before adding animation class
+    setTimeout(() => {
+      popup.classList.add("show");
+      popupContent.classList.add("show");
+    }, 10);
+  }
+}
+
+function closeMerchandisingPopup() {
+  const popup = document.getElementById("merchandisingPopup");
+  const popupContent = popup?.querySelector(".popup-content");
+
+  if (popup && popupContent) {
+    popup.classList.remove("show");
+    popup.classList.add("hide");
+    popupContent.classList.remove("show");
+
+    // Mark popup as seen in both localStorage and sessionStorage
+    try {
+      localStorage.setItem("merchandisingPopupSeen", "true");
+      console.log("Popup marked as seen in localStorage"); // Debug log
+    } catch (e) {
+      console.log("localStorage not available, using sessionStorage only"); // Debug log
+    }
+
+    sessionStorage.setItem("merchandisingPopupSeen", "true");
+    console.log("Popup marked as seen in sessionStorage"); // Debug log
+
+    merchandisingPopupShown = true;
+
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      popup.style.display = "none";
+      popup.classList.remove("hide");
+    }, 300);
+  }
+}
+
+// Single DOMContentLoaded event listener to handle all initialization
 document.addEventListener("DOMContentLoaded", () => {
+  // Theme initialization
   const toggle = document.getElementById("themeSwitch");
   const savedMode = localStorage.getItem("darkMode") === "enabled";
 
-  // Terapkan theme di semua halaman
+  // Apply theme to all pages
   setTheme(savedMode);
 
-  // Jika toggle ada (misalnya hanya di profile.html), aktifkan
+  // If toggle exists (e.g., only on profile.html), activate it
   if (toggle) {
     toggle.checked = savedMode;
-
     toggle.addEventListener("change", function () {
       const isDark = this.checked;
       setTheme(isDark);
       localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
     });
   }
-  // Load saved preference on page load
-  window.addEventListener("DOMContentLoaded", () => {
-    const savedMode = localStorage.getItem("darkMode") === "enabled";
-    setTheme(savedMode);
-  });
 
-  function setTheme(isDark) {
-    document.body.classList.toggle("dark-mode", isDark);
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
+  // Section management
   const savedSection = localStorage.getItem("activeSection");
   if (savedSection) {
-    showSection(savedSection); // aktifkan section yang disimpan
-    localStorage.removeItem("activeSection"); // hapus agar tidak terbuka terus
+    showSection(savedSection);
+    localStorage.removeItem("activeSection");
   } else {
-    showSection("split"); // section default
+    showSection("split");
+  }
+
+  // Initialize other components
+  renderInvoiceCards();
+  initSplitBillNumber();
+  updateHeaderAvatar();
+  initCopyButtons();
+
+  // Show merchandising popup only if not seen before
+  const hasSeenPopup =
+    localStorage.getItem("merchandisingPopupSeen") === "true";
+  if (!hasSeenPopup) {
+    setTimeout(() => {
+      showMerchandisingPopup();
+      popupShown = true;
+    }, 800); // Reduced from 1000ms to 800ms
   }
 });
 
-//Auto slider banner
+// Auto slider banner
 const slides = document.querySelectorAll(".banner-slide");
 let currentSlide = 0;
 const totalSlides = slides.length;
@@ -60,12 +147,12 @@ function showTab(
   sectionSelector = ".tab-section",
   tabGroupSelector = ".tab-container"
 ) {
-  // Sembunyikan semua section
+  // Hide all sections
   document.querySelectorAll(sectionSelector).forEach((section) => {
     section.style.display = "none";
   });
 
-  // Tampilkan section yang dipilih
+  // Show selected section
   const target = document.getElementById(tabId);
   if (target) target.style.display = "block";
 
@@ -83,35 +170,30 @@ function showTab(
 }
 
 window.addEventListener("load", function () {
-  // Ambil tab dari URL jika ada
+  // Get tab from URL if exists
   const params = new URLSearchParams(window.location.search);
   const urlTab = params.get("tab");
 
-  // Ambil default tab dari data attribute body
+  // Get default tab from body data attribute
   const defaultTab = document.body.dataset.defaultTab || "default-tab-id";
 
-  // Tentukan tab yang akan ditampilkan
+  // Determine which tab to show
   const activeTab = urlTab ? `transaction-${urlTab}` : defaultTab;
 
-  // Tampilkan tab
+  // Show tab
   showTab(activeTab);
 
-  // Jika tab yang aktif adalah ai-scan, jalankan generateInvoiceNumber
+  // If active tab is ai-scan, run generateInvoiceNumber
   if (activeTab === "ai-scan") {
     generateInvoiceNumber();
   }
 
-  // Atur dark mode
+  // Set dark mode
   const savedMode = localStorage.getItem("darkMode") === "enabled";
   setTheme(savedMode);
 
-  // Tampilkan invoice cards jika ada
+  // Show invoice cards if any
   renderInvoiceCards();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderInvoiceCards();
-  initSplitBillNumber();
 });
 
 function showUnderConstruction(
@@ -138,11 +220,6 @@ function hidePreviewContainerIfNoData() {
     previewContainer.style.display = "none";
   }
 }
-
-// Update header avatar based on logged in user
-document.addEventListener("DOMContentLoaded", function () {
-  updateHeaderAvatar();
-});
 
 function updateHeaderAvatar() {
   try {
@@ -207,11 +284,36 @@ function initCopyButtons() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initCopyButtons);
-
 // Update avatar when user data changes
 window.addEventListener("storage", function (e) {
   if (e.key === "currentUser" || e.key === "accessToken") {
     updateHeaderAvatar();
+  }
+});
+
+// Optimized popup trigger - only show if not seen before
+let popupShown = false;
+
+document.addEventListener("visibilitychange", function () {
+  const hasSeenPopup =
+    localStorage.getItem("merchandisingPopupSeen") === "true";
+  if (!document.hidden && !hasSeenPopup && !popupShown) {
+    setTimeout(() => {
+      showMerchandisingPopup();
+      popupShown = true;
+    }, 300); // Reduced delay
+  }
+});
+
+// Fallback: Show popup on window load if it hasn't been shown yet
+window.addEventListener("load", function () {
+  const popup = document.getElementById("merchandisingPopup");
+  const hasSeenPopup =
+    localStorage.getItem("merchandisingPopupSeen") === "true";
+  if (popup && popup.style.display !== "flex" && !popupShown && !hasSeenPopup) {
+    setTimeout(() => {
+      showMerchandisingPopup();
+      popupShown = true;
+    }, 1000);
   }
 });

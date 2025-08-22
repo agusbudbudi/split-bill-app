@@ -7,8 +7,13 @@
  * If a payment method is selected, it is also displayed.
  */
 function calculateSplit() {
-  const { totalExpense, userExpenses, userPayments, variance } =
-    generateSplitSummary();
+  const {
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance,
+    additionalItems,
+  } = generateSplitSummary();
 
   if (
     typeof getSelectedPaymentInfo === "number" &&
@@ -17,7 +22,14 @@ function calculateSplit() {
     showSelectedPayment();
   }
 
-  displaySummary(totalExpense, userExpenses, userPayments, variance, expenses);
+  displaySummary(
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance,
+    expenses,
+    additionalItems
+  );
 }
 
 /**
@@ -49,11 +61,35 @@ function generateSplitSummary() {
 
   let variance = calculateVariance(userExpenses, userPayments, totalExpense);
 
-  return {
-    totalExpense,
+  // NEW: Calculate additional items distribution
+  const additionalResult = calculateAdditionalItemsDistribution(userExpenses);
+  const finalExpenses = mergeAdditionalItemsToSummary(
     userExpenses,
+    additionalResult
+  );
+
+  // Add additional expense payments to userPayments
+  const additionalItems = getAdditionalExpenseItems();
+  additionalItems.forEach(({ amount, paidBy }) => {
+    if (paidBy) {
+      if (!userPayments[paidBy]) userPayments[paidBy] = 0;
+      userPayments[paidBy] += amount;
+    }
+  });
+
+  // Recalculate variance with final expenses and payments
+  const finalVariance = calculateVariance(
+    finalExpenses,
     userPayments,
-    variance,
+    totalExpense + additionalResult.totalAmount
+  );
+
+  return {
+    totalExpense: totalExpense + additionalResult.totalAmount,
+    userExpenses: finalExpenses,
+    userPayments,
+    variance: finalVariance,
+    additionalItems: additionalResult.items, // for display breakdown
   };
 }
 
@@ -250,7 +286,8 @@ function displaySummary(
   userExpenses,
   userPayments,
   variance,
-  items
+  items,
+  additionalItems // New parameter
 ) {
   const summaryDiv = document.getElementById("summary");
 
@@ -283,20 +320,24 @@ function displaySummary(
 
   document.querySelector(".summary-container").style.display = "block";
 
-  // ⬇️ Tambahkan di sini
-  const { transactionMap, transferSummaryMap } = generateTransactionMap(items);
-  adjustForMutualPayments(transactionMap, transferSummaryMap);
+  // ⬇️ Generate transaction map based on final expenses (including additional expenses)
+  const { transactionMap, transferSummaryMap } =
+    generateTransactionMapFromVariance(
+      userExpenses, // Final expenses including additional expenses
+      userPayments,
+      variance
+    );
 
   summaryDiv.innerHTML += `<h3>Ringkasan per Orang</h3>`;
   summaryDiv.innerHTML += `<div class="user-summary-cards">${generateUserCards(
-    userExpenses,
+    userExpenses, // Use passed userExpenses
     userPayments,
     variance,
     transactionMap
   )}</div>`;
 
-  //show breakdown per person
-  const breakdown = calculateUserItemBreakdown(items);
+  //show breakdown per person, passing additionalItems
+  const breakdown = calculateUserItemBreakdown(items, additionalItems); // Use passed items and additionalItems
   renderItemBreakdownPerPerson(breakdown);
 
   summaryDiv.innerHTML += `<div id="selectedPaymentInfo"></div>`;
@@ -341,6 +382,74 @@ function generateTransactionMap(items) {
       transferSummaryMap[debtor][paidBy] += share;
     });
   });
+
+  return { transactionMap, transferSummaryMap };
+}
+
+/**
+ * Generates transaction map based on user expenses, payments, and variance.
+ * This function calculates who owes whom based on the final expenses (including additional expenses)
+ * and actual payments made, then optimizes the transactions to minimize the number of transfers.
+ *
+ * @param {Object} userExpenses - Final user expenses including additional expenses
+ * @param {Object} userPayments - Actual payments made by each user
+ * @param {Object} variance - Variance between what each user paid vs what they owe
+ * @returns {Object} Object containing transactionMap and transferSummaryMap
+ */
+function generateTransactionMapFromVariance(
+  userExpenses,
+  userPayments,
+  variance
+) {
+  const transactionMap = {};
+  const transferSummaryMap = {};
+
+  // Separate users into debtors (negative variance) and creditors (positive variance)
+  const debtors = [];
+  const creditors = [];
+
+  Object.entries(variance).forEach(([user, amount]) => {
+    if (amount < -0.01) {
+      // Small threshold to handle floating point precision
+      debtors.push({ user, amount: Math.abs(amount) });
+    } else if (amount > 0.01) {
+      creditors.push({ user, amount });
+    }
+  });
+
+  // Sort debtors by amount owed (descending) and creditors by amount owed to them (descending)
+  debtors.sort((a, b) => b.amount - a.amount);
+  creditors.sort((a, b) => b.amount - a.amount);
+
+  // Settle debts using a greedy algorithm to minimize transactions
+  let debtorIndex = 0;
+  let creditorIndex = 0;
+
+  while (debtorIndex < debtors.length && creditorIndex < creditors.length) {
+    const debtor = debtors[debtorIndex];
+    const creditor = creditors[creditorIndex];
+
+    const transferAmount = Math.min(debtor.amount, creditor.amount);
+
+    if (transferAmount > 0.01) {
+      // Only create transaction if amount is significant
+      const key = `${debtor.user}->${creditor.user}`;
+      transactionMap[key] = transferAmount;
+
+      // Update transfer summary map
+      if (!transferSummaryMap[debtor.user])
+        transferSummaryMap[debtor.user] = {};
+      transferSummaryMap[debtor.user][creditor.user] = transferAmount;
+
+      // Update remaining amounts
+      debtor.amount -= transferAmount;
+      creditor.amount -= transferAmount;
+    }
+
+    // Move to next debtor or creditor if current one is settled
+    if (debtor.amount <= 0.01) debtorIndex++;
+    if (creditor.amount <= 0.01) creditorIndex++;
+  }
 
   return { transactionMap, transferSummaryMap };
 }
@@ -395,7 +504,7 @@ function adjustForMutualPayments(transactionMap, transferSummaryMap) {
  * the cost.
  */
 
-function calculateUserItemBreakdown(items) {
+function calculateUserItemBreakdown(items, additionalItems = []) {
   const breakdown = {};
 
   items.forEach(({ item, amount, who, paidBy }) => {
@@ -405,6 +514,7 @@ function calculateUserItemBreakdown(items) {
       if (!breakdown[person]) breakdown[person] = [];
 
       breakdown[person].push({
+        type: "main",
         item,
         amount: share,
         paidBy,
@@ -412,6 +522,20 @@ function calculateUserItemBreakdown(items) {
         splitWith: who.filter((p) => p !== person),
       });
     });
+  });
+
+  // Add additional items to the breakdown
+  additionalItems.forEach((additionalItem) => {
+    const { name, distribution } = additionalItem;
+    for (const person in distribution) {
+      if (!breakdown[person]) breakdown[person] = [];
+      breakdown[person].push({
+        type: "additional",
+        item: name,
+        amount: distribution[person],
+        isAdditional: true, // Flag to identify additional items
+      });
+    }
   });
 
   return breakdown;
@@ -440,12 +564,16 @@ function renderItemBreakdownPerPerson(breakdown) {
     const breakdownList = document.createElement("ul");
     breakdownList.classList.add("item-breakdown");
 
-    items.forEach(({ item, amount }) => {
+    items.forEach(({ item, amount, isAdditional }) => {
       const li = document.createElement("li");
       li.innerHTML = `
       <div class="breakdown-row">
         <span class="item-name">${item}   ${
         amount < 0 ? '<span class="discount-label">Diskon</span>' : ""
+      }${
+        isAdditional
+          ? '<span class="proportional-label">Split Proporsional</span>'
+          : ""
       }</span>
         <span class="item-amount">${formatToIDR(amount)}
       </span>
@@ -557,3 +685,152 @@ function initSplitBillNumber() {
 window.addEventListener("DOMContentLoaded", () => {
   initSplitBillNumber();
 });
+
+/**
+ * Extracts additional expense items from the DOM.
+ *
+ * @returns {Array<Object>} An array of objects, each representing an additional expense item.
+ *   Each object contains:
+ *   - name: The name of the additional expense (string).
+ *   - amount: The amount of the additional expense (number).
+ *   - selectedUsers: An array of user names selected for this additional expense (string[]).
+ */
+function getAdditionalExpenseItems() {
+  const additionalExpenseContainers = document.querySelectorAll(
+    ".additional-expense-item-container"
+  );
+  const items = [];
+
+  additionalExpenseContainers.forEach((containerElement) => {
+    // Query for inputs within the current container
+    const nameInput = containerElement.querySelector(
+      ".additional-expense-name"
+    );
+    const amountInput = containerElement.querySelector(
+      ".additional-expense-amount"
+    );
+    const selectedPeopleInput = containerElement.querySelector(
+      ".selected-people-additional"
+    );
+    const paidBySelect = containerElement.querySelector(
+      ".additional-expense-paid-by"
+    );
+
+    const name = nameInput ? nameInput.value.trim() : "";
+    const amount = amountInput ? parseFloat(amountInput.value) || 0 : 0;
+    const paidBy = paidBySelect ? paidBySelect.value.trim() : "";
+    let selectedUsers = [];
+    try {
+      selectedUsers = selectedPeopleInput
+        ? JSON.parse(selectedPeopleInput.value)
+        : [];
+    } catch (e) {
+      console.error("Error parsing selected people for additional expense:", e);
+    }
+
+    if (name && amount !== 0 && selectedUsers.length > 0 && paidBy) {
+      items.push({ name, amount, selectedUsers, paidBy });
+    }
+  });
+
+  return items;
+}
+
+/**
+ * Calculates the proportional distribution of additional expense items among selected users.
+ *
+ * @param {Object} userExpenses - An object where keys are user names and values are their total expenses from main items.
+ * @returns {Object} An object containing:
+ *   - items: An array of additional expense items with their distribution.
+ *   - totalAdditionalPerUser: An object summarizing the total additional expense for each user.
+ *   - totalAmount: The grand total of all additional expenses.
+ */
+function calculateAdditionalItemsDistribution(userExpenses) {
+  console.log("=== calculateAdditionalItemsDistribution START ===");
+  console.log("Input userExpenses:", userExpenses);
+
+  const additionalItems = getAdditionalExpenseItems();
+  console.log("Additional items found:", additionalItems);
+
+  const resultItems = [];
+  const totalAdditionalPerUser = {};
+  let grandTotalAdditional = 0;
+
+  additionalItems.forEach((item, index) => {
+    const { name, amount, selectedUsers } = item;
+    let totalRelevantExpense = 0;
+
+    console.log(`\n--- Processing Additional Item ${index + 1} ---`);
+    console.log("Item Name:", name);
+    console.log("Item Amount:", amount);
+    console.log("Selected Users for this item:", selectedUsers);
+
+    // Calculate total expense only for users selected in this additional item
+    selectedUsers.forEach((user) => {
+      if (userExpenses[user]) {
+        totalRelevantExpense += userExpenses[user];
+      }
+    });
+    console.log(
+      "Total relevant expense from main items for selected users:",
+      totalRelevantExpense
+    );
+
+    const distribution = {};
+    if (totalRelevantExpense > 0) {
+      selectedUsers.forEach((user) => {
+        if (userExpenses[user]) {
+          const proportion = userExpenses[user] / totalRelevantExpense;
+          const distributedAmount = amount * proportion;
+          distribution[user] = distributedAmount;
+
+          if (!totalAdditionalPerUser[user]) totalAdditionalPerUser[user] = 0;
+          totalAdditionalPerUser[user] += distributedAmount;
+        }
+      });
+    } else {
+      // If no relevant expense or all selected users have 0 expense, distribute equally
+      const equalShare = amount / selectedUsers.length;
+      selectedUsers.forEach((user) => {
+        distribution[user] = equalShare;
+        if (!totalAdditionalPerUser[user]) totalAdditionalPerUser[user] = 0;
+        totalAdditionalPerUser[user] += equalShare;
+      });
+    }
+    console.log("Distribution for this item:", distribution);
+
+    grandTotalAdditional += amount;
+    resultItems.push({ name, amount, selectedUsers, distribution });
+  });
+
+  console.log("\n=== FINAL RESULT ===");
+  console.log("Total additional per user:", totalAdditionalPerUser);
+  console.log(
+    "Grand total additional (sum of all additional item amounts):",
+    grandTotalAdditional
+  );
+  console.log("=== calculateAdditionalItemsDistribution END ===\n");
+
+  return {
+    items: resultItems,
+    totalAdditionalPerUser: totalAdditionalPerUser,
+    totalAmount: grandTotalAdditional,
+  };
+}
+
+/**
+ * Merges additional expense amounts into the main user expenses.
+ *
+ * @param {Object} userExpenses - The original user expenses from main items.
+ * @param {Object} additionalResult - The result from calculateAdditionalItemsDistribution.
+ * @returns {Object} A new object with final expenses per user (main + additional).
+ */
+function mergeAdditionalItemsToSummary(userExpenses, additionalResult) {
+  const finalExpenses = { ...userExpenses }; // Clone to avoid modifying original
+
+  for (const user in additionalResult.totalAdditionalPerUser) {
+    if (!finalExpenses[user]) finalExpenses[user] = 0;
+    finalExpenses[user] += additionalResult.totalAdditionalPerUser[user];
+  }
+  return finalExpenses;
+}

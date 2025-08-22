@@ -150,6 +150,39 @@
     </header>
 
     <div class="container">
+      <!-- Merchandising Popup -->
+      <div id="merchandisingPopup" class="popup-overlay" style="display: none">
+        <div class="popup-content">
+          <button
+            onclick="closeMerchandisingPopup()"
+            class="close-btn-bottom-sheet"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="popup-header">
+            <img
+              src="img/new-feature-banner.jpg"
+              alt="banner splitbill"
+              class="merchandising-banner-img"
+            />
+          </div>
+          <div class="popup-body">
+            <div class="merchandising-content">
+              <ul>
+                <li>
+                  Sekarang kamu bisa membagi Pajak, Service Charge secara
+                  proporsional ✨
+                </li>
+                <li>Scan Bill dengan AI untuk input yang lebih cepat 🤖</li>
+              </ul>
+              <p class="merchandising-cta" onclick="closeMerchandisingPopup()">
+                Yuk coba fitur barunya sekarang! 🚀
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="table-wrapper">
         <div class="header-section"></div>
         <div class="banner-container">
@@ -645,17 +678,7 @@
         <div class="table-wrapper">
           <div class="card-container" id="expenseCard">
             <div class="title-section">Transaksi Pengeluaran 📊</div>
-            <!-- infobox -->
-            <!-- <div class="info-box information validasi-split-bill">
-              <div class="icon">😎</div>
-              <div class="content">
-                <p>
-                  Stop pusing soal split bill! Cukup scan bill, pilih bestie,
-                  auto-itung, tinggal share-ez pz no cap!
-                </p>
-              </div>
-            </div> -->
-            <div class="table-container hidden">
+            <!-- <div class="table-container hidden">
               <table id="expense-table">
                 <thead>
                   <tr>
@@ -668,11 +691,73 @@
                 </thead>
                 <tbody></tbody>
               </table>
-            </div>
+            </div> -->
 
             <!-- NEW TABEL PENGELUARAN -->
-
             <div id="expense-list" class="expense-list"></div>
+          </div>
+        </div>
+
+        <!-- Additional Propotional Expense -->
+        <div class="table-wrapper">
+          <div class="card-container" id="expenseCard">
+            <div class="title-section">Additional Expense 📊</div>
+            <div id="additional-expense">
+              <div class="additional-expense">
+                <div>
+                  <label
+                    >Tambah Pengeluaran Proporsional<i
+                      class="uil uil-info-circle info-icon"
+                      onclick="openPopup('infoAdditionalExpense')"
+                    ></i
+                  ></label>
+
+                  <!-- Popup -->
+                  <div id="infoAdditionalExpense" class="popup-overlay">
+                    <div class="popup-content">
+                      <div class="popup-header">
+                        <h3>ℹ️ Proporsional Expense</h3>
+                        <button
+                          onclick="closePopup('infoAdditionalExpense')"
+                          class="close-btn-bottom-sheet"
+                        >
+                          <i class="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
+                      <div class="popup-body">
+                        <ul>
+                          <li>
+                            Kamu bisa menambahkan additioal proporsional expense
+                            untuk membagi
+                            <b>Pajak, PPN, Service Charge, Promo</b> dan lain
+                            sebagainya.
+                          </li>
+                          <li>
+                            Pembagian proporsional additional expense dilakukan
+                            secara
+                            <b>proporsional</b> berdasakan total pengeluaran
+                            masing-masing temanmu.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="information-text">
+                    <i class="uil uil-info-circle"></i> Pajak, PPN, Service
+                    Charge, Promo and etc
+                  </p>
+                </div>
+                <button
+                  id="addAdditionalExpense"
+                  class="secondary-button add-additional-expense"
+                >
+                  <i class="uil uil-plus"></i>
+                </button>
+              </div>
+              <!-- Additional Expense -->
+              <div id="additionalExpenseContainer"></div>
+            </div>
           </div>
         </div>
 
