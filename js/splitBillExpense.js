@@ -16,8 +16,18 @@ function addExpense() {
   // Ambil dari localStorage, default ke array kosong
   const whoArray = JSON.parse(localStorage.getItem("who")) || [];
 
-  if (!item || isNaN(amount) || whoArray.length === 0 || !paidBy) {
-    showToast("Isi terlebih dahulu item transaksi", "error", 5000);
+  if (
+    !item ||
+    isNaN(amount) ||
+    amount <= 0 ||
+    whoArray.length === 0 ||
+    !paidBy
+  ) {
+    showToast(
+      "Isi item transaksi dulu. Amount harus lebih dari Rp0.",
+      "error",
+      5000
+    );
     return;
   }
 
@@ -219,7 +229,7 @@ function validateEditExpenseForm() {
   const errors = [];
 
   if (!item) errors.push("Item Name harus diisi");
-  if (isNaN(amount) || amount <= 0) errors.push("Jumlah harus diisi");
+  if (isNaN(amount) || amount <= 0) errors.push("Jumlah harus lebih dari Rp0");
   if (!who) errors.push("Pilih minimal 1 orang yang berhutang");
   if (!paidBy) errors.push("Input siapa yang membayar");
 
@@ -340,6 +350,62 @@ function updateExpenseCards() {
   container.innerHTML = cardsHTML;
 }
 
+const addAdditionalExpenseBtn = document.getElementById("addAdditionalExpense");
+const additionalExpenseContainer = document.getElementById(
+  "additionalExpenseContainer"
+);
+
+addAdditionalExpenseBtn.addEventListener("click", () => {
+  const div = document.createElement("div");
+  div.classList.add("additional-expense-item-container");
+  const uniqueId = Date.now(); // Generate a unique ID for this item
+
+  div.innerHTML = `
+  <div class="additional-expense-item">
+    <input type="text" placeholder="Nama Pengeluaran" class="additional-expense-name" />
+    <input type="text" id="addAdditionalExpenseAmountFormatted-${uniqueId}" placeholder="Jumlah"/>
+    <input type="hidden" id="addAdditionalExpenseAmount-${uniqueId}"  class="additional-expense-amount"/>
+     <button class="delete-btn"><i class="uil uil-trash"></i></button>
+  </div>
+  <div>
+    <label>Dibayar oleh</label>
+    <select class="additional-expense-paid-by" id="additionalExpensePaidBy-${uniqueId}">
+      <option value="">Pilih yang membayar</option>
+    </select>
+  </div>
+  <div>
+    <label>Split dengan Siapa</label>
+    <div class="avatar-container-additional" id="avatarContainerAdditional-${uniqueId}"></div>
+    <input type="hidden" class="selected-people-additional" id="selectedPeopleAdditional-${uniqueId}" value="[]" />
+  </div>
+
+  `;
+
+  // tombol hapus untuk remove item
+  div.querySelector(".delete-btn").addEventListener("click", () => {
+    div.remove();
+  });
+
+  additionalExpenseContainer.appendChild(div);
+
+  // Setup currency formatter for the new amount input
+  setupCurrencyFormatter(
+    `addAdditionalExpenseAmountFormatted-${uniqueId}`,
+    `addAdditionalExpenseAmount-${uniqueId}`
+  );
+
+  // Render avatars for the newly added expense item
+  renderAvatarsForAdditionalExpense(
+    `avatarContainerAdditional-${uniqueId}`,
+    `selectedPeopleAdditional-${uniqueId}`
+  );
+
+  // Populate the "Dibayar oleh" dropdown
+  populateAdditionalExpensePaidByDropdown(
+    `additionalExpensePaidBy-${uniqueId}`
+  );
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   if (window.updateExpenseCards) {
     window.updateExpenseCards();
@@ -352,3 +418,116 @@ window.updateExpenseCards = updateExpenseCards;
 window.editExpense = editExpense;
 window.deleteExpense = deleteExpense;
 window.saveEditedExpense = saveEditedExpense;
+
+/**
+ * Renders a list of avatars in a specified container for additional expenses.
+ *
+ * This function retrieves the list of people from local storage and updates the
+ * specified avatar container with their avatars and names. Each avatar is generated
+ * using the Dicebear API and is clickable to toggle its selection state. The selected
+ * state is indicated with a visual change, and selections are saved back to the
+ * associated hidden input. If there are no people in the list, a message prompting
+ * the user to add friends is displayed instead.
+ *
+ * @param {string} containerId - The ID of the HTML element where avatars will be rendered.
+ * @param {string} hiddenInputId - The ID of the hidden input field that stores selected people.
+ */
+function renderAvatarsForAdditionalExpense(containerId, hiddenInputId) {
+  const container = document.getElementById(containerId);
+  const hiddenInput = document.getElementById(hiddenInputId);
+  if (!container || !hiddenInput) return;
+
+  let people = loadFromLocalStorage("people") || [];
+  let selectedPeople = JSON.parse(hiddenInput.value || "[]");
+
+  container.innerHTML = "";
+
+  if (people.length === 0) {
+    const emptyText = document.createElement("div");
+    emptyText.className = "empty-text";
+    emptyText.textContent = "Tambahkan teman terlebih dahulu";
+    container.appendChild(emptyText);
+    return;
+  }
+
+  people
+    .slice()
+    .reverse()
+    .forEach((person) => {
+      const avatarWrapper = document.createElement("div");
+      avatarWrapper.className = "avatar-wrapper";
+
+      const avatar = document.createElement("img");
+      avatar.className = `avatar-img ${
+        selectedPeople.includes(person) ? "selected" : ""
+      }`;
+      avatar.src = `${AVATAR_BASE_URL}${encodeURIComponent(person)}`;
+      avatar.alt = person;
+
+      const nameLabel = document.createElement("div");
+      nameLabel.className = "avatar-name";
+      nameLabel.textContent = person;
+
+      avatar.onclick = () => {
+        toggleAvatarSelectionAdditional(person, containerId, hiddenInputId);
+      };
+
+      avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(nameLabel);
+      container.appendChild(avatarWrapper);
+    });
+}
+
+/**
+ * Toggles the selection state of an avatar for an additional expense item.
+ *
+ * This function updates the `selectedPeople` array associated with a specific
+ * additional expense item, saves the updated array to the corresponding hidden
+ * input, and then re-renders the avatars for that item to reflect the change.
+ *
+ * @param {string} personName - The name of the person whose avatar was clicked.
+ * @param {string} containerId - The ID of the avatar container.
+ * @param {string} hiddenInputId - The ID of the hidden input field storing selected people.
+ */
+function toggleAvatarSelectionAdditional(
+  personName,
+  containerId,
+  hiddenInputId
+) {
+  const hiddenInput = document.getElementById(hiddenInputId);
+  if (!hiddenInput) return;
+
+  let selectedPeople = JSON.parse(hiddenInput.value || "[]");
+
+  if (selectedPeople.includes(personName)) {
+    selectedPeople = selectedPeople.filter((name) => name !== personName);
+  } else {
+    selectedPeople.push(personName);
+  }
+
+  hiddenInput.value = JSON.stringify(selectedPeople);
+  renderAvatarsForAdditionalExpense(containerId, hiddenInputId); // Re-render to update UI
+}
+
+/**
+ * Populates the "Dibayar oleh" dropdown for additional expense items.
+ *
+ * @param {string} selectId - The ID of the select element to populate
+ */
+function populateAdditionalExpensePaidByDropdown(selectId) {
+  const selectElement = document.getElementById(selectId);
+  if (!selectElement) return;
+
+  const people = loadFromLocalStorage("people") || [];
+
+  // Clear existing options except the first one
+  selectElement.innerHTML = '<option value="">Pilih yang membayar</option>';
+
+  // Add people as options
+  people.forEach((person) => {
+    const option = document.createElement("option");
+    option.value = person;
+    option.textContent = person;
+    selectElement.appendChild(option);
+  });
+}

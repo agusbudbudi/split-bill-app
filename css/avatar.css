@@ -90,6 +90,22 @@
   display: none; /* Chrome, Safari, Opera */
 }
 
+.avatar-container-additional {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-top: 5px;
+  padding-right: 5px;
+  margin-bottom: 10px; /* Add some margin below the container */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.avatar-container-additional::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 .avatar-img {
   width: 40px;
   height: 40px;

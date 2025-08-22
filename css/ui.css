@@ -222,6 +222,7 @@ label {
 }
 
 input,
+select,
 .discount-type,
 textarea,
 #input-section input,
@@ -297,13 +298,12 @@ textarea:focus {
   min-height: 48px;
   align-items: center;
   overflow-x: auto;
-
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .avatar-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 /* Tambahkan padding agar sejajar dengan input */
@@ -672,4 +672,119 @@ td {
 
 .navigate-donate-page i {
   color: #ff7f7e;
+}
+
+/* Additional Expense form */
+.additional-expense-item-container {
+  border-bottom: 1px dashed var(--table-border-color);
+  margin-bottom: 16px;
+}
+
+.add-additional-expense {
+  width: auto;
+  min-width: 50px;
+  max-width: 50px;
+  padding: 12px;
+}
+
+.additional-expense-item-container:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.additional-expense {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.additional-expense-item {
+  display: flex;
+  gap: 10px;
+}
+
+.additional-expense-item .delete-btn {
+  margin: 0;
+  margin-bottom: 15px;
+  max-width: 50px;
+}
+
+.additional-expense-item .delete-btn i {
+  font-size: 16px;
+}
+
+/* Merchandising Popup Styles */
+#merchandisingPopup {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#merchandisingPopup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#merchandisingPopup.hide {
+  opacity: 0;
+}
+
+#merchandisingPopup .popup-content {
+  transform: scale(0.8) translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+#merchandisingPopup.show .popup-content {
+  transform: scale(1) translateY(0);
+}
+
+#merchandisingPopup.hide .popup-content {
+  transform: scale(0.8) translateY(-20px);
+}
+
+.merchandising-content {
+  text-align: center;
+}
+
+.merchandising-content ul {
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.merchandising-content li {
+  color: var(--text-color);
+  font-size: 14px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.merchandising-cta {
+  color: var(--btn-bg);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  padding: 10px 15px;
+  background: var(--infobox-info-bg);
+  border-radius: 8px;
+  border: 1px solid var(--infobox-info-border-color);
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.merchandising-banner-img {
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+}
+
+#merchandisingPopup .close-btn-bottom-sheet {
+  position: absolute;
+  top: -40px;
+  right: 0px;
+}
+
+#merchandisingPopup .popup-header {
+  padding: 0;
+  background-color: transparent;
 }

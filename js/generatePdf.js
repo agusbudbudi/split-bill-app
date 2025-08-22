@@ -363,6 +363,14 @@ function formatSplitBillElements(container) {
     el.style.backgroundColor = "#ffe0e0";
   });
 
+  // Format Split Proporsional labels
+  container.querySelectorAll(".proportional-label").forEach((el) => {
+    el.style.color = "#1976d2";
+    el.style.padding = "1px 4px";
+    el.style.borderRadius = "5px";
+    el.style.backgroundColor = "#e3f2fd";
+  });
+
   // Format user details and expenses
   container
     .querySelectorAll(".user-details p, .user-expense p")
