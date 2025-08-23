@@ -505,7 +505,8 @@ td {
   z-index: 0;
   transition: opacity 1s ease-in-out;
   border-radius: 15px;
-  pointer-events: none;
+  /* pointer-events: none; */
+  cursor: pointer;
 }
 
 .banner-slide.active {
@@ -605,9 +606,13 @@ td {
   margin-top: 60px;
 }
 
-.banner-donate {
+.banner-donate,
+.banner-feedback {
   width: 100%;
   border-radius: 15px;
+}
+.banner-feedback {
+  cursor: pointer;
 }
 
 .copy-btn {

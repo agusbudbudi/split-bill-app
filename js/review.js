@@ -1,5 +1,10 @@
 // Rating System Variables
 let selectedRating = 0;
+let countdownTimer = null;
+
+// Cooldown configuration (24 hours in milliseconds)
+const REVIEW_COOLDOWN_HOURS = 24;
+const REVIEW_COOLDOWN_MS = REVIEW_COOLDOWN_HOURS * 60 * 60 * 1000;
 
 // Initialize rating system
 document.addEventListener("DOMContentLoaded", function () {
@@ -64,6 +69,127 @@ function toggleContactFields() {
   }
 }
 
+// Cooldown Functions
+function checkReviewCooldown() {
+  const lastSubmission = localStorage.getItem("lastReviewSubmission");
+  if (!lastSubmission) return false;
+
+  const lastSubmissionTime = new Date(lastSubmission);
+  const now = new Date();
+  const timeDiff = now.getTime() - lastSubmissionTime.getTime();
+
+  return timeDiff < REVIEW_COOLDOWN_MS;
+}
+
+function getRemainingCooldownTime() {
+  const lastSubmission = localStorage.getItem("lastReviewSubmission");
+  if (!lastSubmission) return 0;
+
+  const lastSubmissionTime = new Date(lastSubmission);
+  const now = new Date();
+  const timeDiff = now.getTime() - lastSubmissionTime.getTime();
+  const remaining = REVIEW_COOLDOWN_MS - timeDiff;
+
+  return remaining > 0 ? remaining : 0;
+}
+
+function formatCountdownTime(milliseconds) {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function showCooldownMessage(remainingTime) {
+  const countdown = formatCountdownTime(remainingTime);
+  let cooldownMessage = document.getElementById("cooldownMessage");
+
+  if (!cooldownMessage) {
+    cooldownMessage = document.createElement("div");
+    cooldownMessage.id = "cooldownMessage";
+    cooldownMessage.className = "cooldown-message";
+
+    // Insert after the title section
+    const titleSection = document.getElementById("review");
+    titleSection.parentNode.insertBefore(
+      cooldownMessage,
+      titleSection.nextSibling
+    );
+  }
+
+  cooldownMessage.innerHTML = `
+
+    Kamu sudah mengirim review. Tunggu <strong> ${countdown}</strong> untuk mengirim review berikutnya.
+  `;
+  cooldownMessage.style.display = "block";
+}
+
+function hideCooldownMessage() {
+  const cooldownMessage = document.getElementById("cooldownMessage");
+  if (cooldownMessage) {
+    cooldownMessage.style.display = "none";
+  }
+}
+
+function updateSubmitButtonState() {
+  const submitBtn = document.querySelector(".save-btn");
+  const isInCooldown = checkReviewCooldown();
+
+  if (isInCooldown) {
+    const remainingTime = getRemainingCooldownTime();
+    const countdown = formatCountdownTime(remainingTime);
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `Tunggu ${countdown}`;
+    submitBtn.style.opacity = "0.5";
+    submitBtn.style.cursor = "not-allowed";
+
+    showCooldownMessage(remainingTime);
+  } else {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = "Kirim";
+    submitBtn.style.opacity = "1";
+    submitBtn.style.cursor = "pointer";
+
+    hideCooldownMessage();
+  }
+}
+
+function startCountdownTimer() {
+  // Clear existing timer if any
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+  }
+
+  // Update immediately
+  updateSubmitButtonState();
+
+  // Only start timer if in cooldown
+  if (checkReviewCooldown()) {
+    countdownTimer = setInterval(() => {
+      if (checkReviewCooldown()) {
+        updateSubmitButtonState();
+      } else {
+        // Cooldown finished
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        updateSubmitButtonState();
+      }
+    }, 1000); // Update every second
+  }
+}
+
+function stopCountdownTimer() {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
 // API Configuration
 const API_CONFIG = {
   baseURL: "https://split-bill-backend-vercel.vercel.app/api",
@@ -74,6 +200,14 @@ const API_CONFIG = {
 
 // Submit review function
 async function submitReview() {
+  // Check cooldown first
+  if (checkReviewCooldown()) {
+    const remainingTime = getRemainingCooldownTime();
+    const countdown = formatCountdownTime(remainingTime);
+    showToast(`Kamu bisa mengirim review lagi dalam ${countdown}`, "warning");
+    return;
+  }
+
   const reviewerName = document.getElementById("reviewerName").value.trim();
   const reviewText = document.getElementById("reviewText").value.trim();
   const contactPermission =
@@ -146,14 +280,18 @@ async function submitReview() {
 
     const result = await response.json();
 
+    // Save timestamp for successful submission
+    localStorage.setItem("lastReviewSubmission", new Date().toISOString());
+
     // Show success message
     showToast(
       "Terima kasih! Ulasan dan feedback kamu sudah tersimpan 🙏",
       "success"
     );
 
-    // Reset form
+    // Reset form and start cooldown
     resetReviewForm();
+    startCountdownTimer();
   } catch (error) {
     console.error("Error submitting review:", error);
 
@@ -169,12 +307,17 @@ async function submitReview() {
       });
       localStorage.setItem("splitBillReviews", JSON.stringify(reviews));
 
+      // Save timestamp for successful local submission
+      localStorage.setItem("lastReviewSubmission", new Date().toISOString());
+
       showToast(
         "Review tersimpan secara lokal. Akan disinkronkan saat koneksi tersedia.",
         "warning"
       );
 
+      // Reset form and start cooldown
       resetReviewForm();
+      startCountdownTimer();
     } catch (localError) {
       showToast(
         "Terjadi kesalahan saat mengirim review. Silakan coba lagi.",
@@ -259,6 +402,9 @@ document.addEventListener("DOMContentLoaded", function () {
   if (navigator.onLine) {
     syncOfflineReviews();
   }
+
+  // Initialize cooldown system
+  startCountdownTimer();
 });
 
 // Reset review form
