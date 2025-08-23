@@ -21,6 +21,10 @@
   padding: 0; /* hapus padding jika perlu */
 }
 
+.filter-container .tab-container {
+  margin-bottom: 0px;
+}
+
 .back-btn {
   background: transparent;
   border: none;
