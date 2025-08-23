@@ -100,16 +100,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Section management
   const savedSection = localStorage.getItem("activeSection");
-  if (savedSection) {
+  if (savedSection && typeof showSection === "function") {
     showSection(savedSection);
     localStorage.removeItem("activeSection");
-  } else {
+  } else if (typeof showSection === "function") {
     showSection("split");
   }
 
   // Initialize other components
-  renderInvoiceCards();
-  initSplitBillNumber();
+  if (typeof renderInvoiceCards === "function") {
+    renderInvoiceCards();
+  }
+  if (typeof initSplitBillNumber === "function") {
+    initSplitBillNumber();
+  }
   updateHeaderAvatar();
   initCopyButtons();
 
@@ -193,7 +197,12 @@ window.addEventListener("load", function () {
   setTheme(savedMode);
 
   // Show invoice cards if any
-  renderInvoiceCards();
+  if (typeof renderInvoiceCards === "function") {
+    renderInvoiceCards();
+  }
+
+  // Update header avatar on window load to ensure it's updated after login redirect
+  updateHeaderAvatar();
 });
 
 function showUnderConstruction(
@@ -227,6 +236,12 @@ function updateHeaderAvatar() {
     const token = localStorage.getItem("accessToken");
     const headerAvatar = document.getElementById("headerAvatar");
 
+    console.log("Updating header avatar:", {
+      hasCurrentUser: !!currentUser,
+      hasToken: !!token,
+      hasHeaderAvatar: !!headerAvatar,
+    });
+
     if (currentUser && token && headerAvatar) {
       const user = JSON.parse(currentUser);
       const avatarSeed = user.name || user.email || "default";
@@ -234,6 +249,21 @@ function updateHeaderAvatar() {
         avatarSeed
       )}`;
       headerAvatar.src = avatarUrl;
+      console.log("Header avatar updated successfully for:", avatarSeed);
+    } else if (currentUser && token && !headerAvatar) {
+      // If avatar element is not found, try again after a short delay
+      setTimeout(() => {
+        const retryAvatar = document.getElementById("headerAvatar");
+        if (retryAvatar) {
+          const user = JSON.parse(currentUser);
+          const avatarSeed = user.name || user.email || "default";
+          const avatarUrl = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+            avatarSeed
+          )}`;
+          retryAvatar.src = avatarUrl;
+          console.log("Header avatar updated on retry for:", avatarSeed);
+        }
+      }, 100);
     }
   } catch (error) {
     console.error("Error updating header avatar:", error);
@@ -260,26 +290,37 @@ function initCopyButtons() {
 
   copyButtons.forEach((btn) => {
     btn.addEventListener("click", function () {
-      const number = btn.parentElement
-        .querySelector(".payment-method-donate p:last-child")
-        .textContent.trim();
+      // Find the payment method container in the same parent
+      const paymentMethodContainer = btn.parentElement.querySelector(
+        ".payment-method-donate"
+      );
 
-      navigator.clipboard
-        .writeText(number)
-        .then(() => {
-          const icon = btn.querySelector("i");
-          const oldClass = icon.className;
-          icon.className = "uil uil-check-circle";
+      if (paymentMethodContainer) {
+        // Get the last paragraph which contains the number
+        const paragraphs = paymentMethodContainer.querySelectorAll("p");
+        const lastParagraph = paragraphs[paragraphs.length - 1];
 
-          setTimeout(() => {
-            icon.className = oldClass;
-          }, 1500);
-          showToast(`Nomor ${number} berhasil disalin`, "success", 5000);
-        })
-        .catch((err) => {
-          console.error("Gagal menyalin: ", err);
-          showToast(`Nomor ${number} gagal disalin`, "error", 5000);
-        });
+        if (lastParagraph) {
+          const number = lastParagraph.textContent.trim();
+
+          navigator.clipboard
+            .writeText(number)
+            .then(() => {
+              const icon = btn.querySelector("i");
+              const oldClass = icon.className;
+              icon.className = "uil uil-check-circle";
+
+              setTimeout(() => {
+                icon.className = oldClass;
+              }, 1500);
+              showToast(`Nomor ${number} berhasil disalin`, "success", 5000);
+            })
+            .catch((err) => {
+              console.error("Gagal menyalin: ", err);
+              showToast(`Nomor ${number} gagal disalin`, "error", 5000);
+            });
+        }
+      }
     });
   });
 }
@@ -289,6 +330,58 @@ window.addEventListener("storage", function (e) {
   if (e.key === "currentUser" || e.key === "accessToken") {
     updateHeaderAvatar();
   }
+});
+
+// Additional check for avatar update after login redirect
+// This ensures avatar gets updated even if storage event doesn't fire properly
+let avatarUpdateInterval;
+
+function startAvatarUpdateCheck() {
+  // Clear any existing interval
+  if (avatarUpdateInterval) {
+    clearInterval(avatarUpdateInterval);
+  }
+
+  // Check for avatar update every 500ms for the first 5 seconds after page load
+  let checkCount = 0;
+  avatarUpdateInterval = setInterval(() => {
+    checkCount++;
+
+    const currentUser = localStorage.getItem("currentUser");
+    const token = localStorage.getItem("accessToken");
+    const headerAvatar = document.getElementById("headerAvatar");
+
+    if (currentUser && token && headerAvatar) {
+      const user = JSON.parse(currentUser);
+      const avatarSeed = user.name || user.email || "default";
+      const expectedUrl = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4&scale=100&seed=${encodeURIComponent(
+        avatarSeed
+      )}`;
+
+      // If avatar is still showing default, update it
+      if (
+        headerAvatar.src.includes("seed=default") &&
+        !expectedUrl.includes("seed=default")
+      ) {
+        console.log("Updating avatar from interval check");
+        updateHeaderAvatar();
+      }
+    }
+
+    // Stop checking after 10 attempts (5 seconds)
+    if (checkCount >= 10) {
+      clearInterval(avatarUpdateInterval);
+    }
+  }, 500);
+}
+
+// Start the avatar update check when page loads
+document.addEventListener("DOMContentLoaded", () => {
+  startAvatarUpdateCheck();
+});
+
+window.addEventListener("load", () => {
+  startAvatarUpdateCheck();
 });
 
 // Optimized popup trigger - only show if not seen before

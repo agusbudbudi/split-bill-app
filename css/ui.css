@@ -755,7 +755,7 @@ td {
 
 .merchandising-content li {
   color: var(--text-color);
-  font-size: 14px;
+  font-size: 12px;
   margin-bottom: 8px;
   line-height: 1.4;
 }
@@ -763,7 +763,7 @@ td {
 .merchandising-cta {
   color: var(--btn-bg);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   padding: 10px 15px;
   background: var(--infobox-info-bg);

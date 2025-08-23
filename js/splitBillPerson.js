@@ -40,6 +40,7 @@ function addPerson() {
     renderPeople();
     updateDropdowns();
     renderAvatars();
+    updateAllAdditionalExpenseAvatars();
     showToast("Teman berhasil ditambahkan!", "success", 5000);
   } else {
     showToast(`${names} sudah ditambahkan.`, "warning", 5000);
@@ -121,6 +122,7 @@ function removePerson(index, name) {
   renderPeople();
   updateDropdowns();
   renderAvatars();
+  updateAllAdditionalExpenseAvatars();
 
   showToast("Teman berhasil dihapus!", "success", 5000);
 }
@@ -290,6 +292,39 @@ function updateWhoField() {
 
   // Update field dengan nama-nama yang dipilih dari avatar
   whoField.value = who.join(", ");
+}
+
+/**
+ * Updates all additional expense avatar containers.
+ * This function finds all additional expense avatar containers and re-renders them
+ * to ensure they reflect the current list of people.
+ */
+function updateAllAdditionalExpenseAvatars() {
+  // Find all additional expense avatar containers
+  const avatarContainers = document.querySelectorAll(
+    '[id^="avatarContainerAdditional-"]'
+  );
+
+  avatarContainers.forEach((container) => {
+    const containerId = container.id;
+    const uniqueId = containerId.replace("avatarContainerAdditional-", "");
+    const hiddenInputId = `selectedPeopleAdditional-${uniqueId}`;
+
+    // Check if the corresponding function exists before calling it
+    if (typeof renderAvatarsForAdditionalExpense === "function") {
+      renderAvatarsForAdditionalExpense(containerId, hiddenInputId);
+    }
+  });
+
+  // Also update all additional expense paid-by dropdowns
+  const paidBySelects = document.querySelectorAll(
+    '[id^="additionalExpensePaidBy-"]'
+  );
+  paidBySelects.forEach((select) => {
+    if (typeof populateAdditionalExpensePaidByDropdown === "function") {
+      populateAdditionalExpensePaidByDropdown(select.id);
+    }
+  });
 }
 
 // 🔁 Helper functions

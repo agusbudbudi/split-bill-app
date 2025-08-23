@@ -161,7 +161,7 @@
           </button>
           <div class="popup-header">
             <img
-              src="img/new-feature-banner.jpg"
+              src="img/merchandising-banner.jpg"
               alt="banner splitbill"
               class="merchandising-banner-img"
             />
@@ -170,10 +170,12 @@
             <div class="merchandising-content">
               <ul>
                 <li>
-                  Sekarang kamu bisa membagi Pajak, Service Charge secara
-                  proporsional ✨
+                  GRATIS Scan Bill dengan AI untuk input yang lebih cepat 🤖
                 </li>
-                <li>Scan Bill dengan AI untuk input yang lebih cepat 🤖</li>
+                <li>
+                  Sekarang kamu bisa membagi Pajak, Service Charge, atau Promo
+                  secara proporsional ✨
+                </li>
               </ul>
               <p class="merchandising-cta" onclick="closeMerchandisingPopup()">
                 Yuk coba fitur barunya sekarang! 🚀
@@ -208,6 +210,12 @@
           />
           <img
             src="img/banner-wallet.png"
+            alt="banner wallet"
+            class="banner-slide"
+          />
+
+          <img
+            src="img/new-feature-banner.jpg"
             alt="banner wallet"
             class="banner-slide"
           />
@@ -381,6 +389,21 @@
               </div>
             </div>
 
+            <!-- Add New Friends section -->
+            <label>Tambah Teman</label>
+            <div class="people-container">
+              <div class="add-new-wrapper person-item">
+                <div
+                  class="add-new"
+                  onclick="openBottomSheet('addPersonBottomSheet')"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="add-text">Teman</span>
+              </div>
+              <div id="peopleList" class="people-list"></div>
+            </div>
+
             <div id="manual-input" class="section-input-bill tab-section">
               <div id="input-section">
                 <!-- Section Add People -->
@@ -433,9 +456,8 @@
                           <b>Rp 50.000</b>
                         </li>
                         <li>
-                          Untuk diskon atau pengurangan, awali dengan tanda
-                          minus, contoh:
-                          <b>-Rp 10.000</b>
+                          Untuk diskon atau pengurangan, kamu bisa menambahkan
+                          di bagain <b>Additional Expense</b>
                         </li>
                       </ul>
                     </div>
@@ -449,22 +471,7 @@
                 />
                 <input type="hidden" id="splitAmount" />
 
-                <label>Split dengan Siapa</label>
-
-                <!-- NEW PEOPLE -->
-                <div class="people-container">
-                  <div class="add-new-wrapper person-item">
-                    <div
-                      class="add-new"
-                      onclick="openBottomSheet('addPersonBottomSheet')"
-                    >
-                      <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <span class="add-text">Teman</span>
-                  </div>
-                  <div id="peopleList" class="people-list"></div>
-                </div>
-
+                <label for="avatarContainer">Split dengan Siapa</label>
                 <p class="information-text">
                   <i class="uil uil-info-circle"></i> Klik avatar untuk memilih
                   (Pilih minimal 1 orang)

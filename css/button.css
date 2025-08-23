@@ -138,6 +138,7 @@ button:hover {
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
+  margin-bottom: 10px;
 }
 
 .tab-button {

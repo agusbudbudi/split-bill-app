@@ -200,6 +200,7 @@ function saveEditedExpense() {
     updateDropdowns?.();
     renderPeople?.();
     renderAvatars?.();
+    updateAllAdditionalExpenseAvatars?.();
   }
 
   // Update data expense di memori (tidak ke localStorage)
