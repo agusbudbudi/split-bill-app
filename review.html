@@ -79,6 +79,8 @@
     <link rel="stylesheet" href="css/paymentMethod.css" />
     <link rel="stylesheet" href="css/expenseList.css" />
     <link rel="stylesheet" href="css/donate.css" />
+    <link rel="stylesheet" href="css/cooldown.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/theme.css" />
   </head>
 
@@ -94,7 +96,7 @@
 
     <div class="container banner-donate-container">
       <img
-        src="img/banner-donate.png"
+        src="img/banner-feedback.jpg"
         alt="banner wallet"
         class="banner-donate"
       />
@@ -154,24 +156,28 @@
               <input
                 type="email"
                 id="contactEmail"
-                placeholder="email@example.com"
+                placeholder="Contoh: youremail@gmail.com"
               />
 
               <label for="contactPhone">Nomor WhatsApp</label>
-              <input type="tel" id="contactPhone" placeholder="08xxxxxxxxxx" />
+              <input
+                type="tel"
+                id="contactPhone"
+                placeholder="Contoh: 085555555555"
+              />
             </div>
 
             <button class="save-btn" onclick="submitReview()">Kirim</button>
           </div>
         </div>
       </div>
-
-      <div class="toast-container" id="toastContainer"></div>
-
-      <script src="js/toastMessage.js"></script>
-      <script src="js/ui.js"></script>
-      <script src="js/review.js"></script>
-      <script src="js/sharedFunction.js"></script>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/toastMessage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/review.js"></script>
+    <script src="js/sharedFunction.js"></script>
   </body>
 </html>

@@ -183,71 +183,22 @@
             <div id="review" class="title-section">
               Beri Ulasan dan Feedback
             </div>
-
-            <!-- Rating Section -->
-            <div class="rating-container" id="ratingContainer">
-              <i class="fas fa-star rating-star" data-rating="1"></i>
-              <i class="fas fa-star rating-star" data-rating="2"></i>
-              <i class="fas fa-star rating-star" data-rating="3"></i>
-              <i class="fas fa-star rating-star" data-rating="4"></i>
-              <i class="fas fa-star rating-star" data-rating="5"></i>
-            </div>
-
-            <label for="reviewerName">Nama Lengkap</label>
-            <input
-              type="text"
-              id="reviewerName"
-              placeholder="Nama kamu (opsional)"
+            <img
+              src="img/banner-feedback.jpg"
+              alt="banner feedback"
+              class="banner-feedback"
+              onclick="window.location.href='review.html'"
             />
-
-            <label for="reviewText">Ulasan dan Feedback</label>
-            <textarea
-              id="reviewText"
-              placeholder="Tuliskan ulasan dan feedback kamu"
-              rows="4"
-            ></textarea>
-
-            <!-- Contact Permission Checkbox -->
-            <div class="checkbox-container">
-              <input
-                type="checkbox"
-                id="contactPermission"
-                class="custom-checkbox"
-                onchange="toggleContactFields()"
-              />
-              <label for="contactPermission"
-                >Bersedia dihubungi tim Developer</label
-              >
-            </div>
-
-            <!-- Contact Fields (Hidden by default) -->
-            <div
-              id="contactFields"
-              class="contact-fields"
-              style="display: none"
-            >
-              <label for="contactEmail">Email</label>
-              <input
-                type="email"
-                id="contactEmail"
-                placeholder="email@example.com"
-              />
-
-              <label for="contactPhone">Nomor WhatsApp</label>
-              <input type="tel" id="contactPhone" placeholder="08xxxxxxxxxx" />
-            </div>
-
-            <button class="save-btn" onclick="submitReview()">Kirim</button>
           </div>
         </div>
       </div>
-
-      <div class="toast-container" id="toastContainer"></div>
-
-      <script src="js/toastMessage.js"></script>
-      <script src="js/ui.js"></script>
-      <script src="js/review.js"></script>
-      <script src="js/sharedFunction.js"></script>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/toastMessage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/review.js"></script>
+    <script src="js/sharedFunction.js"></script>
   </body>
 </html>
