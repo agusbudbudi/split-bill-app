@@ -284,7 +284,7 @@ class WalletRenderer {
     }
 
     // Tambahkan URL halaman di akhir
-    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://splitbill-alpha.vercel.app/myWallet.html`;
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
@@ -313,7 +313,7 @@ class WalletRenderer {
 
     message += `Silakan transfer ke salah satu rekening di atas. Terima kasih! 🙏`;
     // Tambahkan URL halaman di akhir
-    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://splitbill-alpha.vercel.app/myWallet.html`;
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
@@ -342,7 +342,7 @@ class WalletRenderer {
 
     message += `Pilih yang paling mudah untuk Anda! Terima kasih! 🙏`;
     // Tambahkan URL halaman di akhir
-    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://agusbudbudi.github.io/split-bill-app/myWallet.html`;
+    message += `\n\n🔗 Simpan metode pembayaran di sini:\nhttps://splitbill-alpha.vercel.app/myWallet.html`;
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message

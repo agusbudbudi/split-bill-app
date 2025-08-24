@@ -90,21 +90,6 @@
   .menu-circle span {
     font-size: 12px;
   }
-
-  .cooldown-message {
-    padding: 14px 16px;
-    font-size: 13px;
-    margin: 12px 0;
-  }
-
-  .cooldown-message i {
-    font-size: 16px;
-  }
-
-  .cooldown-message strong {
-    font-size: 12px;
-    padding: 1px 4px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -184,20 +169,5 @@
   .invoice-message-desc {
     font-size: 10px;
     margin-bottom: 10px;
-  }
-
-  .cooldown-message {
-    padding: 14px 16px;
-    font-size: 13px;
-    margin: 12px 0;
-  }
-
-  .cooldown-message i {
-    font-size: 16px;
-  }
-
-  .cooldown-message strong {
-    font-size: 12px;
-    padding: 1px 4px;
   }
 }

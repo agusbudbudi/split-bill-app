@@ -150,46 +150,50 @@ function renderUserSummaries() {
     ...Object.keys(splitBillData.variance || {}),
   ]);
 
-  // Generate transaction map menggunakan fungsi yang sudah ada
-  const { transactionMap, transferSummaryMap } = generateTransactionMap(
-    splitBillData.expenses
-  );
-  adjustForMutualPayments(transactionMap, transferSummaryMap);
+  // Generate transaction map using variance-based calculation (like in summary.js)
+  const { transactionMap, transferSummaryMap } =
+    generateTransactionMapFromVariance(
+      splitBillData.userExpenses,
+      splitBillData.userPayments,
+      splitBillData.variance
+    );
 
   allUsers.forEach((user) => {
     const userExpense = splitBillData.userExpenses[user] || 0;
     const userPayment = splitBillData.userPayments[user] || 0;
     const userVariance = splitBillData.variance[user] || 0;
 
-    // Calculate user's share of each expense
-    const userExpenseBreakdown = splitBillData.expenses
-      .filter((expense) => expense.who.includes(user))
-      .map((expense) => ({
-        ...expense,
-        userShare: expense.amount / expense.who.length,
-      }));
+    // Calculate user's breakdown including both main expenses and additional items
+    const breakdown = calculateUserItemBreakdown(
+      splitBillData.expenses,
+      splitBillData.additionalItems || []
+    );
+    const userBreakdown = breakdown[user] || [];
 
     const userDiv = document.createElement("div");
     userDiv.className = "user-summary-card";
 
     // Breakdown item HTML
     let breakdownHTML = "";
-    if (userExpenseBreakdown.length > 0) {
-      userExpenseBreakdown.forEach((expense) => {
+    if (userBreakdown.length > 0) {
+      userBreakdown.forEach((item) => {
         const discountLabel =
-          expense.amount < 0
-            ? '<span class="discount-label">Diskon</span>'
-            : "";
+          item.amount < 0 ? '<span class="discount-label">Diskon</span>' : "";
+        const additionalLabel = item.isAdditional
+          ? '<span class="proportional-label">Split Proporsional</span>'
+          : "";
+
         breakdownHTML += `
-          <li ${expense.amount < 0 ? "negative" : ""}>
+          <li ${item.amount < 0 ? "negative" : ""}>
             <div class="breakdown-row">
               <span class="item-name">
-                ${expense.item}
+                ${item.item}
                 ${discountLabel}
+                ${additionalLabel}
               </span>
               <span class="item-amount">${
-                expense.amount < 0 ? "- " : ""
-              }${formatToIDR(Math.abs(expense.userShare))}</span>
+                item.amount < 0 ? "- " : ""
+              }${formatToIDR(Math.abs(item.amount))}</span>
             </div>
           </li>
         `;
@@ -222,7 +226,7 @@ function renderUserSummaries() {
       .map(([key, amount]) => {
         const debtor = key.split("->")[0];
         const debtorName = debtor.charAt(0).toUpperCase() + debtor.slice(1);
-        return `<p class="transfer-detail">💰 Terima <strong>${formatToIDR(
+        return `<p class="transfer-detail no-debt">💰 Terima <strong>${formatToIDR(
           amount
         )}</strong> dari <strong>${debtorName}</strong></p>`;
       })
@@ -326,6 +330,126 @@ function generateTransactionMap(items) {
   });
 
   return { transactionMap, transferSummaryMap };
+}
+
+/**
+ * Generates transaction map based on user expenses, payments, and variance.
+ * This function calculates who owes whom based on the final expenses (including additional expenses)
+ * and actual payments made, then optimizes the transactions to minimize the number of transfers.
+ *
+ * @param {Object} userExpenses - Final user expenses including additional expenses
+ * @param {Object} userPayments - Actual payments made by each user
+ * @param {Object} variance - Variance between what each user paid vs what they owe
+ * @returns {Object} Object containing transactionMap and transferSummaryMap
+ */
+function generateTransactionMapFromVariance(
+  userExpenses,
+  userPayments,
+  variance
+) {
+  const transactionMap = {};
+  const transferSummaryMap = {};
+
+  // Separate users into debtors (negative variance) and creditors (positive variance)
+  const debtors = [];
+  const creditors = [];
+
+  Object.entries(variance).forEach(([user, amount]) => {
+    if (amount < -0.01) {
+      // Small threshold to handle floating point precision
+      debtors.push({ user, amount: Math.abs(amount) });
+    } else if (amount > 0.01) {
+      creditors.push({ user, amount });
+    }
+  });
+
+  // Sort debtors by amount owed (descending) and creditors by amount owed to them (descending)
+  debtors.sort((a, b) => b.amount - a.amount);
+  creditors.sort((a, b) => b.amount - a.amount);
+
+  // Settle debts using a greedy algorithm to minimize transactions
+  let debtorIndex = 0;
+  let creditorIndex = 0;
+
+  while (debtorIndex < debtors.length && creditorIndex < creditors.length) {
+    const debtor = debtors[debtorIndex];
+    const creditor = creditors[creditorIndex];
+
+    const transferAmount = Math.min(debtor.amount, creditor.amount);
+
+    if (transferAmount > 0.01) {
+      // Only create transaction if amount is significant
+      const key = `${debtor.user}->${creditor.user}`;
+      transactionMap[key] = transferAmount;
+
+      // Update transfer summary map
+      if (!transferSummaryMap[debtor.user])
+        transferSummaryMap[debtor.user] = {};
+      transferSummaryMap[debtor.user][creditor.user] = transferAmount;
+
+      // Update remaining amounts
+      debtor.amount -= transferAmount;
+      creditor.amount -= transferAmount;
+    }
+
+    // Move to next debtor or creditor if current one is settled
+    if (debtor.amount <= 0.01) debtorIndex++;
+    if (creditor.amount <= 0.01) creditorIndex++;
+  }
+
+  return { transactionMap, transferSummaryMap };
+}
+
+/**
+ * Calculates the breakdown of expenses for each user based on shared items.
+ * Each item is divided equally among the users who need to pay for it.
+ * Returns a detailed breakdown for each user including their share of each item.
+ *
+ * @param {Array} items - An array of expense items. Each item is an object
+ * containing the item name, total amount, array of users ('who') sharing the
+ * expense, and the user ('paidBy') who paid for it.
+ * @param {Array} additionalItems - An array of additional expense items with distribution.
+ *
+ * @returns {Object} An object where each key is a user and the value is an
+ * array of item breakdowns. Each breakdown includes the item name, the user's
+ * share of the amount, who paid, the original amount, and other users sharing
+ * the cost.
+ */
+function calculateUserItemBreakdown(items, additionalItems = []) {
+  const breakdown = {};
+
+  items.forEach(({ item, amount, who, paidBy }) => {
+    const share = amount / who.length;
+
+    who.forEach((person) => {
+      if (!breakdown[person]) breakdown[person] = [];
+
+      breakdown[person].push({
+        type: "main",
+        item,
+        amount: share,
+        paidBy,
+        originalAmount: amount,
+        splitWith: who.filter((p) => p !== person),
+      });
+    });
+  });
+
+  // Add additional items to the breakdown
+  additionalItems.forEach((additionalItem) => {
+    const { name, distribution } = additionalItem;
+    for (const person in distribution) {
+      if (!breakdown[person]) breakdown[person] = [];
+      breakdown[person].push({
+        type: "additional",
+        item: name,
+        amount: distribution[person],
+        isAdditional: true, // Flag to identify additional items
+      });
+    }
+  });
+
+  return breakdown;
 }
 
 /**

@@ -122,8 +122,8 @@ function getSelectedPaymentInfo() {
 /**
  * Generates a split bill record object.
  *
- * This function takes in the total expense, user expenses, user payments, and
- * variance and returns an object containing all the relevant information,
+ * This function takes in the total expense, user expenses, user payments,
+ * variance, and additional items and returns an object containing all the relevant information,
  * including the split bill number, activity name, date, and expenses.
  *
  * @param {number} totalExpense - Total expense of the split bill.
@@ -133,6 +133,7 @@ function getSelectedPaymentInfo() {
  * is the amount they paid.
  * @param {Object} variance - Object where each key is a user and the value is
  * the difference between what they paid and what they owed.
+ * @param {Array} additionalItems - Array of additional expense items with their distribution.
  *
  * @return {Object} The split bill record object.
  */
@@ -140,7 +141,8 @@ function generateSplitRecord(
   totalExpense,
   userExpenses,
   userPayments,
-  variance
+  variance,
+  additionalItems = []
 ) {
   const splitBillNumber =
     localStorage.getItem("currentSplitBillNumber") ||
@@ -153,6 +155,7 @@ function generateSplitRecord(
     userPayments,
     variance,
     expenses,
+    additionalItems, // Include additional items in the saved record
     activityName: document.getElementById("activityName").value,
     date: new Date().toISOString(),
     selectedPaymentMethods: getSelectedPaymentInfo(), // data sudah rapi
@@ -197,14 +200,20 @@ function saveSplitBillToLocalStorage(newRecord) {
  */
 
 function handleFinalizeSplitBill() {
-  const { totalExpense, userExpenses, userPayments, variance } =
-    generateSplitSummary();
+  const {
+    totalExpense,
+    userExpenses,
+    userPayments,
+    variance,
+    additionalItems,
+  } = generateSplitSummary();
 
   const newRecord = generateSplitRecord(
     totalExpense,
     userExpenses,
     userPayments,
-    variance
+    variance,
+    additionalItems
   );
 
   saveSplitBillToLocalStorage(newRecord);
@@ -800,7 +809,13 @@ function calculateAdditionalItemsDistribution(userExpenses) {
     console.log("Distribution for this item:", distribution);
 
     grandTotalAdditional += amount;
-    resultItems.push({ name, amount, selectedUsers, distribution });
+    resultItems.push({
+      name,
+      amount,
+      selectedUsers,
+      distribution,
+      paidBy: item.paidBy,
+    });
   });
 
   console.log("\n=== FINAL RESULT ===");
