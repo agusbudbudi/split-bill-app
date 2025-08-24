@@ -39,7 +39,7 @@ A modern, lightweight web app to manage shared expenses — perfect for group tr
 
 ## 🌐 Live Demo
 
-👉 [**Try the App Now**](https://agusbudbudi.github.io/split-bill-app/)
+👉 [**Try the App Now**](https://splitbill-alpha.vercel.app/)
 
 ---
 

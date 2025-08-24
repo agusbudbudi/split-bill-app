@@ -52,6 +52,54 @@ function getItemListText() {
 }
 
 /**
+ * Generates a text summary of additional expense items with their distribution.
+ *
+ * @return {string} A string containing all additional expense items with their breakdown, each on new lines.
+ */
+function getAdditionalItemsText() {
+  const additionalItems = getAdditionalExpenseItems();
+  if (!additionalItems.length) return "";
+
+  // Get current user expenses from main expenses only (not including additional items)
+  let userExpenses = {};
+  expenses.forEach(({ amount, who }) => {
+    who.forEach((person) => {
+      if (!userExpenses[person]) userExpenses[person] = 0;
+      userExpenses[person] += amount / who.length;
+    });
+  });
+
+  const additionalResult = calculateAdditionalItemsDistribution(userExpenses);
+
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
+
+  const items = [];
+
+  additionalResult.items.forEach((item) => {
+    const { name, amount, distribution } = item;
+    const originalItem = additionalItems.find((ai) => ai.name === name);
+    const paidBy = originalItem ? originalItem.paidBy : "Tidak Diketahui";
+
+    let itemText = `- ${name} (${formatter.format(
+      amount
+    )}) dibayar oleh: ${paidBy}`;
+
+    // Add distribution breakdown
+    Object.entries(distribution).forEach(([user, userAmount]) => {
+      itemText += `\n  • ${user}: ${formatter.format(userAmount)}`;
+    });
+
+    items.push(itemText);
+  });
+
+  return items.join("\n");
+}
+
+/**
  * Generates a summary text of transfers for each user.
  *
  * This function iterates over user cards and extracts the user's name
@@ -158,6 +206,7 @@ function shareToWhatsAppMessage(message) {
  * - activity name
  * - date
  * - item list
+ * - additional items (if any)
  * - transfer summary
  * - payment methods
  * - link to app
@@ -168,16 +217,27 @@ function generateSplitBillMessage() {
   const activityName = getActivityName();
   const date = new Date().toLocaleDateString("id-ID");
   const itemList = getItemListText();
+  const additionalItemsText = getAdditionalItemsText();
   const transferSummary = getTransferSummaryText();
   const paymentText = getPaymentMethodsText();
 
-  return `*🧾 Split Bill - Simplified*
+  let message = `*🧾 Split Bill - Simplified*
 
 Hai guys! Ini bill untuk *${activityName}*
 📅 Tanggal: *${date}*
 
 🛍️ *Daftar Item:*
-${itemList}
+${itemList}`;
+
+  // Add Additional Items section if there are any
+  if (additionalItemsText) {
+    message += `
+
+💰 *Additional Items:*
+${additionalItemsText}`;
+  }
+
+  message += `
 
 📊 *Ringkasan Pembayaran:*
 ${transferSummary}
@@ -187,6 +247,8 @@ ${paymentText}
 
 🔗 https://splitbill-alpha.vercel.app
 _Dibuat dengan Split Bill App_`;
+
+  return message;
 }
 
 /**
@@ -313,12 +375,13 @@ function shareToWhatsAppSplitBillDetail() {
  *
  * This function retrieves the latest split bill data from localStorage and
  * formats it into a message string containing the activity name, date, list
- * of expenses, payment summary, and selected payment methods. The message is
+ * of expenses, additional items, payment summary, and selected payment methods. The message is
  * designed for sharing via WhatsApp and includes a link to the Split Bill app.
  *
  * The message includes:
  * - Activity name and date of the bill.
  * - List of items with their costs, debtors, and payers.
+ * - Additional items with their distribution (if any).
  * - Payment summary indicating balances due or received by each user.
  * - Selected payment methods with corresponding details.
  *
@@ -340,11 +403,43 @@ function generateSplitBillDetailMessage() {
   const itemList = splitBillData.expenses
     .map((exp) => {
       const hutangList = exp.who.join(", ");
-      return `•⁠  ⁠${exp.item} (Rp ${formatNumber(
+      return `•⁠  ${exp.item} (Rp ${formatNumber(
         exp.amount
       )}) | Hutang: ${hutangList} | Dibayar oleh: ${exp.paidBy}`;
     })
     .join("\n");
+
+  // Generate additional items text from localStorage data
+  let additionalItemsText = "";
+  if (
+    splitBillData.additionalItems &&
+    splitBillData.additionalItems.length > 0
+  ) {
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+
+    const additionalItems = splitBillData.additionalItems
+      .map((item) => {
+        const { name, amount, distribution, paidBy } = item;
+
+        let itemText = `- ${name} (${formatter.format(amount)}) dibayar oleh: ${
+          paidBy || "Tidak Diketahui"
+        }`;
+
+        // Add distribution breakdown
+        Object.entries(distribution).forEach(([user, userAmount]) => {
+          itemText += `\n  • ${user}: ${formatter.format(userAmount)}`;
+        });
+
+        return itemText;
+      })
+      .join("\n");
+
+    additionalItemsText = additionalItems;
+  }
 
   // Ringkasan pembayaran (versi lama formatnya)
   const transferSummary = Object.entries(splitBillData.variance)
@@ -352,15 +447,15 @@ function generateSplitBillDetailMessage() {
       const userName = user.toLowerCase();
       const target = Object.keys(splitBillData.userPayments)[0] || "-";
       if (variance < 0) {
-        return `•⁠  ⁠${userName}: 💸 Bayar Rp ${formatNumber(
+        return `•⁠  *${userName}*: 💸 Bayar Rp ${formatNumber(
           Math.abs(variance)
         )} ke ${target}`;
       } else if (variance > 0) {
-        return `•⁠  ⁠${userName}: 💰 Terima Rp ${formatNumber(
+        return `•⁠  *${userName}*: 💰 Terima Rp ${formatNumber(
           variance
         )} dari ${target}`;
       } else {
-        return `•⁠  ⁠${userName}: ✅ Lunas`;
+        return `•⁠  *${userName}*: ✅ Lunas`;
       }
     })
     .join("\n");
@@ -369,29 +464,41 @@ function generateSplitBillDetailMessage() {
   const paymentText = splitBillData.selectedPaymentMethods
     .map(
       (pm) =>
-        `•⁠  ⁠${pm.name} (${pm.bankCode}, ${pm.accountNumber.replace(
+        `•⁠  ${pm.name} (${pm.bankCode}, ${pm.accountNumber.replace(
           "No HP: ",
           ""
         )})`
     )
     .join("\n");
 
-  return `*🧾 Split Bill - Simplified*
+  let message = `*🧾 Split Bill - Simplified*
 
 Hai guys! Ini bill untuk *${activityName}*
 📅 Tanggal: ${date}
 
 🛍️ Daftar Item:
-${itemList}
+${itemList}`;
 
-📊 Ringkasan Pembayaran:
+  // Add Additional Items section if there are any
+  if (additionalItemsText) {
+    message += `
+
+💰 *Additional Items:*
+${additionalItemsText}`;
+  }
+
+  message += `
+
+📊 *Ringkasan Pembayaran:*
 ${transferSummary}
 
-📥 Metode Pembayaran:
+📥 *Metode Pembayaran:*
 ${paymentText}
 
 🔗 https://splitbill-alpha.vercel.app
 _Dibuat dengan Split Bill App_`;
+
+  return message;
 }
 
 /**
