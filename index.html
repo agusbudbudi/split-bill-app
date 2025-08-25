@@ -119,6 +119,19 @@
   </head>
 
   <body data-default-tab="ai-scan">
+    <!-- PWA Install Banner -->
+    <div id="pwaInstallBanner" class="pwa-install-banner hidden">
+      <button class="pwa-banner-close" onclick="closePWABanner()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="pwa-banner-content">
+        <p class="pwa-banner-text">
+          Install Split Bill, Bagi Tagihan Mudah & Cepat 🎉
+        </p>
+      </div>
+      <button class="pwa-install-btn" onclick="installPWA()">Install</button>
+    </div>
+
     <header class="sticky-header">
       <img
         src="img/logo.png"
@@ -2062,6 +2075,7 @@
     <script src="js/toastMessage.js"></script>
     <script src="js/sharedFunction.js"></script>
     <script src="js/splitBillPerson.js"></script>
+    <script src="js/pwaInstall.js"></script>
     <script src="js/transactionSplitBill.js"></script>
 
     <script src="js/ui.js"></script>

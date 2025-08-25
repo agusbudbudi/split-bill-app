@@ -23,7 +23,8 @@
     width: 100%;
   }
 
-  .sticky-header {
+  .sticky-header,
+  .pwa-install-banner {
     width: 100%;
   }
 
@@ -116,7 +117,8 @@
     width: 100%;
   }
 
-  .sticky-header {
+  .sticky-header,
+  .pwa-install-banner {
     width: 100%;
   }
 
