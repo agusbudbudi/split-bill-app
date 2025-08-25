@@ -104,7 +104,7 @@ async function installPWA() {
             "Untuk menginstall Split Bill App:\n\n" +
             "1. Klik menu browser (⋮) di pojok kanan atas\n" +
             '2. Pilih "Install Split Bill App"\n' +
-            '3. Klik "Install"\n\n' +
+            '3. Klik "Install"';
         }
 
         alert(instructions);
