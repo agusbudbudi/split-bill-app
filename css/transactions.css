@@ -37,10 +37,6 @@
   border-radius: 50%;
 }
 
-.back-btn:hover {
-  background: transparent;
-}
-
 .header-title {
   flex: 1;
 }

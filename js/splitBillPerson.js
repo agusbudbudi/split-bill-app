@@ -344,3 +344,67 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAvatars();
   renderPeople();
 });
+
+/**
+ * Renders a list of avatars in the "#editPaidByContainer" element for single selection.
+ *
+ * This function retrieves the list of people from local storage and updates the container
+ * with their avatars and names. Each avatar is generated using the Dicebear API and is clickable
+ * to toggle its selection state. Only one avatar can be selected at a time. The selected state
+ * is indicated with a visual change, and the selected person is saved back to local storage
+ * as the 'paidBy' value for the edited expense.
+ * If there are no people in the list, a message prompting the user to add friends is displayed instead.
+ */
+function renderAvatarsPaidBy(currentPaidBy) {
+  const container = document.getElementById("editPaidByContainer");
+  if (!container) return;
+
+  people = loadFromLocalStorage("people") || [];
+  container.innerHTML = "";
+
+  if (people.length === 0) {
+    const emptyText = document.createElement("div");
+    emptyText.className = "empty-text";
+    emptyText.textContent = "Tambahkan teman terlebih dahulu";
+    container.appendChild(emptyText);
+    return;
+  }
+
+  people
+    .slice()
+    .reverse()
+    .forEach((person) => {
+      const avatarWrapper = document.createElement("div");
+      avatarWrapper.className = "avatar-wrapper";
+
+      const avatar = document.createElement("img");
+      avatar.className = `avatar-img ${
+        currentPaidBy === person ? "selected" : ""
+      }`;
+      avatar.src = `https://api.dicebear.com/9.x/personas/svg?backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=32&scale=100&seed=${encodeURIComponent(
+        person
+      )}`;
+      avatar.alt = person;
+
+      const nameLabel = document.createElement("div");
+      nameLabel.className = "avatar-name";
+      nameLabel.textContent = person;
+
+      avatar.onclick = () => {
+        // Deselect all other avatars
+        const allAvatars = container.querySelectorAll(".avatar-img");
+        allAvatars.forEach((img) => img.classList.remove("selected"));
+
+        // Select the clicked avatar
+        avatar.classList.add("selected");
+
+        // Update the hidden input or a global variable for paidBy
+        // For now, we'll just update a data attribute on the container
+        container.dataset.paidBy = person;
+      };
+
+      avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(nameLabel);
+      container.appendChild(avatarWrapper);
+    });
+}

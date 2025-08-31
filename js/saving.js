@@ -159,17 +159,17 @@ function saveCategory() {
 
   // Validation
   if (!categoryName) {
-    showAlert("Nama category tidak boleh kosong!", "error");
+    showToast("Category Name tidak boleh kosong!", "error");
     return;
   }
 
   if (!targetTabungan) {
-    showAlert("Target Tabungan tidak boleh kosong!", "error");
+    showToast("Target Tabungan tidak boleh kosong!", "error");
     return;
   }
 
   if (!targetCompleted) {
-    showAlert("Target completion date harus diisi!", "error");
+    showToast("Target completed harus diisi!", "error");
     return;
   }
 
@@ -179,7 +179,7 @@ function saveCategory() {
       (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
     )
   ) {
-    showAlert("Category dengan nama tersebut sudah ada!", "error");
+    showToast("Category dengan nama tersebut sudah ada!", "error");
     return;
   }
 
@@ -205,7 +205,7 @@ function saveCategory() {
   document.getElementById("categoryForm").classList.add("hidden");
   resetCategoryForm();
 
-  showAlert("Category berhasil disimpan!", "success");
+  showToast("Category berhasil disimpan!", "success");
 }
 
 function displayCategories() {
@@ -273,22 +273,22 @@ function selectCategory(category, source = "default", event = null) {
 
 // Savings Functions
 function saveTabungan() {
-  const nominal = document.getElementById("nominalTabungan").value;
+  const nominal = parseFloat(document.getElementById("nominalTabungan").value); // Get value from hidden input
   const paymentMethod = document.getElementById("savingMethod").value;
 
   // Validation
   if (!selectedCategory) {
-    showAlert("Pilih category terlebih dahulu!", "error");
+    showToast("Pilih category terlebih dahulu!", "error");
     return;
   }
 
   if (!nominal || parseFloat(nominal) <= 0) {
-    showAlert("Nominal harus diisi dan lebih besar dari 0!", "error");
+    showToast("Nominal harus diisi dan lebih besar dari Rp0!", "error");
     return;
   }
 
   if (!paymentMethod) {
-    showAlert("Pilih metode pembayaran!", "error");
+    showToast("Pilih metode penyimpanan!", "error");
     return;
   }
 
@@ -322,8 +322,6 @@ function saveTabungan() {
 
   // Close bottom sheet and reset
   closeBottomSheet("addSavingsBottomSheet");
-
-  showAlert("Tabungan berhasil disimpan!", "success");
 
   //reset form to default
   resetForm();
@@ -391,30 +389,6 @@ function displaySavings() {
 // Utility Functions
 function formatCurrency(amount) {
   return new Intl.NumberFormat("id-ID").format(amount);
-}
-
-function showAlert(message, type) {
-  // Remove existing alerts
-  const existingAlert = document.querySelector(".alert");
-  if (existingAlert) {
-    existingAlert.remove();
-  }
-
-  // Create new alert
-  const alert = document.createElement("div");
-  alert.className = `alert alert-${type}`;
-  alert.textContent = message;
-
-  // Insert at top of bottom sheet content
-  const bottomSheetContent = document.querySelector(".bottom-sheet-content");
-  bottomSheetContent.insertBefore(alert, bottomSheetContent.firstChild);
-
-  // Auto remove after 5 seconds
-  setTimeout(() => {
-    if (alert.parentNode) {
-      alert.remove();
-    }
-  }, 5000);
 }
 
 // Calculate total savings per category

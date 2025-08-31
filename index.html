@@ -125,9 +125,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div class="pwa-banner-content">
-        <p class="pwa-banner-text">
-          Install Split Bill, Bagi Tagihan Mudah & Cepat 🎉
-        </p>
+        <p class="pwa-banner-text">Install Split Bill, Bagi Tagihan Mudah 🎉</p>
       </div>
       <button class="pwa-install-btn" onclick="installPWA()">Install</button>
     </div>
@@ -448,7 +446,7 @@
                   id="item"
                   placeholder="Contoh: Makan malam, Tiket bioskop"
                 />
-                <label for="amount"
+                <label for="splitAmountFormatted"
                   >Jumlah (dalam Rupiah)
                   <i
                     class="uil uil-info-circle info-icon"
@@ -790,9 +788,7 @@
         <div class="table-wrapper">
           <div class="card-container">
             <!-- Field Nama Aktivitas -->
-            <div for="activityName" class="title-section">
-              BTW habis jalan kemana nih? ✈️
-            </div>
+            <div class="title-section">BTW habis jalan kemana nih? ✈️</div>
             <div id="input-section">
               <input
                 type="text"
@@ -935,15 +931,15 @@
 
               <div class="bottom-sheet-content">
                 <!-- Item -->
-                <label for="item">Item Name</label>
+                <label for="editItemName">Item Name</label>
                 <input type="text" id="editItemName" />
 
                 <!-- Amount -->
-                <label for="amount">Jumlah (dalam Rupiah)</label>
+                <label for="editAmountFormatted">Jumlah (dalam Rupiah)</label>
                 <input type="text" id="editAmountFormatted" />
                 <input type="hidden" id="editAmount" />
 
-                <label>Split dengan Siapa</label>
+                <label for="editWho">Split dengan Siapa</label>
                 <p class="information-text">
                   <i class="uil uil-info-circle"></i> Kamu bisa input manual
                   atau pilih dari daftar temanmu (Pilih minimal 1 orang)
@@ -953,11 +949,19 @@
                   id="editWho"
                   placeholder="Pisahkan dengan koma"
                 />
-                <div id="avatarContainerEdit" class="avatar-container"></div>
+                <div
+                  id="avatarContainerEdit"
+                  class="avatar-container-edit"
+                ></div>
 
-                <label>Dibayar oleh</label>
-                <input type="text" id="editPaidBy" />
-                <!-- <select id="paidBy"></select> -->
+                <label for="editPaidByContainer">Dibayar oleh</label>
+                <p class="information-text">
+                  <i class="uil uil-info-circle"></i> Pilih dari daftar temanmu
+                </p>
+                <div
+                  id="editPaidByContainer"
+                  class="avatar-container-edit"
+                ></div>
 
                 <button class="save-btn" onclick="saveEditedExpense()">
                   Simpan
@@ -1031,7 +1035,7 @@
               <label for="collectName">Nama </label>
               <input type="text" id="collectName" placeholder="Contoh: Agus" />
 
-              <label for="amount">Jumlah (dalam Rupiah) </label>
+              <label for="collectAmountFormatted">Jumlah (dalam Rupiah) </label>
 
               <input
                 type="text"
@@ -1040,7 +1044,7 @@
               />
               <input type="hidden" id="collectAmount" />
 
-              <label>Transfer ke</label>
+              <label for="collectMethod">Transfer ke</label>
               <select
                 id="collectMethod"
                 onchange="handlePaymentMethodBankTransfer()"
@@ -1175,7 +1179,7 @@
         <div class="table-wrapper">
           <div class="card-container">
             <div class="section">
-              <label>Invoice No</label>
+              <label for="invoicePrefix">Invoice No</label>
               <div class="row">
                 <input
                   type="text"
@@ -1188,7 +1192,7 @@
 
               <div class="invoice-date-section">
                 <div class="date-group">
-                  <label>Invoice Date</label>
+                  <label for="invoiceDate">Invoice Date</label>
                   <div class="date-input">
                     <input
                       type="date"
@@ -1200,7 +1204,7 @@
                 </div>
 
                 <div class="date-group">
-                  <label>Due Date</label>
+                  <label for="dueDate">Due Date</label>
                   <div class="date-input">
                     <input
                       type="date"
@@ -1382,7 +1386,7 @@
               Add New Item
             </button>
             <div class="discount-section">
-              <label>Add Discount</label>
+              <label for="discountValue">Add Discount</label>
               <div class="discount-input-group">
                 <!-- Select tipe diskon -->
                 <select
@@ -1818,7 +1822,7 @@
         <!-- Category Section -->
 
         <div class="section">
-          <label>Category Tabungan</label>
+          <label for="categoriesListBottomSheet">Category Tabungan</label>
 
           <div class="people-container">
             <!-- Tombol Add New (static di kiri) -->
@@ -1830,7 +1834,7 @@
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
-              <span class="add-text">Tambah</span>
+              <span class="add-text">Category</span>
             </div>
             <div id="categoriesListBottomSheet" class="people-list">
               <!-- Categories will be displayed here -->
@@ -1848,7 +1852,7 @@
               />
             </div>
             <div class="form-group">
-              <label>Target Tabungan</label>
+              <label for="targetTabungan">Target Tabungan</label>
               <input
                 type="number"
                 id="targetTabungan"
@@ -1869,13 +1873,13 @@
         <!-- Input Tabungan Section -->
         <div class="section">
           <div class="form-group">
-            <label>Nominal Menabung</label>
+            <label for="nominalTabungan">Nominal Menabung</label>
             <input
-              type="number"
-              id="nominalTabungan"
-              placeholder="Input nominal (contoh: 50000)"
-              min="0"
+              type="text"
+              id="nominalTabunganFormatted"
+              placeholder="Input nominal (contoh: 50.000)"
             />
+            <input type="hidden" id="nominalTabungan" />
           </div>
 
           <div class="form-group">
@@ -1938,7 +1942,7 @@
               <label for="bankName">Nama Bank</label>
               <input type="text" id="bankName" placeholder="Contoh: BCA, BRI" />
 
-              <label for="bankName">Nama</label>
+              <label for="bankAccountName">Nama</label>
               <input
                 type="text"
                 id="bankAccountName"
@@ -2164,6 +2168,7 @@
     <script>
       setupCurrencyFormatter("splitAmountFormatted", "splitAmount");
       setupCurrencyFormatter("collectAmountFormatted", "collectAmount");
+      setupCurrencyFormatter("nominalTabunganFormatted", "nominalTabungan");
     </script>
   </body>
 </html>

@@ -123,7 +123,8 @@ function editExpense(index) {
   );
   document.getElementById("editAmount").value = expense.amount;
   document.getElementById("editWho").value = expense.who.join(", ");
-  document.getElementById("editPaidBy").value = expense.paidBy;
+  // document.getElementById("editPaidBy").value = expense.paidBy; // Remove this line
+  renderAvatarsPaidBy(expense.paidBy); // Call the new function
 
   // Load people data
   renderAvatarsEdit();
@@ -179,7 +180,8 @@ function saveEditedExpense() {
     .map((s) => s.trim())
     .filter((s) => s); // hapus string kosong
 
-  const paidBy = document.getElementById("editPaidBy").value.trim();
+  const paidByContainer = document.getElementById("editPaidByContainer");
+  const paidBy = paidByContainer.dataset.paidBy || ""; // Get the selected paidBy from the data attribute
 
   // Ambil data orang dari localStorage
   let people = loadFromLocalStorage("people") || [];
@@ -225,14 +227,15 @@ function validateEditExpenseForm() {
   const item = document.getElementById("editItemName").value.trim();
   const amount = parseFloat(document.getElementById("editAmount").value);
   const who = document.getElementById("editWho").value.trim();
-  const paidBy = document.getElementById("editPaidBy").value.trim();
+  const paidByContainer = document.getElementById("editPaidByContainer");
+  const paidBy = paidByContainer.dataset.paidBy || ""; // Get the selected paidBy from the data attribute
 
   const errors = [];
 
   if (!item) errors.push("Item Name harus diisi");
   if (isNaN(amount) || amount <= 0) errors.push("Jumlah harus lebih dari Rp0");
   if (!who) errors.push("Pilih minimal 1 orang yang berhutang");
-  if (!paidBy) errors.push("Input siapa yang membayar");
+  if (!paidBy) errors.push("Pilih siapa yang membayar");
 
   return {
     isValid: errors.length === 0,
@@ -369,7 +372,7 @@ addAdditionalExpenseBtn.addEventListener("click", () => {
      <button class="delete-btn"><i class="uil uil-trash"></i></button>
   </div>
   <div>
-    <label>Dibayar oleh</label>
+    <label for="additionalExpensePaidBy-${uniqueId}">Dibayar oleh</label>
     <select class="additional-expense-paid-by" id="additionalExpensePaidBy-${uniqueId}">
       <option value="">Pilih yang membayar</option>
     </select>

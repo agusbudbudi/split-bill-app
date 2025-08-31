@@ -121,6 +121,15 @@
       <div class="filter-container">
         <div class="tab-container">
           <button
+            onclick="showTab('transaction-splitBill')"
+            class="tab-button tab-transaction"
+            data-tab="transaction-splitBill"
+          >
+            <i class="uil uil-bill tab-icon"></i>
+            Split Bill<span class="badge-new">New</span>
+          </button>
+
+          <button
             onclick="showTab('transaction-savings')"
             class="tab-button tab-transaction"
             data-tab="transaction-savings"
@@ -136,15 +145,6 @@
           >
             <i class="uil uil-invoice tab-icon"></i>
             Invoice
-          </button>
-
-          <button
-            onclick="showTab('transaction-splitBill')"
-            class="tab-button tab-transaction"
-            data-tab="transaction-splitBill"
-          >
-            <i class="uil uil-bill tab-icon"></i>
-            Split Bill<span class="badge-new">New</span>
           </button>
         </div>
       </div>

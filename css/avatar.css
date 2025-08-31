@@ -90,7 +90,8 @@
   display: none; /* Chrome, Safari, Opera */
 }
 
-.avatar-container-additional {
+.avatar-container-additional,
+.avatar-container-edit {
   display: flex;
   gap: 10px;
   flex-wrap: nowrap;
