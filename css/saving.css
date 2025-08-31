@@ -427,7 +427,7 @@
   margin-top: 20px;
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid var(--btn-bg);
+  border: 1px solid var(--table-border-color);
 }
 
 .category-form.hidden {

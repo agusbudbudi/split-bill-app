@@ -108,7 +108,7 @@
 }
 
 .close-btn-bottom-sheet {
-  background: var(--table-border-color);
+  background: var(--bg-color);
   border: none;
   color: var(--text-color);
   font-size: 16px;

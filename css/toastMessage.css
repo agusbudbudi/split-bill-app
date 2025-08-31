@@ -78,6 +78,10 @@
   justify-content: center;
 }
 
+.toast-close:hover {
+  background-color: transparent;
+}
+
 /* Animation */
 @keyframes toast-in-out {
   0% {
