@@ -815,7 +815,7 @@ td {
   width: 50%;
   background: var(--gradient-color);
   color: white;
-  padding: 8px 20px;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
