@@ -83,13 +83,8 @@ function resetSelectedAvatars() {
   // Hapus dari localStorage
   localStorage.removeItem("who");
 
-  // Hapus class selected dari avatar
-  const selectedAvatars = document.querySelectorAll(
-    "#avatarContainer .avatar-wrapper .avatar-img.selected"
-  );
-  selectedAvatars.forEach((avatar) => {
-    avatar.classList.remove("selected");
-  });
+  //render kembali avatar di form
+  renderAvatars();
 }
 
 /**
@@ -125,6 +120,10 @@ function editExpense(index) {
   document.getElementById("editWho").value = expense.who.join(", ");
   // document.getElementById("editPaidBy").value = expense.paidBy; // Remove this line
   renderAvatarsPaidBy(expense.paidBy); // Call the new function
+
+  // Save the specific 'who' array for this expense to localStorage
+  // so renderAvatarsEdit can pick it up correctly.
+  saveToLocalStorage("who", expense.who);
 
   // Load people data
   renderAvatarsEdit();
@@ -468,6 +467,12 @@ function renderAvatarsForAdditionalExpense(containerId, hiddenInputId) {
       avatar.src = `${AVATAR_BASE_URL}${encodeURIComponent(person)}`;
       avatar.alt = person;
 
+      const checkIcon = document.createElement("div");
+      checkIcon.className = `check-icon ${
+        selectedPeople.includes(person) ? "visible" : ""
+      }`;
+      checkIcon.innerHTML = `<i class="fa-solid fa-check-circle"></i>`;
+
       const nameLabel = document.createElement("div");
       nameLabel.className = "avatar-name";
       nameLabel.textContent = person;
@@ -477,6 +482,7 @@ function renderAvatarsForAdditionalExpense(containerId, hiddenInputId) {
       };
 
       avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(checkIcon);
       avatarWrapper.appendChild(nameLabel);
       container.appendChild(avatarWrapper);
     });

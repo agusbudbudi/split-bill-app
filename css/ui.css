@@ -312,6 +312,7 @@ textarea:focus {
   flex-direction: column;
   align-items: center;
   margin: 0px 0px;
+  position: relative;
 }
 
 /* Avatar bulat */

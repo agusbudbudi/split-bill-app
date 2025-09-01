@@ -207,6 +207,12 @@ function renderAvatars() {
       )}`;
       avatar.alt = person;
 
+      const checkIcon = document.createElement("div");
+      checkIcon.className = `check-icon ${
+        who.includes(person) ? "visible" : ""
+      }`;
+      checkIcon.innerHTML = `<i class="fa-solid fa-check-circle"></i>`;
+
       const nameLabel = document.createElement("div");
       nameLabel.className = "avatar-name";
       nameLabel.textContent = person;
@@ -225,6 +231,7 @@ function renderAvatars() {
       };
 
       avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(checkIcon);
       avatarWrapper.appendChild(nameLabel);
       container.appendChild(avatarWrapper);
     });
@@ -262,6 +269,12 @@ function renderAvatarsEdit() {
       )}`;
       avatar.alt = person;
 
+      const checkIcon = document.createElement("div");
+      checkIcon.className = `check-icon ${
+        who.includes(person) ? "visible" : ""
+      }`;
+      checkIcon.innerHTML = `<i class="fa-solid fa-check-circle"></i>`;
+
       const nameLabel = document.createElement("div");
       nameLabel.className = "avatar-name";
       nameLabel.textContent = person;
@@ -281,6 +294,7 @@ function renderAvatarsEdit() {
       };
 
       avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(checkIcon);
       avatarWrapper.appendChild(nameLabel);
       container.appendChild(avatarWrapper);
     });
@@ -362,6 +376,9 @@ function renderAvatarsPaidBy(currentPaidBy) {
   people = loadFromLocalStorage("people") || [];
   container.innerHTML = "";
 
+  // Set the dataset.paidBy when the form is loaded
+  container.dataset.paidBy = currentPaidBy;
+
   if (people.length === 0) {
     const emptyText = document.createElement("div");
     emptyText.className = "empty-text";
@@ -386,6 +403,12 @@ function renderAvatarsPaidBy(currentPaidBy) {
       )}`;
       avatar.alt = person;
 
+      const checkIcon = document.createElement("div");
+      checkIcon.className = `check-icon ${
+        currentPaidBy === person ? "visible" : ""
+      }`;
+      checkIcon.innerHTML = `<i class="fa-solid fa-check-circle"></i>`;
+
       const nameLabel = document.createElement("div");
       nameLabel.className = "avatar-name";
       nameLabel.textContent = person;
@@ -394,9 +417,12 @@ function renderAvatarsPaidBy(currentPaidBy) {
         // Deselect all other avatars
         const allAvatars = container.querySelectorAll(".avatar-img");
         allAvatars.forEach((img) => img.classList.remove("selected"));
+        const allCheckIcons = container.querySelectorAll(".check-icon");
+        allCheckIcons.forEach((icon) => icon.classList.remove("visible"));
 
         // Select the clicked avatar
         avatar.classList.add("selected");
+        checkIcon.classList.add("visible");
 
         // Update the hidden input or a global variable for paidBy
         // For now, we'll just update a data attribute on the container
@@ -404,6 +430,7 @@ function renderAvatarsPaidBy(currentPaidBy) {
       };
 
       avatarWrapper.appendChild(avatar);
+      avatarWrapper.appendChild(checkIcon);
       avatarWrapper.appendChild(nameLabel);
       container.appendChild(avatarWrapper);
     });
