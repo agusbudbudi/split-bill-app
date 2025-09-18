@@ -583,7 +583,6 @@ function toggleSavingsUI(savings) {
 
   elementsToToggle.forEach((el) => {
     if (el) {
-      console.log("Toggling element:", el.id);
       if (shouldHide) {
         el.classList.add("hidden");
       } else {

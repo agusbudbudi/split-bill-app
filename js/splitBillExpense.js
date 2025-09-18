@@ -263,7 +263,6 @@ function updateExpenseCards() {
   }
 
   container.innerHTML = "";
-  console.log("Expenses:", window.expenses);
 
   // Handle expense card container visibility
   const expenseCard =

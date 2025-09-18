@@ -236,12 +236,6 @@ function updateHeaderAvatar() {
     const token = localStorage.getItem("accessToken");
     const headerAvatar = document.getElementById("headerAvatar");
 
-    console.log("Updating header avatar:", {
-      hasCurrentUser: !!currentUser,
-      hasToken: !!token,
-      hasHeaderAvatar: !!headerAvatar,
-    });
-
     if (currentUser && token && headerAvatar) {
       const user = JSON.parse(currentUser);
       const avatarSeed = user.name || user.email || "default";
@@ -249,7 +243,7 @@ function updateHeaderAvatar() {
         avatarSeed
       )}`;
       headerAvatar.src = avatarUrl;
-      console.log("Header avatar updated successfully for:", avatarSeed);
+      // console.log("Header avatar updated successfully for:", avatarSeed);
     } else if (currentUser && token && !headerAvatar) {
       // If avatar element is not found, try again after a short delay
       setTimeout(() => {

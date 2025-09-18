@@ -28,6 +28,9 @@ function populateFilterOptions() {
   const categorySelect = document.getElementById("categoryFilter");
   const paymentMethodSelect = document.getElementById("paymentMethodFilter");
 
+  // ✅ Kalau salah satu nggak ada, langsung stop
+  if (!categorySelect || !paymentMethodSelect) return;
+
   // Clear existing options (except "Semua")
   categorySelect.innerHTML = '<option value="">Semua Kategori</option>';
   paymentMethodSelect.innerHTML = '<option value="">Semua Metode</option>';
@@ -171,17 +174,23 @@ function displayTransactions(savings) {
   const transactionsList = document.getElementById("transactionsList");
   const transactionCount = document.getElementById("transactionCount");
 
+  // ✅ kalau elemen tidak ada, hentikan fungsi
+  if (!transactionsList || !transactionCount) {
+    console.warn("displayTransactions: Element target tidak ditemukan");
+    return;
+  }
+
   transactionsList.innerHTML = "";
   transactionCount.textContent = `${savings.length} transaksi`;
 
   if (savings.length === 0) {
     transactionsList.innerHTML = `
-              <div class="no-data-message">
-                  <img src="img/state-search.png" alt="empty state" class="empty-state-image">
-                  <p class="title-empty-state">Tidak ada transaksi ditemukan</p>
-                  <p class="desc-empty-state"">Coba ubah filter pencarian Anda</p>
-              </div>
-          `;
+      <div class="no-data-message">
+        <img src="img/state-search.png" alt="empty state" class="empty-state-image">
+        <p class="title-empty-state">Tidak ada transaksi ditemukan</p>
+        <p class="desc-empty-state">Coba ubah filter pencarian Anda</p>
+      </div>
+    `;
     return;
   }
 
@@ -195,27 +204,23 @@ function displayTransactions(savings) {
     savingElement.className = "savings-item";
 
     savingElement.innerHTML = `
-              <div class="savings-category">
-                  <div class="savings-left">
-                      <img src="https://api.dicebear.com/9.x/icons/svg?scale=80&seed=${encodeURIComponent(
-                        saving.categoryName
-                      )}" 
-                           class="category-emoji" alt="${saving.categoryName}">
-                      <span class="category-name">${saving.categoryName}</span>
-                  </div>
-                  <div class="savings-right">
-                      <div class="savings-amount">+ ${formatToIDR(
-                        saving.nominal
-                      )}</div>
-                      <div class="savings-meta">
-                          <span class="savings-method">${
-                            saving.paymentMethod
-                          }</span>
-                          <span class="savings-date">${saving.createdAt}</span>
-                      </div>
-                  </div>
-              </div>
-          `;
+      <div class="savings-category">
+        <div class="savings-left">
+          <img src="https://api.dicebear.com/9.x/icons/svg?scale=80&seed=${encodeURIComponent(
+            saving.categoryName
+          )}" 
+          class="category-emoji" alt="${saving.categoryName}">
+          <span class="category-name">${saving.categoryName}</span>
+        </div>
+        <div class="savings-right">
+          <div class="savings-amount">+ ${formatToIDR(saving.nominal)}</div>
+          <div class="savings-meta">
+            <span class="savings-method">${saving.paymentMethod}</span>
+            <span class="savings-date">${saving.createdAt}</span>
+          </div>
+        </div>
+      </div>
+    `;
 
     transactionsList.appendChild(savingElement);
   });
@@ -226,11 +231,19 @@ function updateSummary(savings) {
   const totalAmount = savings.reduce((sum, saving) => sum + saving.nominal, 0);
   const totalTransactions = savings.length;
 
-  document.getElementById("totalFilteredAmount").textContent = `${formatToIDR(
-    totalAmount
-  )}`;
-  document.getElementById("totalFilteredTransactions").textContent =
-    totalTransactions;
+  const totalAmountEl = document.getElementById("totalFilteredAmount");
+  const totalTransactionsEl = document.getElementById(
+    "totalFilteredTransactions"
+  );
+
+  // ✅ kalau salah satu elemen nggak ada, hentikan
+  if (!totalAmountEl || !totalTransactionsEl) {
+    console.warn("updateSummary: Elemen target tidak ditemukan");
+    return;
+  }
+
+  totalAmountEl.textContent = formatToIDR(totalAmount);
+  totalTransactionsEl.textContent = totalTransactions;
 }
 
 // Utility functions
@@ -276,28 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   // flatpickr("#dateFrom", {
-//   //   dateFormat: "d-m-Y",
-//   // });
-
-//   // flatpickr("#dateTo", {
-//   //   dateFormat: "d-m-Y",
-//   // });
-
-//   flatpickr("#dateFrom", {
-//     altInput: true,
-//     altFormat: "d F Y", // ditampilkan ke user
-//     dateFormat: "Y-m-d", // disimpan ke .value
-//   });
-
-//   flatpickr("#dateTo", {
-//     altInput: true,
-//     altFormat: "d F Y",
-//     dateFormat: "Y-m-d",
-//   });
-// });
-
 document.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
   const thirtyDaysAgo = new Date();
@@ -319,11 +310,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Auto-apply filters on input change
-document.getElementById("dateFrom").addEventListener("change", applyFilters);
-document.getElementById("dateTo").addEventListener("change", applyFilters);
-document
-  .getElementById("categoryFilter")
-  .addEventListener("change", applyFilters);
-document
-  .getElementById("paymentMethodFilter")
-  .addEventListener("change", applyFilters);
+// document.getElementById("dateFrom").addEventListener("change", applyFilters);
+// document.getElementById("dateTo").addEventListener("change", applyFilters);
+// document
+//   .getElementById("categoryFilter")
+//   .addEventListener("change", applyFilters);
+// document
+//   .getElementById("paymentMethodFilter")
+//   .addEventListener("change", applyFilters);
+
+function safeAddEventListener(selector, event, handler) {
+  const el = document.getElementById(selector);
+  if (el) {
+    el.addEventListener(event, handler);
+  }
+}
+
+// Auto-apply filters on input change
+safeAddEventListener("dateFrom", "change", applyFilters);
+safeAddEventListener("dateTo", "change", applyFilters);
+safeAddEventListener("categoryFilter", "change", applyFilters);
+safeAddEventListener("paymentMethodFilter", "change", applyFilters);

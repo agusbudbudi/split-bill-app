@@ -1176,7 +1176,7 @@
             </div>
           </div>
         </div>
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div class="card-container">
             <div class="section">
               <label for="invoicePrefix">Invoice No</label>
@@ -1218,7 +1218,6 @@
 
               <label>Upload Logo</label>
 
-              <!-- Preview kecil setelah upload -->
               <img
                 id="preview-logo-upload"
                 style="display: none"
@@ -1246,14 +1245,12 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <!-- Billed By -->
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div class="card-container">
             <label>Billed By</label>
             <div class="people-container payment-container">
-              <!-- Tombol Add New (static di kiri) -->
               <div class="add-new-wrapper person-item">
                 <div
                   class="add-new"
@@ -1263,7 +1260,6 @@
                 </div>
                 <span class="add-text">Tambah</span>
               </div>
-              <!-- List Billed By (dinamis) -->
               <div class="tab-wrapper">
                 <div id="billedByContainer" class="card-display-section"></div>
               </div>
@@ -1272,7 +1268,6 @@
 
             <label>Billed To</label>
             <div class="people-container payment-container">
-              <!-- Tombol Add New (static di kiri) -->
               <div class="add-new-wrapper person-item">
                 <div
                   class="add-new"
@@ -1282,7 +1277,6 @@
                 </div>
                 <span class="add-text">Tambah</span>
               </div>
-              <!-- List payment method (dinamis) -->
               <div class="tab-wrapper">
                 <div id="billedToContainer" class="card-display-section"></div>
               </div>
@@ -1290,7 +1284,6 @@
           </div>
         </div>
 
-        <!-- Add Billed By Bottom Sheet -->
         <div class="table-wrapper">
           <div class="bottom-sheet hidden" id="addBilledByBottomSheet">
             <div id="input-section">
@@ -1339,7 +1332,6 @@
           </div>
         </div>
 
-        <!-- Add Billed To Bottom Sheet -->
         <div class="table-wrapper">
           <div class="bottom-sheet hidden" id="addBilledToBottomSheet">
             <div id="input-section">
@@ -1373,10 +1365,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <!-- Item Invoice -->
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div class="card-container">
             <div class="section item-container" id="items">
               <label>Items Invoice</label>
@@ -1388,7 +1379,6 @@
             <div class="discount-section">
               <label for="discountValue">Add Discount</label>
               <div class="discount-input-group">
-                <!-- Select tipe diskon -->
                 <select
                   id="discountType"
                   class="discount-type"
@@ -1398,7 +1388,6 @@
                   <option value="percent">%</option>
                 </select>
 
-                <!-- Input nilai diskon -->
                 <input
                   type="number"
                   id="discountValue"
@@ -1424,17 +1413,14 @@
               <div class="total-words" id="totalInWords"></div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <!-- Total Invoice -->
-        <div class="table-wrapper"></div>
+        <!-- <div class="table-wrapper"></div> -->
 
-        <!-- Payment Method -->
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div class="card-container">
             <label>Payment Method</label>
             <div class="people-container invoice-payment-section">
-              <!-- Tombol Add New -->
               <div class="add-new-wrapper person-item">
                 <div
                   class="add-new"
@@ -1444,19 +1430,18 @@
                 </div>
                 <span class="add-text">Tambah</span>
               </div>
-              <!-- List payment method (dinamis) -->
+
               <div class="tab-wrapper">
                 <div class="paymentCardsContainer card-display-section"></div>
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div class="card-container">
             <label>Add TnC</label>
             <div class="tnc-container">
-              <!-- Quill Editor Container -->
               <div id="tncField" style="height: 100px"></div>
             </div>
 
@@ -1468,7 +1453,6 @@
               id="footerField"
             />
             <div class="button-preview-section">
-              <!-- infobox -->
               <div class="info-box information">
                 <div class="icon">
                   <i class="fa-solid fa-circle-info"></i>
@@ -1487,10 +1471,10 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- PREVIEW INVOICE -->
-        <div class="table-wrapper">
+        <!-- <div class="table-wrapper">
           <div
             class="card-container"
             style="display: none"
@@ -1526,10 +1510,8 @@
                 </div>
               </div>
               <div class="billed-preview">
-                <!-- Bagian Billed By -->
                 <div id="invoice-billed-by" class="invoice-section"></div>
 
-                <!-- Bagian Billed To -->
                 <div id="invoice-billed-to" class="invoice-section"></div>
               </div>
 
@@ -1543,9 +1525,7 @@
                       <th>Amount</th>
                     </tr>
                   </thead>
-                  <tbody id="preview-items">
-                    <!-- Populated dynamically -->
-                  </tbody>
+                  <tbody id="preview-items"></tbody>
                 </table>
               </div>
 
@@ -1566,13 +1546,11 @@
                 <p><em id="preview-total-words"></em></p>
               </div>
 
-              <!-- Selected Payment Metod -->
               <div
                 id="selectedPaymentInfo"
                 class="select-payment-method-invoice"
               ></div>
 
-              <!-- TnC dan footer -->
               <div class="invoice-tnc">
                 <h3>Terms and Conditions</h3>
                 <div id="preview-tnc"></div>
@@ -1603,7 +1581,6 @@
               </button>
             </div>
 
-            <!-- Popup Finalize invoice -->
             <div id="popupFinalizeInvoice" class="popup-overlay">
               <div class="popup-content">
                 <div class="popup-header">
@@ -1645,7 +1622,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div id="section-nabung" class="section-content" style="display: none">
@@ -2061,8 +2038,6 @@
 
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="config.js"></script>
-    <script src="js/script.js"></script>
     <script src="js/scanBillAi.js"></script>
     <script src="js/scanBill.js"></script>
     <script src="js/splitBillExpense.js"></script>

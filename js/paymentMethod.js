@@ -250,29 +250,32 @@ function getPaymentLogo(method, bankName = "") {
  * updates to the UI.
  */
 function initCardSelection() {
-  const cards = document.querySelectorAll(
-    ".paymentCardsContainer .payment-card"
-  );
+  const container = document.querySelector(".paymentCardsContainer");
+  if (!container) return; // <-- cek dulu kalau nggak ada, stop
 
-  cards.forEach((card) => {
+  container.addEventListener("click", (e) => {
+    const card = e.target.closest(".payment-card");
+    if (!card || !container.contains(card)) return;
+
+    if (e.target.closest("button")) return;
+
     const index = parseInt(card.getAttribute("data-index"));
+    if (isNaN(index)) return;
 
-    card.addEventListener("click", (e) => {
-      // Hindari klik tombol hapus
-      if (e.target.closest("button")) return;
+    if (selectedPaymentIndexes.includes(index)) {
+      selectedPaymentIndexes = selectedPaymentIndexes.filter(
+        (i) => i !== index
+      );
+    } else {
+      selectedPaymentIndexes.push(index);
+    }
 
-      if (selectedPaymentIndexes.includes(index)) {
-        selectedPaymentIndexes = selectedPaymentIndexes.filter(
-          (i) => i !== index
-        );
-      } else {
-        selectedPaymentIndexes.push(index);
-      }
+    updateCardSelection();
+    showSelectedPayment();
 
-      updateCardSelection();
-      showSelectedPayment();
+    if (typeof updateCalculateButton === "function") {
       updateCalculateButton();
-    });
+    }
   });
 }
 

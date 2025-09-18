@@ -1,7 +1,20 @@
 let invoiceCounter = 1;
+let currentStep = 1;
+const totalSteps = 6;
 
 function generateInvoiceNumber() {
-  const prefix = document.getElementById("invoicePrefix").value || "INV-";
+  const prefixInput = document.getElementById("invoicePrefix");
+  const invoiceNoInput = document.getElementById("invoiceNo");
+
+  // kalau nggak ada field di halaman ini → langsung keluar
+  if (!prefixInput || !invoiceNoInput) {
+    console.warn(
+      "⚠️ invoicePrefix atau invoiceNo tidak ditemukan di halaman ini, skip generateInvoiceNumber()"
+    );
+    return;
+  }
+
+  const prefix = prefixInput.value || "INV-";
 
   const now = new Date();
   const dd = String(now.getDate()).padStart(2, "0");
@@ -14,7 +27,7 @@ function generateInvoiceNumber() {
     .padStart(3, "0");
 
   const invoiceNumber = `${prefix}${datePart}${randomPart}`;
-  document.getElementById("invoiceNo").value = invoiceNumber;
+  invoiceNoInput.value = invoiceNumber;
 }
 
 function previewLogo(event) {
@@ -51,7 +64,7 @@ function addNewItem() {
   div.innerHTML = `
         <input type="text" placeholder="Item Name" class="itemName" /><br>
       <div class="item-desc-container">
-        <div class="itemDescQuill" style="height: 100px"></div>
+        <div class="itemDescQuill" style="height: 160px"></div>
       </div>
         <div class="row">
           <input type="number" min="0" placeholder="Qty" class="qty" onchange="calculateAmount(this)" />
@@ -61,7 +74,7 @@ function addNewItem() {
         </div>
         <div class="action-buttons-invoice">
         <button class="delete-btn" onclick="deleteItemInvoice(this)">
-             <i class="fa-regular fa-trash-can"></i>
+             <i class="uil uil-trash"></i>
         </button>
         </div>
 
@@ -150,12 +163,18 @@ function calculateTotal() {
 }
 
 //DISCOUNT
-document
-  .getElementById("discountType")
-  .addEventListener("change", calculateTotal);
-document
-  .getElementById("discountValue")
-  .addEventListener("input", calculateTotal);
+document.addEventListener("DOMContentLoaded", function () {
+  const discountType = document.getElementById("discountType");
+  const discountValue = document.getElementById("discountValue");
+
+  if (discountType) {
+    discountType.addEventListener("change", calculateTotal);
+  }
+
+  if (discountValue) {
+    discountValue.addEventListener("input", calculateTotal);
+  }
+});
 
 function numberToWords(n) {
   const satuan = [
@@ -253,6 +272,13 @@ function saveBilled(type) {
 // ==== RENDER FUNCTION (REUSABLE) ====
 function renderBilled(type) {
   const container = document.getElementById(`billed${type}Container`);
+  if (!container) {
+    console.warn(
+      `⚠️ Container billed${type}Container tidak ditemukan di halaman ini`
+    );
+    return;
+  }
+
   const list = type === "By" ? billedByList : billedToList;
   const selectedIndex =
     type === "By" ? selectedBilledByIndex : selectedBilledToIndex;
@@ -267,9 +293,9 @@ function renderBilled(type) {
     }
 
     card.innerHTML = `
-        <div class="check-icon">
-          <i class="fa-solid fa-check-circle"></i>
-         </div>
+      <div class="check-icon">
+        <i class="fa-solid fa-check-circle"></i>
+      </div>
       <button onclick="removeBilled(${index}, '${type}')" class="delete-top-right">
         <i class="uil uil-trash"></i>
       </button>
@@ -284,7 +310,7 @@ function renderBilled(type) {
       </div>
       <p class="email">${data.email}</p>
       <p class="address">${data.address}</p>
-      
+
     `;
 
     card.addEventListener("click", (e) => {
@@ -379,27 +405,71 @@ function loadBilledFromLocalStorage(type) {
 }
 
 //save tnc and footer
+//NEW QUIL FIXING
+// ===== safe save function =====
 function saveTncAndFooter() {
-  const tncHtml = quill.root.innerHTML.trim(); // Ambil isi HTML dari Quill editor
-  const footer = document.getElementById("footerField").value.trim();
+  try {
+    // Ambil isi Quill dengan aman (jika ada)
+    let tncHtml = "";
+    if (typeof quill !== "undefined" && quill && quill.root) {
+      tncHtml = quill.root.innerHTML.trim();
+      // treat empty quill content as empty string
+      if (tncHtml === "<p><br></p>") tncHtml = "";
+    }
 
-  localStorage.setItem("invoiceTnc", tncHtml);
-  localStorage.setItem("invoiceFooter", footer);
+    // Ambil footer dengan aman (jika ada)
+    let footer = "";
+    const footerField = document.getElementById("footerField");
+    if (footerField) {
+      footer = footerField.value.trim();
+    }
+
+    // Simpan ke localStorage (boleh kosong)
+    localStorage.setItem("invoiceTnc", tncHtml);
+    localStorage.setItem("invoiceFooter", footer);
+  } catch (err) {
+    console.warn("saveTncAndFooter error:", err);
+  }
 }
 
-//Load Tnc adn Footer from local storage
+document.addEventListener("DOMContentLoaded", () => {
+  // footer input listener (safe)
+  const footerField = document.getElementById("footerField");
+  if (footerField && !footerField.__listenerAttached) {
+    footerField.addEventListener("input", saveTncAndFooter);
+    footerField.__listenerAttached = true;
+  }
+
+  // muat konten awal (jika perlu)
+  loadTncAndFooter();
+});
 function loadTncAndFooter() {
-  const savedTnc = localStorage.getItem("invoiceTnc");
-  const savedFooter = localStorage.getItem("invoiceFooter");
+  try {
+    const savedTnc = localStorage.getItem("invoiceTnc");
+    const savedFooter = localStorage.getItem("invoiceFooter");
 
-  if (savedTnc !== null) {
-    quill.root.innerHTML = savedTnc; // Tampilkan kembali ke Quill editor
-  }
+    // cek kalau quill ada dan valid
+    if (
+      savedTnc !== null &&
+      typeof quill !== "undefined" &&
+      quill &&
+      quill.root
+    ) {
+      quill.root.innerHTML = savedTnc; // Tampilkan kembali ke Quill editor
+    }
 
-  if (savedFooter !== null) {
-    document.getElementById("footerField").value = savedFooter;
+    // cek kalau footerField ada
+    const footerField = document.getElementById("footerField");
+    if (savedFooter !== null && footerField) {
+      footerField.value = savedFooter;
+    }
+  } catch (err) {
+    console.warn("Gagal load TnC/Footer:", err);
   }
 }
+
+// pastikan dijalankan setelah DOM siap
+document.addEventListener("DOMContentLoaded", loadTncAndFooter);
 
 //Show SELECTED BILLED TO AND BILLED BY
 function showSelectedBilling() {
@@ -477,12 +547,15 @@ function previewInvoice() {
     formattedInvoiceDate;
   document.getElementById("preview-due-date").textContent = formattedDueDate;
 
-  //Logo Preview
+  // Logo Preview
   const logoInput = document.getElementById("logoPreview");
   if (logoInput && logoInput.files && logoInput.files.length > 0) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      document.getElementById("preview-logo").src = e.target.result;
+      const previewLogo = document.getElementById("preview-logo");
+      if (previewLogo) {
+        previewLogo.src = e.target.result;
+      }
     };
     reader.readAsDataURL(logoInput.files[0]);
   }
@@ -539,8 +612,27 @@ function previewInvoice() {
 
   // TnC & Footer preview
   // Ambil data dari Quill
-  const tncHtml = quill.root.innerHTML; // Asumsikan Quill instance kamu bernama 'quill'
-  const footer = document.getElementById("footerField").value.trim();
+
+  // Ambil data TnC dengan aman
+  let tncHtml = "";
+  if (typeof quill !== "undefined" && quill && quill.root) {
+    tncHtml = quill.root.innerHTML.trim();
+  } else {
+    // fallback dari localStorage kalau Quill tidak ada
+    const savedTnc = localStorage.getItem("invoiceTnc");
+    if (savedTnc) tncHtml = savedTnc;
+  }
+
+  // Ambil footer dengan aman
+  let footer = "";
+  const footerField = document.getElementById("footerField");
+  if (footerField) {
+    footer = footerField.value.trim();
+  } else {
+    // fallback dari localStorage kalau field tidak ada
+    const savedFooter = localStorage.getItem("invoiceFooter");
+    if (savedFooter) footer = savedFooter;
+  }
 
   //panggil selected payment info
   showSelectedPayment(); // ✅ panggil di sini
@@ -560,25 +652,40 @@ function previewInvoice() {
   showSelectedBilling(); //
   loadTncAndFooter();
   // Otomatis update saat konten berubah
-  quill.on("text-change", updatePreviewTnC);
+  if (typeof quill !== "undefined" && quill && typeof quill.on === "function") {
+    quill.on("text-change", updatePreviewTnC);
+  }
 
   showToast("Invoice preview berhasil diperbarui!", "success", 20000);
 }
 
 //RICH TEXT EDITOR
 // Inisialisasi Quill
-const quill = new Quill("#tncField", {
-  theme: "snow",
-  placeholder: "Add Tnc",
-  modules: {
-    toolbar: [
-      // [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline"],
-      ["link", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
-    ],
-  },
-});
+const tncField = document.getElementById("tncField");
+let quill; // Declare quill globally
+
+if (tncField) {
+  quill = new Quill("#tncField", {
+    theme: "snow",
+    placeholder: "Add Tnc",
+    modules: {
+      toolbar: [
+        ["bold", "italic", "underline"],
+        ["link", "blockquote"],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
+    },
+  });
+  // text-change listener
+  quill.on("text-change", function () {
+    saveTncAndFooter();
+  });
+
+  // Load saved content after Quill is initialized
+  setTimeout(() => {
+    loadTncAndFooter();
+  }, 100);
+}
 
 // Function untuk update isi ke preview
 function updatePreviewTnC() {
@@ -586,13 +693,13 @@ function updatePreviewTnC() {
   document.getElementById("preview-tnc").innerHTML = tncHtml;
 }
 
-quill.on("text-change", function () {
-  saveTncAndFooter();
-});
+const footerField = document.getElementById("footerField");
 
-document.getElementById("footerField").addEventListener("input", function () {
-  saveTncAndFooter();
-});
+if (footerField) {
+  footerField.addEventListener("input", function () {
+    saveTncAndFooter();
+  });
+}
 
 //Render Sharing Payment Method
 function renderInvoicePayments() {
@@ -606,27 +713,35 @@ const logoFileName = document.getElementById("fileName-logo");
 const removeLogoBtn = document.getElementById("removeLogoBtn");
 const previewLogoImage = document.getElementById("preview-logo-upload");
 
-logoInput.addEventListener("change", function () {
-  const file = this.files[0];
+if (logoInput) {
+  logoInput.addEventListener("change", function () {
+    const file = this.files[0];
 
-  if (file) {
-    logoFileName.textContent = truncateFileName(file.name);
+    if (file) {
+      if (logoFileName) {
+        logoFileName.textContent = truncateFileName(file.name);
+      }
 
-    // Preview logo image
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      previewLogoImage.src = e.target.result;
-      previewLogoImage.style.display = "block";
-    };
-    reader.readAsDataURL(file);
-  }
-});
+      // Preview logo image
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        if (previewLogoImage) {
+          previewLogoImage.src = e.target.result;
+          previewLogoImage.style.display = "block";
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
 
-removeLogoBtn.addEventListener("click", function () {
-  logoInput.value = "";
-  logoFileName.textContent = "No selected File";
-  previewLogoImage.style.display = "none";
-});
+if (removeLogoBtn) {
+  removeLogoBtn.addEventListener("click", function () {
+    if (logoInput) logoInput.value = "";
+    if (logoFileName) logoFileName.textContent = "No selected File";
+    if (previewLogoImage) previewLogoImage.style.display = "none";
+  });
+}
 
 function truncateFileName(fileName, maxLength = 20) {
   if (fileName.length <= maxLength) return fileName;
@@ -808,6 +923,9 @@ const invoiceHistory = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
 
 function renderInvoiceCards() {
   const container = document.getElementById("invoiceCardList");
+  if (!container) {
+    return;
+  }
   container.innerHTML = "";
 
   const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
@@ -997,7 +1115,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const grid = document.getElementById("invoiceSummaryGrid");
 
-  grid.innerHTML = `
+  if (grid) {
+    grid.innerHTML = `
       <div class="summary-box total">
        <i class="uil uil-invoice"></i>
         <div class="summary-amount">${totalInvoices}</div>
@@ -1022,8 +1141,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="summary-label">Lihat Semua</div>
       </div>
     `;
+  }
 });
-
 function renderUnpaidInvoicesPreview() {
   const invoices = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
   const unpaidInvoices = invoices
@@ -1031,12 +1150,15 @@ function renderUnpaidInvoicesPreview() {
     .slice(0, 3); // ambil max 3
 
   const container = document.getElementById("unpaidInvoicesPreview");
+  const section = document.getElementById("unpaidInvoicesPreviewSection");
+  const wrapper = document.getElementById("unpaidInvoicesPreviewWrapper");
+
+  // ✅ Kalau container atau elemen lain nggak ada, langsung stop
+  if (!container || !section || !wrapper) return;
 
   if (!unpaidInvoices.length) {
-    document.getElementById("unpaidInvoicesPreviewSection").style.display =
-      "none";
-    document.getElementById("unpaidInvoicesPreviewWrapper").style.display =
-      "none";
+    section.style.display = "none";
+    wrapper.style.display = "none";
     return;
   }
 
@@ -1065,7 +1187,6 @@ function renderUnpaidInvoicesPreview() {
           <div class="invoice-status unpaid">
             <i class="uil uil-clock"></i> Unpaid
           </div>
-
           <div class="see-detail" onclick="seeInvoiceDetail('${
             inv.invoiceNo
           }')">
@@ -1082,6 +1203,9 @@ function renderUnpaidInvoicesPreview() {
 function renderClient() {
   const billedToList = JSON.parse(localStorage.getItem("billedToList")) || [];
   const clientListDiv = document.getElementById("ClientList");
+
+  // ✅ Stop kalau elemen tidak ada
+  if (!clientListDiv) return;
 
   // Bersihkan isi sebelumnya (agar tidak dobel saat re-render)
   clientListDiv.innerHTML = "";
@@ -1106,7 +1230,6 @@ function renderClient() {
     .slice()
     .reverse()
     .forEach((client) => {
-      // billedToList.forEach((client) => {
       const clientCard = document.createElement("div");
       clientCard.classList.add("client-card");
 
@@ -1120,30 +1243,34 @@ function renderClient() {
       )}&scale=100`;
 
       clientCard.innerHTML = `
-      <img src="${avatarUrl}" alt="${client.name}" />
-      <div class="client-info">
+        <img src="${avatarUrl}" alt="${client.name}" />
+        <div class="client-info">
           <h4>${client.name}</h4>
           <div class="tooltip-container">
             <p>
               <i class="uil uil-whatsapp"></i>
               <a href="${waLink}" target="_blank" style="text-decoration: none; color: inherit;">
-            ${phoneNumber}
+                ${phoneNumber}
               </a>
-             </p>
-          <span class="tooltip-text">Klik untuk WhatsApp</span>
+            </p>
+            <span class="tooltip-text">Klik untuk WhatsApp</span>
+          </div>
         </div>
-
-      </div>
-    `;
+      `;
 
       clientListDiv.appendChild(clientCard);
     });
 }
 
-document.getElementById("tncField").addEventListener("input", saveTncAndFooter);
-document
-  .getElementById("footerField")
-  .addEventListener("input", saveTncAndFooter);
+// const tncField = document.getElementById("tncField");
+if (tncField) {
+  tncField.addEventListener("input", saveTncAndFooter);
+}
+
+// const footerField = document.getElementById("footerField");
+if (footerField) {
+  footerField.addEventListener("input", saveTncAndFooter);
+}
 
 window.addEventListener("DOMContentLoaded", () => {
   loadBilledFromLocalStorage("By");
@@ -1173,24 +1300,240 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-document.getElementById("discountType").addEventListener("change", function () {
-  document.getElementById("discountValue").value = "";
-  document.getElementById("discountInfo").textContent = "Diskon: Rp 0,00";
-  calculateTotal(); // refresh perhitungan total
-});
+const discountType = document.getElementById("discountType");
+const discountValue = document.getElementById("discountValue");
+const discountInfo = document.getElementById("discountInfo");
+
+if (discountType) {
+  discountType.addEventListener("change", function () {
+    if (discountValue) discountValue.value = "";
+    if (discountInfo) discountInfo.textContent = "Diskon: Rp 0,00";
+    calculateTotal(); // refresh perhitungan total
+  });
+}
 
 const discountInput = document.getElementById("discountValue");
 
-discountInput.addEventListener("input", () => {
-  if (parseFloat(discountInput.value) < 0) {
-    discountInput.value = "";
-  }
-});
+if (discountInput) {
+  discountInput.addEventListener("input", () => {
+    if (parseFloat(discountInput.value) < 0) {
+      discountInput.value = "";
+    }
+  });
+}
 
-discountInput.addEventListener("keydown", function (e) {
-  if (e.key === "-" || e.key === "Minus") {
-    e.preventDefault();
-  }
-});
+if (discountInput) {
+  discountInput.addEventListener("keydown", function (e) {
+    if (e.key === "-" || e.key === "Minus") {
+      e.preventDefault();
+    }
+  });
+}
 
-hiddenInput.dispatchEvent(new Event("change")); // WAJIB agar calculateAmount jalan
+function updateProgressBar() {
+  document.querySelectorAll(".progress-step").forEach((step, index) => {
+    const stepNum = index + 1;
+    const circle = step.querySelector(".step-circle");
+
+    step.classList.remove("active", "completed");
+
+    if (stepNum < currentStep) {
+      step.classList.add("completed");
+      if (circle) circle.innerHTML = `<i class="uil uil-check"></i>`;
+    } else if (stepNum === currentStep) {
+      step.classList.add("active");
+      if (circle) circle.textContent = stepNum;
+    } else {
+      if (circle) circle.textContent = stepNum;
+    }
+  });
+}
+
+// Multi-step form functions
+function nextStep() {
+  if (currentStep < totalSteps) {
+    // Hide current step
+    const currentStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (currentStepElement) {
+      currentStepElement.classList.remove("active");
+    }
+
+    // Update progress bar - mark current step as completed
+    const currentProgressStep = document.querySelector(
+      `.progress-step[data-step="${currentStep}"]`
+    );
+    if (currentProgressStep) {
+      currentProgressStep.classList.remove("active");
+      currentProgressStep.classList.add("completed");
+    }
+
+    // Move to next step
+    currentStep++;
+
+    // Show next step
+    const nextStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (nextStepElement) {
+      nextStepElement.classList.add("active");
+    }
+
+    // Update progress bar - mark next step as active
+    updateProgressBar();
+
+    // Special handling for step 6 (Preview)
+    if (currentStep === 6) {
+      // Auto-generate preview when reaching step 6
+      setTimeout(() => {
+        previewInvoice();
+      }, 300);
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    // Hide invoice preview section if leaving step 6
+    if (currentStep === 6) {
+      const invoicePreviewSection = document.getElementById(
+        "invoice-preview-section"
+      );
+      if (invoicePreviewSection) {
+        invoicePreviewSection.style.display = "none";
+      }
+    }
+
+    // Hide current step
+    const currentStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (currentStepElement) {
+      currentStepElement.classList.remove("active");
+    }
+
+    // Update progress bar - remove active from current step
+    const currentProgressStep = document.querySelector(
+      `.progress-step[data-step="${currentStep}"]`
+    );
+    if (currentProgressStep) {
+      currentProgressStep.classList.remove("active");
+    }
+
+    // Move to previous step
+    currentStep--;
+
+    // Show previous step
+    const prevStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (prevStepElement) {
+      prevStepElement.classList.add("active");
+    }
+
+    // Update progress bar for ALL steps (supaya ikon balik jadi angka)
+    updateProgressBar();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function goToStep(stepNumber) {
+  if (
+    stepNumber >= 1 &&
+    stepNumber <= totalSteps &&
+    stepNumber !== currentStep
+  ) {
+    // Hide invoice preview section if leaving step 6
+    if (currentStep === 6 && stepNumber !== 6) {
+      const invoicePreviewSection = document.getElementById(
+        "invoice-preview-section"
+      );
+      if (invoicePreviewSection) {
+        invoicePreviewSection.style.display = "none";
+      }
+    }
+
+    // Hide current step
+    const currentStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (currentStepElement) {
+      currentStepElement.classList.remove("active");
+    }
+
+    // Update progress bar for all steps
+    document.querySelectorAll(".progress-step").forEach((step, index) => {
+      const stepNum = index + 1;
+      const circle = step.querySelector(".step-circle");
+
+      step.classList.remove("active", "completed");
+
+      if (stepNum < stepNumber) {
+        step.classList.add("completed");
+        if (circle) circle.innerHTML = `<i class="uil uil-check"></i>`; // ubah angka jadi checklist
+      } else if (stepNum === stepNumber) {
+        step.classList.add("active");
+        if (circle) circle.textContent = stepNum; // step aktif tetap nomor
+      } else {
+        if (circle) circle.textContent = stepNum; // step setelahnya reset nomor
+      }
+    });
+
+    // Update current step
+    currentStep = stepNumber;
+
+    // Show target step
+    const targetStepElement = document.querySelector(
+      `.form-step[data-step="${currentStep}"]`
+    );
+    if (targetStepElement) {
+      targetStepElement.classList.add("active");
+    }
+
+    // Special handling for step 6 (Preview)
+    if (currentStep === 6) {
+      setTimeout(() => {
+        previewInvoice();
+      }, 300);
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// Initialize multi-step form on page load
+document.addEventListener("DOMContentLoaded", function () {
+  // Make sure only step 1 is visible initially
+  document.querySelectorAll(".form-step").forEach((step, index) => {
+    if (index === 0) {
+      step.classList.add("active");
+    } else {
+      step.classList.remove("active");
+    }
+  });
+
+  // Make sure progress bar shows step 1 as active
+  document.querySelectorAll(".progress-step").forEach((step, index) => {
+    if (index === 0) {
+      step.classList.add("active");
+    } else {
+      step.classList.remove("active", "completed");
+    }
+  });
+
+  // Add click handlers to progress steps for direct navigation
+  document.querySelectorAll(".progress-step").forEach((step, index) => {
+    step.addEventListener("click", () => {
+      goToStep(index + 1);
+    });
+    step.style.cursor = "pointer";
+  });
+});
+// Multi-step form initialization complete
