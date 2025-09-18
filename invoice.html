@@ -127,7 +127,7 @@
     </header>
 
     <div class="container" id="invoicePage">
-      <!-- Invoice -->
+      <!-- Invoice All-->
       <div class="table-wrapper">
         <div class="card-container info-box information top-container">
           <div class="info-left">
@@ -149,158 +149,185 @@
         </div>
       </div>
 
-      <!-- Invoice Details Section -->
+      <!-- Progress Bar -->
       <div class="table-wrapper">
         <div class="card-container">
-          <div
-            class="filter-header"
-            onclick="toggleSection('.invoice-details-section', 'invoiceDetailsIcon')"
-          >
-            <div class="header-left">
-              <span class="section-title">Invoice Details</span>
-              <span
-                id="activeFilterCount"
-                class="filter-count-label"
-                style="display: none"
-                >(0)</span
-              >
-            </div>
-            <div class="header-right">
-              <button class="filter-btn">
-                <i class="fa-solid fa-chevron-down" id="invoiceDetailsIcon"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Invoice Details sheet -->
-          <div class="invoice-details-section active">
-            <div class="section">
-              <label>Invoice No</label>
-              <div class="row">
-                <input
-                  type="text"
-                  id="invoicePrefix"
-                  placeholder="Prefix (e.g. AGD-)"
-                  oninput="generateInvoiceNumber()"
-                />
-                <input type="text" id="invoiceNo" readonly />
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-step active" data-step="1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Details</div>
               </div>
-
-              <div class="invoice-date-section">
-                <div class="date-group">
-                  <label>Invoice Date</label>
-                  <div class="date-input">
-                    <input
-                      type="date"
-                      id="invoiceDate"
-                      placeholder="Select date"
-                      readonly
-                    />
-                  </div>
-                </div>
-
-                <div class="date-group">
-                  <label>Due Date</label>
-                  <div class="date-input">
-                    <input
-                      type="date"
-                      id="dueDate"
-                      placeholder="Select date"
-                      readonly
-                    />
-                  </div>
-                </div>
+              <div class="progress-step" data-step="2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Billed</div>
               </div>
-
-              <label>Upload Logo</label>
-
-              <!-- Preview kecil setelah upload -->
-              <img
-                id="preview-logo-upload"
-                style="display: none"
-                class="preview-logo"
-              />
-              <div class="share-button-container scan-section">
-                <div class="file-info">
-                  <i class="uil uil-image file-icon"></i>
-                  <span id="fileName-logo">No selected File</span>
-                  <button id="removeLogoBtn" class="delete-button">
-                    <i class="fa-solid fa-xmark"></i>
-                  </button>
-                </div>
-                <label for="logoPreview" class="custom-button">
-                  <i class="uil uil-upload"></i>
-                  Upload Logo
-                </label>
-                <input
-                  type="file"
-                  id="logoPreview"
-                  accept="image/*"
-                  onchange="previewLogo(event)"
-                  style="display: none"
-                />
+              <div class="progress-step" data-step="3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Items</div>
+              </div>
+              <div class="progress-step" data-step="4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Payment</div>
+              </div>
+              <div class="progress-step" data-step="5">
+                <div class="step-circle">5</div>
+                <div class="step-label">TnC</div>
+              </div>
+              <div class="progress-step" data-step="6">
+                <div class="step-circle">6</div>
+                <div class="step-label">Preview</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Billed Section -->
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div
-            class="filter-header"
-            onclick="toggleSection('.billed-section', 'BilledDetailsIcon')"
-          >
-            <div class="header-left">
-              <span class="section-title">Billed Details</span>
-              <span
-                id="activeFilterCount"
-                class="filter-count-label"
-                style="display: none"
-                >(0)</span
-              >
+      <!-- Step 1: Invoice Details Section -->
+      <div class="form-step active" data-step="1">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Invoice Details</span>
+              </div>
             </div>
-            <div class="header-right">
-              <button class="filter-btn">
-                <i class="fa-solid fa-chevron-down" id="BilledDetailsIcon"></i>
+
+            <!-- Invoice Details sheet -->
+            <div class="invoice-details-section active">
+              <div class="section">
+                <label>Invoice No</label>
+                <div class="row">
+                  <input
+                    type="text"
+                    id="invoicePrefix"
+                    placeholder="Prefix (e.g. AGD-)"
+                    oninput="generateInvoiceNumber()"
+                  />
+                  <input type="text" id="invoiceNo" readonly />
+                </div>
+
+                <div class="invoice-date-section">
+                  <div class="date-group">
+                    <label>Invoice Date</label>
+                    <div class="date-input">
+                      <input
+                        type="date"
+                        id="invoiceDate"
+                        placeholder="Select date"
+                        readonly
+                      />
+                    </div>
+                  </div>
+
+                  <div class="date-group">
+                    <label>Due Date</label>
+                    <div class="date-input">
+                      <input
+                        type="date"
+                        id="dueDate"
+                        placeholder="Select date"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <label>Upload Logo</label>
+
+                <!-- Preview kecil setelah upload -->
+                <img
+                  id="preview-logo-upload"
+                  style="display: none"
+                  class="preview-logo"
+                />
+                <div class="share-button-container scan-section">
+                  <div class="file-info">
+                    <i class="uil uil-image file-icon"></i>
+                    <span id="fileName-logo">No selected File</span>
+                    <button id="removeLogoBtn" class="delete-button">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <label for="logoPreview" class="custom-button">
+                    <i class="uil uil-upload"></i>
+                    Upload Logo
+                  </label>
+                  <input
+                    type="file"
+                    id="logoPreview"
+                    accept="image/*"
+                    onchange="previewLogo(event)"
+                    style="display: none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="nextStep()" class="primary-button">
+                Next <i class="uil uil-angle-right-b"></i>
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Filter bottom sheet -->
-          <div class="billed-section">
-            <label>Billed By</label>
-            <div class="people-container payment-container">
-              <!-- Tombol Add New (static di kiri) -->
-              <div class="add-new-wrapper person-item">
-                <div
-                  class="add-new"
-                  onclick="openBottomSheet('addBilledByBottomSheet')"
-                >
-                  <i class="fa-solid fa-plus"></i>
-                </div>
-                <span class="add-text">Tambah</span>
+      <!-- Step 2: Billed Details Section -->
+      <div class="form-step" data-step="2">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Billed Details</span>
               </div>
-              <!-- List Billed By (dinamis) -->
-              <div id="billedByContainer" class="card-display-section"></div>
             </div>
-            <hr />
 
-            <label>Billed To</label>
-            <div class="people-container payment-container">
-              <!-- Tombol Add New (static di kiri) -->
-              <div class="add-new-wrapper person-item">
-                <div
-                  class="add-new"
-                  onclick="openBottomSheet('addBilledToBottomSheet')"
-                >
-                  <i class="fa-solid fa-plus"></i>
+            <!-- Filter bottom sheet -->
+            <div class="billed-section active">
+              <label>Billed By</label>
+              <div class="people-container payment-container">
+                <!-- Tombol Add New (static di kiri) -->
+                <div class="add-new-wrapper person-item">
+                  <div
+                    class="add-new"
+                    onclick="openBottomSheet('addBilledByBottomSheet')"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="add-text">Tambah</span>
                 </div>
-                <span class="add-text">Tambah</span>
+                <!-- List Billed By (dinamis) -->
+                <div id="billedByContainer" class="card-display-section"></div>
               </div>
-              <!-- List payment method (dinamis) -->
-              <div id="billedToContainer" class="card-display-section"></div>
+              <hr />
+
+              <label>Billed To</label>
+              <div class="people-container payment-container">
+                <!-- Tombol Add New (static di kiri) -->
+                <div class="add-new-wrapper person-item">
+                  <div
+                    class="add-new"
+                    onclick="openBottomSheet('addBilledToBottomSheet')"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="add-text">Tambah</span>
+                </div>
+                <!-- List payment method (dinamis) -->
+                <div id="billedToContainer" class="card-display-section"></div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="prevStep()" class="secondary-button">
+                <i class="uil uil-angle-left-b"></i> Back
+              </button>
+              <button onclick="nextStep()" class="primary-button">
+                Next <i class="uil uil-angle-right-b"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -391,344 +418,366 @@
         </div>
       </div>
 
-      <!-- Invoice Items Section -->
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div
-            class="filter-header"
-            onclick="toggleSection('.invoice-items-section', 'invoiceItemsIcon')"
-          >
-            <div class="header-left">
-              <span class="section-title">Invoice Items</span>
-              <span
-                id="activeFilterCount"
-                class="filter-count-label"
-                style="display: none"
-                >(0)</span
-              >
+      <!-- Step 3: Invoice Items Section -->
+      <div class="form-step" data-step="3">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Invoice Items</span>
+              </div>
             </div>
-            <div class="header-right">
-              <button class="filter-btn">
-                <i class="fa-solid fa-chevron-down" id="invoiceItemsIcon"></i>
+
+            <!-- Invoice Details sheet -->
+            <div class="invoice-items-section active">
+              <div class="section item-container" id="items">
+                <label>Items Invoice</label>
+                <p class="information-text">
+                  <i class="uil uil-info-circle"></i> Klik tombol untuk
+                  menambahkan item invoice
+                </p>
+              </div>
+              <button onclick="addNewItem()" class="secondary-button">
+                <i class="fa-solid fa-plus"></i>
+                Add New Item
               </button>
-            </div>
-          </div>
+              <div class="discount-section">
+                <label>Add Discount</label>
+                <div class="discount-input-group">
+                  <!-- Select tipe diskon -->
+                  <select
+                    id="discountType"
+                    class="discount-type"
+                    placeholder="select discount type"
+                  >
+                    <option value="amount">Rp</option>
+                    <option value="percent">%</option>
+                  </select>
 
-          <!-- Invoice Details sheet -->
-          <div class="invoice-items-section">
-            <div class="section item-container" id="items">
-              <label>Items Invoice</label>
-            </div>
-            <button onclick="addNewItem()" class="secondary-button">
-              <i class="fa-solid fa-plus"></i>
-              Add New Item
-            </button>
-            <div class="discount-section">
-              <label>Add Discount</label>
-              <div class="discount-input-group">
-                <!-- Select tipe diskon -->
-                <select
-                  id="discountType"
-                  class="discount-type"
-                  placeholder="select discount type"
-                >
-                  <option value="amount">Rp</option>
-                  <option value="percent">%</option>
-                </select>
-
-                <!-- Input nilai diskon -->
-                <input
-                  type="number"
-                  id="discountValue"
-                  min="0"
-                  placeholder="input discount amount"
-                />
-              </div>
-            </div>
-            <div class="total-summary-section">
-              <div class="total-section">
-                <span>Sub Total:</span>
-                <span id="subtotal">Rp&nbsp;0,00</span>
-              </div>
-              <div class="total-section">
-                <span>Discount:</span>
-                <span id="discountInfo">Rp&nbsp;0,00</span>
-              </div>
-              <div class="total-section">
-                <span class="total-label">Total (IDR):</span>
-                <span class="total-value" id="total">Rp&nbsp;0,00</span>
-              </div>
-
-              <div class="total-words" id="totalInWords"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Payment Details Section -->
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div
-            class="filter-header"
-            onclick="toggleSection('.payment-details-section', 'paymentDetailsIcon')"
-          >
-            <div class="header-left">
-              <span class="section-title">Payment Details</span>
-              <span
-                id="activeFilterCount"
-                class="filter-count-label"
-                style="display: none"
-                >(0)</span
-              >
-            </div>
-            <div class="header-right">
-              <button class="filter-btn">
-                <i class="fa-solid fa-chevron-down" id="paymentDetailsIcon"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Invoice Details sheet -->
-          <div class="payment-details-section">
-            <label>Select Payment Method</label>
-            <div class="people-container invoice-payment-section">
-              <!-- Tombol Add New -->
-              <div class="add-new-wrapper person-item">
-                <div
-                  class="add-new"
-                  onclick="openBottomSheet('addPaymentMethodBottomSheet')"
-                >
-                  <i class="fa-solid fa-plus"></i>
+                  <!-- Input nilai diskon -->
+                  <input
+                    type="number"
+                    id="discountValue"
+                    min="0"
+                    placeholder="input discount amount"
+                  />
                 </div>
-                <span class="add-text">Tambah</span>
               </div>
-              <!-- List payment method (dinamis) -->
-              <div class="paymentCardsContainer card-display-section"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div class="total-summary-section">
+                <div class="total-section">
+                  <span>Sub Total:</span>
+                  <span id="subtotal">Rp&nbsp;0,00</span>
+                </div>
+                <div class="total-section">
+                  <span>Discount:</span>
+                  <span id="discountInfo">Rp&nbsp;0,00</span>
+                </div>
+                <div class="total-section">
+                  <span class="total-label">Total (IDR):</span>
+                  <span class="total-value" id="total">Rp&nbsp;0,00</span>
+                </div>
 
-      <!-- Invoice TnC Section -->
-      <div class="table-wrapper">
-        <div class="card-container">
-          <div
-            class="filter-header"
-            onclick="toggleSection('.invoice-tnc-section', 'invoiceTncIcon')"
-          >
-            <div class="header-left">
-              <span class="section-title">Invoice TnC</span>
-              <span
-                id="activeFilterCount"
-                class="filter-count-label"
-                style="display: none"
-                >(0)</span
-              >
+                <div class="total-words" id="totalInWords"></div>
+              </div>
             </div>
-            <div class="header-right">
-              <button class="filter-btn">
-                <i class="fa-solid fa-chevron-down" id="invoiceTncIcon"></i>
+
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="prevStep()" class="secondary-button">
+                <i class="uil uil-angle-left-b"></i> Back
+              </button>
+              <button onclick="nextStep()" class="primary-button">
+                Next <i class="uil uil-angle-right-b"></i>
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Invoice Details sheet -->
-          <div class="invoice-tnc-section">
-            <label>Add TnC</label>
-            <div class="tnc-container">
-              <!-- Quill Editor Container -->
-              <div id="tncField" style="height: 100px"></div>
+      <!-- Step 4: Payment Details Section -->
+      <div class="form-step" data-step="4">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Payment Details</span>
+              </div>
             </div>
 
-            <label>Add Footer</label>
-            <input
-              type="text"
-              placeholder="Footer"
-              class="footer"
-              id="footerField"
-            />
+            <!-- Invoice Details sheet -->
+            <div class="payment-details-section active">
+              <label>Select Payment Method</label>
+              <div class="people-container invoice-payment-section">
+                <!-- Tombol Add New -->
+                <div class="add-new-wrapper person-item">
+                  <div
+                    class="add-new"
+                    onclick="openBottomSheet('addPaymentMethodBottomSheet')"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                  <span class="add-text">Tambah</span>
+                </div>
+                <!-- List payment method (dinamis) -->
+                <div class="paymentCardsContainer card-display-section"></div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="prevStep()" class="secondary-button">
+                <i class="uil uil-angle-left-b"></i> Back
+              </button>
+              <button onclick="nextStep()" class="primary-button">
+                Next <i class="uil uil-angle-right-b"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Invoice TnC Section -->
-      <div class="table-wrapper">
-        <div class="card-container sticky-footer">
-          <div class="button-preview-section">
+      <!-- Step 5: Invoice TnC Section -->
+      <div class="form-step" data-step="5">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Invoice TnC</span>
+              </div>
+            </div>
+
+            <!-- Invoice Details sheet -->
+            <div class="invoice-tnc-section active">
+              <label>Add TnC</label>
+              <div class="tnc-container">
+                <!-- Quill Editor Container -->
+                <div id="tncField" style="height: 160px"></div>
+              </div>
+
+              <label>Add Footer</label>
+              <input
+                type="text"
+                placeholder="Footer"
+                class="footer"
+                id="footerField"
+              />
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="prevStep()" class="secondary-button">
+                <i class="uil uil-angle-left-b"></i> Back
+              </button>
+              <button onclick="nextStep()" class="primary-button">
+                Preview <i class="uil uil-angle-right-b"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6: Preview Invoice Section -->
+      <div class="form-step" data-step="6">
+        <div class="table-wrapper">
+          <div class="card-container">
+            <div class="filter-header">
+              <div class="header-left">
+                <span class="section-title">Preview Invoice</span>
+              </div>
+            </div>
+
             <!-- infobox -->
-            <div class="info-box information">
+            <!-- <div class="info-box information">
               <div class="icon">
                 <i class="fa-solid fa-circle-info"></i>
               </div>
               <div class="content">
                 <p>
-                  Pastikan semua item dalam invoice telah diisi, agar invoice
-                  bisa dicetak, klik button untuk update preview
+                  Review your invoice details below. Make sure everything is
+                  correct before finalizing.
+                </p>
+              </div>
+            </div> -->
+
+            <div class="no-data-message invoice-ready">
+              <img
+                src="img/save-invoice.png"
+                alt="empty state"
+                class="empty-state-image"
+              />
+              <div>
+                <p class="title-empty-state">Yeay! Invoice kamu hampir siap</p>
+                <p class="desc-empty-state">
+                  Periksa Invoice kamu dibawah ini. Pastikan semua item dalam
+                  invoice telah diisi ya.
                 </p>
               </div>
             </div>
-
-            <button onclick="previewInvoice()">
-              <i class="uil uil-invoice"></i>
-              Preview Invoice
-            </button>
           </div>
         </div>
-      </div>
-
-      <!-- PREVIEW INVOICE -->
-      <div class="table-wrapper">
-        <div
-          class="card-container"
-          style="display: none"
-          id="invoice-preview-section"
-        >
-          <section id="invoice" class="invoice-preview">
-            <div class="invoice-header">
-              <div class="invoice-info">
-                <h1>Invoice</h1>
-                <p>
-                  Invoice No:
-                  <strong
-                    ><span id="preview-invoice-number"
-                      >AGD-2025044</span
-                    ></strong
-                  >
-                </p>
-                <p>
-                  Invoice Date:
-                  <strong><span id="preview-invoice-date">-</span></strong>
-                </p>
-                <p>
-                  Due Date:
-                  <strong><span id="preview-due-date">-</span></strong>
-                </p>
-              </div>
-              <div class="invoice-logo">
-                <img
-                  id="invoice-logo-preview"
-                  alt="Company Logo"
-                  style="display: none"
-                />
-              </div>
-            </div>
-            <div class="billed-preview">
-              <!-- Bagian Billed By -->
-              <div id="invoice-billed-by" class="invoice-section"></div>
-
-              <!-- Bagian Billed To -->
-              <div id="invoice-billed-to" class="invoice-section"></div>
-            </div>
-
-            <div class="table-container">
-              <table class="invoice-table">
-                <thead>
-                  <tr>
-                    <th>Item Name</th>
-                    <th>Qty</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody id="preview-items">
-                  <!-- Populated dynamically -->
-                </tbody>
-              </table>
-            </div>
-
-            <div class="invoice-total">
-              <div class="total-preview">
-                <span>Sub Total:</span>
-                <span id="preview-subtotal">Rp&nbsp;0,00</span>
-              </div>
-              <div class="total-preview">
-                <span>Discount:</span>
-                <span id="preview-discountInfo">Rp&nbsp;0,00</span>
-              </div>
-
-              <div class="total-preview">
-                <span class="total-label">Total (IDR):</span>
-                <span class="total-value" id="preview-total"></span>
-              </div>
-              <p><em id="preview-total-words"></em></p>
-            </div>
-
-            <!-- Selected Payment Metod -->
-            <div
-              id="selectedPaymentInfo"
-              class="select-payment-method-invoice"
-            ></div>
-
-            <!-- TnC dan footer -->
-            <div class="invoice-tnc">
-              <h3>Terms and Conditions</h3>
-              <div id="preview-tnc"></div>
-            </div>
-            <div id="preview-footer" class="preview-footer"></div>
-          </section>
-          <div id="finalizeInvoiceSection" class="share-button-container">
-            <button
-              onclick="openPopup('popupFinalizeInvoice')"
-              class="primary-button"
-            >
-              <i class="uil uil-file-check"></i> Finalize Invoice
-            </button>
-          </div>
-
+        <!-- PREVIEW INVOICE -->
+        <div class="table-wrapper">
           <div
-            id="invoiceActions"
-            class="share-button-container invoice-draft hidden"
+            class="card-container"
+            style="display: none"
+            id="invoice-preview-section"
           >
-            <button
-              onclick="window.location.href='transactions.html?tab=invoice'"
-              class="secondary-button"
-            >
-              <i class="uil uil-invoice"></i> Lihat Histori
-            </button>
-            <button onclick="exportInvoiceToPDF()">
-              <i class="uil uil-import"></i> Download PDF
-            </button>
-          </div>
-
-          <!-- Popup Finalize invoice -->
-          <div id="popupFinalizeInvoice" class="popup-overlay">
-            <div class="popup-content">
-              <div class="popup-header">
-                <h3>Finalize Invoice</h3>
-                <button
-                  onclick="closePopup('popupFinalizeInvoice')"
-                  class="close-btn-bottom-sheet"
-                >
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>
-              <div class="popup-body popupFinalizeSplitBill">
-                <img
-                  src="img/save-invoice.png"
-                  alt="Empty State"
-                  class="empty-state-image"
-                />
-                <p class="title-empty-state">
-                  Kamu yakin ingin menyelesaikan invoice ini?
-                </p>
-                <p class="desc-empty-state">
-                  Invoice yang sudah di Finalize akan tersimpan ke History dan
-                  tidak dapat diubah lagi
-                </p>
-                <div class="share-button-container">
-                  <button
-                    onclick="closePopup('popupFinalizeInvoice')"
-                    class="secondary-button"
-                  >
-                    <i class="uil uil-times"></i> Cancel
-                  </button>
-                  <button
-                    onclick="saveInvoiceToHistory(), closePopup('popupFinalizeInvoice'), showActionInvoice()"
-                  >
-                    <i class="uil uil-check-circle"></i> Yes Finalize
-                  </button>
+            <section id="invoice" class="invoice-preview">
+              <div class="invoice-header">
+                <div class="invoice-info">
+                  <h1>Invoice</h1>
+                  <p>
+                    Invoice No:
+                    <strong
+                      ><span id="preview-invoice-number"
+                        >AGD-2025044</span
+                      ></strong
+                    >
+                  </p>
+                  <p>
+                    Invoice Date:
+                    <strong><span id="preview-invoice-date">-</span></strong>
+                  </p>
+                  <p>
+                    Due Date:
+                    <strong><span id="preview-due-date">-</span></strong>
+                  </p>
+                </div>
+                <div class="invoice-logo">
+                  <img
+                    id="invoice-logo-preview"
+                    alt="Company Logo"
+                    style="display: none"
+                  />
                 </div>
               </div>
+              <div class="billed-preview">
+                <!-- Bagian Billed By -->
+                <div id="invoice-billed-by" class="invoice-section"></div>
+
+                <!-- Bagian Billed To -->
+                <div id="invoice-billed-to" class="invoice-section"></div>
+              </div>
+
+              <div class="table-container">
+                <table class="invoice-table">
+                  <thead>
+                    <tr>
+                      <th>Item Name</th>
+                      <th>Qty</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="preview-items">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="invoice-total">
+                <div class="total-preview">
+                  <span>Sub Total:</span>
+                  <span id="preview-subtotal">Rp&nbsp;0,00</span>
+                </div>
+                <div class="total-preview">
+                  <span>Discount:</span>
+                  <span id="preview-discountInfo">Rp&nbsp;0,00</span>
+                </div>
+
+                <div class="total-preview">
+                  <span class="total-label">Total (IDR):</span>
+                  <span class="total-value" id="preview-total"></span>
+                </div>
+                <p><em id="preview-total-words"></em></p>
+              </div>
+
+              <!-- Selected Payment Metod -->
+              <div
+                id="selectedPaymentInfo"
+                class="select-payment-method-invoice"
+              ></div>
+
+              <!-- TnC dan footer -->
+              <div class="invoice-tnc">
+                <h3>Terms and Conditions</h3>
+                <div id="preview-tnc"></div>
+              </div>
+              <div id="preview-footer" class="preview-footer"></div>
+            </section>
+            <div id="finalizeInvoiceSection" class="share-button-container">
+              <button
+                onclick="openPopup('popupFinalizeInvoice')"
+                class="primary-button"
+              >
+                <i class="uil uil-file-check"></i> Finalize Invoice
+              </button>
+            </div>
+
+            <div
+              id="invoiceActions"
+              class="share-button-container invoice-draft hidden"
+            >
+              <button
+                onclick="window.location.href='transactions.html?tab=invoice'"
+                class="secondary-button"
+              >
+                <i class="uil uil-invoice"></i> Lihat Histori
+              </button>
+              <button onclick="exportInvoiceToPDF()">
+                <i class="uil uil-import"></i> Download PDF
+              </button>
+            </div>
+
+            <!-- Popup Finalize invoice -->
+            <div id="popupFinalizeInvoice" class="popup-overlay">
+              <div class="popup-content">
+                <div class="popup-header">
+                  <h3>Finalize Invoice</h3>
+                  <button
+                    onclick="closePopup('popupFinalizeInvoice')"
+                    class="close-btn-bottom-sheet"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+                <div class="popup-body popupFinalizeSplitBill">
+                  <img
+                    src="img/save-invoice.png"
+                    alt="Empty State"
+                    class="empty-state-image"
+                  />
+                  <p class="title-empty-state">
+                    Kamu yakin ingin menyelesaikan invoice ini?
+                  </p>
+                  <p class="desc-empty-state">
+                    Invoice yang sudah di Finalize akan tersimpan ke History dan
+                    tidak dapat diubah lagi
+                  </p>
+                  <div class="share-button-container">
+                    <button
+                      onclick="closePopup('popupFinalizeInvoice')"
+                      class="secondary-button"
+                    >
+                      <i class="uil uil-times"></i> Cancel
+                    </button>
+                    <button
+                      onclick="saveInvoiceToHistory(), closePopup('popupFinalizeInvoice'), showActionInvoice()"
+                    >
+                      <i class="uil uil-check-circle"></i> Yes Finalize
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Navigation Buttons -->
+            <div class="step-navigation">
+              <button onclick="prevStep()" class="secondary-button">
+                <i class="uil uil-angle-left-b"></i> Back
+              </button>
+              <!-- <button onclick="previewInvoice()" class="primary-button">
+                <i class="uil uil-invoice"></i> Generate
+              </button> -->
             </div>
           </div>
         </div>
@@ -739,7 +788,7 @@
     <div class="table-wrapper">
       <div class="bottom-sheet hidden" id="addPaymentMethodBottomSheet">
         <div class="bottom-sheet-header">
-          <h3 class="title-bottom-sheet">Tambah Metode Pembayaran</h3>
+          <h3 class="title-bottom-sheet">Add Payment Method</h3>
           <button
             onclick="closeBottomSheet('addPaymentMethodBottomSheet')"
             class="close-btn-bottom-sheet"
@@ -750,9 +799,9 @@
 
         <div class="bottom-sheet-content">
           <div id="input-section">
-            <label for="paymentMethod">Metode Pembayaran</label>
+            <label for="paymentMethod">Tambah Metode Pembayaran</label>
             <select id="paymentMethod" onchange="handlePaymentMethodChange()">
-              <option value="">Pilih Metode</option>
+              <option value="">Pilih Metode Pembayaran</option>
               <option value="BankTransfer">Bank Transfer</option>
               <option value="OVO">OVO</option>
               <option value="GoPay">GoPay</option>
@@ -804,7 +853,7 @@
           </div>
 
           <button onclick="addPaymentMethod()">
-            <i class="fa-solid fa-plus"></i> Tambah Metode Bayar
+            <i class="fa-solid fa-plus"></i> Tambah Metode Pembayaran
           </button>
         </div>
       </div>
